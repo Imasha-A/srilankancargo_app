@@ -310,6 +310,27 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
         storageCharge = storageCharge < 2500.0 ? 2500.0 : storageCharge;
       }
 
+      DateTime getFreeEndDate(DateTime arrivalDate) {
+        DateTime freeEndDate = arrivalDate.add(Duration(days: 2));
+        while (freeEndDate.weekday > 5) {
+          freeEndDate = freeEndDate.add(Duration(days: 1));
+        }
+        return freeEndDate;
+      }
+
+      final freeEndDate = getFreeEndDate(arrivalDate);
+      final effectiveStartDate = freeEndDate.add(Duration(days: 1));
+      int daysElapsed = clearingDate.difference(effectiveStartDate).inDays;
+
+      print('free End Date: \$${freeEndDate}');
+      print('effective Start Date: \$${effectiveStartDate}');
+      print('days Elapsed: \$${daysElapsed}');
+
+      if (daysElapsed <= 0) {
+        storageCharge = 0.0;
+        handlingCharge = 0.0;
+      }
+
       finalCharge = documentationCharge +
           handlingCharge +
           storageCharge +
