@@ -166,7 +166,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<List<dynamic>> fetchContacts() async {
     final response =
-        await http.get(Uri.parse('http://10.60.11.134:5063/api/contacts'));
+        await http.get(Uri.parse('http://10.60.11.126:5063/api/contacts'));
 
     if (response.statusCode == 200) {
       List<dynamic> contacts = jsonDecode(response.body);
@@ -323,24 +323,23 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               title: const Text('Terms & Conditions',
                   style: TextStyle(color: Color.fromARGB(255, 3, 75, 135))),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const WebViewContainer(),
-                  ),
-                );
-                /*Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => WebViewPage(
-                      url:
-                          'https://www.srilankancargo.com/help-support/conditions',
-                      title: 'Terms & Conditions',
+              onTap: () async {
+                try {
+                  List<dynamic> contacts = await fetchContacts();
+                  String termsAndConditions = contacts.isNotEmpty
+                      ? contacts[0]['termsandConditions'] ?? 'Not available'
+                      : 'Not available';
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TermsConditionsPage(
+                        termsAndConditions: termsAndConditions,
+                      ),
                     ),
-                  ),
-                );
-                */
+                  );
+                } catch (e) {
+                  print("Error fetching terms and conditions: $e");
+                }
               },
             ),
             ListTile(
@@ -489,7 +488,7 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     } catch (e) {
       print("Error launching URL: $e");
-      throw e;
+      //throw e;
     }
   }
 }

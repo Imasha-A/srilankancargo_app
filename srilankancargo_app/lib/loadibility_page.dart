@@ -7,7 +7,6 @@ class LoadibilityPage extends StatefulWidget {
 
 class _LoadibilityPageState extends State<LoadibilityPage> {
   bool isTiltedPermitted = false;
-  List<dynamic> _contacts = [];
 
   Map<String, dynamic> customizeLoadibilityCard(double screenWidth) {
     Map<String, dynamic> customizationValues = {};

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:http/http.dart' as http;
 
 class UserSelection {
   DateTime arrivalDate;
@@ -47,6 +48,7 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
   String? _selectedTaxType;
   String? _selectedCargoType;
   TextEditingController _weightController = TextEditingController();
+  String? _weightErrorMessage;
 
   Map<String, dynamic> customizeStorageCalculatorCard(double screenWidth) {
     Map<String, dynamic> customizationValues = {};
@@ -54,7 +56,7 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
     if (screenWidth == 1024) {
       // iPad Pro (12.9-inch)
       customizationValues['cardWidth'] = 800.0;
-      customizationValues['cardHeight'] = 585.0;
+      customizationValues['cardHeight'] = 625.0;
       customizationValues['cardMargin'] = 60.0;
       customizationValues['cardOffset'] = 220.0;
       customizationValues['iconOffset'] = 513.0;
@@ -67,7 +69,7 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
     } else if (screenWidth == 834) {
       // iPad Pro (11-inch)
       customizationValues['cardWidth'] = 600.0;
-      customizationValues['cardHeight'] = 580.0;
+      customizationValues['cardHeight'] = 625.0;
       customizationValues['cardMargin'] = 30.0;
       customizationValues['cardOffset'] = 140.0;
       customizationValues['iconOffset'] = 313.0;
@@ -80,7 +82,7 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
     } else if (screenWidth == 375) {
       // iPhone SE
       customizationValues['cardWidth'] = 305.0;
-      customizationValues['cardHeight'] = 543.0;
+      customizationValues['cardHeight'] = 585.0;
       customizationValues['cardMargin'] = 20.0;
       customizationValues['cardOffset'] = 16.0;
       customizationValues['iconOffset'] = 108.90;
@@ -91,7 +93,7 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
     } else if (screenWidth == 393) {
       // iPhone 15
       customizationValues['cardWidth'] = 300.0;
-      customizationValues['cardHeight'] = 565.0;
+      customizationValues['cardHeight'] = 605.0;
       customizationValues['cardMargin'] = 16.0;
       customizationValues['cardOffset'] = 20.0;
       customizationValues['buttonPadding'] = 36.0;
@@ -104,7 +106,7 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
     } else if (screenWidth <= 600 && screenWidth > 400 && screenWidth < 430) {
       // Customization for medium-sized Android screens (Pixel 7 Pro API 29)
       customizationValues['cardWidth'] = 450.0;
-      customizationValues['cardHeight'] = 586.0;
+      customizationValues['cardHeight'] = 625.0;
       customizationValues['cardMargin'] = 30.0;
       customizationValues['cardOffset'] = 40.0;
       customizationValues['buttonPadding'] = 36.0;
@@ -117,7 +119,7 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
     } else if (screenWidth <= 430 && screenWidth <= 600) {
       // iPhone 15 Plus and 15 Pro Max
       customizationValues['cardWidth'] = 400.0;
-      customizationValues['cardHeight'] = 583.0;
+      customizationValues['cardHeight'] = 625.0;
       customizationValues['cardMargin'] = 30.0;
       customizationValues['cardOffset'] = 60.0;
       customizationValues['iconOffset'] = 82.45;
@@ -130,7 +132,7 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
     } else if (screenWidth <= 768) {
       // iPad mini (6th Gen)
       customizationValues['cardWidth'] = 550.0;
-      customizationValues['cardHeight'] = 580.0;
+      customizationValues['cardHeight'] = 625.0;
       customizationValues['cardMargin'] = 30.0;
       customizationValues['cardOffset'] = 130.0;
       customizationValues['iconOffset'] = 278.85;
@@ -143,7 +145,7 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
     } else if (screenWidth >= 768) {
       // iPad or larger screens
       customizationValues['cardWidth'] = 620.0;
-      customizationValues['cardHeight'] = 590.0;
+      customizationValues['cardHeight'] = 635.0;
       customizationValues['cardMargin'] = 56.0;
       customizationValues['cardOffset'] = 138.0;
       customizationValues['iconOffset'] = 317.0;
@@ -156,7 +158,7 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
     } else if (screenWidth <= 768) {
       // iPad Air (5th Gen) and iPad mini (6th Gen)
       customizationValues['cardWidth'] = 620.0;
-      customizationValues['cardHeight'] = 590.0;
+      customizationValues['cardHeight'] = 635.0;
       customizationValues['cardMargin'] = 56.0;
       customizationValues['cardOffset'] = 138.0;
       customizationValues['iconOffset'] = 317.0;
@@ -169,7 +171,7 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
     } else {
       //iPhone 15 and 15 Pro
       customizationValues['cardWidth'] = 300.0;
-      customizationValues['cardHeight'] = 565.0;
+      customizationValues['cardHeight'] = 635.0;
       customizationValues['cardMargin'] = 16.0;
       customizationValues['cardOffset'] = 20.0;
       customizationValues['buttonPadding'] = 36.0;
@@ -221,98 +223,143 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
     }
   }
 
+  void _clearForm() {
+    setState(() {
+      _arrivalDate = null;
+      _clearingDate = null;
+      _selectedLocation = null;
+      _selectedTaxType = null;
+      _selectedCargoType = null;
+      _weightController.clear();
+      _weightErrorMessage = null;
+    });
+  }
+
   void _handleFormSubmision() async {
-    if (_arrivalDate != null &&
-        _clearingDate != null &&
-        _selectedLocation != null &&
-        _selectedTaxType != null &&
-        _selectedCargoType != null &&
-        _weightController.text.isNotEmpty) {
-      final chargeableWeight = double.parse(_weightController.text);
+    bool hasError = false;
 
-      const documentationCharge = 2000.0;
-      double handlingCharge;
-      double storageCharge = 0.0;
-      double storageChargeafter5weeks = 0.0;
-      double weeksPassed = 0.0;
-      double chargePerKg = 0.0;
-      double oldCargoCharges = 0.0;
-      double socialSecurityContributionLevy = 0.0;
-      double VAT = 0.0;
-      double finalCharge = 0.0;
+    if (_arrivalDate == null) {
+      hasError = true;
+    }
+    if (_clearingDate == null) {
+      hasError = true;
+    }
+    if (_selectedLocation == null) {
+      hasError = true;
+    }
+    if (_selectedTaxType == null) {
+      hasError = true;
+    }
+    if (_selectedCargoType == null) {
+      hasError = true;
+    }
+    if (_weightController == null) {
+      hasError = true;
+      setState(() {
+        _weightErrorMessage = 'Invalid number. Please try again.';
+      });
+    } else {
+      setState(() {
+        _weightErrorMessage = null;
+      });
+    }
 
-      switch (_selectedCargoType) {
-        case 'General Cargo':
-          handlingCharge = 27.0 * chargeableWeight;
-          handlingCharge = handlingCharge < 2500.0 ? 2500.0 : handlingCharge;
-          break;
-        case 'Special Cargo':
-          handlingCharge = 60.0 * chargeableWeight;
-          handlingCharge = handlingCharge < 6000.0 ? 6000.0 : handlingCharge;
-          break;
-        case 'Courier':
-          handlingCharge = 40.0 * chargeableWeight;
-          handlingCharge = handlingCharge < 3700.0 ? 3700.0 : handlingCharge;
-          break;
-        case 'Courier Detained':
-          handlingCharge = 15.0 * chargeableWeight;
-          handlingCharge = handlingCharge < 25000.0 ? 25000.0 : handlingCharge;
-          break;
-        case 'Courier House Airway Bill':
-          handlingCharge = 1500.0;
-          break;
-        default:
-          handlingCharge = 0.0;
+    if (hasError) {
+      _showIncompleteFormDialog(context);
+      return;
+    }
+
+    if (_arrivalDate == null ||
+        _clearingDate == null ||
+        _selectedLocation == null ||
+        _selectedTaxType == null ||
+        _selectedCargoType == null ||
+        _weightController.text.isEmpty) {
+      hasError = true;
+      setState(() {
+        _weightErrorMessage = 'All fields are required. Please fill them out.';
+      });
+    } else {
+      // Validate weight input
+      final chargeableWeight = double.tryParse(_weightController.text);
+      if (chargeableWeight == null) {
+        hasError = true;
+        setState(() {
+          _weightErrorMessage = 'Invalid number. Please enter a valid weight.';
+        });
+      } else {
+        setState(() {
+          _weightErrorMessage = null;
+        });
       }
+    }
+    if (hasError) {
+      _showIncompleteFormDialog(context);
+      return;
+    }
 
-      final arrivalDate = _arrivalDate!;
-      final clearingDate = _clearingDate!;
-      final differenceInDays = clearingDate.difference(arrivalDate).inDays +
-          1; //difference in days is duration days + clearing day as well
-      print('Difference in days: \$${differenceInDays}');
+    final chargeableWeight = double.parse(_weightController.text);
 
-      if (_selectedLocation == 'Cool Room (20 to -20 degrees celcius)')
-      //condition for temperature regulated cargo
-      {
-        if (differenceInDays > 28) {
-          storageCharge = 45.0 * chargeableWeight;
-          storageCharge = storageCharge < 3200.0 ? 3200.0 : storageCharge;
-          storageCharge *= 28;
-          storageChargeafter5weeks = 55.0 * chargeableWeight;
-          storageChargeafter5weeks = storageChargeafter5weeks < 7700.0
-              ? 7700.0
-              : storageChargeafter5weeks;
-          storageChargeafter5weeks *= (differenceInDays - 28);
-          storageCharge = storageChargeafter5weeks + storageCharge;
-        } else {
-          storageCharge = 45.0 * chargeableWeight;
-          storageCharge = storageCharge < 3200.0 ? 3200.0 : storageCharge;
-          storageCharge *= differenceInDays;
-        }
-      } else
-      //condition for normal cargo
-      {
-        weeksPassed = differenceInDays / 7;
+    const documentationCharge = 2000.0;
+    double handlingCharge;
+    double storageCharge = 0.0;
+    double storageChargeafter5weeks = 0.0;
+    double weeksPassed = 0.0;
+    double chargePerKg = 0.0;
+    double oldCargoCharges = 0.0;
+    double socialSecurityContributionLevy = 0.0;
+    double VAT = 0.0;
+    double finalCharge = 0.0;
 
-        if (weeksPassed <= 1) {
-          chargePerKg = 35.0;
-        } else if (weeksPassed <= 2) {
-          chargePerKg = 70.0;
-        } else if (weeksPassed <= 3) {
-          chargePerKg = 135.0;
-        } else if (weeksPassed <= 4) {
-          chargePerKg = 225.0;
-        } else {
-          chargePerKg = 305.0;
-          oldCargoCharges = 25000.0;
-        }
-        storageCharge = chargeableWeight * chargePerKg;
-        storageCharge = storageCharge < 2500.0 ? 2500.0 : storageCharge;
+    switch (_selectedCargoType) {
+      case 'General Cargo':
+        handlingCharge = 27.0 * chargeableWeight;
+        handlingCharge = handlingCharge < 2500.0 ? 2500.0 : handlingCharge;
+        break;
+      case 'Special Cargo':
+        handlingCharge = 60.0 * chargeableWeight;
+        handlingCharge = handlingCharge < 6000.0 ? 6000.0 : handlingCharge;
+        break;
+      case 'Courier':
+        handlingCharge = 40.0 * chargeableWeight;
+        handlingCharge = handlingCharge < 3700.0 ? 3700.0 : handlingCharge;
+        break;
+      case 'Courier Detained':
+        handlingCharge = 15.0 * chargeableWeight;
+        handlingCharge = handlingCharge < 25000.0 ? 25000.0 : handlingCharge;
+        break;
+      case 'Courier House Airway Bill':
+        handlingCharge = 1500.0;
+        break;
+      default:
+        handlingCharge = 0.0;
+    }
+
+    final arrivalDate = _arrivalDate!;
+    final clearingDate = _clearingDate!;
+    final differenceInDays = clearingDate.difference(arrivalDate).inDays +
+        1; //difference in days is duration days + clearing day as well
+    print('Difference in days: \$${differenceInDays}');
+
+    if (_selectedLocation == 'Cool Room (20 to -20 degrees celcius)')
+    //condition for temperature regulated cargo
+    {
+      if (differenceInDays > 28) {
+        storageCharge = 55.0 * chargeableWeight;
+        storageCharge *= differenceInDays;
+        storageCharge = storageCharge < 7700.0 ? 7700.0 : storageCharge;
+        oldCargoCharges = 25000.0;
+      } else {
+        storageCharge = 45.0 * chargeableWeight;
+        storageCharge *= differenceInDays;
+        storageCharge = storageCharge < 3200.0 ? 3200.0 : storageCharge;
       }
-
+    } else //condition for normal cargo
+    {
       DateTime getFreeEndDate(DateTime arrivalDate) {
         DateTime freeEndDate = arrivalDate.add(Duration(days: 2));
         while (freeEndDate.weekday > 5) {
+          // to skip weekends (mon to tues is 1 to 5, 6 & 7 are weekends)
           freeEndDate = freeEndDate.add(Duration(days: 1));
         }
         return freeEndDate;
@@ -320,58 +367,120 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
 
       final freeEndDate = getFreeEndDate(arrivalDate);
       final effectiveStartDate = freeEndDate.add(Duration(days: 1));
-      int daysElapsed = clearingDate.difference(effectiveStartDate).inDays;
-
-      print('free End Date: \$${freeEndDate}');
-      print('effective Start Date: \$${effectiveStartDate}');
-      print('days Elapsed: \$${daysElapsed}');
-
-      if (daysElapsed <= 0) {
+      int daysElapsed = clearingDate.difference(freeEndDate).inDays;
+      if (daysElapsed < 0) {
         storageCharge = 0.0;
         handlingCharge = 0.0;
       }
+      weeksPassed = differenceInDays / 7;
 
-      finalCharge = documentationCharge +
-          handlingCharge +
-          storageCharge +
-          oldCargoCharges;
-
-      if (_selectedTaxType == 'VAT') {
-        socialSecurityContributionLevy = (finalCharge * (2.5 / 100));
-        VAT = (finalCharge * (18 / 100));
-      } else if (_selectedTaxType == 'SVAT') {
-        socialSecurityContributionLevy = (finalCharge * (2.5 / 100));
-        VAT = 0.0;
-      } else //no tax
-      {
-        socialSecurityContributionLevy = 0.0;
-        VAT = 0.0;
+      if (weeksPassed <= 1) {
+        chargePerKg = 35.0;
+      } else if (weeksPassed <= 2) {
+        chargePerKg = 70.0;
+      } else if (weeksPassed <= 3) {
+        chargePerKg = 135.0;
+      } else if (weeksPassed <= 4) {
+        chargePerKg = 225.0;
+      } else {
+        chargePerKg = 305.0;
+        oldCargoCharges = 25000.0;
       }
-
-      finalCharge = finalCharge + socialSecurityContributionLevy + VAT;
-
-      print('Documentation Charge: \$${documentationCharge}');
-      print('Handling Charge: \$${handlingCharge}');
-      print('Storage Charge: \$${storageCharge}');
-      print('Old cargo charges: \$${oldCargoCharges}');
-      print(
-          'Social security contribution levy: \$${socialSecurityContributionLevy}');
-      print('VAT: \$${VAT}');
-      print('Final Charges: \$${finalCharge}');
-
-      final userSelection = UserSelection(
-        arrivalDate: _arrivalDate!,
-        clearingDate: _clearingDate!,
-        location: _selectedLocation!,
-        taxType: _selectedTaxType!,
-        cargoType: _selectedCargoType!,
-        chargeableWeight: chargeableWeight,
-      );
-
-      print(userSelection.toJson());
-    } else {
-      print('fill all fields');
+      storageCharge = chargeableWeight * chargePerKg;
+      storageCharge = storageCharge < 2500.0 ? 2500.0 : storageCharge;
     }
+
+    finalCharge =
+        documentationCharge + handlingCharge + storageCharge + oldCargoCharges;
+
+    if (_selectedTaxType == 'VAT') {
+      socialSecurityContributionLevy = (finalCharge * (2.5 / 100));
+      VAT = ((finalCharge + socialSecurityContributionLevy) * (18 / 100));
+    } else if (_selectedTaxType == 'SVAT') {
+      socialSecurityContributionLevy = (finalCharge * (2.5 / 100));
+      VAT = 0.0;
+    } else //no tax
+    {
+      socialSecurityContributionLevy = 0.0;
+      VAT = 0.0;
+    }
+
+    finalCharge = finalCharge + socialSecurityContributionLevy + VAT;
+
+    print('Documentation Charge: \$${documentationCharge}');
+    print('Handling Charge: \$${handlingCharge}');
+    print('Storage Charge: \$${storageCharge}');
+    print('Old cargo charges: \$${oldCargoCharges}');
+    print(
+        'Social security contribution levy: \$${socialSecurityContributionLevy}');
+    print('VAT: \$${VAT}');
+    print('Final Charges: \$${finalCharge}');
+
+    final userSelection = UserSelection(
+      arrivalDate: _arrivalDate!,
+      clearingDate: _clearingDate!,
+      location: _selectedLocation!,
+      taxType: _selectedTaxType!,
+      cargoType: _selectedCargoType!,
+      chargeableWeight: chargeableWeight,
+    );
+    void _showChargesDialog(BuildContext context) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Charges Breakdown'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text(
+                      'Documentation Charge: \$${documentationCharge.toStringAsFixed(2)}'),
+                  Text(
+                      'Handling Charge: \$${handlingCharge.toStringAsFixed(2)}'),
+                  Text('Storage Charge: \$${storageCharge.toStringAsFixed(2)}'),
+                  Text(
+                      'Old Cargo Charges: \$${oldCargoCharges.toStringAsFixed(2)}'),
+                  Text(
+                      'Social Security Contribution Levy: \$${socialSecurityContributionLevy.toStringAsFixed(2)}'),
+                  Text('VAT: \$${VAT.toStringAsFixed(2)}'),
+                  Text('Final Charges: \$${finalCharge.toStringAsFixed(2)}'),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+    print(userSelection.toJson());
+    _showChargesDialog(context);
+  }
+
+  void _showIncompleteFormDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Incomplete Form'),
+          content: Text("Please fill all the fields."),
+          actions: <Widget>[
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK')),
+          ],
+        );
+      },
+    );
   }
 
   Future<void> _showInfoDialog() async {
@@ -487,7 +596,7 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
                         ),
                         Container(
                           width: double.infinity,
-                          margin: EdgeInsets.only(top: 16.0),
+                          margin: EdgeInsets.only(top: 10.0),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8.0),
                             color: Colors.grey[100],
@@ -496,13 +605,14 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 5.0),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                TextButton(
-                                  onPressed: () => _selectedDate(context, true),
-                                  child: Row(
-                                    children: [
-                                      Text(
+                                Expanded(
+                                  child: TextButton(
+                                    onPressed: () =>
+                                        _selectedDate(context, true),
+                                    child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
                                         _arrivalDate == null
                                             ? 'Select Flight Actual Arrival Date'
                                             : 'Arrival: ${_arrivalDate.toString().split(' ')[0]}',
@@ -514,17 +624,13 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
                                                   19.0,
                                         ),
                                       ),
-                                      Transform.translate(
-                                        offset: Offset(
-                                            customizationValues['iconOffset'] ??
-                                                0.0,
-                                            0.0),
-                                        child: Icon(Icons.calendar_today,
-                                            color: Color.fromARGB(
-                                                255, 93, 93, 93)),
-                                      ),
-                                    ],
+                                    ),
                                   ),
+                                ),
+                                IconButton(
+                                  onPressed: () => _selectedDate(context, true),
+                                  icon: Icon(Icons.calendar_today,
+                                      color: Color.fromARGB(255, 93, 93, 93)),
                                 ),
                               ],
                             ),
@@ -532,7 +638,7 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
                         ),
                         Container(
                           width: double.infinity,
-                          margin: EdgeInsets.only(top: 16.0),
+                          margin: EdgeInsets.only(top: 10.0),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8.0),
                             color: Colors.grey[100],
@@ -541,14 +647,14 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 5.0),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                TextButton(
-                                  onPressed: () =>
-                                      _selectedDate(context, false),
-                                  child: Row(
-                                    children: [
-                                      Text(
+                                Expanded(
+                                  child: TextButton(
+                                    onPressed: () =>
+                                        _selectedDate(context, false),
+                                    child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
                                         _clearingDate == null
                                             ? 'Select Cargo Clearing Date'
                                             : 'Clearing: ${_clearingDate.toString().split(' ')[0]}',
@@ -560,24 +666,20 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
                                                   19.0,
                                         ),
                                       ),
-                                      Transform.translate(
-                                        offset: Offset(
-                                            customizationValues[
-                                                    'iconOffset1'] ??
-                                                0.0,
-                                            0.0),
-                                        child: Icon(Icons.calendar_today,
-                                            color: Color.fromARGB(
-                                                255, 93, 93, 93)),
-                                      ),
-                                    ],
+                                    ),
                                   ),
+                                ),
+                                IconButton(
+                                  onPressed: () =>
+                                      _selectedDate(context, false),
+                                  icon: Icon(Icons.calendar_today,
+                                      color: Color.fromARGB(255, 93, 93, 93)),
                                 ),
                               ],
                             ),
                           ),
                         ),
-                        SizedBox(height: 20.0),
+                        SizedBox(height: 14.0),
                         Container(
                           width: double.infinity,
                           decoration: BoxDecoration(
@@ -619,7 +721,7 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 20.0),
+                        SizedBox(height: 14.0),
                         Container(
                           width: double.infinity,
                           decoration: BoxDecoration(
@@ -659,7 +761,7 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 20.0),
+                        SizedBox(height: 14.0),
                         Container(
                           width: double.infinity,
                           margin: EdgeInsets.symmetric(horizontal: 0.5),
@@ -717,7 +819,7 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 20.0),
+                        SizedBox(height: 14.0),
                         Container(
                           width: double.infinity,
                           decoration: BoxDecoration(
@@ -726,40 +828,71 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
                           ),
                           child: Padding(
                             padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: TextField(
-                              controller: _weightController,
-                              decoration: InputDecoration(
-                                labelText: 'Chargeable Weight - kg',
-                                labelStyle: TextStyle(
+                                const EdgeInsets.symmetric(horizontal: 12.0),
+                            child: TextFormField(
+                                controller: _weightController,
+                                decoration: InputDecoration(
+                                  labelText: 'Chargeable Weight - kg',
+                                  labelStyle: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize:
+                                          customizationValues['fontSize'] ??
+                                              19.0),
+                                  border: InputBorder.none,
+                                  errorText: _weightErrorMessage,
+                                ),
+                                style: TextStyle(
+                                    fontSize:
+                                        customizationValues['fontSize'] ?? 8.0,
                                     color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: customizationValues['fontSize'] ??
-                                        19.0),
-                                border: InputBorder.none,
-                              ),
-                              style: TextStyle(
-                                  fontSize:
-                                      customizationValues['fontSize'] ?? 19.0,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
-                            ),
+                                    fontWeight: FontWeight.bold),
+                                keyboardType: TextInputType.numberWithOptions(
+                                    decimal: true),
+                                onChanged: (value) {
+                                  setState(() {
+                                    _weightErrorMessage = double.tryParse(
+                                                value) ==
+                                            null
+                                        ? 'Invalid number. Please try again.'
+                                        : null;
+                                  });
+                                }),
                           ),
                         ),
-                        SizedBox(height: 20.0),
+                        SizedBox(height: 6),
                         Center(
                           child: ElevatedButton(
-                            onPressed:
-                                _handleFormSubmision, //calling method to handle form submission here
+                            onPressed: _handleFormSubmision,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Color.fromARGB(255, 3, 75, 135),
                               padding: EdgeInsets.symmetric(
                                   horizontal:
                                       customizationValues['buttonPadding'] ??
-                                          54.0),
+                                          30.0),
                             ),
                             child: Text(
-                              'Charges',
+                              'Calculate Charges',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize:
+                                      customizationValues['fontSize'] ?? 19.0),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 4),
+                        Center(
+                          child: ElevatedButton(
+                            onPressed: _clearForm,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color.fromARGB(255, 3, 75, 135),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal:
+                                      customizationValues['buttonPadding'] ??
+                                          30.0),
+                            ),
+                            child: Text(
+                              'Clear',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize:
@@ -777,11 +910,11 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
               offset: Offset(customizationValues['noteTextOffsetX'] ?? 0.0,
                   customizationValues['noteTextOffsetY'] ?? 0.0),
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(10.0),
                 child: Text(
                   'Note : "Multiple cargo type for single \nshipment and future delivery dates\n selection option will be promoted\n with next release"',
                   style: TextStyle(
-                    fontSize: customizationValues['noteFontSize'] ?? 19.0,
+                    fontSize: customizationValues['noteFontSize'] ?? 16.0,
                     color: Colors.black,
                   ),
                 ),
