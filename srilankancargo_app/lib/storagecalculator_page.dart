@@ -49,6 +49,17 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
   String? _selectedCargoType;
   TextEditingController _weightController = TextEditingController();
   String? _weightErrorMessage;
+  final List<DateTime> holidays = [
+    DateTime(2024, 8, 19), // Poya
+    DateTime(2024, 9, 16), // Holy Prophet's Birthday
+    DateTime(2024, 9, 17), // Poya
+    DateTime(2024, 10, 17), // Poya
+    DateTime(2024, 10, 31), // Deepavali
+    DateTime(2024, 11, 15), // Poya
+    DateTime(2024, 12, 14), // Poya
+    DateTime(2024, 12, 24), // Christmas Eve
+    DateTime(2024, 12, 25), // Christmas
+  ];
 
   Map<String, dynamic> customizeStorageCalculatorCard(double screenWidth) {
     Map<String, dynamic> customizationValues = {};
@@ -356,6 +367,13 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
       }
     } else //condition for normal cargo
     {
+      bool isHoliday(DateTime date) {
+        return holidays.any((holiday) =>
+            holiday.year == date.year &&
+            holiday.month == date.month &&
+            holiday.day == date.day);
+      }
+
       DateTime getFreeEndDate(DateTime arrivalDate) {
         DateTime freeEndDate = arrivalDate.add(Duration(days: 2));
         while (freeEndDate.weekday > 5) {
@@ -365,13 +383,18 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
         return freeEndDate;
       }
 
-      final freeEndDate = getFreeEndDate(arrivalDate);
-      final effectiveStartDate = freeEndDate.add(Duration(days: 1));
-      int daysElapsed = clearingDate.difference(freeEndDate).inDays;
-      if (daysElapsed < 0) {
-        storageCharge = 0.0;
-        handlingCharge = 0.0;
+      DateTime freeEndDate = getFreeEndDate(arrivalDate);
+      for (DateTime date = arrivalDate;
+          date.isBefore(clearingDate
+              .add(Duration(days: 1))); // Include clearingDate in the loop
+          date = date.add(Duration(days: 1))) {
+        if (isHoliday(date)) {
+          freeEndDate = freeEndDate.add(Duration(days: 1));
+        }
       }
+
+      int daysElapsed = clearingDate.difference(freeEndDate).inDays;
+
       weeksPassed = differenceInDays / 7;
 
       if (weeksPassed <= 1) {
@@ -388,6 +411,10 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
       }
       storageCharge = chargeableWeight * chargePerKg;
       storageCharge = storageCharge < 2500.0 ? 2500.0 : storageCharge;
+
+      if (daysElapsed < 0) {
+        storageCharge = 0.0;
+      }
     }
 
     finalCharge =

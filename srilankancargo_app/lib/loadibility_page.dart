@@ -6,7 +6,12 @@ class LoadibilityPage extends StatefulWidget {
 }
 
 class _LoadibilityPageState extends State<LoadibilityPage> {
-  bool isTiltedPermitted = false;
+  bool _isTiltedPermitted = false;
+  String? _selectedAircraftType;
+  String? _selectedCargoHold;
+  final TextEditingController _lengthController = TextEditingController();
+  final TextEditingController _widthController = TextEditingController();
+  final TextEditingController _heightController = TextEditingController();
 
   Map<String, dynamic> customizeLoadibilityCard(double screenWidth) {
     Map<String, dynamic> customizationValues = {};
@@ -16,7 +21,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
       customizationValues['cardWidth'] = 800.0;
       customizationValues['cardHeight'] = 645.0;
       customizationValues['cardMargin'] = 60.0;
-      customizationValues['cardOffset'] = 220.0;
+      customizationValues['cardOffset'] = 100.0;
       customizationValues['iconOffset'] = 734.5;
       customizationValues['buttonPadding'] = 38.0;
       customizationValues['fontSize'] = 15.0;
@@ -26,7 +31,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
       customizationValues['cardWidth'] = 600.0;
       customizationValues['cardHeight'] = 655.0;
       customizationValues['cardMargin'] = 30.0;
-      customizationValues['cardOffset'] = 140.0;
+      customizationValues['cardOffset'] = 20.0;
       customizationValues['iconOffset'] = 604.5;
       customizationValues['buttonPadding'] = 38.0;
       customizationValues['fontSize'] = 16.0;
@@ -36,7 +41,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
       customizationValues['cardWidth'] = 335.0;
       customizationValues['cardHeight'] = 620.0;
       customizationValues['cardMargin'] = 30.0;
-      customizationValues['cardOffset'] = 80.0;
+      customizationValues['cardOffset'] = -40.0;
       customizationValues['iconOffset'] = 145.5;
       customizationValues['buttonPadding'] = 26.0;
       customizationValues['fontSize'] = 11.0;
@@ -45,7 +50,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
       customizationValues['cardWidth'] = 800.0;
       customizationValues['cardHeight'] = 640.0;
       customizationValues['cardMargin'] = 30.0;
-      customizationValues['cardOffset'] = 45.0;
+      customizationValues['cardOffset'] = -85.0;
       customizationValues['iconOffset'] = 734.5;
       customizationValues['buttonPadding'] = 38.0;
       customizationValues['fontSize'] = 13.0;
@@ -53,7 +58,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
       // Customization for medium-sized Android screens (Pixel 7 Pro API 29)
       customizationValues['cardMargin'] = 30.0;
       customizationValues['cardHeight'] = 640.0;
-      customizationValues['cardOffset'] = 50.0;
+      customizationValues['cardOffset'] = -90.0;
       customizationValues['iconOffset'] = 192.5;
       customizationValues['buttonPadding'] = 30.0;
       customizationValues['appBarOffsetPercentage'] = 0.30;
@@ -63,7 +68,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
       customizationValues['cardWidth'] = 305.0;
       customizationValues['cardHeight'] = 590.0;
       customizationValues['cardMargin'] = 30.0;
-      customizationValues['cardOffset'] = -2.0;
+      customizationValues['cardOffset'] = -122.0;
       customizationValues['iconOffset'] = 145.5;
       customizationValues['buttonPadding'] = 26.0;
       customizationValues['fontSize'] = 8.9;
@@ -72,7 +77,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
       customizationValues['cardWidth'] = 620.0;
       customizationValues['cardHeight'] = 660.0;
       customizationValues['cardMargin'] = 56.0;
-      customizationValues['cardOffset'] = 128.0;
+      customizationValues['cardOffset'] = 08.0;
       customizationValues['iconOffset'] = 538.5;
       customizationValues['buttonPadding'] = 54.0;
       customizationValues['fontSize'] = 16.0;
@@ -81,7 +86,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
       customizationValues['cardWidth'] = 540.0;
       customizationValues['cardHeight'] = 650.0;
       customizationValues['cardMargin'] = 30.0;
-      customizationValues['cardOffset'] = 160.0;
+      customizationValues['cardOffset'] = 20.0;
       customizationValues['iconOffset'] = 515.5;
       customizationValues['buttonPadding'] = 36.0;
       customizationValues['fontSize'] = 16.0;
@@ -89,7 +94,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
       customizationValues['cardWidth'] = 330.0;
       customizationValues['cardHeight'] = 640.0;
       customizationValues['cardMargin'] = 16.0;
-      customizationValues['cardOffset'] = 30.0;
+      customizationValues['cardOffset'] = -90.0;
       customizationValues['iconOffset'] = 190.5;
       customizationValues['buttonPadding'] = 36.0;
       customizationValues['fontSize'] = 13.0;
@@ -115,6 +120,122 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
     }
 
     return customizationValues;
+  }
+
+  void _showAlert(String title, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            TextButton(
+              child: Text('Dismiss'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _lodabilityCheck() {
+    final length = double.tryParse(_lengthController.text);
+    final width = double.tryParse(_widthController.text);
+    final height = double.tryParse(_heightController.text);
+
+    if (length == null) {
+      _showAlert('Loadability', 'Please enter the length');
+      return;
+    }
+    if (width == null) {
+      _showAlert('Loadability', 'Please enter the width');
+      return;
+    }
+    if (height == null) {
+      _showAlert('Loadability', 'Please enter the height');
+      return;
+    }
+    if (_selectedAircraftType == null) {
+      _showAlert('Loadability', 'Please select the Aircraft Type');
+      return;
+    }
+    if (_selectedCargoHold == null) {
+      _showAlert('Loadability', 'Please select the cargo hold');
+      return;
+    }
+
+    final isTilted = _isTiltedPermitted;
+
+    if (isTilted && _selectedCargoHold == 'Forward Cargo Hold') {
+      if (height <= 25.0 && width <= 25.0 && length <= 500.0) {
+        _showAlert(_selectedAircraftType!,
+            'You will be able to load your Item into Forward Cargo hold');
+      } else if (height <= 50.0 && width <= 50.0 && length <= 493.0) {
+        _showAlert(_selectedAircraftType!,
+            'You will be able to load your Item into Forward Cargo hold');
+      } else if (height <= 75.0 && width <= 75.0 && length <= 489.5) {
+        _showAlert(_selectedAircraftType!,
+            'You will be able to load your Item into Forward Cargo hold');
+      } else {
+        _showAlert(_selectedAircraftType!,
+            'You will not be able to load your Item into Forward Cargo hold');
+      }
+    } else if (isTilted && _selectedCargoHold == 'After Cargo Hold') {
+      if (height <= 25.0 && width <= 25.0 && length <= 530.9) {
+        _showAlert(_selectedAircraftType!,
+            'You will be able to load your Item into After Cargo hold');
+      } else if (height <= 50.0 && width <= 50.0 && length <= 514.4) {
+        _showAlert(_selectedAircraftType!,
+            'You will be able to load your Item into After Cargo hold');
+      } else if (height <= 75.0 && width <= 75.0 && length <= 491.5) {
+        _showAlert(_selectedAircraftType!,
+            'You will be able to load your Item into After Cargo hold');
+      } else {
+        _showAlert(_selectedAircraftType!,
+            'You will not be able to load your Item into After Cargo hold');
+      }
+    } else if (isTilted && _selectedCargoHold == 'Rear (bulk) Cargo Hold') {
+      if (height <= 25.0 && width <= 25.0 && length <= 324.0) {
+        _showAlert(_selectedAircraftType!,
+            'You will be able to load your Item into Rear (bulk) Cargo hold');
+      } else if (height <= 50.0 && width <= 50.0 && length <= 324.0) {
+        _showAlert(_selectedAircraftType!,
+            'You will be able to load your Item into Rear (bulk) Cargo hold');
+      } else if (height <= 75.0 && width <= 75.0 && length <= 324.0) {
+        _showAlert(_selectedAircraftType!,
+            'You will be able to load your Item into Rear (bulk) Cargo hold');
+      } else {
+        _showAlert(_selectedAircraftType!,
+            'You will not be able to load your Item into Rear (bulk) Cargo hold');
+      }
+    } else if (!isTilted) {
+      if (_selectedCargoHold == 'Forward Cargo Hold' &&
+          height <= 119.4 &&
+          width <= 149.9 &&
+          length <= 164.3) {
+        _showAlert(_selectedAircraftType!,
+            'You will be able to load your Item into Forward Cargo hold');
+      } else if (_selectedCargoHold == 'After Cargo Hold' &&
+          height <= 119.4 &&
+          width <= 149.9 &&
+          length <= 171.5) {
+        _showAlert(_selectedAircraftType!,
+            'You will be able to load your Item into After Cargo hold');
+      } else if (_selectedCargoHold == 'Rear (bulk) Cargo Hold' &&
+          height <= 149.9 &&
+          width <= 149.9 &&
+          length <= 174.8) {
+        _showAlert(_selectedAircraftType!,
+            'You will be able to load your Item into Rear (bulk) Cargo hold');
+      } else {
+        _showAlert(_selectedAircraftType!,
+            'You will not be able to load your Item into Cargo holds');
+      }
+    }
   }
 
   @override
@@ -193,7 +314,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 20.0),
+                      SizedBox(height: 14.0),
 
                       // Length Text Entry
                       Container(
@@ -205,6 +326,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0),
                           child: TextField(
+                            controller: _lengthController,
                             decoration: InputDecoration(
                               labelText: 'Enter Length - cm',
                               labelStyle: TextStyle(
@@ -222,7 +344,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 20.0),
+                      SizedBox(height: 14.0),
 
                       // Width Text Entry
                       Container(
@@ -234,6 +356,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0),
                           child: TextField(
+                            controller: _widthController,
                             decoration: InputDecoration(
                               labelText: 'Enter Width - cm',
                               labelStyle: TextStyle(
@@ -251,7 +374,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 20.0),
+                      SizedBox(height: 14.0),
 
                       // Height Text Entry
                       Container(
@@ -263,6 +386,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0),
                           child: TextField(
+                            controller: _heightController,
                             decoration: InputDecoration(
                               labelText: 'Enter Height - cm',
                               labelStyle: TextStyle(
@@ -281,132 +405,99 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                         ),
                       ),
 
-                      SizedBox(height: 20.0),
+                      SizedBox(height: 14.0),
 
-                      // Toggle Switch Container
-                      Container(
-                        width: double.infinity,
-                        margin: EdgeInsets.symmetric(horizontal: 0.9),
-                        padding: EdgeInsets.all(16.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.0),
-                          color: Colors.grey[100],
-                        ),
+                      // Tilted Permitted Checkbox
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              'Tilted Permitted?',
-                              style: TextStyle(
-                                  fontSize:
-                                      customizationValues['fontSize'] ?? 16.0,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Switch(
-                              value: isTiltedPermitted,
-                              onChanged: (bool value) {
+                            Checkbox(
+                              value: _isTiltedPermitted,
+                              onChanged: (bool? newValue) {
                                 setState(() {
-                                  isTiltedPermitted = value;
+                                  _isTiltedPermitted = newValue ?? false;
                                 });
-                                // Handle any other logic based on the switch state change
                               },
-                              activeTrackColor: Color.fromARGB(255, 3, 75, 135),
-                              activeColor: Colors.white,
                             ),
+                            Text('Tilted Permitted'),
                           ],
                         ),
                       ),
-
-                      SizedBox(height: 20.0),
+                      SizedBox(height: 14.0),
 
                       // Aircraft Type Dropdown
-                      Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.0),
-                          color: Colors.grey[100],
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: DropdownButton<String>(
-                            icon: Icon(Icons.arrow_drop_down),
-                            iconSize: 36.0,
-                            underline: SizedBox(),
-                            style: TextStyle(
-                                fontSize:
-                                    customizationValues['fontSize'] ?? 16.0,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                            hint: Text('Select Aircraft Type',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold)),
-                            isExpanded: true,
-                            items: <String>['A320', 'A321', 'A320neo']
-                                .map((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                            onChanged: (String? newValue) {
-                              // Handle aircraft type selection
-                            },
-                          ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: DropdownButton<String>(
+                          value: _selectedAircraftType,
+                          hint: Text('Select Aircraft Type'),
+                          items:
+                              ['A320', 'A321', 'A320neo'].map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              _selectedAircraftType = newValue;
+                            });
+                          },
                         ),
                       ),
-                      SizedBox(height: 20.0),
+                      SizedBox(height: 16.0),
 
                       // Cargo Hold Dropdown
-                      Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.0),
-                          color: Colors.grey[100],
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: DropdownButton<String>(
-                            icon: Icon(Icons.arrow_drop_down),
-                            iconSize: 36.0,
-                            underline: SizedBox(),
-                            style: TextStyle(
-                                fontSize:
-                                    customizationValues['fontSize'] ?? 16.0,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                            hint: Text('Select Cargo Hold',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold)),
-                            isExpanded: true,
-                            items: <String>[
-                              'Forward Cargo Hold',
-                              'After Cargo Hold',
-                              'Rear (bulk) Cargo Hold'
-                            ].map((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                            onChanged: (String? newValue) {
-                              // Handle cargo hold selection
-                            },
-                          ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: DropdownButton<String>(
+                          value: _selectedCargoHold,
+                          hint: Text('Select Cargo Hold'),
+                          items: [
+                            'Forward Cargo Hold',
+                            'After Cargo Hold',
+                            'Rear (bulk) Cargo Hold',
+                          ].map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              _selectedCargoHold = newValue;
+                            });
+                          },
                         ),
                       ),
-                      SizedBox(height: 20.0),
+                      SizedBox(
+                        height: 14,
+                      ),
+                      Center(
+                        child: ElevatedButton(
+                          onPressed: _lodabilityCheck,
+                          child: Text(
+                            'Calculate',
+                            style: TextStyle(
+                              fontSize: customizationValues['fontSize'] ?? 16.0,
+                              color: Colors.white, // Text color
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Color.fromARGB(255, 3, 75, 135)),
+                        ),
+                      ),
 
-                      // Container with Text
+                      SizedBox(height: 14),
                       Container(
                         width: double.infinity,
                         margin: EdgeInsets.symmetric(horizontal: 0.5),
                         padding: EdgeInsets.all(16.0),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8.0),
-                          color: Colors.grey[100],
+                          color: Color.fromARGB(173, 196, 197, 201),
                         ),
                         child: Transform.translate(
                           offset: Offset(-1.0, 0.0),
