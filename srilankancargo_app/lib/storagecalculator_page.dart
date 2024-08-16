@@ -48,7 +48,10 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
   String? _selectedTaxType;
   String? _selectedCargoType;
   TextEditingController _weightController = TextEditingController();
+
   String? _weightErrorMessage;
+
+  //holiday of 2024
   final List<DateTime> holidays = [
     DateTime(2024, 8, 19), // Poya
     DateTime(2024, 9, 16), // Holy Prophet's Birthday
@@ -217,20 +220,38 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
   }
 
   Future<void> _selectedDate(BuildContext context, bool isArrivalDate) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime(DateTime.now().year + 1),
-    );
-    if (picked != null) {
-      setState(() {
-        if (isArrivalDate) {
+    if (isArrivalDate) {
+      // For Arrival Date
+      final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime.now(),
+        lastDate: DateTime(DateTime.now().year + 1),
+      );
+      if (picked != null) {
+        setState(() {
           _arrivalDate = picked;
-        } else {
+          // Clear the clearing date if the new arrival date is later than the current clearing date
+          if (_clearingDate != null && _clearingDate!.isBefore(_arrivalDate!)) {
+            _clearingDate = null;
+          }
+        });
+      }
+    } else {
+      // For Clearing Date
+      final DateTime firstDate = _arrivalDate ??
+          DateTime.now(); // Use arrival date if set, otherwise now
+      final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: _clearingDate ?? firstDate,
+        firstDate: firstDate,
+        lastDate: DateTime(DateTime.now().year + 1),
+      );
+      if (picked != null) {
+        setState(() {
           _clearingDate = picked;
-        }
-      });
+        });
+      }
     }
   }
 
@@ -451,6 +472,7 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
       cargoType: _selectedCargoType!,
       chargeableWeight: chargeableWeight,
     );
+
     void _showChargesDialog(BuildContext context) {
       showDialog(
         context: context,
