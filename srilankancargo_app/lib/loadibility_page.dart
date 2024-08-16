@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class LoadibilityPage extends StatefulWidget {
   @override
@@ -238,6 +239,17 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
     }
   }
 
+  void clearSelections() {
+    setState(() {
+      _isTiltedPermitted = false;
+      _selectedAircraftType = null;
+      _selectedCargoHold = null;
+      _lengthController.clear();
+      _widthController.clear();
+      _heightController.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -447,7 +459,6 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                         ),
                       ),
                       SizedBox(height: 16.0),
-
                       // Cargo Hold Dropdown
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -473,21 +484,27 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                       ),
                       SizedBox(
                         height: 14,
-                      ),
-                      Center(
-                        child: ElevatedButton(
-                          onPressed: _lodabilityCheck,
-                          child: Text(
-                            'Calculate',
-                            style: TextStyle(
-                              fontSize: customizationValues['fontSize'] ?? 16.0,
-                              color: Colors.white, // Text color
-                              fontWeight: FontWeight.bold,
-                            ),
+                      ), // Calculate and Clear Buttons
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          ElevatedButton(
+                            onPressed: _lodabilityCheck,
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    const Color.fromARGB(255, 3, 75, 135),
+                                foregroundColor: Colors.white),
+                            child: Text('Calculate'),
                           ),
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Color.fromARGB(255, 3, 75, 135)),
-                        ),
+                          ElevatedButton(
+                            onPressed: clearSelections,
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    const Color.fromARGB(255, 3, 75, 135),
+                                foregroundColor: Colors.white),
+                            child: Text('Clear'),
+                          ),
+                        ],
                       ),
 
                       SizedBox(height: 14),
@@ -495,10 +512,6 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                         width: double.infinity,
                         margin: EdgeInsets.symmetric(horizontal: 0.5),
                         padding: EdgeInsets.all(16.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.0),
-                          color: Color.fromARGB(173, 196, 197, 201),
-                        ),
                         child: Transform.translate(
                           offset: Offset(-1.0, 0.0),
                           child: Text(

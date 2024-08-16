@@ -67,7 +67,7 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
     if (screenWidth == 1024) {
       // iPad Pro (12.9-inch)
       customizationValues['cardWidth'] = 800.0;
-      customizationValues['cardHeight'] = 625.0;
+      customizationValues['cardHeight'] = 600.0;
       customizationValues['cardMargin'] = 60.0;
       customizationValues['cardOffset'] = 220.0;
       customizationValues['iconOffset'] = 513.0;
@@ -80,7 +80,7 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
     } else if (screenWidth == 834) {
       // iPad Pro (11-inch)
       customizationValues['cardWidth'] = 600.0;
-      customizationValues['cardHeight'] = 625.0;
+      customizationValues['cardHeight'] = 600.0;
       customizationValues['cardMargin'] = 30.0;
       customizationValues['cardOffset'] = 140.0;
       customizationValues['iconOffset'] = 313.0;
@@ -93,7 +93,7 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
     } else if (screenWidth == 375) {
       // iPhone SE
       customizationValues['cardWidth'] = 305.0;
-      customizationValues['cardHeight'] = 585.0;
+      customizationValues['cardHeight'] = 565.0;
       customizationValues['cardMargin'] = 20.0;
       customizationValues['cardOffset'] = 16.0;
       customizationValues['iconOffset'] = 108.90;
@@ -104,7 +104,7 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
     } else if (screenWidth == 393) {
       // iPhone 15
       customizationValues['cardWidth'] = 300.0;
-      customizationValues['cardHeight'] = 605.0;
+      customizationValues['cardHeight'] = 680.0;
       customizationValues['cardMargin'] = 16.0;
       customizationValues['cardOffset'] = 20.0;
       customizationValues['buttonPadding'] = 36.0;
@@ -117,7 +117,7 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
     } else if (screenWidth <= 600 && screenWidth > 400 && screenWidth < 430) {
       // Customization for medium-sized Android screens (Pixel 7 Pro API 29)
       customizationValues['cardWidth'] = 450.0;
-      customizationValues['cardHeight'] = 625.0;
+      customizationValues['cardHeight'] = 600.0;
       customizationValues['cardMargin'] = 30.0;
       customizationValues['cardOffset'] = 40.0;
       customizationValues['buttonPadding'] = 36.0;
@@ -130,7 +130,7 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
     } else if (screenWidth <= 430 && screenWidth <= 600) {
       // iPhone 15 Plus and 15 Pro Max
       customizationValues['cardWidth'] = 400.0;
-      customizationValues['cardHeight'] = 625.0;
+      customizationValues['cardHeight'] = 600.0;
       customizationValues['cardMargin'] = 30.0;
       customizationValues['cardOffset'] = 60.0;
       customizationValues['iconOffset'] = 82.45;
@@ -143,7 +143,7 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
     } else if (screenWidth <= 768) {
       // iPad mini (6th Gen)
       customizationValues['cardWidth'] = 550.0;
-      customizationValues['cardHeight'] = 625.0;
+      customizationValues['cardHeight'] = 600.0;
       customizationValues['cardMargin'] = 30.0;
       customizationValues['cardOffset'] = 130.0;
       customizationValues['iconOffset'] = 278.85;
@@ -156,7 +156,7 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
     } else if (screenWidth >= 768) {
       // iPad or larger screens
       customizationValues['cardWidth'] = 620.0;
-      customizationValues['cardHeight'] = 635.0;
+      customizationValues['cardHeight'] = 615.0;
       customizationValues['cardMargin'] = 56.0;
       customizationValues['cardOffset'] = 138.0;
       customizationValues['iconOffset'] = 317.0;
@@ -169,7 +169,7 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
     } else if (screenWidth <= 768) {
       // iPad Air (5th Gen) and iPad mini (6th Gen)
       customizationValues['cardWidth'] = 620.0;
-      customizationValues['cardHeight'] = 635.0;
+      customizationValues['cardHeight'] = 615.0;
       customizationValues['cardMargin'] = 56.0;
       customizationValues['cardOffset'] = 138.0;
       customizationValues['iconOffset'] = 317.0;
@@ -182,7 +182,7 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
     } else {
       //iPhone 15 and 15 Pro
       customizationValues['cardWidth'] = 300.0;
-      customizationValues['cardHeight'] = 635.0;
+      customizationValues['cardHeight'] = 615.0;
       customizationValues['cardMargin'] = 16.0;
       customizationValues['cardOffset'] = 20.0;
       customizationValues['buttonPadding'] = 36.0;
@@ -434,14 +434,14 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
 
     finalCharge = finalCharge + socialSecurityContributionLevy + VAT;
 
-    print('Documentation Charge: \$${documentationCharge}');
-    print('Handling Charge: \$${handlingCharge}');
-    print('Storage Charge: \$${storageCharge}');
-    print('Old cargo charges: \$${oldCargoCharges}');
+    print('Documentation Charge: \Rs. ${documentationCharge}');
+    print('Handling Charge: \Rs. ${handlingCharge}');
+    print('Storage Charge: \Rs. ${storageCharge}');
+    print('Old cargo charges: \Rs. ${oldCargoCharges}');
     print(
-        'Social security contribution levy: \$${socialSecurityContributionLevy}');
-    print('VAT: \$${VAT}');
-    print('Final Charges: \$${finalCharge}');
+        'Social security contribution levy: \Rs. ${socialSecurityContributionLevy}');
+    print('VAT: \Rs. ${VAT}');
+    print('Final Charges: \Rs. ${finalCharge}');
 
     final userSelection = UserSelection(
       arrivalDate: _arrivalDate!,
@@ -461,16 +461,17 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
               child: ListBody(
                 children: <Widget>[
                   Text(
-                      'Documentation Charge: \$${documentationCharge.toStringAsFixed(2)}'),
+                      'Documentation Charge: \Rs. ${documentationCharge.toStringAsFixed(2)}'),
                   Text(
-                      'Handling Charge: \$${handlingCharge.toStringAsFixed(2)}'),
-                  Text('Storage Charge: \$${storageCharge.toStringAsFixed(2)}'),
+                      'Handling Charge: \Rs. ${handlingCharge.toStringAsFixed(2)}'),
                   Text(
-                      'Old Cargo Charges: \$${oldCargoCharges.toStringAsFixed(2)}'),
+                      'Storage Charge: \Rs. ${storageCharge.toStringAsFixed(2)}'),
                   Text(
-                      'Social Security Contribution Levy: \$${socialSecurityContributionLevy.toStringAsFixed(2)}'),
-                  Text('VAT: \$${VAT.toStringAsFixed(2)}'),
-                  Text('Final Charges: \$${finalCharge.toStringAsFixed(2)}'),
+                      'Old Cargo Charges: \Rs. ${oldCargoCharges.toStringAsFixed(2)}'),
+                  Text(
+                      'Social Security Contribution Levy: \Rs. ${socialSecurityContributionLevy.toStringAsFixed(2)}'),
+                  Text('VAT: \Rs. ${VAT.toStringAsFixed(2)}'),
+                  Text('Final Charges: \Rs. ${finalCharge.toStringAsFixed(2)}'),
                 ],
               ),
             ),
@@ -887,45 +888,29 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
                                 }),
                           ),
                         ),
-                        SizedBox(height: 6),
-                        Center(
-                          child: ElevatedButton(
-                            onPressed: _handleFormSubmision,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Color.fromARGB(255, 3, 75, 135),
-                              padding: EdgeInsets.symmetric(
-                                  horizontal:
-                                      customizationValues['buttonPadding'] ??
-                                          30.0),
+                        SizedBox(
+                          height: 20,
+                        ), // Calculate and Clear Buttons
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            ElevatedButton(
+                              onPressed: _handleFormSubmision,
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 3, 75, 135),
+                                  foregroundColor: Colors.white),
+                              child: Text('Calculate'),
                             ),
-                            child: Text(
-                              'Calculate Charges',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize:
-                                      customizationValues['fontSize'] ?? 19.0),
+                            ElevatedButton(
+                              onPressed: _clearForm,
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 3, 75, 135),
+                                  foregroundColor: Colors.white),
+                              child: Text('Clear'),
                             ),
-                          ),
-                        ),
-                        SizedBox(height: 4),
-                        Center(
-                          child: ElevatedButton(
-                            onPressed: _clearForm,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Color.fromARGB(255, 3, 75, 135),
-                              padding: EdgeInsets.symmetric(
-                                  horizontal:
-                                      customizationValues['buttonPadding'] ??
-                                          30.0),
-                            ),
-                            child: Text(
-                              'Clear',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize:
-                                      customizationValues['fontSize'] ?? 19.0),
-                            ),
-                          ),
+                          ],
                         ),
                       ],
                     ),
