@@ -1,15 +1,17 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:srilankancargo_app/terms_and_conditions.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:srilankancargo_app/about_us_page.dart';
+import 'package:srilankancargo_app/contact_us_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'schedule_page.dart';
 import 'flightstatus_page.dart';
 import 'loadibility_page.dart';
 import 'storagecalculator_page.dart';
 import 'volumecalculator_page.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -87,49 +89,49 @@ class _MyHomePageState extends State<MyHomePage> {
       // iPad Pro (12.9-inch)
       paddingBottom = 65.0;
       buttonWidth = (screenWidth - 100) / 3;
-      buttonHeight = 65;
+      buttonHeight = 45;
       buttonTextSize = 12;
     } else if (screenWidth >= 768) {
       // iPad or larger screens
       paddingBottom = 85.0;
       buttonWidth = (screenWidth - 80) / 3;
-      buttonHeight = 70;
+      buttonHeight = 50;
       buttonTextSize = 12;
     } else if (screenWidth == 375) {
       // iPhone SE
       paddingBottom = 15.0;
       buttonWidth = (screenWidth - 60) / 2;
-      buttonHeight = 48;
+      buttonHeight = 28;
       buttonTextSize = 10.5;
     } else if (screenWidth == 393) {
       // iPhone 15
       paddingBottom = 70.0;
       buttonWidth = (screenWidth - 60) / 2;
-      buttonHeight = 63;
+      buttonHeight = 43;
       buttonTextSize = 10;
     } else if (screenWidth == 430) {
       // iPhone 15 Plus
       paddingBottom = 92.0;
       buttonWidth = (screenWidth - 60) / 2;
-      buttonHeight = 63;
+      buttonHeight = 43;
       buttonTextSize = 12;
     } else if (screenWidth <= 768 && screenWidth > 600) {
       // Customization for larger Android screens
       paddingBottom = 90.0;
       buttonWidth = (screenWidth - 100) / 3;
-      buttonHeight = 75;
+      buttonHeight = 55;
       buttonTextSize = 14.0;
     } else if (screenWidth <= 600 && screenWidth > 400) {
       // Customization for medium-sized Android screens (Pixel 7 Pro API 29)
       paddingBottom = 60.0;
       buttonWidth = (screenWidth - 60) / 2;
-      buttonHeight = 70;
+      buttonHeight = 50;
       buttonTextSize = 11.0;
     } else {
       // Default values for other screen sizes
       paddingBottom = 85.0;
       buttonWidth = (screenWidth - 30) / 2;
-      buttonHeight = 65;
+      buttonHeight = 45;
       buttonTextSize = 12.0;
     }
   }
@@ -164,251 +166,308 @@ class _MyHomePageState extends State<MyHomePage> {
     super.dispose();
   }
 
-  Future<List<dynamic>> fetchContacts() async {
-    final response =
-        await http.get(Uri.parse('http://10.60.11.126:5063/api/contacts'));
-
-    if (response.statusCode == 200) {
-      List<dynamic> contacts = jsonDecode(response.body);
-      return contacts;
-    } else {
-      throw Exception('Failed to load contacts');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight),
-        child: AppBar(
-          title: null,
-          centerTitle: true,
-          flexibleSpace: Center(
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                double offset = constraints.maxHeight * appBarOffsetPercentage;
-
-                return Transform.translate(
-                  offset: Offset(0.0, offset),
-                  child: Transform.scale(
-                    scale: 1.0,
-                    child: Image.asset(
-                      'assets/images/2022451025672_Big-removebg-preview (1).png',
-                    ),
-                  ),
-                );
-              },
+      body: Stack(
+        children: [
+          // Top Banner Image (bottom layer)
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Image.asset(
+              'assets/images/homescreen_banner.jpg', // Your blue banner image
+              fit: BoxFit.cover,
+              height: 235, // Adjust as necessary
             ),
           ),
-        ),
-      ),
-      body: Padding(
-        padding: EdgeInsets.only(bottom: paddingBottom),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Expanded(
-              child: PageView.builder(
-                controller: _pageController,
-                onPageChanged: (int page) {
-                  setState(() {
-                    _currentPage = page;
-                  });
-                },
-                itemBuilder: (context, index) {
-                  return Image.asset(
-                    getImagePath(index),
-                    fit: BoxFit.contain,
-                  );
-                },
-                itemCount: 3,
+
+          // White Card with Content (middle layer)
+          Positioned(
+            top: 225, // Adjust to start below the banner
+            left: 0,
+            right: 0,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10), // Rounded corners
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: Offset(0, 3), // Shadow position
+                  ),
+                ],
               ),
-            ),
-            DotsIndicator(
-              dotsCount: 3,
-              position: _currentPage.toInt(),
-              decorator: DotsDecorator(
-                size: const Size.square(9.0),
-                activeSize: const Size(18.0, 9.0),
-                color: Colors.grey,
-                activeColor: Color.fromARGB(255, 3, 75, 135),
-                activeShape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
-              ),
-            ),
-            Padding(padding: const EdgeInsets.only(bottom: 15)),
-            Wrap(
-              spacing: 10.0,
-              runSpacing: 10.0,
-              alignment: WrapAlignment.center,
-              children: [
-                buildOutlinedButton('Schedule', Icons.flight),
-                buildOutlinedButton('Flight Status', Icons.format_quote),
-                buildOutlinedButton('Loadibility', Icons.local_shipping_sharp),
-                buildOutlinedButton('Storage Calculator', Icons.storage),
-                buildOutlinedButton('Volume Calculator', Icons.calculate),
-                buildOutlinedButton('Tracking', Icons.location_on),
-              ],
-            ),
-          ],
-        ),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            Container(
-              height: 200,
-              width: 220,
-              color: Colors.white,
-              padding: EdgeInsets.only(top: 42),
-              child: UserAccountsDrawerHeader(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: AssetImage('assets/images/Image-DE_SLA.png'),
+              padding: EdgeInsets.all(3),
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: paddingBottom),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      const SizedBox(height: 140),
+                      DotsIndicator(
+                        dotsCount: 3,
+                        position: _currentPage.toInt(),
+                        decorator: DotsDecorator(
+                          size: const Size.square(9.0),
+                          activeSize: const Size(18.0, 9.0),
+                          color: const Color.fromARGB(255, 85, 88, 181),
+                          activeColor: Color.fromARGB(255, 28, 31, 106),
+                          activeShape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            right: 250), // Adjust the value as needed
+                        child: Text(
+                          'Categories',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Color.fromARGB(255, 28, 31, 106),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+
+                      // Category Icons
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                    child: buildOutlinedButton('Schedule',
+                                        'assets/images/flight_schedule_icon.svg')),
+                                SizedBox(width: 0), // Space between buttons
+                                Expanded(
+                                    child: buildOutlinedButton('Flight Status',
+                                        'assets/images/flight_status_icon.svg')),
+                                SizedBox(width: 0), // Space between buttons
+                                Expanded(
+                                    child: buildOutlinedButton('Loadibility',
+                                        'assets/images/loadability_icon.svg')),
+                              ],
+                            ),
+                            SizedBox(height: 30), // Space between rows
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                    child: buildOutlinedButton(
+                                        'Storage Calculator',
+                                        'assets/images/storage_calculator_icon.svg')),
+                                SizedBox(width: 5), // Space between buttons
+                                Expanded(
+                                    child: buildOutlinedButton(
+                                        'Volume Calculator',
+                                        'assets/images/volume_calculator_icon.svg')),
+                                SizedBox(width: 5), // Space between buttons
+                                Expanded(
+                                    child: buildOutlinedButton('Tracking',
+                                        'assets/images/tracking_icon.svg')),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 3),
+
+                      // Website Banner
+                      Positioned(
+                        top: 10,
+                        left: 5,
+                        right: 5,
+                        child: Stack(
+                          children: [
+                            SizedBox(
+                              width: 355,
+                              height: 160,
+                              child: GestureDetector(
+                                onTap: () {
+                                  const url = 'https://www.srilankancargo.com';
+                                  launchUrl(url);
+                                },
+                                child: Image.asset(
+                                  'assets/images/visit_website_banner.png',
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 5, // Position from the bottom
+                              left: 30, // Position from the left
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  const url = 'https://www.srilankancargo.com';
+                                  launchUrl(url);
+                                },
+                                child: const Text("Click here"),
+                                style: ElevatedButton.styleFrom(
+                                  foregroundColor: Colors.white,
+                                  backgroundColor: const Color.fromARGB(
+                                      255, 0, 0, 0), // Text color
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 28, vertical: 0),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                accountName: null,
-                accountEmail: null,
               ),
             ),
-            ListTile(
-              leading: Icon(
-                Icons.info,
-                color: Color.fromARGB(255, 3, 75, 135),
+          ),
+          Positioned(
+            top: 95, // Adjust this value to position the text above the slider
+            left: 20,
+            child: Text(
+              'Welcome to',
+              style: TextStyle(
+                fontSize: 22,
+                color: Color.fromARGB(255, 255, 255, 255),
               ),
-              title: const Text('About Us',
-                  style: TextStyle(color: Color.fromARGB(255, 3, 75, 135))),
-              onTap: () async {
-                try {
-                  List<dynamic> contacts = await fetchContacts();
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text('About Us'),
-                        content: SingleChildScrollView(
-                          child: ListBody(
-                            children: contacts.map<Widget>((contact) {
-                              return Text(
-                                  'Description: ${contact['description']}\n'
-                                  'Addtional Description: ${contact['additionalDescription']}\n');
-                            }).toList(),
-                          ),
-                        ),
-                        actions: <Widget>[
-                          TextButton(
-                            child: Text('OK'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                } catch (e) {
-                  print("Error fetching about us: $e");
-                }
-              },
+              textAlign: TextAlign.left,
             ),
-            ListTile(
-              leading: Icon(
-                Icons.remove_red_eye,
-                color: Color.fromARGB(255, 3, 75, 135),
+          ),
+
+          Positioned(
+            top: 120, // Adjust this value to position the text above the slider
+            left: 20,
+
+            child: Text(
+              'SriLankan Airlines Cargo',
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 255, 255, 255),
               ),
-              title: const Text('Terms & Conditions',
-                  style: TextStyle(color: Color.fromARGB(255, 3, 75, 135))),
-              onTap: () async {
-                try {
-                  List<dynamic> contacts = await fetchContacts();
-                  String termsAndConditions = contacts.isNotEmpty
-                      ? contacts[0]['termsandConditions'] ?? 'Not available'
-                      : 'Not available';
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => TermsConditionsPage(
-                        termsAndConditions: termsAndConditions,
-                      ),
-                    ),
-                  );
-                } catch (e) {
-                  print("Error fetching terms and conditions: $e");
-                }
-              },
+              textAlign: TextAlign.left,
             ),
-            ListTile(
-              leading: Icon(
-                Icons.web,
-                color: Color.fromARGB(255, 3, 75, 135),
+          ),
+          // Image Slider (PageView) (top layer)
+          Positioned(
+            top: 160, // Adjust to overlap the white card and banner
+            left: 20,
+            right: 20,
+            child: Container(
+              height: 200, // Adjust height as necessary
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    blurRadius: 8,
+                    spreadRadius: 2,
+                    offset: Offset(0, 4), // Shadow position
+                  ),
+                ],
               ),
-              title: const Text('View Full Website',
-                  style: TextStyle(color: Color.fromARGB(255, 3, 75, 135))),
-              onTap: () async {
-                await launchUrl('https://www.srilankancargo.com/home');
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.contact_emergency,
-                color: Color.fromARGB(255, 3, 75, 135),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: PageView.builder(
+                  controller: _pageController,
+                  onPageChanged: (int page) {
+                    setState(() {
+                      _currentPage = page;
+                    });
+                  },
+                  itemBuilder: (context, index) {
+                    return Image.asset(
+                      getImagePath(index),
+                      fit: BoxFit.cover,
+                    );
+                  },
+                  itemCount: 3,
+                ),
               ),
-              title: const Text('Contact Us',
-                  style: TextStyle(color: Color.fromARGB(255, 3, 75, 135))),
-              onTap: () async {
-                try {
-                  List<dynamic> contacts = await fetchContacts();
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text('Contact Information'),
-                        content: SingleChildScrollView(
-                          child: ListBody(
-                            children: contacts.map<Widget>((contact) {
-                              return Text('Name: ${contact['name']}\n'
-                                  'Phone: ${contact['phoneNumber']}\n');
-                            }).toList(),
-                          ),
-                        ),
-                        actions: <Widget>[
-                          TextButton(
-                            child: Text('OK'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                } catch (e) {
-                  print("Error fetching contacts: $e");
-                }
-              },
             ),
-          ],
-        ),
+          ),
+        ],
+      ),
+      // Bottom Navigation Bar
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              'assets/images/home_icon.svg', // Relative path to your SVG asset
+              height: 24, // Adjust the size as needed
+              width: 24,
+            ),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              'assets/images/contact_us_icon.svg', // Relative path to your SVG asset
+              height: 24, // Adjust the size as needed
+              width: 24,
+            ),
+            label: 'Contact Us',
+          ),
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              'assets/images/about_us_icon.svg', // Relative path to your SVG asset
+              height: 24, // Adjust the size as needed
+              width: 24,
+            ),
+            label: 'About Us',
+          ),
+        ],
+        selectedItemColor: Color.fromARGB(255, 28, 31, 106),
+        unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
+        currentIndex: 0, // This can be updated as per the current screen
+        onTap: (index) {
+          if (index == 1) {
+            // Navigate to Contact Us page
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ContactUsPage()));
+          } else if (index == 0) {
+            // Navigate to Home page
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      MyHomePage(title: 'Flutter Demo Home Page')),
+            );
+          } else if (index == 2) {
+            // Navigate to About Us page
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AboutUsPage()),
+            );
+          }
+        },
       ),
     );
   }
 
-  Widget buildOutlinedButton(String label, IconData icon) {
+  Widget buildOutlinedButton(String label, String svgPath) {
     return SizedBox(
       width: buttonWidth,
-      height: buttonHeight,
-      child: OutlinedButton(
-        style: OutlinedButton.styleFrom(
-          backgroundColor: Color.fromARGB(255, 3, 75, 135),
+      height: buttonHeight * 1.5,
+      child: TextButton(
+        style: TextButton.styleFrom(
+          backgroundColor:
+              Color.fromARGB(255, 255, 255, 255), // Button background color
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
+            borderRadius: BorderRadius.circular(0), // Square corners
           ),
+          padding: EdgeInsets.zero, // Remove padding
+          side: BorderSide.none, // No border
+          elevation: 0, // Ensure no elevation
         ),
         onPressed: () {
           if (label == 'Schedule') {
@@ -450,12 +509,18 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: Colors.white),
-            const SizedBox(height: 4),
+            SvgPicture.asset(
+              svgPath,
+              height: 24,
+              width: 24,
+            ),
+            const SizedBox(height: 20),
             Text(
               label,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: buttonTextSize, color: Colors.white),
+              style: TextStyle(
+                  fontSize: buttonTextSize,
+                  color: Color.fromARGB(255, 28, 31, 106)),
             ),
           ],
         ),
@@ -466,29 +531,25 @@ class _MyHomePageState extends State<MyHomePage> {
   String getImagePath(int index) {
     switch (index) {
       case 0:
-        return 'assets/images/139.png';
+        return 'assets/images/homescreen_image_1.jpg';
       case 1:
-        return 'assets/images/239378279_1992974014190829_3029728983071132528_n.jpg';
+        return 'assets/images/homescreen_image_2.jpg';
       case 2:
-        return 'assets/images/EmQ9_FuVcAIrkfw.jpg';
+        return 'assets/images/homescreen_image_3.jpg';
       default:
-        return 'assets/images/139.png';
+        return 'assets/images/homescreen_image_1.jpg';
     }
   }
 
   Future<void> launchUrl(String url) async {
     try {
-      print("Launching URL: $url");
       if (await canLaunch(url)) {
         await launch(url);
-        print("URL Launched successfully");
       } else {
-        print("Could not launch $url");
         throw 'Could not launch $url';
       }
     } catch (e) {
       print("Error launching URL: $e");
-      //throw e;
     }
   }
 }

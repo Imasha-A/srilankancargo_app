@@ -154,7 +154,7 @@ class FlightStatusPage extends StatelessWidget {
                           color: Color.fromARGB(255, 3, 75, 135),
                           width: double.infinity,
                           padding: EdgeInsets.symmetric(vertical: 28.0),
-                          child: Center(
+                          child: const Center(
                             child: Text(
                               'Flight Status Form',
                               style: TextStyle(

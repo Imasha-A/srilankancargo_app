@@ -448,8 +448,8 @@ class _VolumeCalculatorPageState extends State<VolumeCalculatorPage> {
                                 DataColumn(label: Text('Width (cm)')),
                                 DataColumn(label: Text('Height (cm)')),
                                 DataColumn(label: Text('Pieces')),
-                                DataColumn(label: Text('Total')),
-                                DataColumn(label: Text('Final Total')),
+                                DataColumn(label: Text('CBM')),
+                                DataColumn(label: Text('Final CBM')),
                               ],
                               rows: userSelections.map((selection) {
                                 return DataRow(

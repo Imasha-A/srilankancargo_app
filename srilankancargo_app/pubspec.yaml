@@ -34,6 +34,7 @@ dependencies:
   url_launcher: ^6.3.0
   device_info: ^2.0.0
   device_info_plus: ^9.1.1
+  flutter_svg: ^2.0.10+1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -75,6 +76,26 @@ flutter:
      - assets/images/unnamed.png
      - assets/images/Image-DE_SLA.png
      - assets/images/appicon.png
+     - assets/images/visit_website_banner.png 
+     - assets/images/homescreen_image_1.jpg
+     - assets/images/homescreen_image_2.jpg
+     - assets/images/homescreen_image_3.jpg
+     - assets/images/about_us_icon.svg
+     - assets/images/home_icon.svg
+     - assets/images/contact_us_icon.svg
+     - assets/images/flight_status_icon.svg
+     - assets/images/flight_schedule_icon.svg
+     - assets/images/loadability_icon.svg
+     - assets/images/storage_calculator_icon.svg
+     - assets/images/volume_calculator_icon.svg
+     - assets/images/tracking_icon.svg
+     - assets/images/homescreen_banner.jpg
+     - assets/images/about_us_picture.jpg
+
+
+     
+     
+     
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
