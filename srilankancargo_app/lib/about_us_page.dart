@@ -95,39 +95,49 @@ class AboutUsPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 15),
-                  Image.asset(
-                    'assets/images/2022451025672_Big-removebg-preview (1).png', // Replace with your image path
-                    height: 50, // Adjust height as needed
-                    fit: BoxFit.contain,
+                  Center(
+                    child: Image.asset(
+                      'assets/images/2022451025672_Big-removebg-preview (1).png', // Replace with your image path
+                      height: 65,
+                      // Adjust height as needed
+                      fit: BoxFit.contain,
+                    ),
                   ),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 5),
                   Text(
                     'SriLankan Cargo is the Cargo Arm of SriLankan Airlines - The National Carrier of Sri Lanka.',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 16.3,
                       color: Color.fromARGB(255, 28, 31, 106),
                     ),
                   ),
-                  const SizedBox(height: 25),
+                  const SizedBox(height: 30),
                   Text(
                     'SriLankan Cargo provides connectivity to its global network of 37 destinations in 21 countries across Europe, the Middle East, South Asia, Southeast Asia, the Far East and Australia.',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 16.3,
                       color: Color.fromARGB(255, 28, 31, 106),
                     ),
                   ),
                   const SizedBox(height: 35),
-                  Image.asset(
-                    'assets/images/about_us_picture.jpg',
-                    height: 155, // Adjust height as needed
-                    fit: BoxFit.contain,
+                  Center(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(
+                          8.0), // Adjust the radius as needed
+                      child: Image.asset(
+                        'assets/images/about_us_picture.jpg',
+                        height: 165,
+                        width: 410, // Adjust height as needed
+                        fit: BoxFit.fill, // Adjust fit as needed
+                      ),
+                    ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 15),
                   Text(
                     'Terms and Conditions',
                     style: TextStyle(
                       fontSize: 16,
+                      fontWeight: FontWeight.w500,
                       color: Color.fromARGB(255, 28, 31, 106),
                     ),
                   ), //Add link and icon, make the edges of the image round, check precision of everything and fon size
@@ -136,23 +146,23 @@ class AboutUsPage extends StatelessWidget {
                     'SriLankan IT Systems. All rights reserved',
                     style: TextStyle(
                       fontSize: 14,
-                      color: Color.fromARGB(255, 28, 31, 106),
+                      color: Color.fromARGB(255, 51, 51, 51),
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 4),
                   Text(
                     'Last Updated on 11/11/2024',
                     style: TextStyle(
                       fontSize: 14,
-                      color: Color.fromARGB(255, 28, 31, 106),
+                      color: Color.fromARGB(255, 51, 51, 51),
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 4),
                   Text(
                     'Created on 10/10/2024',
                     style: TextStyle(
                       fontSize: 14,
-                      color: Color.fromARGB(255, 28, 31, 106),
+                      color: Color.fromARGB(255, 51, 51, 51),
                     ),
                   ),
                   const SizedBox(height: 30),
@@ -162,8 +172,8 @@ class AboutUsPage extends StatelessWidget {
           ),
 
           Positioned(
-            top: 120,
-            left: 20,
+            top: 123,
+            left: 25,
             child: Text(
               'About Us',
               style: TextStyle(

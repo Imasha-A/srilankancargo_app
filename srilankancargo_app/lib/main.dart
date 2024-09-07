@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:srilankancargo_app/about_us_page.dart';
 import 'package:srilankancargo_app/contact_us_page.dart';
+import 'package:srilankancargo_app/terms_and_conditions.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'schedule_page.dart';
 import 'flightstatus_page.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,
@@ -223,7 +225,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 7),
                       Padding(
                         padding: const EdgeInsets.only(
                             right: 250), // Adjust the value as needed
@@ -473,7 +475,7 @@ class _MyHomePageState extends State<MyHomePage> {
           if (label == 'Schedule') {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => SchedulePage()),
+              MaterialPageRoute(builder: (context) => FlightSchedulePage()),
             );
           }
           if (label == 'Flight Status') {
@@ -501,9 +503,12 @@ class _MyHomePageState extends State<MyHomePage> {
             );
           }
           if (label == 'Tracking') {
-            const url =
-                'http://www.srilankanskychain.aero/skychain/app?service=page/nwp:Trackshipmt';
-            launchUrl(url);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => TermsAndContactsPage()),
+            );
+            //const url =  'http://www.srilankanskychain.aero/skychain/app?service=page/nwp:Trackshipmt';
+            //launchUrl(url);
           }
         },
         child: Column(

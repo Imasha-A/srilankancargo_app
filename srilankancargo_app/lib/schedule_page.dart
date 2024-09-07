@@ -1,77 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:srilankancargo_app/about_us_page.dart';
+import 'package:srilankancargo_app/contact_us_page.dart';
+import 'package:srilankancargo_app/main.dart';
 
-class SchedulePage extends StatelessWidget {
+class FlightSchedulePage extends StatefulWidget {
+  @override
+  _FlightSchedulePageState createState() => _FlightSchedulePageState();
+}
+
+class _FlightSchedulePageState extends State<FlightSchedulePage> {
+  final TextEditingController _flightNumberController = TextEditingController();
+  DateTime? _selectedDate;
+
   Map<String, double> customizeFormCard(double screenWidth) {
     Map<String, double> customizationValues = {};
 
-    if (screenWidth >= 768) {
-      // iPad or larger screens
-      customizationValues['cardMargin'] = 56.0;
-      customizationValues['cardOffset'] = -158.0;
-      customizationValues['iconOffset'] = 538.5;
-      customizationValues['buttonPadding'] = 54.0;
-    } else if (screenWidth <= 768 && screenWidth > 600) {
-      // Customization for larger Android screens
-      customizationValues['cardMargin'] = 30.0;
-      customizationValues['cardOffset'] = -120.0;
-      customizationValues['iconOffset'] = 199.5;
-      customizationValues['buttonPadding'] = 30.0;
-    } if (screenWidth >= 810 && screenWidth < 834) {
-      // iPad 10th gen
-      customizationValues['cardMargin'] = 56.0;
-      customizationValues['cardOffset'] = -158.0;
-      customizationValues['iconOffset'] = 538.5;
-      customizationValues['buttonPadding'] = 54.0;
-    } else if (screenWidth == 430) {
-      // iPhone 15 Plus and 15 Pro Max
-      customizationValues['cardMargin'] = 30.0;
-      customizationValues['cardOffset'] = -90.0;
-      customizationValues['iconOffset'] = 199.5;
-      customizationValues['buttonPadding'] = 30.0;
-    } else if (screenWidth == 375) {
-      // iPhone SE
-      customizationValues['cardMargin'] = 30.0;
-      customizationValues['cardOffset'] = -30.0;
-      customizationValues['iconOffset'] = 162.5;
-      customizationValues['buttonPadding'] = 26.0;
-      customizationValues['fontSize'] = 13.0;
-    } else if (screenWidth == 393) {
-      // iPhone 15 Pro
-      customizationValues['cardMargin'] = 30.0;
-      customizationValues['cardOffset'] = -120.0;
-      customizationValues['iconOffset'] = 162.5;
-      customizationValues['buttonPadding'] = 36.0;
-    }     else if (screenWidth <= 600 && screenWidth > 400) {
-      // Customization for medium-sized Android screens (Pixel 7 Pro API 29)
-      customizationValues['cardMargin'] = 30.0;
-      customizationValues['cardOffset'] = -60.0;
-      customizationValues['iconOffset'] = 192.5;
-      customizationValues['buttonPadding'] = 30.0;
-    } else if (screenWidth <= 768 && screenWidth <= 830) {
-      // iPad Air (5th Gen) and iPad mini (6th Gen)
+    if (screenWidth == 1024) {
       customizationValues['cardMargin'] = 70.0;
-      customizationValues['cardOffset'] = -120.0;
-      customizationValues['iconOffset'] = 433.5;
-      customizationValues['buttonPadding'] = 36.0;
-    } else if (screenWidth >= 834 && screenWidth < 1024) {
-      // iPad Pro (11-inch)
+      customizationValues['cardOffset'] = 400.0;
+      customizationValues['iconOffset'] = 660.5;
+      customizationValues['buttonPadding'] = 40.0;
+      customizationValues['cardHeight'] = 333;
+    } else if (screenWidth == 834) {
       customizationValues['cardMargin'] = 50.0;
-      customizationValues['cardOffset'] = -120.0;
-      customizationValues['iconOffset'] = 563.5;
+      customizationValues['cardOffset'] = 280.0;
+      customizationValues['iconOffset'] = 515.5;
       customizationValues['buttonPadding'] = 38.0;
-    } else if (screenWidth == 1024) {
-      // iPad Pro (12.9-inch)
-      customizationValues['cardMargin'] = 60.0;
-      customizationValues['cardOffset'] = -140.0;
-      customizationValues['iconOffset'] = 734.5;
-      customizationValues['buttonPadding'] = 38.0;
+    } else if (screenWidth >= 768) {
+      customizationValues['cardMargin'] = 86.0;
+      customizationValues['cardOffset'] = 278.0;
+      customizationValues['iconOffset'] = 425.5;
+      customizationValues['buttonPadding'] = 54.0;
     } else {
-      // iPhone 15 and 15 Pro
-      customizationValues['cardMargin'] = 30.0;
-      customizationValues['cardOffset'] = -90.0;
-      customizationValues['iconOffset'] = 180.0;
+      customizationValues['cardMargin'] = 16.0;
+      customizationValues['cardOffset'] = -110.0;
+      customizationValues['iconOffset'] = 190.5;
       customizationValues['buttonPadding'] = 36.0;
-      customizationValues['fontSize'] = 13.0;
     }
 
     return customizationValues;
@@ -80,229 +45,380 @@ class SchedulePage extends StatelessWidget {
   Map<String, double> customizeAppBar(double screenWidth) {
     Map<String, double> customizationValues = {};
 
-     if (screenWidth <= 600 && screenWidth > 400) {
-      // Customization for medium-sized Android screens (Pixel 7 Pro API 29)
+    if (screenWidth <= 600 && screenWidth >= 400) {
       customizationValues['appBarOffsetPercentage'] = -0.60;
-      customizationValues['titleXOffset'] = 60.0; // Adjust this value as needed
-    }  if (screenWidth == 430) {
-      // Customization for iPhone 15 Plus
+      customizationValues['titleXOffset'] = 60.0;
+    }
+    if (screenWidth == 430) {
       customizationValues['appBarOffsetPercentage'] = -0.60;
-      customizationValues['titleXOffset'] = 0.0; // Adjust this value as needed
-    } else {
-      // You can add specific customizations here
+      customizationValues['titleXOffset'] = 0.0;
     }
 
     return customizationValues;
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null && picked != _selectedDate)
+      setState(() {
+        _selectedDate = picked;
+      });
   }
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     Map<String, double> customizationValues = customizeFormCard(screenWidth);
-    Map<String, double> appBarCustomization = customizeAppBar(screenWidth);
 
     return Scaffold(
-      appBar: AppBar(
-        leading: Transform.translate(
-          offset: Offset(8.0, -6.0),
-          child: BackButton(color: Colors.white),
-        ),
-        title: Transform.translate(
-          offset: Offset(appBarCustomization['titleXOffset'] ?? 0.0, -6.0),
-          child: Text(
-            'Flight Schedule',
-            style: TextStyle(color: Colors.white, fontFamily: 'SriLankan Regular'),
-          ),
-        ),
-        actions: [
-          Transform.translate(
-            offset: Offset(-10.0, -6.0),
-            child: IconButton(
-              onPressed: () {
-                Navigator.popUntil(context, (route) => route.isFirst);
-              },
-              icon: Icon(Icons.home, color: Colors.white),
+      body: Stack(
+        children: [
+          // Top Banner Image (bottom layer)
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Image.asset(
+              'assets/images/flight_schedule.png',
+              fit: BoxFit.cover,
+              height: 185,
             ),
           ),
-        ],
-        backgroundColor: Color.fromARGB(255, 3, 75, 135),
-        flexibleSpace: Center(
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              double offset = constraints.maxHeight * (appBarCustomization['appBarOffsetPercentage'] ?? 0.25);
-
-              return Transform.translate(
-                offset: Offset(0.0, offset),
-                child: Transform.scale(
-                  scale: 1.0,
-                ),
-              );
-            },
+          Positioned(
+            top: 25, // Adjust according to your design
+            left: 3, // Adjust according to your design
+            child: SizedBox(
+              width: 58, // Set width of the button
+              height: 48, // Set height of the button
+              child: BackButton(
+                color: Color.fromARGB(255, 255, 255, 255), // Icon color
+              ),
+            ),
           ),
-        ),
-      ),
-      backgroundColor: Colors.white,
-      body: Center(
-        child: Transform.translate(
-          offset: Offset(0.0, customizationValues['cardOffset'] ?? 0.0),
-          child: Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15.0),
-            ),
-            elevation: 5.0,
-            margin: EdgeInsets.fromLTRB(
-              customizationValues['cardMargin'] ?? 0.0,
-              0.0,
-              customizationValues['cardMargin'] ?? 0.0,
-              16.0,
-            ),
-            surfaceTintColor: Color.fromARGB(255, 255, 255, 255),
-            child: Padding(
-              padding: const EdgeInsets.all(7.0),
+          // Outer White Card (middle layer) wrapping the form
+          Positioned(
+            top: 155,
+            left: 0,
+            right: 0,
+            child: Container(
+              padding: EdgeInsets.all(18),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color.fromARGB(255, 226, 223, 223).withOpacity(0.5),
+                    spreadRadius: 1,
+                    blurRadius: 1,
+                    offset: Offset(0, 1),
+                  ),
+                ],
+              ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  ClipRRect(
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
-                    child: Container(
-                      color: Color.fromARGB(255, 3, 75, 135),
-                      width: double.infinity,
-                      padding: EdgeInsets.symmetric(vertical: 28.0),
-                      child: Center(
-                        child: Text(
-                          'Flight Schedule Form',
-                          style: TextStyle(color: Colors.white, fontSize: 19.0, fontWeight: FontWeight.bold),
-                        ),
-                      ),
+                children: [
+                  Text(
+                    'Flight Schedule',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w900,
+                      color: Color.fromARGB(255, 28, 31, 106),
                     ),
                   ),
-                  SizedBox(height: 20.0),
-                  Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      color: Colors.grey[100],
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: DropdownButton<String>(
-                        icon: Icon(Icons.arrow_drop_down),
-                        iconSize: 36.0,
-                        underline: SizedBox(),
-                        style: TextStyle(fontSize: 16.0, color: Colors.black, fontWeight: FontWeight.bold),
-                        hint: Text(
-                          'Select Origin Country',
-                          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: customizationValues['fontSize'] ?? 16.0),
-                        ),
-                        isExpanded: true,
-                        items: <String>['Country 1', 'Country 2', 'Country 3', 'Country 4'].map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          // Handle origin country selection
-                        },
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: double.infinity,
-                    margin: EdgeInsets.only(top: 16.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      color: Colors.grey[100],
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: DropdownButton<String>(
-                        icon: Icon(Icons.arrow_drop_down),
-                        iconSize: 36.0,
-                        underline: SizedBox(),
-                        style: TextStyle(fontSize: 16.0, color: Colors.black, fontWeight: FontWeight.bold),
-                        hint: Text(
-                          'Select Destination Country',
-                          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: customizationValues['fontSize'] ?? 16.0),
-                        ),
-                        isExpanded: true,
-                        items: <String>['Country A', 'Country B', 'Country C', 'Country D'].map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          // Handle destination country selection
-                        },
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: double.infinity,
-                    margin: EdgeInsets.only(top: 16.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      color: Colors.grey[100],
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          TextButton(
-                            onPressed: () async {
-                              DateTime? pickedDate = await showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime.now(),
-                                lastDate: DateTime(DateTime.now().year + 1),
-                              );
 
-                              if (pickedDate != null) {
-                                // Handle picked date
-                              }
-                            },
-                            child: Row(
-                              children: [
-                                Text(
-                                  'Select Date',
-                                  style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: customizationValues['fontSize'] ?? 16.0),
+                  const SizedBox(height: 20),
+                  // Inner White Card with the Flight Form
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1,
+                          blurRadius: 3,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    padding: EdgeInsets.all(16),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 10),
+                        Text(
+                          'Origin Country',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w900,
+                              color: Color.fromARGB(255, 28, 31, 106)),
+                        ),
+                        SizedBox(height: 3),
+                        Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.0),
+                            color: Colors.grey[100],
+                            border: Border.all(
+                                color: const Color.fromARGB(255, 206, 197, 197),
+                                width: 1.0),
+                          ),
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: DropdownButton<String>(
+                              icon: Container(
+                                width:
+                                    20.0, // Adjust the width of the icon container
+                                height:
+                                    35.0, // Adjust the height of the icon container
+                                child: Icon(
+                                  Icons.arrow_drop_down,
+                                  size: 32.0, // Size of the icon
+                                  color: const Color.fromARGB(
+                                      255, 145, 145, 145), // Color of the icon
                                 ),
-                                Transform.translate(
-                                  offset: Offset(customizationValues['iconOffset'] ?? 0.0, 0.0),
-                                  child: Icon(Icons.calendar_today, color: Color.fromARGB(255, 93, 93, 93)),
-                                ),
-                              ],
+                              ),
+                              iconSize: 30.0,
+                              underline: SizedBox(),
+                              style: TextStyle(
+                                fontSize: 14.0,
+                                color: Color.fromARGB(255, 28, 31, 106),
+                              ),
+                              hint: Text(
+                                'Select Origin Country',
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 204, 203, 203),
+                                    fontWeight: FontWeight.w900,
+                                    fontSize: customizationValues['fontSize'] ??
+                                        14.0),
+                              ),
+                              isExpanded: true,
+                              items: <String>[
+                                'Country 1',
+                                'Country 2',
+                                'Country 3',
+                                'Country 4'
+                              ].map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                              onChanged: (String? newValue) {
+                                // Handle origin country selection
+                              },
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                        SizedBox(height: 15),
+                        Text(
+                          'Destination Country',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w900,
+                              color: Color.fromARGB(255, 28, 31, 106)),
+                        ),
+                        SizedBox(height: 3),
+                        Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.0),
+                            color: Colors.grey[100],
+                            border: Border.all(
+                                color: const Color.fromARGB(255, 206, 197, 197),
+                                width: 1.0),
+                          ),
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: DropdownButton<String>(
+                              icon: Container(
+                                width:
+                                    20.0, // Adjust the width of the icon container
+                                height:
+                                    35.0, // Adjust the height of the icon container
+                                child: Icon(
+                                  Icons.arrow_drop_down,
+                                  size: 32.0, // Size of the icon
+                                  color: Color.fromARGB(
+                                      255, 145, 145, 145), // Color of the icon
+                                ),
+                              ),
+                              iconSize: 30.0,
+                              underline: SizedBox(),
+                              style: TextStyle(
+                                  fontSize: 16.0,
+                                  color:
+                                      const Color.fromARGB(255, 119, 116, 116),
+                                  fontWeight: FontWeight.bold),
+                              hint: Text(
+                                'Select Destination Country',
+                                style: TextStyle(
+                                    color: const Color.fromARGB(
+                                        255, 204, 203, 203),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: customizationValues['fontSize'] ??
+                                        14.0),
+                              ),
+                              isExpanded: true,
+                              items: <String>[
+                                'Country A',
+                                'Country B',
+                                'Country C',
+                                'Country D'
+                              ].map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                              onChanged: (String? newValue) {
+                                // Handle destination country selection
+                              },
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 15),
+                        Text(
+                          'Flight Date',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w900,
+                              color: Color.fromARGB(255, 28, 31, 106)),
+                        ),
+                        SizedBox(height: 3),
+                        GestureDetector(
+                          onTap: () => _selectDate(context),
+                          child: AbsorbPointer(
+                            child: TextField(
+                              decoration: InputDecoration(
+                                hintText: _selectedDate == null
+                                    ? 'Select Flight Date'
+                                    : "${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}",
+                                hintStyle: TextStyle(
+                                  color: Color.fromARGB(255, 204, 203,
+                                      203), // Change hint text color to red
+                                  fontSize:
+                                      14.0, // Optional: Adjust font size as needed
+                                ),
+                                filled: true,
+                                fillColor: Color.fromARGB(255, 245, 245, 245),
+                                suffixIcon: SizedBox(
+                                    // Optionally set width to maintain aspect ratio
+                                    child: Icon(
+                                  Icons.calendar_today,
+                                  color: Color.fromARGB(
+                                      255, 51, 51, 51), // Suffix icon color
+                                  size: 19.0, // Set the icon size
+                                )),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                      color: Color.fromARGB(255, 206, 197, 197),
+                                      width: 0.1),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    color: const Color.fromARGB(255, 204, 203,
+                                        203), // Border color when unfocused
+                                    width: 1.0, // Border width when unfocused
+                                  ),
+                                ),
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 12.0, horizontal: 16.0),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Center(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              // Implement submit action here
+                            },
+                            style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 135, vertical: 10),
+                              backgroundColor: Color.fromARGB(255, 28, 31, 106),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            child: Text(
+                              'Submit',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Color.fromARGB(255, 255, 255, 255)),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                      ],
                     ),
                   ),
-                  SizedBox(height: 20.0),
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // Handle form submission
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 3, 75, 135),
-                        padding: EdgeInsets.symmetric(horizontal: customizationValues['buttonPadding'] ?? 0.0),
-                      ),
-                      child: Text(
-                        'Submit',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 15.0),
+                  const SizedBox(height: 350),
                 ],
               ),
             ),
           ),
-        ),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              'assets/images/home_icon.svg',
+              height: 24,
+              width: 24,
+            ),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              'assets/images/contact_us_icon.svg',
+              height: 24,
+              width: 24,
+            ),
+            label: 'Contact Us',
+          ),
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              'assets/images/about_us_icon.svg',
+              height: 24,
+              width: 24,
+            ),
+            label: 'About Us',
+          ),
+        ],
+        selectedItemColor: Color.fromARGB(255, 28, 31, 106),
+        unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
+        currentIndex: 1,
+        onTap: (index) {
+          if (index == 1) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ContactUsPage()));
+          } else if (index == 0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      MyHomePage(title: 'Flutter Demo Home Page')),
+            );
+          } else if (index == 2) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AboutUsPage()),
+            );
+          }
+        },
       ),
     );
   }

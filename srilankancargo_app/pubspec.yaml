@@ -85,12 +85,27 @@ flutter:
      - assets/images/contact_us_icon.svg
      - assets/images/flight_status_icon.svg
      - assets/images/flight_schedule_icon.svg
+     
      - assets/images/loadability_icon.svg
      - assets/images/storage_calculator_icon.svg
      - assets/images/volume_calculator_icon.svg
      - assets/images/tracking_icon.svg
      - assets/images/homescreen_banner.jpg
      - assets/images/about_us_picture.jpg
+     - assets/images/call_us_icon.svg
+     - assets/images/email_us_icon.svg
+     - assets/images/address_icon.svg
+     - assets/images/youtube_icon.svg
+     - assets/images/instagram_icon.svg
+     - assets/images/facebook_icon.svg
+     - assets/images/x_icon.svg
+     - assets/images/linkedin_icon.svg
+
+     - assets/images/flight_status.png
+     
+     - assets/images/terms_and_conditions.png
+     
+
 
 
      
