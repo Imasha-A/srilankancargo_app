@@ -23,12 +23,12 @@ Future<Map<String, dynamic>> fetchData() async {
   }
 }
 
-class TermsAndContactsPage extends StatefulWidget {
+class TermsAndConditionsPage extends StatefulWidget {
   @override
-  _TermsAndContactsPageState createState() => _TermsAndContactsPageState();
+  _TermsAndConditionsPageState createState() => _TermsAndConditionsPageState();
 }
 
-class _TermsAndContactsPageState extends State<TermsAndContactsPage> {
+class _TermsAndConditionsPageState extends State<TermsAndConditionsPage> {
   late Future<Map<String, dynamic>> _data;
 
   @override

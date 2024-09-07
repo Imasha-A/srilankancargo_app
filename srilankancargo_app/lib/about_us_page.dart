@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:srilankancargo_app/contact_us_page.dart';
 import 'package:srilankancargo_app/main.dart';
+import 'package:srilankancargo_app/terms_and_conditions.dart';
 
 class AboutUsPage extends StatelessWidget {
   const AboutUsPage({Key? key}) : super(key: key);
@@ -133,14 +134,34 @@ class AboutUsPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 15),
-                  Text(
-                    'Terms and Conditions',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Color.fromARGB(255, 28, 31, 106),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => TermsAndConditionsPage()),
+                      );
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Terms and Conditions',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Color.fromARGB(255, 28, 31, 106),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        SvgPicture.asset(
+                          'assets/images/terms_icon.svg', // Add the path to your icon asset
+                          height: 20,
+                          width: 20,
+                        ),
+                      ],
                     ),
-                  ), //Add link and icon, make the edges of the image round, check precision of everything and fon size
+                  ),
                   const SizedBox(height: 45),
                   Text(
                     'SriLankan IT Systems. All rights reserved',

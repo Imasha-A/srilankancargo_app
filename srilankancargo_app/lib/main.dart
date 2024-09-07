@@ -297,8 +297,9 @@ class _MyHomePageState extends State<MyHomePage> {
                               height: 160,
                               child: GestureDetector(
                                 onTap: () {
-                                  const url = 'https://www.srilankancargo.com';
-                                  launchUrl(url);
+                                  //const url = 'https://www.srilankancargo.com';
+                                  launchUrl(Uri.parse(
+                                      'https://www.srilankancargo.com'));
                                 },
                                 child: Image.asset(
                                   'assets/images/visit_website_banner.png',
@@ -311,8 +312,9 @@ class _MyHomePageState extends State<MyHomePage> {
                               left: 30, // Position from the left
                               child: ElevatedButton(
                                 onPressed: () {
-                                  const url = 'https://www.srilankancargo.com';
-                                  launchUrl(url);
+                                  //const url = 'https://www.srilankancargo.com';
+                                  launchUrl((Uri.parse(
+                                      'https://www.srilankancargo.com')));
                                 },
                                 child: const Text("Click here"),
                                 style: ElevatedButton.styleFrom(
@@ -503,12 +505,9 @@ class _MyHomePageState extends State<MyHomePage> {
             );
           }
           if (label == 'Tracking') {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => TermsAndContactsPage()),
-            );
             //const url =  'http://www.srilankanskychain.aero/skychain/app?service=page/nwp:Trackshipmt';
-            //launchUrl(url);
+            launchUrlTracking((Uri.parse(
+                'http://www.srilankanskychain.aero/skychain/app?service=page/nwp:Trackshipmt')));
           }
         },
         child: Column(
@@ -546,15 +545,19 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  Future<void> launchUrl(String url) async {
-    try {
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
-    } catch (e) {
-      print("Error launching URL: $e");
+  Future<void> _launchURL() async {
+    final Uri url =
+        Uri.parse('https://www.google.com'); // Updated to use Uri.parse
+    if (!await launchUrl(url)) {
+      throw 'Could not launch $url';
+    }
+  }
+
+  Future<void> launchUrlTracking(Uri parse) async {
+    final Uri url = Uri.parse(
+        'http://www.srilankanskychain.aero/skychain/app?service=page/nwp:Trackshipmt'); // Updated to use Uri.parse
+    if (!await launchUrl(url)) {
+      throw 'Could not launch $url';
     }
   }
 }

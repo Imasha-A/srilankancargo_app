@@ -102,8 +102,10 @@ flutter:
      - assets/images/linkedin_icon.svg
 
      - assets/images/flight_status.png
-     
+     - assets/images/flight_schedule.png
      - assets/images/terms_and_conditions.png
+     - assets/images/loadability.png
+     - assets/images/terms_icon.svg
      
 
 
