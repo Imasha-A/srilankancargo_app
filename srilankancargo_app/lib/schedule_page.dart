@@ -303,10 +303,14 @@ class _FlightSchedulePageState extends State<FlightSchedulePage> {
                                     ? 'Select Flight Date'
                                     : "${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}",
                                 hintStyle: TextStyle(
-                                  color: Color.fromARGB(255, 204, 203,
-                                      203), // Change hint text color to red
+                                  color: _selectedDate == null
+                                      ? Color.fromARGB(255, 204, 203,
+                                          203) // Default text color
+                                      : const Color.fromARGB(255, 135, 130,
+                                          130), // Text color when a date is selected
+                                  fontWeight: FontWeight.bold,
                                   fontSize:
-                                      14.0, // Optional: Adjust font size as needed
+                                      14, // Optional: Adjust font size as needed
                                 ),
                                 filled: true,
                                 fillColor: Color.fromARGB(255, 245, 245, 245),

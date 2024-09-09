@@ -107,6 +107,8 @@ flutter:
      - assets/images/loadability.png
      - assets/images/terms_icon.svg
      
+     - assets/images/volume_calculator.png
+     - assets/images/storage_calculator.png
 
 
 

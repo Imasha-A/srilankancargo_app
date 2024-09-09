@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_svg/svg.dart';
+import 'package:srilankancargo_app/about_us_page.dart';
+import 'package:srilankancargo_app/contact_us_page.dart';
+import 'package:srilankancargo_app/main.dart';
 
 class UserSelection {
   DateTime arrivalDate;
@@ -36,12 +38,12 @@ class UserSelection {
   }
 }
 
-class StorageCalculatorPage extends StatefulWidget {
+class StorageCalPage extends StatefulWidget {
   @override
-  _StorageCalculatorPageState createState() => _StorageCalculatorPageState();
+  _StorageCalPageState createState() => _StorageCalPageState();
 }
 
-class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
+class _StorageCalPageState extends State<StorageCalPage> {
   DateTime? _arrivalDate;
   DateTime? _clearingDate;
   String? _selectedLocation;
@@ -50,7 +52,6 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
   TextEditingController _weightController = TextEditingController();
 
   String? _weightErrorMessage;
-
   //holidays of 2024
   final List<DateTime> holidays = [
     DateTime(2024, 8, 19), // Poya
@@ -63,6 +64,50 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
     DateTime(2024, 12, 24), // Christmas Eve
     DateTime(2024, 12, 25), // Christmas
   ];
+
+  Map<String, double> customizeFormCard(double screenWidth) {
+    Map<String, double> customizationValues = {};
+
+    if (screenWidth == 1024) {
+      customizationValues['cardMargin'] = 70.0;
+      customizationValues['cardOffset'] = 400.0;
+      customizationValues['iconOffset'] = 660.5;
+      customizationValues['buttonPadding'] = 40.0;
+      customizationValues['cardHeight'] = 333;
+    } else if (screenWidth == 834) {
+      customizationValues['cardMargin'] = 50.0;
+      customizationValues['cardOffset'] = 280.0;
+      customizationValues['iconOffset'] = 515.5;
+      customizationValues['buttonPadding'] = 38.0;
+    } else if (screenWidth >= 768) {
+      customizationValues['cardMargin'] = 86.0;
+      customizationValues['cardOffset'] = 278.0;
+      customizationValues['iconOffset'] = 425.5;
+      customizationValues['buttonPadding'] = 54.0;
+    } else {
+      customizationValues['cardMargin'] = 16.0;
+      customizationValues['cardOffset'] = -110.0;
+      customizationValues['iconOffset'] = 190.5;
+      customizationValues['buttonPadding'] = 36.0;
+    }
+
+    return customizationValues;
+  }
+
+  Map<String, double> customizeAppBar(double screenWidth) {
+    Map<String, double> customizationValues = {};
+
+    if (screenWidth <= 600 && screenWidth >= 400) {
+      customizationValues['appBarOffsetPercentage'] = -0.60;
+      customizationValues['titleXOffset'] = 60.0;
+    }
+    if (screenWidth == 430) {
+      customizationValues['appBarOffsetPercentage'] = -0.60;
+      customizationValues['titleXOffset'] = 0.0;
+    }
+
+    return customizationValues;
+  }
 
   Map<String, dynamic> customizeStorageCalculatorCard(double screenWidth) {
     Map<String, dynamic> customizationValues = {};
@@ -195,25 +240,6 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
       customizationValues['noteTextOffsetY'] = 12.0;
       customizationValues['iconOffset'] = 60.0;
       customizationValues['iconOffset1'] = 85.0;
-    }
-
-    return customizationValues;
-  }
-
-  Map<String, double> customizeAppBar(double screenWidth) {
-    Map<String, double> customizationValues = {};
-
-    if (screenWidth <= 600 && screenWidth >= 400) {
-      // Customization for medium-sized Android screens (Pixel 7 Pro API 29)
-      customizationValues['appBarOffsetPercentage'] = -0.60;
-      customizationValues['titleXOffset'] = 46.0; // Adjust this value as needed
-    }
-    if (screenWidth == 430) {
-      // Customization for iPhone 15 Plus
-      customizationValues['appBarOffsetPercentage'] = -0.60;
-      customizationValues['titleXOffset'] = 0.0; // Adjust this value as needed
-    } else {
-      // You can add specific customizations here
     }
 
     return customizationValues;
@@ -568,81 +594,91 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    Map<String, dynamic> customizationValues =
-        customizeStorageCalculatorCard(screenWidth);
-    Map<String, double> appBarCustomization = customizeAppBar(screenWidth);
+    Map<String, double> customizationValues = customizeFormCard(screenWidth);
 
     return Scaffold(
-      appBar: AppBar(
-        leading: Transform.translate(
-          offset: Offset(8.0, -6.0),
-          child: BackButton(color: Colors.white),
-        ),
-        title: Transform.translate(
-          offset: Offset(appBarCustomization['titleXOffset'] ?? 0.0, -6.0),
-          child: Text('Storage Calculator',
-              style: TextStyle(
-                  color: Colors.white, fontFamily: 'SriLankan Regular')),
-        ),
-        actions: [
-          Transform.translate(
-            offset: Offset(-10.0, -6.0),
-            child: IconButton(
-              onPressed: () {
-                Navigator.popUntil(context, (route) => route.isFirst);
-              },
-              icon: Icon(Icons.home, color: Colors.white),
+      body: Stack(
+        children: [
+          // Top Banner Image (bottom layer)
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Image.asset(
+              'assets/images/storage_calculator.png',
+              fit: BoxFit.cover,
+              height: 185,
             ),
           ),
-        ],
-        backgroundColor: Color.fromARGB(255, 3, 75, 135),
-      ),
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-          child: Center(
-        child: Column(
-          children: [
-            Transform.translate(
-              offset: Offset(0.0, customizationValues['cardOffset'] ?? 0.0),
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                elevation: 5.0,
-                margin: EdgeInsets.fromLTRB(
-                  customizationValues['cardMargin'] ?? 0.0,
-                  0.0,
-                  customizationValues['cardMargin'] ?? 0.0,
-                  16.0,
-                ),
-                surfaceTintColor: Color.fromARGB(255, 255, 255, 255),
-                child: Container(
-                  width: customizationValues['cardWidth'] ?? double.infinity,
-                  height: customizationValues['cardHeight'] ?? double.infinity,
-                  child: Padding(
-                    padding: const EdgeInsets.all(7.0),
+          Positioned(
+            top: 25, // Adjust according to your design
+            left: 3, // Adjust according to your design
+            child: SizedBox(
+              width: 58, // Set width of the button
+              height: 48, // Set height of the button
+              child: BackButton(
+                color: Color.fromARGB(255, 255, 255, 255), // Icon color
+              ),
+            ),
+          ),
+
+          // Outer White Card (middle layer) wrapping the form
+          Positioned(
+            top: 155,
+            left: 0,
+            right: 0,
+            child: Container(
+              padding: EdgeInsets.all(18),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Storage Calculator',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w900,
+                      color: Color.fromARGB(255, 28, 31, 106),
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+                  // Inner White Card with the Flight Form
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1,
+                          blurRadius: 3,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    padding: EdgeInsets.all(16),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        ClipRRect(
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(15.0)),
-                          child: Container(
-                            color: Color.fromARGB(255, 3, 75, 135),
-                            width: double.infinity,
-                            padding: EdgeInsets.symmetric(vertical: 28.0),
-                            child: Center(
-                              child: Text(
-                                'Storage Calculator Form',
-                                style: TextStyle(
-                                    fontSize:
-                                        customizationValues['fontSize'] ?? 19.0,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Flight Actual Arrival Date',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w900,
+                              color: Color.fromARGB(255, 28, 31, 106)),
                         ),
                         Container(
                           width: double.infinity,
@@ -667,11 +703,16 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
                                             ? 'Select Flight Actual Arrival Date'
                                             : 'Arrival: ${_arrivalDate.toString().split(' ')[0]}',
                                         style: TextStyle(
-                                          color: Colors.black,
+                                          color: _arrivalDate == null
+                                              ? Color.fromARGB(255, 204, 203,
+                                                  203) // Default text color
+                                              : const Color.fromARGB(
+                                                  255,
+                                                  135,
+                                                  130,
+                                                  130), // Text color when a date is selected
                                           fontWeight: FontWeight.bold,
-                                          fontSize:
-                                              customizationValues['fontSize'] ??
-                                                  19.0,
+                                          fontSize: 14,
                                         ),
                                       ),
                                     ),
@@ -685,6 +726,14 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
                               ],
                             ),
                           ),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          'Flight Cargo Clearing Date',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w900,
+                              color: Color.fromARGB(255, 28, 31, 106)),
                         ),
                         Container(
                           width: double.infinity,
@@ -709,11 +758,16 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
                                             ? 'Select Cargo Clearing Date'
                                             : 'Clearing: ${_clearingDate.toString().split(' ')[0]}',
                                         style: TextStyle(
-                                          color: Colors.black,
+                                          color: _clearingDate == null
+                                              ? Color.fromARGB(255, 204, 203,
+                                                  203) // Default text color
+                                              : const Color.fromARGB(
+                                                  255,
+                                                  135,
+                                                  130,
+                                                  130), // Text color when a date is selected
                                           fontWeight: FontWeight.bold,
-                                          fontSize:
-                                              customizationValues['fontSize'] ??
-                                                  19.0,
+                                          fontSize: 14,
                                         ),
                                       ),
                                     ),
@@ -729,7 +783,14 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 14.0),
+                        const SizedBox(height: 10),
+                        Text(
+                          'Room Type',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w900,
+                              color: Color.fromARGB(255, 28, 31, 106)),
+                        ),
                         Container(
                           width: double.infinity,
                           decoration: BoxDecoration(
@@ -745,12 +806,14 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
                               underline: SizedBox(),
                               style: TextStyle(
                                   fontSize:
-                                      customizationValues['fontSize'] ?? 19.0,
-                                  color: Colors.black,
+                                      customizationValues['fontSize'] ?? 14.0,
+                                  color:
+                                      const Color.fromARGB(255, 135, 130, 130),
                                   fontWeight: FontWeight.bold),
                               hint: Text('Select Room Type',
                                   style: TextStyle(
-                                      color: Colors.black,
+                                      color: const Color.fromARGB(
+                                          255, 204, 203, 203),
                                       fontWeight: FontWeight.bold)),
                               value: _selectedLocation,
                               isExpanded: true,
@@ -787,12 +850,13 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
                               underline: SizedBox(),
                               style: TextStyle(
                                   fontSize:
-                                      customizationValues['fontSize'] ?? 19.0,
-                                  color: Colors.black,
+                                      customizationValues['fontSize'] ?? 14.0,
+                                  color: Color.fromARGB(255, 135, 130, 130),
                                   fontWeight: FontWeight.bold),
                               hint: Text('Select Tax Type',
                                   style: TextStyle(
-                                      color: Colors.black,
+                                      color: const Color.fromARGB(
+                                          255, 204, 203, 203),
                                       fontWeight: FontWeight.bold)),
                               value: _selectedTaxType,
                               isExpanded: true,
@@ -828,12 +892,14 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
                               underline: SizedBox(),
                               style: TextStyle(
                                   fontSize:
-                                      customizationValues['fontSize'] ?? 19.0,
-                                  color: Colors.black,
+                                      customizationValues['fontSize'] ?? 14.0,
+                                  color:
+                                      const Color.fromARGB(255, 135, 130, 130),
                                   fontWeight: FontWeight.bold),
                               hint: Text('Select Cargo Type',
                                   style: TextStyle(
-                                      color: Colors.black,
+                                      color: const Color.fromARGB(
+                                          255, 204, 203, 203),
                                       fontWeight: FontWeight.bold)),
                               value: _selectedCargoType,
                               isExpanded: true,
@@ -882,20 +948,24 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
                             child: TextFormField(
                                 controller: _weightController,
                                 decoration: InputDecoration(
-                                  labelText: 'Chargeable Weight - kg',
+                                  labelText: 'Chargeable Weight',
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.never,
                                   labelStyle: TextStyle(
-                                      color: Colors.black,
+                                      color: const Color.fromARGB(
+                                          255, 204, 203, 203),
                                       fontWeight: FontWeight.bold,
                                       fontSize:
                                           customizationValues['fontSize'] ??
-                                              19.0),
+                                              14.0),
                                   border: InputBorder.none,
                                   errorText: _weightErrorMessage,
                                 ),
                                 style: TextStyle(
                                     fontSize:
-                                        customizationValues['fontSize'] ?? 8.0,
-                                    color: Colors.black,
+                                        customizationValues['fontSize'] ?? 14.0,
+                                    color: const Color.fromARGB(
+                                        255, 135, 130, 130),
                                     fontWeight: FontWeight.bold),
                                 keyboardType: TextInputType.numberWithOptions(
                                     decimal: true),
@@ -910,53 +980,122 @@ class _StorageCalculatorPageState extends State<StorageCalculatorPage> {
                                 }),
                           ),
                         ),
-                        SizedBox(
-                          height: 20,
-                        ), // Calculate and Clear Buttons
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            ElevatedButton(
-                              onPressed: _handleFormSubmision,
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      const Color.fromARGB(255, 3, 75, 135),
-                                  foregroundColor: Colors.white),
-                              child: Text('Calculate'),
-                            ),
-                            ElevatedButton(
-                              onPressed: _clearForm,
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      const Color.fromARGB(255, 3, 75, 135),
-                                  foregroundColor: Colors.white),
-                              child: Text('Clear'),
-                            ),
-                          ],
+                        Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ElevatedButton(
+                                onPressed: () {
+                                  _clearForm();
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  foregroundColor:
+                                      Color.fromARGB(255, 28, 31, 106),
+                                  backgroundColor: Colors.white,
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 52,
+                                      vertical: 10), // White fill
+                                  side: BorderSide(
+                                      color: Color.fromARGB(255, 28, 31, 106),
+                                      width: 1), // Blue border
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ), // Text color
+                                ),
+                                child: Text(
+                                  'Clear',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color.fromARGB(255, 28, 31, 106)),
+                                ),
+                              ),
+                              const SizedBox(width: 8), // Space between buttons
+                              // Existing Submit Button
+                              ElevatedButton(
+                                onPressed: () {
+                                  _handleFormSubmision();
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 52, vertical: 10),
+                                  backgroundColor: Color.fromARGB(
+                                      255, 28, 31, 106), // Blue fill
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                child: Text(
+                                  'Calculate',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Color.fromARGB(
+                                        255, 255, 255, 255), // White text color
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
                   ),
-                ),
+                  const SizedBox(height: 500),
+                ],
               ),
             ),
-            Transform.translate(
-              offset: Offset(customizationValues['noteTextOffsetX'] ?? 0.0,
-                  customizationValues['noteTextOffsetY'] ?? 0.0),
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Text(
-                  'Note : "Multiple cargo type for single \nshipment and future delivery dates\n selection option will be promoted\n with next release"',
-                  style: TextStyle(
-                    fontSize: customizationValues['noteFontSize'] ?? 16.0,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
+          ),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              'assets/images/home_icon.svg',
+              height: 24,
+              width: 24,
             ),
-          ],
-        ),
-      )),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              'assets/images/contact_us_icon.svg',
+              height: 24,
+              width: 24,
+            ),
+            label: 'Contact Us',
+          ),
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              'assets/images/about_us_icon.svg',
+              height: 24,
+              width: 24,
+            ),
+            label: 'About Us',
+          ),
+        ],
+        selectedItemColor: Color.fromARGB(255, 28, 31, 106),
+        unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
+        currentIndex: 1,
+        onTap: (index) {
+          if (index == 1) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ContactUsPage()));
+          } else if (index == 0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      MyHomePage(title: 'Flutter Demo Home Page')),
+            );
+          } else if (index == 2) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AboutUsPage()),
+            );
+          }
+        },
+      ),
     );
   }
 }

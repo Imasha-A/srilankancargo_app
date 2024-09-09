@@ -8,9 +8,18 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:srilankancargo_app/about_us_page.dart';
 import 'package:srilankancargo_app/main.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ContactUsPage extends StatelessWidget {
   const ContactUsPage({Key? key}) : super(key: key);
+
+  Future<void> _launchURLYoutube(Uri parse) async {
+    final Uri url =
+        Uri.parse('https://www.youtube.com/channel/UCU_e10UGVQS8JikgDpwvdag');
+    if (!await launchUrl(url)) {
+      throw 'Could not launch $url';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -129,20 +138,63 @@ class ContactUsPage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SocialMediaButton(
-                        svgPath: 'assets/images/youtube_icon.svg',
+                      IconButton(
+                        icon: SvgPicture.asset(
+                          'assets/images/youtube_icon.svg',
+                          height: 42,
+                          width: 40,
+                        ),
+                        onPressed: () {
+                          launchUrl((Uri.parse(
+                              'https://www.youtube.com/channel/UCU_e10UGVQS8JikgDpwvdag')));
+                        },
                       ),
-                      SocialMediaButton(
-                        svgPath: 'assets/images/instagram_icon.svg',
+                      SizedBox(width: 10),
+                      IconButton(
+                        icon: SvgPicture.asset(
+                          'assets/images/instagram_icon.svg',
+                          height: 42,
+                          width: 40,
+                        ),
+                        onPressed: () {
+                          launchUrl((Uri.parse(
+                              'https://www.instagram.com/srilankanairlinesofficial/')));
+                        },
                       ),
-                      SocialMediaButton(
-                        svgPath: 'assets/images/facebook_icon.svg',
+                      SizedBox(width: 10),
+                      IconButton(
+                        icon: SvgPicture.asset(
+                          'assets/images/facebook_icon.svg',
+                          height: 42,
+                          width: 40,
+                        ),
+                        onPressed: () {
+                          launchUrl((Uri.parse(
+                              'https://web.facebook.com/flysrilankan?_rdc=1&_rdr')));
+                        },
                       ),
-                      SocialMediaButton(
-                        svgPath: 'assets/images/x_icon.svg',
+                      SizedBox(width: 10),
+                      IconButton(
+                        icon: SvgPicture.asset(
+                          'assets/images/x_icon.svg',
+                          height: 42,
+                          width: 40,
+                        ),
+                        onPressed: () {
+                          launchUrl((Uri.parse('https://x.com/flysrilankan')));
+                        },
                       ),
-                      SocialMediaButton(
-                        svgPath: 'assets/images/linkedin_icon.svg',
+                      SizedBox(width: 10),
+                      IconButton(
+                        icon: SvgPicture.asset(
+                          'assets/images/linkedin_icon.svg',
+                          height: 42,
+                          width: 40,
+                        ),
+                        onPressed: () {
+                          launchUrl((Uri.parse(
+                              'https://www.linkedin.com/company/flysrilankan/posts/?feedView=all')));
+                        },
                       ),
                     ],
                   ),

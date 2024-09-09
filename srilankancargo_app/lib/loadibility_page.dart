@@ -365,8 +365,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                       fontSize:
                                           customizationValues['fontSize'] ??
                                               14.0,
-                                      color: const Color.fromARGB(
-                                          255, 206, 197, 197),
+                                      color: Color.fromARGB(255, 135, 130, 130),
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -440,7 +439,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                           customizationValues['fontSize'] ??
                                               14.0,
                                       color: const Color.fromARGB(
-                                          255, 206, 197, 197),
+                                          255, 135, 130, 130),
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -514,7 +513,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                           customizationValues['fontSize'] ??
                                               14.0,
                                       color: const Color.fromARGB(
-                                          255, 206, 197, 197),
+                                          255, 135, 130, 130),
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -622,7 +621,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                       fontSize: 14.0,
                                       fontWeight: FontWeight.bold,
                                       color: const Color.fromARGB(
-                                          255, 206, 197, 197),
+                                          255, 135, 130, 130),
                                     ),
                                     hint: Text(
                                       'Select Aircraft Type',
@@ -705,7 +704,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                       fontSize: 14.0,
                                       fontWeight: FontWeight.bold,
                                       color: const Color.fromARGB(
-                                          255, 206, 197, 197),
+                                          255, 135, 130, 130),
                                     ),
                                     hint: Text(
                                       'Select Cargo Hold',

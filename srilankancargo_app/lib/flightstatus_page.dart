@@ -164,6 +164,10 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                               50, // Adjust the height of the TextField wrapper if needed
                           child: TextField(
                             controller: _flightNumberController,
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 135, 130, 130),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14),
                             decoration: InputDecoration(
                               hintText: 'Enter Flight Number',
                               hintStyle: TextStyle(
@@ -218,15 +222,25 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                           onTap: () => _selectDate(context),
                           child: AbsorbPointer(
                             child: TextField(
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 96, 92, 92),
+                                fontWeight: FontWeight.bold,
+                                fontSize:
+                                    12, // Set the input text color to grey
+                              ),
                               decoration: InputDecoration(
                                 hintText: _selectedDate == null
                                     ? 'Select Flight Date'
                                     : "${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}",
                                 hintStyle: TextStyle(
-                                  color: Color.fromARGB(255, 204, 203,
-                                      203), // Change hint text color to red
-                                  fontSize:
-                                      14.0, // Optional: Adjust font size as needed
+                                  color: _selectedDate == null
+                                      ? Color.fromARGB(255, 204, 203,
+                                          203) // Default text color
+                                      : const Color.fromARGB(255, 135, 130,
+                                          130), // Text color when a date is selected
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                  // Optional: Adjust font size as needed
                                 ),
                                 filled: true,
                                 fillColor: Color.fromARGB(255, 245, 245, 245),

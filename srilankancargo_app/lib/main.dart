@@ -6,7 +6,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:srilankancargo_app/about_us_page.dart';
 import 'package:srilankancargo_app/contact_us_page.dart';
+import 'package:srilankancargo_app/storagecalculator_page%20copy.dart';
 import 'package:srilankancargo_app/terms_and_conditions.dart';
+import 'package:srilankancargo_app/volume_calculator.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'schedule_page.dart';
 import 'flightstatus_page.dart';
@@ -312,7 +314,6 @@ class _MyHomePageState extends State<MyHomePage> {
                               left: 30, // Position from the left
                               child: ElevatedButton(
                                 onPressed: () {
-                                  //const url = 'https://www.srilankancargo.com';
                                   launchUrl((Uri.parse(
                                       'https://www.srilankancargo.com')));
                                 },
@@ -495,17 +496,16 @@ class _MyHomePageState extends State<MyHomePage> {
           if (label == 'Storage Calculator') {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => StorageCalculatorPage()),
+              MaterialPageRoute(builder: (context) => StorageCalPage()),
             );
           }
           if (label == 'Volume Calculator') {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => VolumeCalculatorPage()),
+              MaterialPageRoute(builder: (context) => VolumeCalPage()),
             );
           }
           if (label == 'Tracking') {
-            //const url =  'http://www.srilankanskychain.aero/skychain/app?service=page/nwp:Trackshipmt';
             launchUrlTracking((Uri.parse(
                 'http://www.srilankanskychain.aero/skychain/app?service=page/nwp:Trackshipmt')));
           }

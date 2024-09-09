@@ -46,6 +46,8 @@ class VolumeCalPage extends StatefulWidget {
 
 class _VolumeCalPageState extends State<VolumeCalPage> {
   List<UserSelection> userSelections = [];
+  List<Map<String, dynamic>> cargoDetails = [];
+
   double finalTotal = 0;
   final TextEditingController _lengthController = TextEditingController();
   final TextEditingController _widthController = TextEditingController();
@@ -208,15 +210,15 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
     }
 
     // Clear the input fields after calculation
-    _lengthController.clear();
-    _widthController.clear();
-    _heightController.clear();
-    _piecesController.clear();
   }
 
   void clearSelections() {
     setState(() {
       userSelections.clear();
+      _lengthController.clear();
+      _widthController.clear();
+      _heightController.clear();
+      _piecesController.clear();
     });
     print('Selections cleared');
   }
@@ -235,7 +237,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
             left: 0,
             right: 0,
             child: Image.asset(
-              'assets/images/loadability.png',
+              'assets/images/volume_calculator.png',
               fit: BoxFit.cover,
               height: 185,
             ),
@@ -353,7 +355,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                           customizationValues['fontSize'] ??
                                               14.0,
                                       color: const Color.fromARGB(
-                                          255, 206, 197, 197),
+                                          255, 135, 130, 130),
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -427,7 +429,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                           customizationValues['fontSize'] ??
                                               14.0,
                                       color: const Color.fromARGB(
-                                          255, 206, 197, 197),
+                                          255, 135, 130, 130),
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -501,7 +503,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                           customizationValues['fontSize'] ??
                                               14.0,
                                       color: const Color.fromARGB(
-                                          255, 206, 197, 197),
+                                          255, 135, 130, 130),
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -551,14 +553,14 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                             children: [
                               Expanded(
                                 flex:
-                                    3, // Occupies 3 parts of the available space
+                                    2, // Occupies 3 parts of the available space
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16.0),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 0),
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: Color(
-                                          0xFFE0E0E0), // Light gray background color
+                                      color: Color.fromARGB(255, 206, 197,
+                                          197), // Light gray background color
                                       borderRadius: BorderRadius.circular(
                                           8.0), // Optional: rounded corners
                                     ),
@@ -600,7 +602,8 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                     ),
                                     style: TextStyle(
                                       fontSize: 14.0,
-                                      color: Color(0xFF333333), // Text color
+                                      color: Color.fromARGB(
+                                          255, 135, 130, 130), // Text color
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -644,7 +647,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                               // Existing Submit Button
                               ElevatedButton(
                                 onPressed: () {
-                                  // Implement action for the new button here
+                                  calculateVolume();
                                 },
                                 style: ElevatedButton.styleFrom(
                                   padding: EdgeInsets.symmetric(
@@ -666,6 +669,58 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                               ),
                             ],
                           ),
+                        ),
+                        const SizedBox(height: 50),
+                        const Text(
+                          'Details Per Cargo',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w900,
+                            color: Color.fromARGB(255, 28, 31, 106),
+                          ),
+                        ),
+                        ListView.builder(
+                          shrinkWrap:
+                              true, // Ensures it takes up only as much space as needed
+                          physics:
+                              NeverScrollableScrollPhysics(), // Prevents internal scrolling
+                          itemCount:
+                              cargoDetails.length, // Number of cargo entries
+                          itemBuilder: (context, index) {
+                            var cargo =
+                                cargoDetails[index]; // Get each cargo's details
+
+                            // Returning a card for each cargo entry
+                            return Card(
+                              margin: EdgeInsets.symmetric(vertical: 8.0),
+                              child: ExpansionTile(
+                                title: Text('Cargo ${cargo['pieces']} pcs'),
+                                trailing: Icon(
+                                  Icons.expand_more, // Arrow icon for expansion
+                                  color: Colors.black,
+                                ),
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text('Length: ${cargo['length']} cm'),
+                                        Text('Width: ${cargo['width']} cm'),
+                                        Text('Height: ${cargo['height']} cm'),
+                                        Text('Pieces: ${cargo['pieces']}'),
+                                        Text(
+                                            'Volume (CBM): ${cargo['cbm'].toStringAsFixed(2)} m³'),
+                                        Text(
+                                            'Total CBM: ${cargo['finalCbm'].toStringAsFixed(2)} m³'),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),
