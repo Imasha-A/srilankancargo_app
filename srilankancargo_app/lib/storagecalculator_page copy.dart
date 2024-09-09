@@ -245,6 +245,32 @@ class _StorageCalPageState extends State<StorageCalPage> {
     return customizationValues;
   }
 
+  TableRow _buildTableRow(String description, double value) {
+    return TableRow(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4.0),
+          child: Text(
+            description,
+            style: TextStyle(
+                color: Color.fromARGB(
+                    255, 28, 31, 106)), // Blue color for descriptions
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4.0),
+          child: Text(
+            value.toStringAsFixed(2),
+            textAlign: TextAlign.right,
+            style: TextStyle(
+                color:
+                    Color.fromARGB(255, 28, 31, 106)), // Blue color for charges
+          ),
+        ),
+      ],
+    );
+  }
+
   Future<void> _selectedDate(BuildContext context, bool isArrivalDate) async {
     if (isArrivalDate) {
       // For Arrival Date
@@ -481,15 +507,6 @@ class _StorageCalPageState extends State<StorageCalPage> {
 
     finalCharge = finalCharge + socialSecurityContributionLevy + VAT;
 
-    print('Documentation Charge: \Rs. ${documentationCharge}');
-    print('Handling Charge: \Rs. ${handlingCharge}');
-    print('Storage Charge: \Rs. ${storageCharge}');
-    print('Old cargo charges: \Rs. ${oldCargoCharges}');
-    print(
-        'Social security contribution levy: \Rs. ${socialSecurityContributionLevy}');
-    print('VAT: \Rs. ${VAT}');
-    print('Final Charges: \Rs. ${finalCharge}');
-
     final userSelection = UserSelection(
       arrivalDate: _arrivalDate!,
       clearingDate: _clearingDate!,
@@ -504,31 +521,108 @@ class _StorageCalPageState extends State<StorageCalPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Charges Breakdown'),
+            title: Center(
+              child: Text(
+                'Storage Charge',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  color: Color.fromARGB(255, 28, 31, 106),
+                ),
+              ),
+            ),
             content: SingleChildScrollView(
-              child: ListBody(
-                children: <Widget>[
-                  Text(
-                      'Documentation Charge: \Rs. ${documentationCharge.toStringAsFixed(2)}'),
-                  Text(
-                      'Handling Charge: \Rs. ${handlingCharge.toStringAsFixed(2)}'),
-                  Text(
-                      'Storage Charge: \Rs. ${storageCharge.toStringAsFixed(2)}'),
-                  Text(
-                      'Old Cargo Charges: \Rs. ${oldCargoCharges.toStringAsFixed(2)}'),
-                  Text(
-                      'Social Security Contribution Levy: \Rs. ${socialSecurityContributionLevy.toStringAsFixed(2)}'),
-                  Text('VAT: \Rs. ${VAT.toStringAsFixed(2)}'),
-                  Text('Final Charges: \Rs. ${finalCharge.toStringAsFixed(2)}'),
+              child: Column(
+                children: [
+                  Table(
+                    columnWidths: {
+                      0: FlexColumnWidth(2),
+                      1: FlexColumnWidth(1),
+                    },
+                    children: [
+                      const TableRow(
+                        children: [
+                          Text(
+                            'Description',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                              color: Color.fromARGB(255, 28, 31, 106),
+                            ),
+                          ),
+                          Text(
+                            'Price (LKR)',
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                              color: Color.fromARGB(255, 28, 31, 106),
+                            ),
+                          ),
+                        ],
+                      ),
+                      _buildTableRow(
+                          'Documentation Charge', documentationCharge),
+                      _buildTableRow('Handling Charge', handlingCharge),
+                      _buildTableRow('Storage Charge', storageCharge),
+                      _buildTableRow('Old Cargo Charge', oldCargoCharges),
+                      _buildTableRow(
+                          'SSC Levy', socialSecurityContributionLevy),
+                      _buildTableRow('VAT', VAT),
+                    ],
+                  ),
+                  SizedBox(height: 5),
+                  Divider(
+                    thickness: 1,
+                    color: Color.fromARGB(255, 28, 31, 106),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Final Charges',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: Color.fromARGB(255, 28, 31, 106),
+                        ),
+                      ),
+                      Text(
+                        '${finalCharge.toStringAsFixed(2)}',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: Color.fromARGB(255, 28, 31, 106),
+                        ),
+                        textAlign: TextAlign.right,
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
             actions: <Widget>[
-              TextButton(
-                child: Text('OK'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
+              Center(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(horizontal: 102),
+                    backgroundColor:
+                        Color.fromARGB(255, 28, 31, 106), // Blue fill
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: Text(
+                    'Close',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
               ),
             ],
           );
@@ -545,14 +639,47 @@ class _StorageCalPageState extends State<StorageCalPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Incomplete Form'),
-          content: Text("Please fill all the fields."),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          title: Text(
+            'Incomplete Form',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Color.fromARGB(255, 28, 31, 106),
+              fontWeight: FontWeight.bold,
+              fontSize: 22,
+            ),
+          ),
+          content: Text(
+            "Please fill all the fields.",
+            textAlign: TextAlign.center,
+          ),
           actions: <Widget>[
-            TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text('OK')),
+            Center(
+              child: SizedBox(
+                width: 250, // Set the desired width
+                height: 50, // Set the desired height
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    'OK',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
+                  ),
+                  style: TextButton.styleFrom(
+                    backgroundColor: Color.fromARGB(255, 28, 31, 106),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ],
         );
       },
@@ -682,10 +809,14 @@ class _StorageCalPageState extends State<StorageCalPage> {
                         ),
                         Container(
                           width: double.infinity,
-                          margin: EdgeInsets.only(top: 10.0),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8.0),
-                            color: Colors.grey[100],
+                            color: const Color.fromARGB(255, 245, 245, 245),
+                            border: Border.all(
+                              color: Color.fromARGB(
+                                  255, 204, 203, 203), // Grey border color
+                              width: 1.0, // Border width of 1
+                            ),
                           ),
                           child: Padding(
                             padding:
@@ -737,10 +868,14 @@ class _StorageCalPageState extends State<StorageCalPage> {
                         ),
                         Container(
                           width: double.infinity,
-                          margin: EdgeInsets.only(top: 10.0),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8.0),
-                            color: Colors.grey[100],
+                            color: Color.fromARGB(255, 245, 245, 245),
+                            border: Border.all(
+                              color: Color.fromARGB(
+                                  255, 204, 203, 203), // Grey border color
+                              width: 1.0, // Border width of 1
+                            ),
                           ),
                           child: Padding(
                             padding:
@@ -783,6 +918,104 @@ class _StorageCalPageState extends State<StorageCalPage> {
                             ),
                           ),
                         ),
+                        SizedBox(height: 10.0),
+                        Text(
+                          'Chargeable Weight',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w900,
+                            color: Color.fromARGB(255, 28, 31, 106),
+                          ),
+                        ),
+                        Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.0),
+                            color: Color.fromARGB(255, 245, 245, 245),
+                            border: Border.all(
+                              color: Color.fromARGB(
+                                  255, 204, 203, 203), // Grey border color
+                              width: 1.0, // Border width of 1
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              // TextFormField for input
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0),
+                                  child: TextFormField(
+                                    controller: _weightController,
+                                    decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.symmetric(
+                                        vertical:
+                                            18.0, // Center the text vertically
+                                        horizontal: 8.0,
+                                      ),
+                                      hintText:
+                                          'Chargeable Weight', // Text inside the field that goes away when typing
+                                      hintStyle: TextStyle(
+                                        color: const Color.fromARGB(
+                                            255, 204, 203, 203),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize:
+                                            customizationValues['fontSize'] ??
+                                                14.0,
+                                      ),
+                                      border: InputBorder.none,
+                                      errorText: _weightErrorMessage,
+                                    ),
+                                    style: TextStyle(
+                                      fontSize:
+                                          customizationValues['fontSize'] ??
+                                              14.0,
+                                      color: const Color.fromARGB(
+                                          255, 135, 130, 130),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    keyboardType:
+                                        TextInputType.numberWithOptions(
+                                            decimal: true),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _weightErrorMessage = double.tryParse(
+                                                    value) ==
+                                                null
+                                            ? 'Invalid number. Please try again.'
+                                            : null;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ),
+                              // Box with "kg" on the right
+                              Container(
+                                height:
+                                    57.0, // Set smaller height for the kg box to match the reduced input field height
+                                padding: EdgeInsets.symmetric(horizontal: 12.0),
+                                decoration: BoxDecoration(
+                                  color: Color.fromARGB(255, 170, 170,
+                                      170), // Darker grey background
+                                  borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(8.0),
+                                    bottomRight: Radius.circular(8.0),
+                                  ),
+                                ),
+                                alignment:
+                                    Alignment.center, // Center the 'kg' text
+                                child: Text(
+                                  'kg',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14.0,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                         const SizedBox(height: 10),
                         Text(
                           'Room Type',
@@ -795,7 +1028,12 @@ class _StorageCalPageState extends State<StorageCalPage> {
                           width: double.infinity,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8.0),
-                            color: Colors.grey[100],
+                            color: Color.fromARGB(255, 245, 245, 245),
+                            border: Border.all(
+                              color: Color.fromARGB(
+                                  255, 204, 203, 203), // Grey border color
+                              width: 1.0, // Border width of 1
+                            ),
                           ),
                           child: Padding(
                             padding:
@@ -834,12 +1072,24 @@ class _StorageCalPageState extends State<StorageCalPage> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 14.0),
+                        SizedBox(height: 10.0),
+                        Text(
+                          'Tax Type',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w900,
+                              color: Color.fromARGB(255, 28, 31, 106)),
+                        ),
                         Container(
                           width: double.infinity,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8.0),
-                            color: Colors.grey[100],
+                            color: const Color.fromARGB(255, 245, 245, 245),
+                            border: Border.all(
+                              color: Color.fromARGB(
+                                  255, 204, 203, 203), // Grey border color
+                              width: 1.0, // Border width of 1
+                            ),
                           ),
                           child: Padding(
                             padding:
@@ -875,14 +1125,24 @@ class _StorageCalPageState extends State<StorageCalPage> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 14.0),
+                        SizedBox(height: 10.0),
+                        Text(
+                          'Cargo Type',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w900,
+                              color: Color.fromARGB(255, 28, 31, 106)),
+                        ),
                         Container(
                           width: double.infinity,
-                          margin: EdgeInsets.symmetric(horizontal: 0.5),
-                          padding: EdgeInsets.all(16.0),
+                          padding: EdgeInsets.symmetric(horizontal: 15),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8.0),
                             color: Colors.grey[100],
+                            border: Border.all(
+                                color: Color.fromARGB(
+                                    255, 204, 203, 203), // Grey border color
+                                width: 1.0),
                           ),
                           child: Transform.translate(
                             offset: Offset(-1.0, 0.0),
@@ -936,50 +1196,6 @@ class _StorageCalPageState extends State<StorageCalPage> {
                           ),
                         ),
                         SizedBox(height: 14.0),
-                        Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.0),
-                            color: Colors.grey[100],
-                          ),
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 12.0),
-                            child: TextFormField(
-                                controller: _weightController,
-                                decoration: InputDecoration(
-                                  labelText: 'Chargeable Weight',
-                                  floatingLabelBehavior:
-                                      FloatingLabelBehavior.never,
-                                  labelStyle: TextStyle(
-                                      color: const Color.fromARGB(
-                                          255, 204, 203, 203),
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:
-                                          customizationValues['fontSize'] ??
-                                              14.0),
-                                  border: InputBorder.none,
-                                  errorText: _weightErrorMessage,
-                                ),
-                                style: TextStyle(
-                                    fontSize:
-                                        customizationValues['fontSize'] ?? 14.0,
-                                    color: const Color.fromARGB(
-                                        255, 135, 130, 130),
-                                    fontWeight: FontWeight.bold),
-                                keyboardType: TextInputType.numberWithOptions(
-                                    decimal: true),
-                                onChanged: (value) {
-                                  setState(() {
-                                    _weightErrorMessage = double.tryParse(
-                                                value) ==
-                                            null
-                                        ? 'Invalid number. Please try again.'
-                                        : null;
-                                  });
-                                }),
-                          ),
-                        ),
                         Center(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
