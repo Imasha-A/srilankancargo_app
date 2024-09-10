@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:srilankancargo_app/about_us_page.dart';
 import 'package:srilankancargo_app/contact_us_page.dart';
-import 'package:srilankancargo_app/storagecalculator_page%20copy.dart';
+import 'package:srilankancargo_app/storagecalculator_page.dart';
 import 'package:srilankancargo_app/terms_and_conditions.dart';
 import 'package:srilankancargo_app/volume_calculator.dart';
 import 'package:url_launcher/url_launcher.dart';

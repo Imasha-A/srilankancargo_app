@@ -3,6 +3,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:srilankancargo_app/about_us_page.dart';
 import 'package:srilankancargo_app/contact_us_page.dart';
 import 'package:srilankancargo_app/main.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:xml/xml.dart' as xml;
 
 class FlightStatusPage extends StatefulWidget {
   @override
@@ -12,6 +15,8 @@ class FlightStatusPage extends StatefulWidget {
 class _FlightStatusPageState extends State<FlightStatusPage> {
   final TextEditingController _flightNumberController = TextEditingController();
   DateTime? _selectedDate;
+  String? _flightStatus; // To hold flight status information
+  bool _isLoading = false; // Loading indicator
 
   Map<String, double> customizeFormCard(double screenWidth) {
     Map<String, double> customizationValues = {};
@@ -68,6 +73,129 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
       setState(() {
         _selectedDate = picked;
       });
+  }
+
+  Future<void> fetchFlightStatus() async {
+    final RegExp flightNumberReg = RegExp(r'^[A-Z]{2}\d{1,4}$');
+
+    if (_flightNumberController.text.isEmpty && _selectedDate == null) {
+      _showAlert('Incomplete Form',
+          'Please enter valid flight number and select date');
+      return;
+    } else if (_flightNumberController.text.isEmpty) {
+      _showAlert('Incomplete Form', 'Please enter valid flight number.');
+      return;
+    } else if (!flightNumberReg.hasMatch(_flightNumberController.text)) {
+      _showAlert('Invalid Flight Number', 'Please enter valid flight number.');
+      return;
+    } else if (_selectedDate == null) {
+      _showAlert('Incomplete Form', 'Please select date');
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    String flightNo = _flightNumberController.text;
+    String flightDate =
+        "${_selectedDate!.month}/${_selectedDate!.day}/${_selectedDate!.year}";
+
+    String url =
+        "https://ulmobservicesstg.srilankan.com/ULMOBTEAMSERVICES/api/CARGOUL/FLTSTA?FlightNo=$flightNo&FlightDate=$flightDate";
+
+    try {
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+
+        if (data.isNotEmpty) {
+          var flightInfo = data[0];
+
+          String message = '''Flight Number: ${flightInfo['Flight_No']}
+Flight Date: ${flightInfo['FlightDate']}
+Sector: ${flightInfo['Sector']}
+Scheduled Time: ${flightInfo['Schedultime']}''';
+          String heading = ''' ${flightInfo['Stauts']}''';
+
+          _showAlert(heading, message);
+        } else {
+          _showAlert(
+              'No Flight Data', 'No flight status information available.');
+        }
+      } else {
+        _showAlert('Failed to Fetch Data',
+            'Server returned status code ${response.statusCode}.');
+      }
+    } catch (e) {
+      _showAlert('Error', 'Error fetching flight status: $e');
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  void _showAlert(String title, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(23.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 22.0,
+                    fontWeight: FontWeight.bold,
+                    color: const Color.fromARGB(255, 28, 31, 106),
+                  ),
+                ),
+                SizedBox(height: 10.0),
+                Text(
+                  message,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    color: const Color.fromARGB(255, 28, 31, 106),
+                  ),
+                ),
+                SizedBox(height: 15.0),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 28, 31, 106),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 15.0),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(
+                      'Close',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -273,27 +401,42 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                           ),
                         ),
                         SizedBox(height: 20),
-                        Center(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              // Implement submit action here
-                            },
-                            style: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 135, vertical: 10),
-                              backgroundColor: Color.fromARGB(255, 28, 31, 106),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            child: Text(
-                              'Submit',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Color.fromARGB(255, 255, 255, 255)),
+
+                        ElevatedButton(
+                          onPressed:
+                              fetchFlightStatus, // Call fetchFlightStatus on submit
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 135, vertical: 10),
+                            backgroundColor: Color.fromARGB(255, 28, 31, 106),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
                             ),
                           ),
+                          child: _isLoading
+                              ? CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      Colors.white),
+                                )
+                              : Text(
+                                  'Submit',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                  ),
+                                ),
                         ),
+                        SizedBox(height: 20),
+                        // Display flight status
+                        if (_flightStatus != null)
+                          Text(
+                            _flightStatus!,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          ),
                       ],
                     ),
                   ),
