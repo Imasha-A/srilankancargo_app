@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:srilankancargo_app/about_us_page.dart';
 import 'package:srilankancargo_app/contact_us_page.dart';
 import 'package:srilankancargo_app/main.dart';
+import 'package:intl/intl.dart';
 
 class FlightSchedulePage extends StatefulWidget {
   @override
@@ -131,7 +132,7 @@ class _FlightSchedulePageState extends State<FlightSchedulePage> {
                     ),
                   ),
 
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   // Inner White Card with the Flight Form
                   Container(
                     decoration: BoxDecoration(
@@ -286,6 +287,7 @@ class _FlightSchedulePageState extends State<FlightSchedulePage> {
                           ),
                         ),
                         SizedBox(height: 15),
+                        SizedBox(height: 15),
                         Text(
                           'Flight Date',
                           style: TextStyle(
@@ -300,8 +302,9 @@ class _FlightSchedulePageState extends State<FlightSchedulePage> {
                             child: TextField(
                               decoration: InputDecoration(
                                 hintText: _selectedDate == null
-                                    ? 'Select Flight Date'
-                                    : "${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}",
+                                    ? 'MM/DD/YYYY'
+                                    : DateFormat('MM/dd/yyyy')
+                                        .format(_selectedDate!),
                                 hintStyle: TextStyle(
                                   color: _selectedDate == null
                                       ? Color.fromARGB(255, 204, 203,
@@ -342,6 +345,7 @@ class _FlightSchedulePageState extends State<FlightSchedulePage> {
                             ),
                           ),
                         ),
+                        SizedBox(height: 20),
                         SizedBox(height: 20),
                         Center(
                           child: ElevatedButton(

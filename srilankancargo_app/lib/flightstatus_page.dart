@@ -132,7 +132,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                     ),
                   ),
 
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   // Inner White Card with the Flight Form
                   Container(
                     decoration: BoxDecoration(

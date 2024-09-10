@@ -173,18 +173,52 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
       // Show an alert if any of the values are invalid
       showDialog(
         context: context,
-        builder: (context) => AlertDialog(
-          title: Text('Invalid Input'),
-          content: Text('Please enter valid values for all fields.'),
-          actions: <Widget>[
-            TextButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.0),
             ),
-          ],
-        ),
+            title: Text(
+              'Incomplete Form ',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Color.fromARGB(255, 28, 31, 106),
+                fontWeight: FontWeight.bold,
+                fontSize: 22,
+              ),
+            ),
+            content: Text(
+              "Please fill all the fields.",
+              textAlign: TextAlign.center,
+            ),
+            actions: <Widget>[
+              Center(
+                child: SizedBox(
+                  width: 250, // Set the desired width
+                  height: 50, // Set the desired height
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(
+                      'OK',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                    style: TextButton.styleFrom(
+                      backgroundColor: Color.fromARGB(255, 28, 31, 106),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
       );
       return;
     }
@@ -212,6 +246,14 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
     // Clear the input fields after calculation
   }
 
+  double calculateTotalCBM(List<UserSelection> selections) {
+    double totalCBM = 0;
+    for (var selection in selections) {
+      totalCBM += selection.finalTotal; // Accumulate the final CBM values
+    }
+    return totalCBM;
+  }
+
   void clearSelections() {
     setState(() {
       userSelections.clear();
@@ -227,6 +269,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     Map<String, dynamic> customizationValues = customizeFormCard(screenWidth);
+    double totalCBM = calculateTotalCBM(userSelections);
 
     return Scaffold(
       body: Stack(
@@ -285,7 +328,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                     ),
                   ),
 
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   // Inner White Card with the Flight Form
                   Container(
                     decoration: BoxDecoration(
@@ -534,9 +577,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                             ],
                           ),
                         ),
-                        SizedBox(
-                          height: 14,
-                        ),
+                        SizedBox(height: 10),
                         Container(
                           constraints: BoxConstraints(
                             maxHeight: 45, // Controls the height
@@ -612,121 +653,219 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                             ],
                           ),
                         ),
-                        SizedBox(
-                          height: 14,
-                        ),
+                        SizedBox(height: 10),
                         Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              calculateVolume();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 125, vertical: 10),
+                              backgroundColor: Color.fromARGB(255, 28, 31, 106),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            child: Text(
+                              'Calculate',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Color.fromARGB(255, 255, 255, 255)),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Container(
+                          height: 250, // Adjust height as needed
+                          padding: EdgeInsets.all(0), // Padding for container
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              ElevatedButton(
-                                onPressed: clearSelections,
-                                style: ElevatedButton.styleFrom(
-                                  foregroundColor:
-                                      Color.fromARGB(255, 28, 31, 106),
-                                  backgroundColor: Colors.white,
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 52,
-                                      vertical: 10), // White fill
-                                  side: BorderSide(
-                                      color: Color.fromARGB(255, 28, 31, 106),
-                                      width: 1), // Blue border
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ), // Text color
+                              Text(
+                                'Details per Cargo',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromARGB(255, 28, 31, 106),
                                 ),
-                                child: Text(
-                                  'Clear',
-                                  style: TextStyle(
+                              ),
+
+                              Expanded(
+                                child: ListView.builder(
+                                  padding: EdgeInsets.zero,
+                                  itemCount: userSelections.length,
+                                  itemBuilder: (context, index) {
+                                    final selection = userSelections[index];
+                                    return Container(
+                                      margin: EdgeInsets.symmetric(
+                                        vertical: 5,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(3),
+                                        color: Colors.grey[200],
+                                      ),
+                                      child: ExpansionTile(
+                                        tilePadding: EdgeInsets.symmetric(
+                                            horizontal:
+                                                10), // Padding for layout
+                                        title: Text(
+                                          'Cargo ${index + 1}',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w700,
+                                              color: Color.fromARGB(
+                                                  255, 51, 51, 51)),
+                                        ),
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(
+                                                0.2), // Padding inside expanded tile
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Expanded(
+                                                      child: Align(
+                                                        alignment: Alignment
+                                                            .centerLeft,
+                                                        child: Text(
+                                                          'Length: ${selection.length} cm',
+                                                          style: TextStyle(
+                                                              fontSize: 11),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      child: Align(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        child: Text(
+                                                          'Width: ${selection.width} cm',
+                                                          style: TextStyle(
+                                                              fontSize: 11),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      child: Align(
+                                                        alignment: Alignment
+                                                            .centerRight,
+                                                        child: Text(
+                                                          'Height: ${selection.height} cm',
+                                                          style: TextStyle(
+                                                              fontSize: 11),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(height: 5),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Expanded(
+                                                      child: Align(
+                                                        alignment: Alignment
+                                                            .centerLeft,
+                                                        child: Text(
+                                                          'Pieces: ${selection.numberOfPieces}',
+                                                          style: TextStyle(
+                                                              fontSize: 11),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      child: Align(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        child: Text(
+                                                          'CBM: ${selection.total.toStringAsFixed(3)} m³',
+                                                          style: TextStyle(
+                                                              fontSize: 11),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      child: Align(
+                                                        alignment: Alignment
+                                                            .centerRight,
+                                                        child: Text(
+                                                          'Final CBM: ${selection.finalTotal.toStringAsFixed(3)} m³',
+                                                          style: TextStyle(
+                                                              fontSize: 11),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                              Divider(), // Add a line divider above the total and button section
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: clearSelections,
+                                    style: ElevatedButton.styleFrom(
+                                      foregroundColor:
+                                          Color.fromARGB(255, 28, 31, 106),
+                                      backgroundColor: Colors.white,
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 52,
+                                          vertical: 5), // White fill
+                                      side: BorderSide(
+                                          color:
+                                              Color.fromARGB(255, 28, 31, 106),
+                                          width: 1), // Blue border
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ), // Text color
+                                    ),
+                                    child: Text(
+                                      'Clear',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color:
+                                              Color.fromARGB(255, 28, 31, 106)),
+                                    ),
+                                  ),
+                                  Text(
+                                    'Total: ${totalCBM.toStringAsFixed(3)} m³',
+                                    style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
-                                      color: Color.fromARGB(255, 28, 31, 106)),
-                                ),
-                              ),
-                              const SizedBox(width: 8), // Space between buttons
-                              // Existing Submit Button
-                              ElevatedButton(
-                                onPressed: () {
-                                  calculateVolume();
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 52, vertical: 10),
-                                  backgroundColor: Color.fromARGB(
-                                      255, 28, 31, 106), // Blue fill
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                                child: Text(
-                                  'Calculate',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Color.fromARGB(
-                                        255, 255, 255, 255), // White text color
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 50),
-                        const Text(
-                          'Details Per Cargo',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w900,
-                            color: Color.fromARGB(255, 28, 31, 106),
-                          ),
-                        ),
-                        ListView.builder(
-                          shrinkWrap:
-                              true, // Ensures it takes up only as much space as needed
-                          physics:
-                              NeverScrollableScrollPhysics(), // Prevents internal scrolling
-                          itemCount:
-                              cargoDetails.length, // Number of cargo entries
-                          itemBuilder: (context, index) {
-                            var cargo =
-                                cargoDetails[index]; // Get each cargo's details
-
-                            // Returning a card for each cargo entry
-                            return Card(
-                              margin: EdgeInsets.symmetric(vertical: 8.0),
-                              child: ExpansionTile(
-                                title: Text('Cargo ${cargo['pieces']} pcs'),
-                                trailing: Icon(
-                                  Icons.expand_more, // Arrow icon for expansion
-                                  color: Colors.black,
-                                ),
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text('Length: ${cargo['length']} cm'),
-                                        Text('Width: ${cargo['width']} cm'),
-                                        Text('Height: ${cargo['height']} cm'),
-                                        Text('Pieces: ${cargo['pieces']}'),
-                                        Text(
-                                            'Volume (CBM): ${cargo['cbm'].toStringAsFixed(2)} m³'),
-                                        Text(
-                                            'Total CBM: ${cargo['finalCbm'].toStringAsFixed(2)} m³'),
-                                      ],
+                                      color: Color.fromARGB(255, 28, 31, 106),
                                     ),
                                   ),
                                 ],
                               ),
-                            );
-                          },
+                            ],
+                          ),
                         ),
                       ],
                     ),
                   ),
-
-                  const SizedBox(height: 500),
                 ],
               ),
             ),
