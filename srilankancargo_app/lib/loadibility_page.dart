@@ -368,6 +368,9 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                       color: Color.fromARGB(255, 135, 130, 130),
                                       fontWeight: FontWeight.bold,
                                     ),
+                                    keyboardType:
+                                        TextInputType.numberWithOptions(
+                                            decimal: true),
                                   ),
                                 ),
                               ),
@@ -442,6 +445,9 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                           255, 135, 130, 130),
                                       fontWeight: FontWeight.bold,
                                     ),
+                                    keyboardType:
+                                        TextInputType.numberWithOptions(
+                                            decimal: true),
                                   ),
                                 ),
                               ),
@@ -516,6 +522,9 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                           255, 135, 130, 130),
                                       fontWeight: FontWeight.bold,
                                     ),
+                                    keyboardType:
+                                        TextInputType.numberWithOptions(
+                                            decimal: true),
                                   ),
                                 ),
                               ),

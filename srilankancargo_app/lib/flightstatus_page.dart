@@ -76,7 +76,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
   }
 
   Future<void> fetchFlightStatus() async {
-    final RegExp flightNumberReg = RegExp(r'^[A-Z]{2}\d{1,4}$');
+    final RegExp flightNumberReg = RegExp(r'^[a-zA-Z]{2}\d{1,4}$');
 
     if (_flightNumberController.text.isEmpty && _selectedDate == null) {
       _showAlert('Incomplete Form',
@@ -97,7 +97,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
       _isLoading = true;
     });
 
-    String flightNo = _flightNumberController.text;
+    String flightNo = _flightNumberController.text.toUpperCase();
     String flightDate =
         "${_selectedDate!.month}/${_selectedDate!.day}/${_selectedDate!.year}";
 
@@ -297,7 +297,7 @@ Scheduled Time: ${flightInfo['Schedultime']}''';
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14),
                             decoration: InputDecoration(
-                              hintText: 'Enter Flight Number',
+                              hintText: 'Enter Flight Number (Ex: UL225)',
                               hintStyle: TextStyle(
                                 color: Color.fromARGB(255, 204, 203,
                                     203), // Change hint text color to red

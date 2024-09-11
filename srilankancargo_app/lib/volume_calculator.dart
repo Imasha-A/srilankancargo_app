@@ -242,7 +242,10 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
     for (var selection in userSelections) {
       print(selection);
     }
-
+    _lengthController.clear();
+    _widthController.clear();
+    _heightController.clear();
+    _piecesController.clear();
     // Clear the input fields after calculation
   }
 
@@ -401,6 +404,9 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                           255, 135, 130, 130),
                                       fontWeight: FontWeight.bold,
                                     ),
+                                    keyboardType:
+                                        TextInputType.numberWithOptions(
+                                            decimal: true),
                                   ),
                                 ),
                               ),
@@ -475,6 +481,9 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                           255, 135, 130, 130),
                                       fontWeight: FontWeight.bold,
                                     ),
+                                    keyboardType:
+                                        TextInputType.numberWithOptions(
+                                            decimal: true),
                                   ),
                                 ),
                               ),
@@ -549,6 +558,9 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                           255, 135, 130, 130),
                                       fontWeight: FontWeight.bold,
                                     ),
+                                    keyboardType:
+                                        TextInputType.numberWithOptions(
+                                            decimal: true),
                                   ),
                                 ),
                               ),
@@ -580,7 +592,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                         SizedBox(height: 10),
                         Container(
                           constraints: BoxConstraints(
-                            maxHeight: 45, // Controls the height
+                            maxHeight: 42, // Controls the height
                           ),
                           decoration: BoxDecoration(
                             border: Border.all(
@@ -647,6 +659,9 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                           255, 135, 130, 130), // Text color
                                       fontWeight: FontWeight.bold,
                                     ),
+                                    keyboardType:
+                                        TextInputType.numberWithOptions(
+                                            decimal: true),
                                   ),
                                 ),
                               ),
@@ -771,14 +786,21 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                 ),
                                                 SizedBox(height: 5),
                                                 Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment
+                                                          .center, // Center items vertically
                                                   mainAxisAlignment:
                                                       MainAxisAlignment
-                                                          .spaceBetween,
+                                                          .start, // Align items to the left
                                                   children: [
-                                                    Expanded(
-                                                      child: Align(
-                                                        alignment: Alignment
-                                                            .centerLeft,
+                                                    Align(
+                                                      alignment: Alignment
+                                                          .centerLeft, // Align text to the left
+                                                      child: Padding(
+                                                        padding: const EdgeInsets
+                                                            .only(
+                                                            right:
+                                                                20.0), // Add padding if needed
                                                         child: Text(
                                                           'Pieces: ${selection.numberOfPieces}',
                                                           style: TextStyle(
@@ -786,30 +808,25 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                         ),
                                                       ),
                                                     ),
-                                                    Expanded(
-                                                      child: Align(
-                                                        alignment:
-                                                            Alignment.center,
-                                                        child: Text(
-                                                          'CBM: ${selection.total.toStringAsFixed(3)} m³',
-                                                          style: TextStyle(
-                                                              fontSize: 11),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      child: Align(
-                                                        alignment: Alignment
-                                                            .centerRight,
-                                                        child: Text(
-                                                          'Final CBM: ${selection.finalTotal.toStringAsFixed(3)} m³',
-                                                          style: TextStyle(
-                                                              fontSize: 11),
+                                                    SizedBox(
+                                                        width:
+                                                            20), // Add space between texts if needed
+                                                    Align(
+                                                      alignment: Alignment
+                                                          .centerLeft, // Align text to the left
+                                                      child: Text(
+                                                        'Cubic cm: ${selection.finalTotal.toStringAsFixed(4)} cm³',
+                                                        style: TextStyle(
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Color.fromARGB(
+                                                              255, 28, 31, 106),
                                                         ),
                                                       ),
                                                     ),
                                                   ],
-                                                ),
+                                                )
                                               ],
                                             ),
                                           ),
@@ -851,7 +868,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                     ),
                                   ),
                                   Text(
-                                    'Total: ${totalCBM.toStringAsFixed(3)} m³',
+                                    'Total: ${totalCBM.toStringAsFixed(4)} cm³',
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,

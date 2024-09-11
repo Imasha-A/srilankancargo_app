@@ -4,6 +4,12 @@ import 'package:srilankancargo_app/about_us_page.dart';
 import 'package:srilankancargo_app/contact_us_page.dart';
 import 'package:srilankancargo_app/main.dart';
 import 'package:intl/intl.dart';
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+import 'dart:io';
+import 'package:http/io_client.dart';
 
 class FlightSchedulePage extends StatefulWidget {
   @override
@@ -11,8 +17,58 @@ class FlightSchedulePage extends StatefulWidget {
 }
 
 class _FlightSchedulePageState extends State<FlightSchedulePage> {
-  final TextEditingController _flightNumberController = TextEditingController();
+  final TextEditingController _originCountryController =
+      TextEditingController();
+  final TextEditingController _destinationCountryController =
+      TextEditingController();
   DateTime? _selectedDate;
+  List<dynamic> _allCountries = [];
+  List<dynamic> _filteredCountries = [];
+  TextEditingController _searchController = TextEditingController();
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchCountries();
+    _searchController.addListener(() {
+      filterCountries();
+    });
+  }
+
+  Future<http.Client> createHttpClient() async {
+    final ioc = new HttpClient();
+    ioc.badCertificateCallback =
+        (X509Certificate cert, String host, int port) => true;
+    return IOClient(ioc);
+  }
+
+  Future<void> fetchCountries() async {
+    final client = await createHttpClient(); // Use the custom client here
+
+    final response = await client.get(Uri.parse(
+        'https://ulmobservicestest.srilankan.com/ulrest/data/localdataC.js'));
+
+    if (response.statusCode == 200) {
+      setState(() {
+        _allCountries = json.decode(response.body);
+        _filteredCountries = _allCountries;
+        sortCountries();
+      });
+    } else {
+      throw Exception('Failed to load countries');
+    }
+  }
+
+  // Filter the list based on search input
+  void filterCountries() {
+    String query = _searchController.text.toLowerCase();
+    setState(() {
+      _filteredCountries = _allCountries
+          .where((country) => country['name'].toLowerCase().contains(query))
+          .toList();
+    });
+  }
 
   Map<String, double> customizeFormCard(double screenWidth) {
     Map<String, double> customizationValues = {};
@@ -69,6 +125,214 @@ class _FlightSchedulePageState extends State<FlightSchedulePage> {
       setState(() {
         _selectedDate = picked;
       });
+  }
+
+// Scrollable Alert dialog for displaying flight information
+  void _showScrollableAlert(String title, List<String> flightDetails) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(23.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 22.0,
+                    fontWeight: FontWeight.bold,
+                    color: const Color.fromARGB(255, 28, 31, 106),
+                  ),
+                ),
+                SizedBox(height: 10.0),
+                // Wrap the content in a scrollable widget
+                Container(
+                  height: 400, // Set a max height for the scrollable area
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: flightDetails.map((flight) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 15.0),
+                          child: Text(
+                            flight,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              color: const Color.fromARGB(255, 28, 31, 106),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 15.0),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 28, 31, 106),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 15.0),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(
+                      'Close',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void sortCountries() {
+    _filteredCountries.sort((a, b) => a['name'].compareTo(b['name']));
+  }
+
+  Future<void> fetchFlightSchedule() async {
+    if (_originCountryController.text.isEmpty &&
+        _destinationCountryController.text.isEmpty &&
+        _selectedDate == null) {
+      _showAlert('Incomplete Form',
+          'Please enter origin country, destination country, and select date.');
+      return;
+    } else if (_originCountryController.text.isEmpty) {
+      _showAlert('Incomplete Form', 'Please enter origin country.');
+      return;
+    } else if (_destinationCountryController.text.isEmpty) {
+      _showAlert('Incomplete Form', 'Please enter destination country.');
+      return;
+    } else if (_selectedDate == null) {
+      _showAlert('Incomplete Form', 'Please select a date.');
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    String formattedDate =
+        "${_selectedDate!.month}/${_selectedDate!.day}/${_selectedDate!.year}";
+    String origin = _originCountryController.text;
+    String destination = _destinationCountryController.text;
+
+    // API URL to fetch flight schedule
+    String url =
+        "https://ulmobservicesstg.srilankan.com/ULMOBTEAMSERVICES/api/CARGOUL/FLTSHL?FromCity=$origin&ToCity=$destination&FlightDate=$formattedDate";
+
+    try {
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        List<dynamic> data = json.decode(response.body);
+
+        if (data.isNotEmpty) {
+          // Create a list of flight information strings
+          List<String> flightDetails = data.map((flightInfo) {
+            return '''------------------------------------------
+Flight Number: ${flightInfo['FlightNo']}
+Flight Date: ${flightInfo['FlightDate']}
+Aircraft Type: ${flightInfo['AircraftType']}
+Arrival Time: ${flightInfo['Atime']}''';
+          }).toList();
+
+          String heading = 'Flight Schedule';
+
+          _showScrollableAlert(heading, flightDetails);
+        } else {
+          _showAlert(
+              'No Flight Data', 'No flight schedule information available.');
+        }
+      } else {
+        _showAlert('Failed to Fetch Data',
+            'Server returned status code ${response.statusCode}.');
+      }
+    } catch (e) {
+      _showAlert('Error', 'Error fetching flight schedule: $e');
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  // Alert dialog for displaying information
+  void _showAlert(String title, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(23.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 22.0,
+                    fontWeight: FontWeight.bold,
+                    color: const Color.fromARGB(255, 28, 31, 106),
+                  ),
+                ),
+                SizedBox(height: 10.0),
+                Text(
+                  message,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    color: const Color.fromARGB(255, 28, 31, 106),
+                  ),
+                ),
+                SizedBox(height: 15.0),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 28, 31, 106),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 15.0),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(
+                      'Close',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -187,33 +451,39 @@ class _FlightSchedulePageState extends State<FlightSchedulePage> {
                                 ),
                               ),
                               iconSize: 30.0,
-                              underline: SizedBox(),
+                              underline:
+                                  SizedBox(), // Removes the default underline
                               style: TextStyle(
                                 fontSize: 14.0,
-                                color: Color.fromARGB(255, 28, 31, 106),
+                                fontWeight: FontWeight.bold,
+                                color: const Color.fromARGB(255, 135, 130, 130),
                               ),
                               hint: Text(
                                 'Select Origin Country',
                                 style: TextStyle(
-                                    color: Color.fromARGB(255, 204, 203, 203),
-                                    fontWeight: FontWeight.w900,
-                                    fontSize: customizationValues['fontSize'] ??
-                                        14.0),
+                                  color: Color.fromARGB(255, 204, 203, 203),
+                                  fontWeight: FontWeight.w900,
+                                  fontSize: 14.0,
+                                ),
                               ),
                               isExpanded: true,
-                              items: <String>[
-                                'Country 1',
-                                'Country 2',
-                                'Country 3',
-                                'Country 4'
-                              ].map((String value) {
+                              value: _originCountryController.text.isEmpty
+                                  ? null
+                                  : _originCountryController
+                                      .text, // Selected country value
+                              items: _filteredCountries
+                                  .map<DropdownMenuItem<String>>((country) {
                                 return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
+                                  value: country[
+                                      'code'], // Use the 'code' or 'name' based on your needs
+                                  child: Text(country['name']),
                                 );
                               }).toList(),
                               onChanged: (String? newValue) {
-                                // Handle origin country selection
+                                setState(() {
+                                  _originCountryController.text =
+                                      newValue ?? '';
+                                });
                               },
                             ),
                           ),
@@ -248,45 +518,49 @@ class _FlightSchedulePageState extends State<FlightSchedulePage> {
                                 child: Icon(
                                   Icons.arrow_drop_down,
                                   size: 32.0, // Size of the icon
-                                  color: Color.fromARGB(
+                                  color: const Color.fromARGB(
                                       255, 145, 145, 145), // Color of the icon
                                 ),
                               ),
                               iconSize: 30.0,
-                              underline: SizedBox(),
+                              underline:
+                                  SizedBox(), // Removes the default underline
                               style: TextStyle(
-                                  fontSize: 16.0,
-                                  color:
-                                      const Color.fromARGB(255, 119, 116, 116),
-                                  fontWeight: FontWeight.bold),
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.bold,
+                                color: const Color.fromARGB(255, 135, 130, 130),
+                              ),
                               hint: Text(
                                 'Select Destination Country',
                                 style: TextStyle(
-                                    color: const Color.fromARGB(
-                                        255, 204, 203, 203),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: customizationValues['fontSize'] ??
-                                        14.0),
+                                  color: Color.fromARGB(255, 204, 203, 203),
+                                  fontWeight: FontWeight.w900,
+                                  fontSize: 14.0,
+                                ),
                               ),
                               isExpanded: true,
-                              items: <String>[
-                                'Country A',
-                                'Country B',
-                                'Country C',
-                                'Country D'
-                              ].map((String value) {
+                              value: _destinationCountryController.text.isEmpty
+                                  ? null
+                                  : _destinationCountryController
+                                      .text, // Selected country value
+                              items: _filteredCountries
+                                  .map<DropdownMenuItem<String>>((country) {
                                 return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
+                                  value: country[
+                                      'code'], // Use the 'code' or 'name' based on your needs
+                                  child: Text(country['name']),
                                 );
                               }).toList(),
                               onChanged: (String? newValue) {
-                                // Handle destination country selection
+                                setState(() {
+                                  _destinationCountryController.text =
+                                      newValue ?? '';
+                                  ; // Update selected country
+                                });
                               },
                             ),
                           ),
                         ),
-                        SizedBox(height: 15),
                         SizedBox(height: 15),
                         Text(
                           'Flight Date',
@@ -350,7 +624,7 @@ class _FlightSchedulePageState extends State<FlightSchedulePage> {
                         Center(
                           child: ElevatedButton(
                             onPressed: () {
-                              // Implement submit action here
+                              fetchFlightSchedule();
                             },
                             style: ElevatedButton.styleFrom(
                               padding: EdgeInsets.symmetric(
