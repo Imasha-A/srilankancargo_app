@@ -273,6 +273,8 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
     double screenWidth = MediaQuery.of(context).size.width;
     Map<String, dynamic> customizationValues = customizeFormCard(screenWidth);
     double totalCBM = calculateTotalCBM(userSelections);
+    double buttonPadding = screenWidth * 0.128;
+    double buttonPaddingCalc = screenWidth * 0.32;
 
     return Scaffold(
       body: Stack(
@@ -676,7 +678,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                             },
                             style: ElevatedButton.styleFrom(
                               padding: EdgeInsets.symmetric(
-                                  horizontal: 125, vertical: 10),
+                                  horizontal: buttonPaddingCalc, vertical: 10),
                               backgroundColor: Color.fromARGB(255, 28, 31, 106),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
@@ -848,7 +850,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                           Color.fromARGB(255, 28, 31, 106),
                                       backgroundColor: Colors.white,
                                       padding: EdgeInsets.symmetric(
-                                          horizontal: 52,
+                                          horizontal: buttonPadding,
                                           vertical: 5), // White fill
                                       side: BorderSide(
                                           color:

@@ -201,6 +201,7 @@ Scheduled Time: ${flightInfo['Schedultime']}''';
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    double buttonPadding = screenWidth * 0.34;
     Map<String, double> customizationValues = customizeFormCard(screenWidth);
 
     return Scaffold(
@@ -407,7 +408,7 @@ Scheduled Time: ${flightInfo['Schedultime']}''';
                               fetchFlightStatus, // Call fetchFlightStatus on submit
                           style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.symmetric(
-                                horizontal: 135, vertical: 10),
+                                horizontal: buttonPadding, vertical: 10),
                             backgroundColor: Color.fromARGB(255, 28, 31, 106),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),

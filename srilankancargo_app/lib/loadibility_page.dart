@@ -237,6 +237,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    double buttonPadding = screenWidth * 0.128;
     Map<String, double> customizationValues = customizeFormCard(screenWidth);
 
     return Scaffold(
@@ -763,7 +764,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                       Color.fromARGB(255, 28, 31, 106),
                                   backgroundColor: Colors.white,
                                   padding: EdgeInsets.symmetric(
-                                      horizontal: 52,
+                                      horizontal: buttonPadding,
                                       vertical: 10), // White fill
                                   side: BorderSide(
                                       color: Color.fromARGB(255, 28, 31, 106),
@@ -786,7 +787,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                 onPressed: _lodabilityCheck,
                                 style: ElevatedButton.styleFrom(
                                   padding: EdgeInsets.symmetric(
-                                      horizontal: 52, vertical: 10),
+                                      horizontal: buttonPadding, vertical: 10),
                                   backgroundColor: Color.fromARGB(
                                       255, 28, 31, 106), // Blue fill
                                   shape: RoundedRectangleBorder(

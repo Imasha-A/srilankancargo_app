@@ -9,6 +9,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:srilankancargo_app/about_us_page.dart';
 import 'package:srilankancargo_app/main.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/services.dart';
 
 class ContactUsPage extends StatelessWidget {
   const ContactUsPage({Key? key}) : super(key: key);
@@ -19,6 +20,35 @@ class ContactUsPage extends StatelessWidget {
     if (!await launchUrl(url)) {
       throw 'Could not launch $url';
     }
+  }
+
+  Future<void> _launchPhone(String phoneNumber) async {
+    final Uri phoneUri = Uri(scheme: 'tel', path: phoneNumber);
+    if (!await launchUrl(phoneUri)) {
+      throw 'Could not launch $phoneUri';
+    }
+  }
+
+  Future<void> _launchEmail(String emailAddress) async {
+    final Uri emailUri = Uri(scheme: 'mailto', path: emailAddress);
+    if (!await launchUrl(emailUri)) {
+      throw 'Could not launch $emailUri';
+    }
+  }
+
+  Future<void> _launchURLAddress(Uri parse) async {
+    final Uri url = Uri.parse(
+        'https://www.google.com/maps/place/SriLankan+Cargo/@7.1702799,79.5546651,10z/data=!4m10!1m2!2m1!1ssrilankan+cargo!3m6!1s0x3ae2efc8eeea9517:0x5b390f6a09d7fe3f!8m2!3d7.1704115!4d79.8836481!15sCg9zcmlsYW5rYW4gY2FyZ2-SAQl3YXJlaG91c2XgAQA!16s%2Fg%2F11c518c5b5?entry=ttu&g_ep=EgoyMDI0MDkwOS4wIKXMDSoASAFQAw%3D%3D');
+    if (!await launchUrl(url)) {
+      throw 'Could not launch $url';
+    }
+  }
+
+  void _copyToClipboard(BuildContext context, String text) {
+    Clipboard.setData(ClipboardData(text: text));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Copied to clipboard')),
+    );
   }
 
   @override
@@ -108,20 +138,25 @@ class ContactUsPage extends StatelessWidget {
                     title: 'Call us',
                     subtitle: '0197 333 259',
                     subtitleColor: Color.fromARGB(255, 51, 51, 51),
+                    onTap: () => _launchPhone('0197333259'),
                   ),
                   ContactInfoCard(
                     svgPath: 'assets/images/email_us_icon.svg',
                     title: 'Email us',
                     subtitle: 'cargo@srilankan.com',
                     subtitleColor: Color.fromARGB(255, 51, 51, 51),
+                    onTap: () => _launchEmail('cargo@srilankan.com'),
+                    onLongPress: () =>
+                        _copyToClipboard(context, 'cargo@srilankan.com'),
                   ),
                   ContactInfoCard(
-                    svgPath: 'assets/images/address_icon.svg',
-                    title: 'Address',
-                    subtitle:
-                        'SriLankan Airlines Cargo,\nKatunayake, Sri Lanka',
-                    subtitleColor: Color.fromARGB(255, 51, 51, 51),
-                  ),
+                      svgPath: 'assets/images/address_icon.svg',
+                      title: 'Address',
+                      subtitle:
+                          'SriLankan Airlines Cargo,\nKatunayake, Sri Lanka',
+                      subtitleColor: Color.fromARGB(255, 51, 51, 51),
+                      onTap: () => launchUrl((Uri.parse(
+                          'https://www.google.com/maps/place/SriLankan+Cargo/@7.1702799,79.5546651,10z/data=!4m10!1m2!2m1!1ssrilankan+cargo!3m6!1s0x3ae2efc8eeea9517:0x5b390f6a09d7fe3f!8m2!3d7.1704115!4d79.8836481!15sCg9zcmlsYW5rYW4gY2FyZ2-SAQl3YXJlaG91c2XgAQA!16s%2Fg%2F11c518c5b5?entry=ttu&g_ep=EgoyMDI0MDkwOS4wIKXMDSoASAFQAw%3D%3D')))),
 
                   // Social Media Buttons
                   Padding(
@@ -282,58 +317,65 @@ class ContactInfoCard extends StatelessWidget {
   final String subtitle;
   final Color titleColor;
   final Color subtitleColor;
+  final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
 
-  ContactInfoCard({
-    required this.svgPath,
-    required this.title,
-    required this.subtitle,
-    this.titleColor = const Color.fromARGB(255, 28, 31, 106),
-    this.subtitleColor = const Color.fromARGB(255, 51, 51, 51),
-  });
+  ContactInfoCard(
+      {required this.svgPath,
+      required this.title,
+      required this.subtitle,
+      this.titleColor = const Color.fromARGB(255, 28, 31, 106),
+      this.subtitleColor = const Color.fromARGB(255, 51, 51, 51),
+      this.onTap,
+      this.onLongPress});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 0),
-      padding: const EdgeInsets.fromLTRB(30, 35, 50, 35),
-      decoration: BoxDecoration(
-        color: Colors.white, // Background color of the inner box
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: const Color.fromARGB(255, 85, 18, 181),
-          width: 1.3,
+    return GestureDetector(
+      onTap: onTap,
+      onLongPress: onLongPress,
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 0),
+        padding: const EdgeInsets.fromLTRB(30, 35, 50, 35),
+        decoration: BoxDecoration(
+          color: Colors.white, // Background color of the inner box
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: const Color.fromARGB(255, 85, 18, 181),
+            width: 1.3,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2), // Shadow color
+              spreadRadius: 0, // Spread of the shadow
+              blurRadius: 3, // Blur radius of the shadow
+              offset: Offset(0, 4), // Offset of the shadow (bottom shadow)
+            ),
+          ],
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.2), // Shadow color
-            spreadRadius: 0, // Spread of the shadow
-            blurRadius: 3, // Blur radius of the shadow
-            offset: Offset(0, 4), // Offset of the shadow (bottom shadow)
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          SvgPicture.asset(
-            svgPath,
-            height: 30,
-            width: 40,
-          ),
-          SizedBox(width: 20),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: TextStyle(fontSize: 18, color: titleColor),
-              ),
-              Text(
-                subtitle,
-                style: TextStyle(fontSize: 14, color: subtitleColor),
-              ),
-            ],
-          ),
-        ],
+        child: Row(
+          children: [
+            SvgPicture.asset(
+              svgPath,
+              height: 30,
+              width: 40,
+            ),
+            SizedBox(width: 20),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(fontSize: 18, color: titleColor),
+                ),
+                Text(
+                  subtitle,
+                  style: TextStyle(fontSize: 14, color: subtitleColor),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -211,7 +211,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      const SizedBox(height: 140),
+                      const SizedBox(height: 147),
                       DotsIndicator(
                         dotsCount: 3,
                         position: _currentPage.toInt(),
@@ -225,7 +225,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 7),
+
                       Padding(
                         padding: const EdgeInsets.only(
                             right: 250), // Adjust the value as needed
@@ -348,7 +348,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
 
           Positioned(
-            top: 120, // Adjust this value to position the text above the slider
+            top: 125, // Adjust this value to position the text above the slider
             left: 20,
 
             child: Text(
@@ -363,7 +363,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           // Image Slider (PageView) (top layer)
           Positioned(
-            top: 160, // Adjust to overlap the white card and banner
+            top: 165, // Adjust to overlap the white card and banner
             left: 20,
             right: 20,
             child: Container(
@@ -543,17 +543,11 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  Future<void> _launchURL() async {
-    final Uri url =
-        Uri.parse('https://www.google.com'); // Updated to use Uri.parse
-    if (!await launchUrl(url)) {
-      throw 'Could not launch $url';
-    }
-  }
-
   Future<void> launchUrlTracking(Uri parse) async {
     final Uri url = Uri.parse(
         'http://www.srilankanskychain.aero/skychain/app?service=page/nwp:Trackshipmt'); // Updated to use Uri.parse
+    forceWebView:
+    true;
     if (!await launchUrl(url)) {
       throw 'Could not launch $url';
     }
