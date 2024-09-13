@@ -27,6 +27,7 @@ class _FlightSchedulePageState extends State<FlightSchedulePage> {
   List<dynamic> _filteredCountries = [];
   TextEditingController _searchController = TextEditingController();
   bool _isLoading = false;
+  bool _isCollapsed = false;
 
   @override
   void initState() {
@@ -117,15 +118,38 @@ class _FlightSchedulePageState extends State<FlightSchedulePage> {
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
-    );
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2101),
+        builder: (BuildContext context, Widget? child) {
+          return Theme(
+            data: ThemeData.light().copyWith(
+              primaryColor: Color.fromARGB(
+                  255, 28, 31, 106), // Selected date circle color
+              hintColor:
+                  Color.fromARGB(255, 28, 31, 106), // Accent color for buttons
+              buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+              dialogBackgroundColor:
+                  Colors.lightBlue[50], // Background color of the calendar
+              colorScheme: ColorScheme.light(
+                  primary: Color.fromARGB(
+                      255, 28, 31, 106)), // Selected date circle color
+              // Define any other customizations here
+            ),
+            child: child!,
+          );
+        });
     if (picked != null && picked != _selectedDate)
       setState(() {
         _selectedDate = picked;
       });
+  }
+
+  void _toggleCollapse() {
+    setState(() {
+      _isCollapsed = !_isCollapsed;
+    });
   }
 
 // Scrollable Alert dialog for displaying flight information
@@ -208,23 +232,6 @@ class _FlightSchedulePageState extends State<FlightSchedulePage> {
   }
 
   Future<void> fetchFlightSchedule() async {
-    if (_originCountryController.text.isEmpty &&
-        _destinationCountryController.text.isEmpty &&
-        _selectedDate == null) {
-      _showAlert('Incomplete Form',
-          'Please enter origin country, destination country, and select date.');
-      return;
-    } else if (_originCountryController.text.isEmpty) {
-      _showAlert('Incomplete Form', 'Please enter origin country.');
-      return;
-    } else if (_destinationCountryController.text.isEmpty) {
-      _showAlert('Incomplete Form', 'Please enter destination country.');
-      return;
-    } else if (_selectedDate == null) {
-      _showAlert('Incomplete Form', 'Please select a date.');
-      return;
-    }
-
     setState(() {
       _isLoading = true;
     });
@@ -341,8 +348,7 @@ Arrival Time: ${flightInfo['Atime']}''';
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-
-    Map<String, double> customizationValues = customizeFormCard(screenWidth);
+    double screenHeight = MediaQuery.of(context).size.height;
     double buttonPadding = screenWidth * 0.34;
 
     return Scaffold(
@@ -360,8 +366,8 @@ Arrival Time: ${flightInfo['Atime']}''';
             ),
           ),
           Positioned(
-            top: 25, // Adjust according to your design
-            left: 3, // Adjust according to your design
+            top: screenHeight * 0.025,
+            left: screenWidth * 0.0012,
             child: SizedBox(
               width: 58, // Set width of the button
               height: 48, // Set height of the button
@@ -372,7 +378,7 @@ Arrival Time: ${flightInfo['Atime']}''';
           ),
           // Outer White Card (middle layer) wrapping the form
           Positioned(
-            top: 155,
+            top: screenHeight * 0.18,
             left: 0,
             right: 0,
             child: Container(
@@ -400,10 +406,15 @@ Arrival Time: ${flightInfo['Atime']}''';
                       color: Color.fromARGB(255, 28, 31, 106),
                     ),
                   ),
-
                   const SizedBox(height: 10),
                   // Inner White Card with the Flight Form
-                  Container(
+                  AnimatedContainer(
+                    duration: Duration(milliseconds: 300), // Animation duration
+                    height: _isCollapsed
+                        ? buttonPadding * 0.7
+                        : null, // Adjust height when collapsed
+                    padding:
+                        EdgeInsets.all(_isCollapsed ? 0 : 16), // Adjust padding
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10),
@@ -416,389 +427,448 @@ Arrival Time: ${flightInfo['Atime']}''';
                         ),
                       ],
                     ),
-                    padding: EdgeInsets.all(16),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 10),
-                        Text(
-                          'Origin Country',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w900,
-                            color: Color.fromARGB(255, 28, 31, 106),
-                          ),
-                        ),
-                        SizedBox(height: 3),
-                        Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.0),
-                            color: Colors.grey[100], // Fill color
-                            border: Border.all(
-                              color: const Color.fromARGB(
-                                  255, 206, 197, 197), // Border color
-                              width: 1.0,
-                            ),
-                          ),
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: DropdownSearch<String>(
-                              items: _allCountries
-                                  .map<String>(
-                                      (country) => country['name'] as String)
-                                  .toList(),
-                              popupProps: PopupProps.menu(
-                                showSearchBox: true,
-                                searchFieldProps: TextFieldProps(
-                                  decoration: InputDecoration(
-                                    labelText: "Search Origin Country",
-                                    labelStyle: TextStyle(
-                                      color: const Color.fromARGB(
-                                          255, 204, 203, 203),
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    hintStyle: TextStyle(
-                                      color: Colors.grey,
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: const Color.fromARGB(
-                                            255, 204, 203, 203),
-                                        width: 1.0,
-                                      ),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: const Color.fromARGB(
-                                            255, 204, 203, 203),
-                                        width: 1.0,
-                                      ),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: const Color.fromARGB(
-                                            255, 204, 203, 203),
-                                        width: 1.0,
-                                      ),
-                                    ),
-                                  ),
-                                  style: TextStyle(
-                                    color: const Color.fromARGB(
-                                        255, 204, 203, 203),
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                itemBuilder: (context, item, isSelected) {
-                                  return Container(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 8, horizontal: 16),
-                                    decoration: BoxDecoration(
-                                      color: isSelected
-                                          ? Colors.grey[300]
-                                          : Colors.white,
-                                    ),
-                                    child: Text(
-                                      item,
-                                      style: TextStyle(
-                                        color: isSelected
-                                            ? const Color.fromARGB(
-                                                255, 135, 130, 130)
-                                            : const Color.fromARGB(
-                                                255, 204, 203, 203),
-                                        fontWeight: isSelected
-                                            ? FontWeight.bold
-                                            : FontWeight.normal,
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                              dropdownDecoratorProps: DropDownDecoratorProps(
-                                dropdownSearchDecoration: InputDecoration(
-                                  border: InputBorder.none,
-                                ),
-                              ),
-                              dropdownButtonProps: DropdownButtonProps(
-                                icon: Icon(
-                                  Icons.arrow_drop_down,
-                                  size: 32.0,
-                                  color:
-                                      const Color.fromARGB(255, 145, 145, 145),
-                                ),
-                              ),
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  var selectedCountry =
-                                      _allCountries.firstWhere((country) =>
-                                          country['name'] == newValue);
-                                  _originCountryController.text = selectedCountry[
-                                      'code']; // Save the code of the selected country
-                                });
-                              },
-                              selectedItem: _originCountryController
-                                      .text.isEmpty
-                                  ? null
-                                  : _allCountries.firstWhere((country) =>
-                                      country['code'] ==
-                                      _originCountryController.text)['name'],
-                              dropdownBuilder: (context, selectedItem) {
-                                return Text(
-                                  selectedItem ?? "Select Origin Country",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: selectedItem == null
-                                        ? const Color.fromARGB(
-                                            255, 204, 203, 203)
-                                        : const Color.fromARGB(
-                                            255, 135, 130, 130),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 15),
-                        Text(
-                          'Destination Country',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w900,
-                            color: Color.fromARGB(255, 28, 31, 106),
-                          ),
-                        ),
-                        SizedBox(height: 3),
-                        Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.0),
-                            color: Colors.grey[100], // Fill color
-                            border: Border.all(
-                              color: const Color.fromARGB(
-                                  255, 206, 197, 197), // Border color
-                              width: 1.0,
-                            ),
-                          ),
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: DropdownSearch<String>(
-                              items: _filteredCountries
-                                  .map<String>(
-                                      (country) => country['name'] as String)
-                                  .toList(),
-                              popupProps: PopupProps.menu(
-                                showSearchBox: true,
-                                searchFieldProps: TextFieldProps(
-                                  decoration: InputDecoration(
-                                    labelText: "Search Destination Country",
-                                    labelStyle: TextStyle(
-                                      color: const Color.fromARGB(
-                                          255, 204, 203, 203),
-                                      fontWeight: FontWeight.bold,
-                                      // Color of the search box label
-                                    ),
-                                    hintStyle: TextStyle(
-                                      color: const Color.fromARGB(255, 204, 203,
-                                          203), // Color of the hint text
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.grey, // Border color
-                                        width: 1.0,
-                                      ),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors
-                                            .grey, // Border color when enabled
-                                        width: 1.0,
-                                      ),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors
-                                            .grey, // Border color when focused
-                                        width: 1.0,
-                                      ),
-                                    ),
-                                  ),
-                                  style: TextStyle(
-                                    color: Colors
-                                        .grey, // Color of the search box input text
-                                  ),
-                                ),
-                                itemBuilder: (context, item, isSelected) {
-                                  return Container(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 8, horizontal: 16),
-                                    decoration: BoxDecoration(
-                                      color: isSelected
-                                          ? Colors.grey[
-                                              300] // Background color for selected item
-                                          : Colors
-                                              .white, // Background color for unselected item
-                                    ),
-                                    child: Text(
-                                      item,
-                                      style: TextStyle(
-                                        color: isSelected
-                                            ? const Color.fromARGB(
-                                                255,
-                                                135,
-                                                130,
-                                                130) // Color for selected item
-                                            : const Color.fromARGB(
-                                                255,
-                                                204,
-                                                203,
-                                                203), // Color for unselected item
-                                        fontWeight: isSelected
-                                            ? FontWeight
-                                                .bold // Bold for selected item
-                                            : FontWeight
-                                                .normal, // Normal weight for unselected item
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                              dropdownDecoratorProps: DropDownDecoratorProps(
-                                dropdownSearchDecoration: InputDecoration(
-                                  border: InputBorder
-                                      .none, // Remove default border to match the container style
-                                ),
-                              ),
-                              dropdownButtonProps: DropdownButtonProps(
-                                icon: Icon(
-                                  Icons.arrow_drop_down,
-                                  size: 32.0, // Size of the icon
-                                  color: const Color.fromARGB(
-                                      255, 145, 145, 145), // Icon color
-                                ),
-                              ),
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  var selectedCountry =
-                                      _filteredCountries.firstWhere((country) =>
-                                          country['name'] == newValue);
-                                  _destinationCountryController.text =
-                                      selectedCountry[
-                                          'code']; // Save the code of the selected country
-                                });
-                              },
-                              selectedItem: _destinationCountryController
-                                      .text.isEmpty
-                                  ? null
-                                  : _filteredCountries.firstWhere((country) =>
-                                      country['code'] ==
-                                      _destinationCountryController
-                                          .text)['name'],
-                              dropdownBuilder: (context, selectedItem) {
-                                return Text(
-                                  selectedItem ?? "Select Destination Country",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight
-                                        .bold, // Bold text for selected item
-                                    color: selectedItem == null
-                                        ? const Color.fromARGB(255, 204, 203,
-                                            203) // Color when no item is selected
-                                        : const Color.fromARGB(255, 135, 130,
-                                            130), // Color for selected item
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 15),
-                        Text(
-                          'Flight Date',
-                          style: TextStyle(
+                        if (!_isCollapsed) ...[
+                          SizedBox(height: 10),
+                          Text(
+                            'Origin Country',
+                            style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w900,
-                              color: Color.fromARGB(255, 28, 31, 106)),
-                        ),
-                        SizedBox(height: 3),
-                        GestureDetector(
-                          onTap: () => _selectDate(context),
-                          child: AbsorbPointer(
-                            child: TextField(
-                              decoration: InputDecoration(
-                                hintText: _selectedDate == null
-                                    ? 'MM/DD/YYYY'
-                                    : DateFormat('MM/dd/yyyy')
-                                        .format(_selectedDate!),
-                                hintStyle: TextStyle(
-                                  color: _selectedDate == null
-                                      ? Color.fromARGB(255, 204, 203,
-                                          203) // Default text color
-                                      : const Color.fromARGB(255, 135, 130,
-                                          130), // Text color when a date is selected
-                                  fontWeight: FontWeight.bold,
-                                  fontSize:
-                                      14, // Optional: Adjust font size as needed
+                              color: Color.fromARGB(255, 28, 31, 106),
+                            ),
+                          ),
+                          SizedBox(height: 3),
+                          Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              color: Colors.grey[100], // Fill color
+                              border: Border.all(
+                                color: const Color.fromARGB(
+                                    255, 206, 197, 197), // Border color
+                                width: 1.0,
+                              ),
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: DropdownSearch<String>(
+                                items: _allCountries
+                                    .map<String>(
+                                        (country) => country['name'] as String)
+                                    .toList(),
+                                popupProps: PopupProps.menu(
+                                  showSearchBox: true,
+                                  searchFieldProps: TextFieldProps(
+                                    decoration: InputDecoration(
+                                      labelText: "Search Origin Country",
+                                      labelStyle: TextStyle(
+                                        color: const Color.fromARGB(
+                                            255, 204, 203, 203),
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      hintStyle: TextStyle(
+                                        color: Colors.grey,
+                                      ),
+                                      border: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: const Color.fromARGB(
+                                              255, 204, 203, 203),
+                                          width: 1.0,
+                                        ),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: const Color.fromARGB(
+                                              255, 204, 203, 203),
+                                          width: 1.0,
+                                        ),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: const Color.fromARGB(
+                                              255, 204, 203, 203),
+                                          width: 1.0,
+                                        ),
+                                      ),
+                                    ),
+                                    style: TextStyle(
+                                      color: const Color.fromARGB(
+                                          255, 204, 203, 203),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  itemBuilder: (context, item, isSelected) {
+                                    return Container(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 8, horizontal: 16),
+                                      decoration: BoxDecoration(
+                                        color: isSelected
+                                            ? Colors.grey[300]
+                                            : Colors.white,
+                                      ),
+                                      child: Text(
+                                        item,
+                                        style: TextStyle(
+                                          color: isSelected
+                                              ? const Color.fromARGB(
+                                                  255, 135, 130, 130)
+                                              : const Color.fromARGB(
+                                                  255, 204, 203, 203),
+                                          fontWeight: isSelected
+                                              ? FontWeight.bold
+                                              : FontWeight.normal,
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 ),
-                                filled: true,
-                                fillColor: Color.fromARGB(255, 245, 245, 245),
-                                suffixIcon: SizedBox(
-                                    // Optionally set width to maintain aspect ratio
-                                    child: Icon(
-                                  Icons.calendar_today,
-                                  color: Color.fromARGB(
-                                      255, 51, 51, 51), // Suffix icon color
-                                  size: 19.0, // Set the icon size
-                                )),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                      color: Color.fromARGB(255, 206, 197, 197),
-                                      width: 0.1),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                    color: const Color.fromARGB(255, 204, 203,
-                                        203), // Border color when unfocused
-                                    width: 1.0, // Border width when unfocused
+                                dropdownDecoratorProps: DropDownDecoratorProps(
+                                  dropdownSearchDecoration: InputDecoration(
+                                    border: InputBorder.none,
                                   ),
                                 ),
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: 12.0, horizontal: 16.0),
+                                dropdownButtonProps: DropdownButtonProps(
+                                  icon: Icon(
+                                    Icons.arrow_drop_down,
+                                    size: 32.0,
+                                    color: const Color.fromARGB(
+                                        255, 145, 145, 145),
+                                  ),
+                                ),
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    var selectedCountry =
+                                        _allCountries.firstWhere((country) =>
+                                            country['name'] == newValue);
+                                    _originCountryController.text = selectedCountry[
+                                        'code']; // Save the code of the selected country
+                                  });
+                                },
+                                selectedItem: _originCountryController
+                                        .text.isEmpty
+                                    ? null
+                                    : _allCountries.firstWhere((country) =>
+                                        country['code'] ==
+                                        _originCountryController.text)['name'],
+                                dropdownBuilder: (context, selectedItem) {
+                                  return Text(
+                                    selectedItem ?? "Select Origin Country",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: selectedItem == null
+                                          ? const Color.fromARGB(
+                                              255, 204, 203, 203)
+                                          : const Color.fromARGB(
+                                              255, 135, 130, 130),
+                                    ),
+                                  );
+                                },
                               ),
                             ),
                           ),
-                        ),
-                        SizedBox(height: 20),
+                          SizedBox(height: 15),
+                          Text(
+                            'Destination Country',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w900,
+                              color: Color.fromARGB(255, 28, 31, 106),
+                            ),
+                          ),
+                          SizedBox(height: 3),
+                          Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              color: Colors.grey[100], // Fill color
+                              border: Border.all(
+                                color: const Color.fromARGB(
+                                    255, 206, 197, 197), // Border color
+                                width: 1.0,
+                              ),
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: DropdownSearch<String>(
+                                items: _filteredCountries
+                                    .map<String>(
+                                        (country) => country['name'] as String)
+                                    .toList(),
+                                popupProps: PopupProps.menu(
+                                  showSearchBox: true,
+                                  searchFieldProps: TextFieldProps(
+                                    decoration: InputDecoration(
+                                      labelText: "Search Destination Country",
+                                      labelStyle: TextStyle(
+                                        color: const Color.fromARGB(
+                                            255, 204, 203, 203),
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      hintStyle: TextStyle(
+                                        color: const Color.fromARGB(
+                                            255, 204, 203, 203),
+                                      ),
+                                      border: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.grey, // Border color
+                                          width: 1.0,
+                                        ),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors
+                                              .grey, // Border color when enabled
+                                          width: 1.0,
+                                        ),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors
+                                              .grey, // Border color when focused
+                                          width: 1.0,
+                                        ),
+                                      ),
+                                    ),
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  itemBuilder: (context, item, isSelected) {
+                                    return Container(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 8, horizontal: 16),
+                                      decoration: BoxDecoration(
+                                        color: isSelected
+                                            ? Colors.grey[300]
+                                            : Colors.white,
+                                      ),
+                                      child: Text(
+                                        item,
+                                        style: TextStyle(
+                                          color: isSelected
+                                              ? const Color.fromARGB(
+                                                  255, 135, 130, 130)
+                                              : const Color.fromARGB(
+                                                  255, 204, 203, 203),
+                                          fontWeight: isSelected
+                                              ? FontWeight.bold
+                                              : FontWeight.normal,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                                dropdownDecoratorProps: DropDownDecoratorProps(
+                                  dropdownSearchDecoration: InputDecoration(
+                                    border: InputBorder.none,
+                                  ),
+                                ),
+                                dropdownButtonProps: DropdownButtonProps(
+                                  icon: Icon(
+                                    Icons.arrow_drop_down,
+                                    size: 32.0,
+                                    color: const Color.fromARGB(
+                                        255, 145, 145, 145),
+                                  ),
+                                ),
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    var selectedCountry = _filteredCountries
+                                        .firstWhere((country) =>
+                                            country['name'] == newValue);
+                                    _destinationCountryController.text =
+                                        selectedCountry[
+                                            'code']; // Save the code of the selected country
+                                  });
+                                },
+                                selectedItem: _destinationCountryController
+                                        .text.isEmpty
+                                    ? null
+                                    : _filteredCountries.firstWhere((country) =>
+                                        country['code'] ==
+                                        _destinationCountryController
+                                            .text)['name'],
+                                dropdownBuilder: (context, selectedItem) {
+                                  return Text(
+                                    selectedItem ??
+                                        "Select Destination Country",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: selectedItem == null
+                                          ? const Color.fromARGB(
+                                              255, 204, 203, 203)
+                                          : const Color.fromARGB(
+                                              255, 135, 130, 130),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 15),
+                          Text(
+                            'Flight Date',
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w900,
+                                color: Color.fromARGB(255, 28, 31, 106)),
+                          ),
+                          SizedBox(height: 3),
+                          GestureDetector(
+                            onTap: () => _selectDate(context),
+                            child: AbsorbPointer(
+                              child: TextField(
+                                decoration: InputDecoration(
+                                  hintText: _selectedDate == null
+                                      ? 'MM/DD/YYYY'
+                                      : DateFormat('MM/dd/yyyy')
+                                          .format(_selectedDate!),
+                                  hintStyle: TextStyle(
+                                    color: _selectedDate == null
+                                        ? Color.fromARGB(255, 204, 203,
+                                            203) // Default text color
+                                        : const Color.fromARGB(255, 135, 130,
+                                            130), // Text color when a date is selected
+                                    fontWeight: FontWeight.bold,
+                                    fontSize:
+                                        14, // Optional: Adjust font size as needed
+                                  ),
+                                  filled: true,
+                                  fillColor: Color.fromARGB(255, 245, 245, 245),
+                                  suffixIcon: SizedBox(
+                                      // Optionally set width to maintain aspect ratio
+                                      child: Icon(
+                                    Icons.calendar_today,
+                                    color: Color.fromARGB(
+                                        255, 51, 51, 51), // Suffix icon color
+                                    size: 19.0, // Set the icon size
+                                  )),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                        color:
+                                            Color.fromARGB(255, 206, 197, 197),
+                                        width: 0.1),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                      color: const Color.fromARGB(255, 204, 203,
+                                          203), // Border color when unfocused
+                                      width: 1.0, // Border width when unfocused
+                                    ),
+                                  ),
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: 12.0, horizontal: 16.0),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                         SizedBox(height: 20),
                         Center(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              fetchFlightSchedule();
-                            },
-                            style: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: buttonPadding, vertical: 10),
-                              backgroundColor: Color.fromARGB(255, 28, 31, 106),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
+                          child: Container(
+                            width: screenWidth *
+                                0.86, // Fixed width for the button
+                            child: ElevatedButton(
+                              onPressed: () {
+                                if (_isCollapsed) {
+                                  // Handle "More" button press
+                                  clearFormFields(); // Clear the fields
+                                  setState(() {
+                                    _isCollapsed =
+                                        !_isCollapsed; // Uncollapse the form
+                                  });
+                                } else {
+                                  if (_originCountryController.text.isEmpty &&
+                                      _destinationCountryController
+                                          .text.isEmpty &&
+                                      _selectedDate == null) {
+                                    _showAlert('Incomplete Form',
+                                        'Please enter origin country, destination country, and select date.');
+                                    return;
+                                  } else if (_originCountryController
+                                      .text.isEmpty) {
+                                    _showAlert('Incomplete Form',
+                                        'Please enter origin country.');
+                                    return;
+                                  } else if (_destinationCountryController
+                                      .text.isEmpty) {
+                                    _showAlert('Incomplete Form',
+                                        'Please enter destination country.');
+                                    return;
+                                  } else if (_selectedDate == null) {
+                                    _showAlert('Incomplete Form',
+                                        'Please select a date.');
+                                    return;
+                                  }
+
+                                  // Handle "Submit" button press
+                                  fetchFlightSchedule(); // Fetch flight status
+                                  setState(() {
+                                    _isCollapsed =
+                                        !_isCollapsed; // Collapse the form
+                                  });
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: buttonPadding, vertical: 10),
+                                backgroundColor:
+                                    Color.fromARGB(255, 28, 31, 106),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
                               ),
-                            ),
-                            child: Text(
-                              'Submit',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Color.fromARGB(255, 255, 255, 255)),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment
+                                    .end, // Aligns text and icon to the right
+                                mainAxisSize: MainAxisSize
+                                    .min, // Ensures Row size is only as big as its children
+                                children: [
+                                  if (_isCollapsed) ...[
+                                    Text(
+                                      'More',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                        width:
+                                            8), // Space between text and icon
+                                    Icon(
+                                      Icons.arrow_drop_down,
+                                      color: Color.fromARGB(255, 255, 255, 255),
+                                    ),
+                                  ] else ...[
+                                    Text(
+                                      'Submit',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
+                                      ),
+                                    ),
+                                  ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                        SizedBox(height: 20),
+                        SizedBox(height: screenHeight * 0.02),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 350),
+                  SizedBox(height: screenHeight),
                 ],
               ),
             ),
@@ -855,5 +925,11 @@ Arrival Time: ${flightInfo['Atime']}''';
         },
       ),
     );
+  }
+
+  void clearFormFields() {
+    _originCountryController.clear();
+    _destinationCountryController.clear();
+    _selectedDate = null;
   }
 }

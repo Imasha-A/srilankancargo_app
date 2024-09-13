@@ -38,12 +38,12 @@ class UserSelection {
   }
 }
 
-class StorageCalPage extends StatefulWidget {
+class StorageCalOldPage extends StatefulWidget {
   @override
-  _StorageCalPageState createState() => _StorageCalPageState();
+  _StorageCalOldPageState createState() => _StorageCalOldPageState();
 }
 
-class _StorageCalPageState extends State<StorageCalPage> {
+class _StorageCalOldPageState extends State<StorageCalOldPage> {
   DateTime? _arrivalDate;
   DateTime? _clearingDate;
   String? _selectedLocation;
@@ -275,29 +275,11 @@ class _StorageCalPageState extends State<StorageCalPage> {
     if (isArrivalDate) {
       // For Arrival Date
       final DateTime? picked = await showDatePicker(
-          context: context,
-          initialDate: DateTime.now(),
-          firstDate: DateTime.now(),
-          lastDate: DateTime(DateTime.now().year + 1),
-          builder: (BuildContext context, Widget? child) {
-            return Theme(
-              data: ThemeData.light().copyWith(
-                primaryColor: Color.fromARGB(
-                    255, 28, 31, 106), // Selected date circle color
-                hintColor: Color.fromARGB(
-                    255, 28, 31, 106), // Accent color for buttons
-                buttonTheme:
-                    ButtonThemeData(textTheme: ButtonTextTheme.primary),
-                dialogBackgroundColor:
-                    Colors.lightBlue[50], // Background color of the calendar
-                colorScheme: ColorScheme.light(
-                    primary: Color.fromARGB(
-                        255, 28, 31, 106)), // Selected date circle color
-                // Define any other customizations here
-              ),
-              child: child!,
-            );
-          });
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime.now(),
+        lastDate: DateTime(DateTime.now().year + 1),
+      );
       if (picked != null) {
         setState(() {
           _arrivalDate = picked;
@@ -312,29 +294,11 @@ class _StorageCalPageState extends State<StorageCalPage> {
       final DateTime firstDate = _arrivalDate ??
           DateTime.now(); // Use arrival date if set, otherwise now
       final DateTime? picked = await showDatePicker(
-          context: context,
-          initialDate: _clearingDate ?? firstDate,
-          firstDate: firstDate,
-          lastDate: DateTime(DateTime.now().year + 1),
-          builder: (BuildContext context, Widget? child) {
-            return Theme(
-              data: ThemeData.light().copyWith(
-                primaryColor: Color.fromARGB(
-                    255, 28, 31, 106), // Selected date circle color
-                hintColor: Color.fromARGB(
-                    255, 28, 31, 106), // Accent color for buttons
-                buttonTheme:
-                    ButtonThemeData(textTheme: ButtonTextTheme.primary),
-                dialogBackgroundColor:
-                    Colors.lightBlue[50], // Background color of the calendar
-                colorScheme: ColorScheme.light(
-                    primary: Color.fromARGB(
-                        255, 28, 31, 106)), // Selected date circle color
-                // Define any other customizations here
-              ),
-              child: child!,
-            );
-          });
+        context: context,
+        initialDate: _clearingDate ?? firstDate,
+        firstDate: firstDate,
+        lastDate: DateTime(DateTime.now().year + 1),
+      );
       if (picked != null) {
         setState(() {
           _clearingDate = picked;
@@ -757,7 +721,6 @@ class _StorageCalPageState extends State<StorageCalPage> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
     double buttonPadding = screenWidth * 0.128;
     Map<String, double> customizationValues = customizeFormCard(screenWidth);
 
@@ -776,8 +739,8 @@ class _StorageCalPageState extends State<StorageCalPage> {
             ),
           ),
           Positioned(
-            top: screenHeight * 0.025,
-            left: screenWidth * 0.0012,
+            top: 25, // Adjust according to your design
+            left: 3, // Adjust according to your design
             child: SizedBox(
               width: 58, // Set width of the button
               height: 48, // Set height of the button
@@ -789,7 +752,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
 
           // Outer White Card (middle layer) wrapping the form
           Positioned(
-            top: screenHeight * 0.18,
+            top: 155,
             left: 0,
             right: 0,
             child: Container(
@@ -869,7 +832,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                                       alignment: Alignment.centerLeft,
                                       child: Text(
                                         _arrivalDate == null
-                                            ? 'YYYY-MM-DD'
+                                            ? 'Select Flight Actual Arrival Date'
                                             : 'Arrival: ${_arrivalDate.toString().split(' ')[0]}',
                                         style: TextStyle(
                                           color: _arrivalDate == null
@@ -928,7 +891,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                                       alignment: Alignment.centerLeft,
                                       child: Text(
                                         _clearingDate == null
-                                            ? 'YYYY-MM-DD'
+                                            ? 'Select Cargo Clearing Date'
                                             : 'Clearing: ${_clearingDate.toString().split(' ')[0]}',
                                         style: TextStyle(
                                           color: _clearingDate == null
@@ -1056,76 +1019,6 @@ class _StorageCalPageState extends State<StorageCalPage> {
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          'Cargo Type',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w900,
-                              color: Color.fromARGB(255, 28, 31, 106)),
-                        ),
-                        Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.symmetric(horizontal: 15),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.0),
-                            color: Colors.grey[100],
-                            border: Border.all(
-                                color: Color.fromARGB(
-                                    255, 204, 203, 203), // Grey border color
-                                width: 1.0),
-                          ),
-                          child: Transform.translate(
-                            offset: Offset(-1.0, 0.0),
-                            child: DropdownButton<String>(
-                              icon: Icon(Icons.arrow_drop_down),
-                              iconSize: 36.0,
-                              underline: SizedBox(),
-                              style: TextStyle(
-                                  fontSize:
-                                      customizationValues['fontSize'] ?? 14.0,
-                                  color:
-                                      const Color.fromARGB(255, 135, 130, 130),
-                                  fontWeight: FontWeight.bold),
-                              hint: Text('Select Cargo Type',
-                                  style: TextStyle(
-                                      color: const Color.fromARGB(
-                                          255, 204, 203, 203),
-                                      fontWeight: FontWeight.bold)),
-                              value: _selectedCargoType,
-                              isExpanded: true,
-                              items: <String>[
-                                'General Cargo',
-                                'Special Cargo',
-                                'Courier',
-                                'Courier Detained',
-                                'Courier House Airway Bill'
-                              ].map((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(value),
-                                      if (value == 'Special Cargo')
-                                        IconButton(
-                                          icon: Icon(Icons.info_outline,
-                                              size: 20.0),
-                                          onPressed: _showInfoDialog,
-                                        ),
-                                    ],
-                                  ),
-                                );
-                              }).toList(),
-                              onChanged: (value) {
-                                setState(() {
-                                  _selectedCargoType = value;
-                                });
-                              },
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 10.0),
-                        Text(
                           'Room Type',
                           style: TextStyle(
                               fontSize: 14,
@@ -1234,6 +1127,76 @@ class _StorageCalPageState extends State<StorageCalPage> {
                           ),
                         ),
                         SizedBox(height: 10.0),
+                        Text(
+                          'Cargo Type',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w900,
+                              color: Color.fromARGB(255, 28, 31, 106)),
+                        ),
+                        Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.symmetric(horizontal: 15),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.0),
+                            color: Colors.grey[100],
+                            border: Border.all(
+                                color: Color.fromARGB(
+                                    255, 204, 203, 203), // Grey border color
+                                width: 1.0),
+                          ),
+                          child: Transform.translate(
+                            offset: Offset(-1.0, 0.0),
+                            child: DropdownButton<String>(
+                              icon: Icon(Icons.arrow_drop_down),
+                              iconSize: 36.0,
+                              underline: SizedBox(),
+                              style: TextStyle(
+                                  fontSize:
+                                      customizationValues['fontSize'] ?? 14.0,
+                                  color:
+                                      const Color.fromARGB(255, 135, 130, 130),
+                                  fontWeight: FontWeight.bold),
+                              hint: Text('Select Cargo Type',
+                                  style: TextStyle(
+                                      color: const Color.fromARGB(
+                                          255, 204, 203, 203),
+                                      fontWeight: FontWeight.bold)),
+                              value: _selectedCargoType,
+                              isExpanded: true,
+                              items: <String>[
+                                'General Cargo',
+                                'Special Cargo',
+                                'Courier',
+                                'Courier Detained',
+                                'Courier House Airway Bill'
+                              ].map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(value),
+                                      if (value == 'Special Cargo')
+                                        IconButton(
+                                          icon: Icon(Icons.info_outline,
+                                              size: 20.0),
+                                          onPressed: _showInfoDialog,
+                                        ),
+                                    ],
+                                  ),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  _selectedCargoType = value;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 14.0),
                         Center(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -1294,7 +1257,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                       ],
                     ),
                   ),
-                  SizedBox(height: screenHeight),
+                  const SizedBox(height: 500),
                 ],
               ),
             ),

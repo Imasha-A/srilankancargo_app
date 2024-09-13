@@ -64,11 +64,28 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
-    );
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2101),
+        builder: (BuildContext context, Widget? child) {
+          return Theme(
+            data: ThemeData.light().copyWith(
+              primaryColor: Color.fromARGB(
+                  255, 28, 31, 106), // Selected date circle color
+              hintColor:
+                  Color.fromARGB(255, 28, 31, 106), // Accent color for buttons
+              buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+              dialogBackgroundColor:
+                  Colors.lightBlue[50], // Background color of the calendar
+              colorScheme: ColorScheme.light(
+                  primary: Color.fromARGB(
+                      255, 28, 31, 106)), // Selected date circle color
+              // Define any other customizations here
+            ),
+            child: child!,
+          );
+        });
     if (picked != null && picked != _selectedDate)
       setState(() {
         _selectedDate = picked;
@@ -201,6 +218,7 @@ Scheduled Time: ${flightInfo['Schedultime']}''';
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     double buttonPadding = screenWidth * 0.34;
     Map<String, double> customizationValues = customizeFormCard(screenWidth);
 
@@ -219,8 +237,8 @@ Scheduled Time: ${flightInfo['Schedultime']}''';
             ),
           ),
           Positioned(
-            top: 25, // Adjust according to your design
-            left: 3, // Adjust according to your design
+            top: screenHeight * 0.025,
+            left: screenWidth * 0.0012,
             child: SizedBox(
               width: 58, // Set width of the button
               height: 48, // Set height of the button
@@ -232,7 +250,7 @@ Scheduled Time: ${flightInfo['Schedultime']}''';
 
           // Outer White Card (middle layer) wrapping the form
           Positioned(
-            top: 155,
+            top: screenHeight * 0.18,
             left: 0,
             right: 0,
             child: Container(

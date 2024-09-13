@@ -54,6 +54,7 @@ class ContactUsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     double paddingBottom;
     double buttonWidth;
     double buttonHeight;
@@ -119,7 +120,7 @@ class ContactUsPage extends StatelessWidget {
 
           // White Card with Content (middle layer)
           Positioned(
-            top: 175,
+            top: screenHeight * 0.205,
             left: 0,
             right: 0,
             child: Container(

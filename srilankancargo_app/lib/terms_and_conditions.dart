@@ -3,8 +3,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 Future<Map<String, dynamic>> fetchData() async {
-  final response =
-      await http.get(Uri.parse('http://10.60.11.102:5063/api/contacts'));
+  final response = await http
+      .get(Uri.parse('http://10.60.11.61:5063/api/termsAndConditions'));
 
   if (response.statusCode == 200) {
     List<dynamic> contacts = jsonDecode(response.body);

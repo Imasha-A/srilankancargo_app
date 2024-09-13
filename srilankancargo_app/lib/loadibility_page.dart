@@ -237,6 +237,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     double buttonPadding = screenWidth * 0.128;
     Map<String, double> customizationValues = customizeFormCard(screenWidth);
 
@@ -255,8 +256,8 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
             ),
           ),
           Positioned(
-            top: 25, // Adjust according to your design
-            left: 3, // Adjust according to your design
+            top: screenHeight * 0.025,
+            left: screenWidth * 0.0012,
             child: SizedBox(
               width: 58, // Set width of the button
               height: 48, // Set height of the button
@@ -268,7 +269,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
 
           // Outer White Card (middle layer) wrapping the form
           Positioned(
-            top: 155,
+            top: screenHeight * 0.18,
             left: 0,
             right: 0,
             child: Container(

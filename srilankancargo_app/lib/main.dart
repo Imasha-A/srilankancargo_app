@@ -170,6 +170,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       key: _scaffoldKey,
       body: Stack(
@@ -180,7 +182,7 @@ class _MyHomePageState extends State<MyHomePage> {
             left: 0,
             right: 0,
             child: Image.asset(
-              'assets/images/homescreen_banner.jpg', // Your blue banner image
+              'assets/images/home_background_banner_try.png', // Your blue banner image
               fit: BoxFit.cover,
               height: 235, // Adjust as necessary
             ),
@@ -188,7 +190,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
           // White Card with Content (middle layer)
           Positioned(
-            top: 225, // Adjust to start below the banner
+            top: screenHeight * 0.26, // Adjust to start below the banner
             left: 0,
             right: 0,
             child: Container(
@@ -295,21 +297,16 @@ class _MyHomePageState extends State<MyHomePage> {
                             SizedBox(
                               width: 355,
                               height: 160,
-                              child: GestureDetector(
-                                onTap: () {
-                                  //const url = 'https://www.srilankancargo.com';
-                                  launchUrl(Uri.parse(
-                                      'https://www.srilankancargo.com'));
-                                },
-                                child: Image.asset(
-                                  'assets/images/visit_website_banner.png',
-                                  fit: BoxFit.cover,
-                                ),
+                              child: Image.asset(
+                                'assets/images/visit_website_banner.png',
+                                fit: BoxFit.cover,
                               ),
                             ),
                             Positioned(
-                              bottom: 5, // Position from the bottom
-                              left: 30, // Position from the left
+                              bottom: screenWidth *
+                                  0.01, // Position from the bottom
+                              left:
+                                  screenWidth * 0.09, // Position from the left
                               child: ElevatedButton(
                                 onPressed: () {
                                   launchUrl((Uri.parse(
@@ -318,8 +315,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                 child: const Text("Click here"),
                                 style: ElevatedButton.styleFrom(
                                   foregroundColor: Colors.white,
-                                  backgroundColor: const Color.fromARGB(
-                                      255, 0, 0, 0), // Text color
+                                  backgroundColor: Color.fromARGB(
+                                      255, 26, 26, 54), // Text color
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 28, vertical: 0),
                                 ),
@@ -335,12 +332,13 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           Positioned(
-            top: 95, // Adjust this value to position the text above the slider
-            left: 20,
+            top: screenHeight *
+                0.13, // Adjust this value to position the text above the slider
+            left: screenWidth * 0.05,
             child: Text(
               'Welcome to',
               style: TextStyle(
-                fontSize: 22,
+                fontSize: 20,
                 color: Color.fromARGB(255, 255, 255, 255),
               ),
               textAlign: TextAlign.left,
@@ -348,8 +346,9 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
 
           Positioned(
-            top: 125, // Adjust this value to position the text above the slider
-            left: 20,
+            top: screenHeight *
+                0.16, // Adjust this value to position the text above the slider
+            left: screenWidth * 0.05,
 
             child: Text(
               'SriLankan Airlines Cargo',
@@ -363,9 +362,10 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           // Image Slider (PageView) (top layer)
           Positioned(
-            top: 165, // Adjust to overlap the white card and banner
-            left: 20,
-            right: 20,
+            top: screenHeight *
+                0.197, // Adjust to overlap the white card and banner
+            left: screenWidth * 0.05,
+            right: screenWidth * 0.05,
             child: Container(
               height: 200, // Adjust height as necessary
               decoration: BoxDecoration(
