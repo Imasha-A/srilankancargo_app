@@ -6,7 +6,6 @@ import 'package:srilankancargo_app/contact_us_page.dart';
 import 'package:srilankancargo_app/main.dart';
 import 'package:intl/intl.dart';
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'dart:io';
@@ -28,6 +27,10 @@ class _FlightSchedulePageState extends State<FlightSchedulePage> {
   TextEditingController _searchController = TextEditingController();
   bool _isLoading = false;
   bool _isCollapsed = false;
+  bool _fetched = false;
+  bool _showFlightDetails = false;
+
+  List<String> _flightDetails = [];
 
   @override
   void initState() {
@@ -256,26 +259,34 @@ class _FlightSchedulePageState extends State<FlightSchedulePage> {
         if (data.isNotEmpty) {
           // Create a list of flight information strings
           List<String> flightDetails = data.map((flightInfo) {
-            return '''------------------------------------------
+            return '''
 Flight Number: ${flightInfo['FlightNo']}
 Flight Date: ${flightInfo['FlightDate']}
 Aircraft Type: ${flightInfo['AircraftType']}
 Arrival Time: ${flightInfo['Atime']}''';
           }).toList();
 
-          String heading = 'Flight Schedule';
-
-          _showScrollableAlert(heading, flightDetails);
+          setState(() {
+            _flightDetails = flightDetails;
+            print('Flight details updated: $_flightDetails'); // Debug print
+          });
         } else {
-          _showAlert(
-              'No Flight Data', 'No flight schedule information available.');
+          setState(() {
+            _flightDetails = ['No flight schedule information available.'];
+            print('No flight schedule information available.'); // Debug print
+          });
         }
       } else {
-        _showAlert('Failed to Fetch Data',
-            'Server returned status code ${response.statusCode}.');
+        setState(() {
+          _flightDetails = ['Failed to fetch flight schedule.'];
+          print('Failed fetching flight schedule'); // Debug print
+        });
       }
     } catch (e) {
-      _showAlert('Error', 'Error fetching flight schedule: $e');
+      setState(() {
+        _flightDetails = ['Error fetching flight schedule: $e'];
+        print('Error fetching flight schedule: $e'); // Debug print
+      });
     } finally {
       setState(() {
         _isLoading = false;
@@ -345,6 +356,124 @@ Arrival Time: ${flightInfo['Atime']}''';
     );
   }
 
+  Widget _buildOriginDestinationRow() {
+    String originCountryName = _allCountries.firstWhere(
+        (country) => country['code'] == _originCountryController.text)['name'];
+    String destinationCountryName = _allCountries.firstWhere((country) =>
+        country['code'] == _destinationCountryController.text)['name'];
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 5),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // Origin country column with aligned text
+          Flexible(
+            child: Column(
+              crossAxisAlignment:
+                  CrossAxisAlignment.start, // Align country code and name
+              children: [
+                Text(
+                  _originCountryController.text, // Origin country code
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 28, 31, 106),
+                  ),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  originCountryName,
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: Color.fromARGB(255, 28, 31, 106),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          // Airplane SVG in the middle
+          Padding(
+            padding: const EdgeInsets.only(bottom: 15.0), // Move it slightly up
+            child: SvgPicture.asset(
+              'assets/images/airplane_line.svg',
+              height: 115,
+              color: Color.fromARGB(
+                  255, 27, 31, 127), // Keep the same size for the airplane icon
+            ),
+          ),
+
+          // Destination country column with aligned text
+          Flexible(
+            child: Column(
+              crossAxisAlignment:
+                  CrossAxisAlignment.start, // Align country code and name
+              children: [
+                Text(
+                  _destinationCountryController
+                      .text, // Destination country code
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 28, 31, 106),
+                  ),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  destinationCountryName,
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: Color.fromARGB(255, 28, 31, 106),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFlightDetails() {
+    if (_flightDetails.isEmpty) {
+      return Center(child: Text('No flight schedule information available.'));
+    }
+
+    return SingleChildScrollView(
+      child: Column(
+        children: _flightDetails.map((flightDetail) {
+          // Assuming flightDetail is a string and needs to be split or parsed.
+          // Adjust as per actual data format.
+          final flightInfo =
+              flightDetail.split('\n'); // Split string if necessary
+
+          return Card(
+            color: Color.fromARGB(255, 251, 250, 255),
+            margin: EdgeInsets.symmetric(vertical: 3.5, horizontal: 0),
+            child: Padding(
+              // Added padding to move the content to the right
+              padding: EdgeInsets.only(
+                  left: 100.0,
+                  top: 7,
+                  bottom: 7), // Adjust horizontal padding as needed
+              child: ListTile(
+                title: Text('Flight Number: ${flightInfo[0].split(': ')[1]}'),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Aircraft Type: ${flightInfo[2].split(': ')[1]}'),
+                    Text('Arrival Time: ${flightInfo[3].split(': ')[1]}'),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -397,7 +526,7 @@ Arrival Time: ${flightInfo['Atime']}''';
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                children: [
+                children: <Widget>[
                   Text(
                     'Flight Schedule',
                     style: TextStyle(
@@ -785,6 +914,8 @@ Arrival Time: ${flightInfo['Atime']}''';
                                   setState(() {
                                     _isCollapsed =
                                         !_isCollapsed; // Uncollapse the form
+                                    _fetched = false; // Clear fetched data
+                                    _flightDetails = []; // Clear flight details
                                   });
                                 } else {
                                   if (_originCountryController.text.isEmpty &&
@@ -812,6 +943,7 @@ Arrival Time: ${flightInfo['Atime']}''';
 
                                   // Handle "Submit" button press
                                   fetchFlightSchedule(); // Fetch flight status
+                                  _fetched = true;
                                   setState(() {
                                     _isCollapsed =
                                         !_isCollapsed; // Collapse the form
@@ -864,11 +996,25 @@ Arrival Time: ${flightInfo['Atime']}''';
                             ),
                           ),
                         ),
-                        SizedBox(height: screenHeight * 0.02),
                       ],
                     ),
                   ),
-                  SizedBox(height: screenHeight),
+                  SizedBox(height: screenHeight * 0.0001),
+                  Row(),
+                  if (_fetched) ...[
+                    _buildOriginDestinationRow(), // Display the origin-destination row
+                  ],
+                  if (_fetched) ...[
+                    Container(
+                      height: screenHeight *
+                          0.425, // Adjust height for scrollable details
+                      child: SingleChildScrollView(
+                        child:
+                            _buildFlightDetails(), // Display flight details here
+                      ),
+                    ),
+                  ],
+                  SizedBox(height: screenHeight * 0.9),
                 ],
               ),
             ),
@@ -904,7 +1050,6 @@ Arrival Time: ${flightInfo['Atime']}''';
         ],
         selectedItemColor: Color.fromARGB(255, 28, 31, 106),
         unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
-        currentIndex: 1,
         onTap: (index) {
           if (index == 1) {
             Navigator.push(context,

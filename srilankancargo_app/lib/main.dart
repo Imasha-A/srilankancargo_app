@@ -184,7 +184,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Image.asset(
               'assets/images/home_background_banner_try.png', // Your blue banner image
               fit: BoxFit.cover,
-              height: 235, // Adjust as necessary
+              height: screenHeight * 0.28, // Adjust as necessary
             ),
           ),
 
@@ -206,14 +206,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
-              padding: EdgeInsets.all(3),
+              padding: EdgeInsets.symmetric(
+                  horizontal: screenWidth * 0.01,
+                  vertical: screenHeight * 0.012),
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: paddingBottom),
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.01),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      const SizedBox(height: 147),
+                      SizedBox(height: screenHeight * 0.185),
                       DotsIndicator(
                         dotsCount: 3,
                         position: _currentPage.toInt(),
@@ -229,8 +231,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
 
                       Padding(
-                        padding: const EdgeInsets.only(
-                            right: 250), // Adjust the value as needed
+                        padding: EdgeInsets.only(
+                            right: screenWidth *
+                                0.6), // Adjust the value as needed
                         child: Text(
                           'Categories',
                           style: TextStyle(
@@ -240,11 +243,13 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 5),
 
                       // Category Icons
                       Padding(
-                        padding: const EdgeInsets.all(10),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: screenWidth * 0.01,
+                            vertical: screenHeight * 0.015),
                         child: Column(
                           children: [
                             Row(
@@ -253,17 +258,19 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Expanded(
                                     child: buildOutlinedButton('Schedule',
                                         'assets/images/flight_schedule_icon.svg')),
-                                SizedBox(width: 0), // Space between buttons
+                                // Space between buttons
                                 Expanded(
                                     child: buildOutlinedButton('Flight Status',
                                         'assets/images/flight_status_icon.svg')),
-                                SizedBox(width: 0), // Space between buttons
+                                // Space between buttons
                                 Expanded(
                                     child: buildOutlinedButton('Loadibility',
                                         'assets/images/loadability_icon.svg')),
                               ],
                             ),
-                            SizedBox(height: 30), // Space between rows
+                            SizedBox(
+                                height:
+                                    screenHeight * 0.02), // Space between rows
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -285,18 +292,18 @@ class _MyHomePageState extends State<MyHomePage> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 3),
+                      SizedBox(height: screenHeight * 0.005),
 
                       // Website Banner
                       Positioned(
-                        top: 10,
-                        left: 5,
-                        right: 5,
+                        top: screenHeight * 0.05,
+                        left: screenWidth * 0.05,
+                        right: screenWidth * 0.05,
                         child: Stack(
                           children: [
                             SizedBox(
-                              width: 355,
-                              height: 160,
+                              width: screenWidth * 0.9,
+                              height: screenHeight * 0.185,
                               child: Image.asset(
                                 'assets/images/visit_website_banner.png',
                                 fit: BoxFit.cover,
@@ -318,13 +325,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                   backgroundColor: Color.fromARGB(
                                       255, 26, 26, 54), // Text color
                                   padding: EdgeInsets.symmetric(
-                                      horizontal: 28, vertical: 0),
+                                    horizontal: screenWidth * 0.05,
+                                  ),
                                 ),
                               ),
                             ),
                           ],
                         ),
                       ),
+                      SizedBox(height: screenHeight * 0.5),
                     ],
                   ),
                 ),
@@ -333,12 +342,12 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           Positioned(
             top: screenHeight *
-                0.13, // Adjust this value to position the text above the slider
+                0.155, // Adjust this value to position the text above the slider
             left: screenWidth * 0.05,
             child: Text(
               'Welcome to',
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 19,
                 color: Color.fromARGB(255, 255, 255, 255),
               ),
               textAlign: TextAlign.left,
@@ -347,7 +356,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
           Positioned(
             top: screenHeight *
-                0.16, // Adjust this value to position the text above the slider
+                0.18, // Adjust this value to position the text above the slider
             left: screenWidth * 0.05,
 
             child: Text(
@@ -363,7 +372,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // Image Slider (PageView) (top layer)
           Positioned(
             top: screenHeight *
-                0.197, // Adjust to overlap the white card and banner
+                0.22, // Adjust to overlap the white card and banner
             left: screenWidth * 0.05,
             right: screenWidth * 0.05,
             child: Container(
@@ -453,6 +462,7 @@ class _MyHomePageState extends State<MyHomePage> {
             );
           }
         },
+        selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
       ),
     );
   }

@@ -1293,7 +1293,6 @@ class _StorageCalOldPageState extends State<StorageCalOldPage> {
         ],
         selectedItemColor: Color.fromARGB(255, 28, 31, 106),
         unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
-        currentIndex: 1,
         onTap: (index) {
           if (index == 1) {
             Navigator.push(context,

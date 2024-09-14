@@ -254,8 +254,6 @@ class ContactUsPage extends StatelessWidget {
           ),
         ],
       ),
-
-      // Bottom Navigation Bar
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(
@@ -288,16 +286,16 @@ class ContactUsPage extends StatelessWidget {
         currentIndex: 1,
         onTap: (index) {
           if (index == 1) {
-            // Current page, no need to navigate
-            Navigator.popUntil(context, (route) => route.isFirst);
+            // Navigate to Contact Us page
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ContactUsPage()));
           } else if (index == 0) {
             // Navigate to Home page
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) =>
-                    MyHomePage(title: 'Flutter Demo Home Page'),
-              ),
+                  builder: (context) =>
+                      MyHomePage(title: 'Flutter Demo Home Page')),
             );
           } else if (index == 2) {
             // Navigate to About Us page
@@ -307,6 +305,7 @@ class ContactUsPage extends StatelessWidget {
             );
           }
         },
+        selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
       ),
     );
   }
