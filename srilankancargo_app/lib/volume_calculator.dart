@@ -676,6 +676,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                           child: ElevatedButton(
                             onPressed: () {
                               calculateVolume();
+                              FocusScope.of(context).unfocus();
                             },
                             style: ElevatedButton.styleFrom(
                               padding: EdgeInsets.symmetric(

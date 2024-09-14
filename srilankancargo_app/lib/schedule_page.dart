@@ -436,41 +436,82 @@ Arrival Time: ${flightInfo['Atime']}''';
   }
 
   Widget _buildFlightDetails() {
-    if (_flightDetails.isEmpty) {
-      return Center(child: Text('No flight schedule information available.'));
+    // Define a function that simulates a delay
+    Future<List<String>> _fetchFlightDetailsWithDelay() async {
+      // Simulate a delay of 2 seconds
+      await Future.delayed(Duration(seconds: 2));
+
+      // Return flight details after the delay
+      return _flightDetails;
     }
 
-    return SingleChildScrollView(
-      child: Column(
-        children: _flightDetails.map((flightDetail) {
-          // Assuming flightDetail is a string and needs to be split or parsed.
-          // Adjust as per actual data format.
-          final flightInfo =
-              flightDetail.split('\n'); // Split string if necessary
+    return FutureBuilder<List<String>>(
+      future: _fetchFlightDetailsWithDelay(),
+      builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          // While waiting for the delay, show a loading indicator
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          // Handle any errors
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          // If no data or empty list, show a message
+          return Center(
+              child: Text('No flight schedule information available.'));
+        } else {
+          // Build the flight details if data is available
+          final flightDetails = snapshot.data!;
+          return SingleChildScrollView(
+            child: Column(
+              children: flightDetails.map((flightDetail) {
+                final flightInfo = flightDetail
+                    .split('\n'); // Adjust as per actual data format
 
-          return Card(
-            color: Color.fromARGB(255, 251, 250, 255),
-            margin: EdgeInsets.symmetric(vertical: 3.5, horizontal: 0),
-            child: Padding(
-              // Added padding to move the content to the right
-              padding: EdgeInsets.only(
-                  left: 100.0,
-                  top: 7,
-                  bottom: 7), // Adjust horizontal padding as needed
-              child: ListTile(
-                title: Text('Flight Number: ${flightInfo[0].split(': ')[1]}'),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Aircraft Type: ${flightInfo[2].split(': ')[1]}'),
-                    Text('Arrival Time: ${flightInfo[3].split(': ')[1]}'),
-                  ],
-                ),
-              ),
+                // Ensure flightInfo has enough elements
+                if (flightInfo.length < 4) {
+                  return Card(
+                    color: Color.fromARGB(255, 251, 250, 255),
+                    margin: EdgeInsets.symmetric(vertical: 3.5, horizontal: 0),
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 125.0, top: 7, bottom: 7),
+                      child: ListTile(
+                        title: Text(
+                          'No Flights',
+                          style: TextStyle(
+                            color: Color.fromARGB(
+                                255, 28, 31, 106), // Dark blue color
+                            fontSize: 16, // Font size 16
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                }
+
+                return Card(
+                  color: Color.fromARGB(255, 251, 250, 255),
+                  margin: EdgeInsets.symmetric(vertical: 3.5, horizontal: 0),
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 100.0, top: 7, bottom: 7),
+                    child: ListTile(
+                      title: Text(
+                          'Flight Number: ${flightInfo[0].split(': ')[1]}'),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                              'Aircraft Type: ${flightInfo[2].split(': ')[1]}'),
+                          Text('Arrival Time: ${flightInfo[3].split(': ')[1]}'),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              }).toList(),
             ),
           );
-        }).toList(),
-      ),
+        }
+      },
     );
   }
 

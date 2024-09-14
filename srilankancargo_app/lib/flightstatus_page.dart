@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:srilankancargo_app/about_us_page.dart';
 import 'package:srilankancargo_app/contact_us_page.dart';
@@ -17,6 +18,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
   DateTime? _selectedDate;
   String? _flightStatus; // To hold flight status information
   bool _isLoading = false; // Loading indicator
+  Map<String, dynamic>? _flightInfo;
 
   Map<String, double> customizeFormCard(double screenWidth) {
     Map<String, double> customizationValues = {};
@@ -93,19 +95,25 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
   }
 
   Future<void> fetchFlightStatus() async {
+    FocusScope.of(context).unfocus();
     final RegExp flightNumberReg = RegExp(r'^[a-zA-Z]{2}\d{1,4}$');
 
     if (_flightNumberController.text.isEmpty && _selectedDate == null) {
+      _clearFlightInfo();
       _showAlert('Incomplete Form',
           'Please enter valid flight number and select date');
+
       return;
     } else if (_flightNumberController.text.isEmpty) {
+      _clearFlightInfo();
       _showAlert('Incomplete Form', 'Please enter valid flight number.');
       return;
     } else if (!flightNumberReg.hasMatch(_flightNumberController.text)) {
+      _clearFlightInfo();
       _showAlert('Invalid Flight Number', 'Please enter valid flight number.');
       return;
     } else if (_selectedDate == null) {
+      _clearFlightInfo();
       _showAlert('Incomplete Form', 'Please select date');
       return;
     }
@@ -121,6 +129,8 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
     String url =
         "https://ulmobservicesstg.srilankan.com/ULMOBTEAMSERVICES/api/CARGOUL/FLTSTA?FlightNo=$flightNo&FlightDate=$flightDate";
 
+    _flightNumberController.clear();
+    _selectedDate = null;
     try {
       final response = await http.get(Uri.parse(url));
 
@@ -128,24 +138,21 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
         var data = json.decode(response.body);
 
         if (data.isNotEmpty) {
-          var flightInfo = data[0];
-
-          String message = '''Flight Number: ${flightInfo['Flight_No']}
-Flight Date: ${flightInfo['FlightDate']}
-Sector: ${flightInfo['Sector']}
-Scheduled Time: ${flightInfo['Schedultime']}''';
-          String heading = ''' ${flightInfo['Stauts']}''';
-
-          _showAlert(heading, message);
+          setState(() {
+            _flightInfo = data[0]; // Save the flight information
+          });
         } else {
+          _clearFlightInfo();
           _showAlert(
               'No Flight Data', 'No flight status information available.');
         }
       } else {
+        _clearFlightInfo();
         _showAlert('Failed to Fetch Data',
             'Server returned status code ${response.statusCode}.');
       }
     } catch (e) {
+      _clearFlightInfo();
       _showAlert('Error', 'Error fetching flight status: $e');
     } finally {
       setState(() {
@@ -459,7 +466,105 @@ Scheduled Time: ${flightInfo['Schedultime']}''';
                       ],
                     ),
                   ),
-                  const SizedBox(height: 500),
+                  // Display flight status below the form
+                  if (_flightInfo != null) ...[
+                    const SizedBox(height: 40),
+                    Text(
+                      'ON-SCHEDULE',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w900,
+                        color: Color.fromARGB(255, 15, 20, 158),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      'Scheduled Time: ${_flightInfo!['Schedultime']}',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Color.fromARGB(255, 15, 20, 158),
+                      ),
+                    ),
+
+                    // Flight route with airplane line
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          _flightInfo!['Sector'].split('-')[0],
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: const Color.fromARGB(255, 15, 20, 158),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 0.5),
+                          child: SvgPicture.asset(
+                            'assets/images/airplane_line.svg',
+                            height: 110,
+                          ),
+                        ),
+                        Text(
+                          _flightInfo!['Sector'].split('-')[1],
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: const Color.fromARGB(255, 15, 20, 158),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 15),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Flight number: ${_flightInfo!['Flight_No']}',
+                          style: TextStyle(
+                            fontSize: 14, // Adjust the size as needed
+                            color: const Color.fromARGB(
+                                255, 15, 20, 158), // Set the color
+                          ),
+                        ),
+                        Text(
+                          'Flight Date: ${_flightInfo!['FlightDate']}',
+                          style: TextStyle(
+                            fontSize: 14, // Adjust the size as needed
+                            color: const Color.fromARGB(
+                                255, 15, 20, 158), // Set the color
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10), // Space before Clear button
+                    Padding(
+                      padding: EdgeInsets.only(left: 250),
+                      child: ElevatedButton(
+                        onPressed:
+                            _clearFlightInfo, // Call _clearFlightInfo on press
+                        style: ElevatedButton.styleFrom(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 30, vertical: 3),
+                          backgroundColor: Color.fromARGB(
+                              255, 28, 31, 106), // Color for clear button
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: Text(
+                          'Clear',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+
+                  const SizedBox(height: 300),
                 ],
               ),
             ),
@@ -515,5 +620,12 @@ Scheduled Time: ${flightInfo['Schedultime']}''';
         },
       ),
     );
+  }
+
+  void _clearFlightInfo() {
+    setState(() {
+      _flightInfo = null;
+      _flightStatus = null;
+    });
   }
 }
