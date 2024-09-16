@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -9,7 +8,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:srilankancargo_app/about_us_page.dart';
 import 'package:srilankancargo_app/main.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter/services.dart';
 
 class ContactUsPage extends StatelessWidget {
   const ContactUsPage({Key? key}) : super(key: key);
@@ -53,55 +51,13 @@ class ContactUsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TextScaler? textScaler = MediaQuery.maybeTextScalerOf(context);
+    final double textScale = textScaler != null
+        ? (textScaler.scale is double ? textScaler.scale as double : 1.0)
+        : 1.0;
+
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    double paddingBottom;
-    double buttonWidth;
-    double buttonHeight;
-    double buttonTextSize;
-
-    // Use the same dimension logic as HomePage
-    if (screenWidth == 1024) {
-      paddingBottom = 65.0;
-      buttonWidth = (screenWidth - 100) / 3;
-      buttonHeight = 45;
-      buttonTextSize = 12;
-    } else if (screenWidth >= 768) {
-      paddingBottom = 85.0;
-      buttonWidth = (screenWidth - 80) / 3;
-      buttonHeight = 50;
-      buttonTextSize = 12;
-    } else if (screenWidth == 375) {
-      paddingBottom = 15.0;
-      buttonWidth = (screenWidth - 60) / 2;
-      buttonHeight = 28;
-      buttonTextSize = 10.5;
-    } else if (screenWidth == 393) {
-      paddingBottom = 70.0;
-      buttonWidth = (screenWidth - 60) / 2;
-      buttonHeight = 43;
-      buttonTextSize = 10;
-    } else if (screenWidth == 430) {
-      paddingBottom = 92.0;
-      buttonWidth = (screenWidth - 60) / 2;
-      buttonHeight = 43;
-      buttonTextSize = 12;
-    } else if (screenWidth <= 768 && screenWidth > 600) {
-      paddingBottom = 90.0;
-      buttonWidth = (screenWidth - 100) / 3;
-      buttonHeight = 55;
-      buttonTextSize = 14.0;
-    } else if (screenWidth <= 600 && screenWidth > 400) {
-      paddingBottom = 60.0;
-      buttonWidth = (screenWidth - 60) / 2;
-      buttonHeight = 50;
-      buttonTextSize = 11.0;
-    } else {
-      paddingBottom = 85.0;
-      buttonWidth = (screenWidth - 30) / 2;
-      buttonHeight = 45;
-      buttonTextSize = 12.0;
-    }
 
     return Scaffold(
       body: Stack(
@@ -123,129 +79,148 @@ class ContactUsPage extends StatelessWidget {
             top: screenHeight * 0.205,
             left: 0,
             right: 0,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              padding: EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 10),
-                  // Contact Information Cards with colors applied
-                  ContactInfoCard(
-                    svgPath: 'assets/images/call_us_icon.svg',
-                    title: 'Call us',
-                    subtitle: '0197 333 259',
-                    subtitleColor: Color.fromARGB(255, 51, 51, 51),
-                    onTap: () => _launchPhone('0197333259'),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                double cardWidth =
+                    constraints.maxWidth * 0.9; // Responsive width
+                double maxHeight =
+                    screenHeight * 0.7; // Available height for scrollable area
+                return Container(
+                  width: cardWidth,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  ContactInfoCard(
-                    svgPath: 'assets/images/email_us_icon.svg',
-                    title: 'Email us',
-                    subtitle: 'cargo@srilankan.com',
-                    subtitleColor: Color.fromARGB(255, 51, 51, 51),
-                    onTap: () => _launchEmail('cargo@srilankan.com'),
-                    onLongPress: () =>
-                        _copyToClipboard(context, 'cargo@srilankan.com'),
-                  ),
-                  ContactInfoCard(
-                      svgPath: 'assets/images/address_icon.svg',
-                      title: 'Address',
-                      subtitle:
-                          'SriLankan Airlines Cargo,\nKatunayake, Sri Lanka',
-                      subtitleColor: Color.fromARGB(255, 51, 51, 51),
-                      onTap: () => launchUrl((Uri.parse(
-                          'https://www.google.com/maps/place/SriLankan+Cargo/@7.1702799,79.5546651,10z/data=!4m10!1m2!2m1!1ssrilankan+cargo!3m6!1s0x3ae2efc8eeea9517:0x5b390f6a09d7fe3f!8m2!3d7.1704115!4d79.8836481!15sCg9zcmlsYW5rYW4gY2FyZ2-SAQl3YXJlaG91c2XgAQA!16s%2Fg%2F11c518c5b5?entry=ttu&g_ep=EgoyMDI0MDkwOS4wIKXMDSoASAFQAw%3D%3D')))),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: cardWidth * 0.05,
+                      vertical: screenHeight * 0.01),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxHeight:
+                          maxHeight, // Set the maximum height for the scrollable area
+                    ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: screenHeight * 0.01),
+                          // Contact Information Cards with colors applied
+                          ContactInfoCard(
+                            svgPath: 'assets/images/call_us_icon.svg',
+                            title: 'Call us',
+                            subtitle: '0197 333 259',
+                            subtitleColor: Color.fromARGB(255, 51, 51, 51),
+                            onTap: () => _launchPhone('0197333259'),
+                          ),
+                          ContactInfoCard(
+                            svgPath: 'assets/images/email_us_icon.svg',
+                            title: 'Email us',
+                            subtitle: 'cargo@srilankan.com',
+                            subtitleColor: Color.fromARGB(255, 51, 51, 51),
+                            onTap: () => _launchEmail('cargo@srilankan.com'),
+                            onLongPress: () => _copyToClipboard(
+                                context, 'cargo@srilankan.com'),
+                          ),
+                          ContactInfoCard(
+                              svgPath: 'assets/images/address_icon.svg',
+                              title: 'Address',
+                              subtitle:
+                                  'SriLankan Airlines Cargo,\nKatunayake, Sri Lanka',
+                              subtitleColor: Color.fromARGB(255, 51, 51, 51),
+                              onTap: () => _launchURLAddress(Uri.parse(
+                                  'https://www.google.com/maps/place/SriLankan+Cargo/@7.1702799,79.5546651,10z/data=!4m10!1m2!2m1!1ssrilankan+cargo!3m6!1s0x3ae2efc8eeea9517:0x5b390f6a09d7fe3f!8m2!3d7.1704115!4d79.8836481!15sCg9zcmlsYW5rYW4gY2FyZ2-SAQl3YXJlaG91c2XgAQA!16s%2Fg%2F11c518c5b5?entry=ttu&g_ep=EgoyMDI0MDkwOS4wIKXMDSoASAFQAw%3D%3D'))),
 
-                  // Social Media Buttons
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(150, 32, 100, 0),
-                    child: Text(
-                      'Follow on',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: const Color.fromARGB(
-                            255, 28, 31, 106), // Set your desired color here
+                          // Social Media Buttons
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: screenWidth * 0.32,
+                                vertical: screenHeight * 0.015),
+                            child: Text(
+                              'Follow on',
+                              style: TextStyle(
+                                fontSize:
+                                    screenWidth * 0.05, // Adjust text size
+                                color: const Color.fromARGB(255, 28, 31, 106),
+                              ),
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                icon: SvgPicture.asset(
+                                  'assets/images/youtube_icon.svg',
+                                  height: screenHeight * .05,
+                                  width: screenWidth * .05,
+                                ),
+                                onPressed: () {
+                                  _launchURLYoutube(Uri.parse(
+                                      'https://www.youtube.com/channel/UCU_e10UGVQS8JikgDpwvdag'));
+                                },
+                              ),
+                              SizedBox(width: screenWidth * 0.01),
+                              IconButton(
+                                icon: SvgPicture.asset(
+                                  'assets/images/instagram_icon.svg',
+                                  height: screenHeight * .05,
+                                  width: screenWidth * .05,
+                                ),
+                                onPressed: () {
+                                  launchUrl(Uri.parse(
+                                      'https://www.instagram.com/srilankanairlinesofficial/'));
+                                },
+                              ),
+                              IconButton(
+                                icon: SvgPicture.asset(
+                                  'assets/images/facebook_icon.svg',
+                                  height: screenHeight * .05,
+                                  width: screenWidth * .05,
+                                ),
+                                onPressed: () {
+                                  launchUrl(Uri.parse(
+                                      'https://web.facebook.com/flysrilankan?_rdc=1&_rdr'));
+                                },
+                              ),
+                              IconButton(
+                                icon: SvgPicture.asset(
+                                  'assets/images/x_icon.svg',
+                                  height: screenHeight * .05,
+                                  width: screenWidth * .05,
+                                ),
+                                onPressed: () {
+                                  launchUrl(
+                                      Uri.parse('https://x.com/flysrilankan'));
+                                },
+                              ),
+                              IconButton(
+                                icon: SvgPicture.asset(
+                                  'assets/images/linkedin_icon.svg',
+                                  height: screenHeight * .05,
+                                  width: screenWidth * .05,
+                                ),
+                                onPressed: () {
+                                  launchUrl(Uri.parse(
+                                      'https://www.linkedin.com/company/flysrilankan/posts/?feedView=all'));
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        icon: SvgPicture.asset(
-                          'assets/images/youtube_icon.svg',
-                          height: 42,
-                          width: 40,
-                        ),
-                        onPressed: () {
-                          launchUrl((Uri.parse(
-                              'https://www.youtube.com/channel/UCU_e10UGVQS8JikgDpwvdag')));
-                        },
-                      ),
-                      SizedBox(width: 10),
-                      IconButton(
-                        icon: SvgPicture.asset(
-                          'assets/images/instagram_icon.svg',
-                          height: 42,
-                          width: 40,
-                        ),
-                        onPressed: () {
-                          launchUrl((Uri.parse(
-                              'https://www.instagram.com/srilankanairlinesofficial/')));
-                        },
-                      ),
-                      SizedBox(width: 10),
-                      IconButton(
-                        icon: SvgPicture.asset(
-                          'assets/images/facebook_icon.svg',
-                          height: 42,
-                          width: 40,
-                        ),
-                        onPressed: () {
-                          launchUrl((Uri.parse(
-                              'https://web.facebook.com/flysrilankan?_rdc=1&_rdr')));
-                        },
-                      ),
-                      SizedBox(width: 10),
-                      IconButton(
-                        icon: SvgPicture.asset(
-                          'assets/images/x_icon.svg',
-                          height: 42,
-                          width: 40,
-                        ),
-                        onPressed: () {
-                          launchUrl((Uri.parse('https://x.com/flysrilankan')));
-                        },
-                      ),
-                      SizedBox(width: 10),
-                      IconButton(
-                        icon: SvgPicture.asset(
-                          'assets/images/linkedin_icon.svg',
-                          height: 42,
-                          width: 40,
-                        ),
-                        onPressed: () {
-                          launchUrl((Uri.parse(
-                              'https://www.linkedin.com/company/flysrilankan/posts/?feedView=all')));
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                );
+              },
             ),
           ),
 
           Positioned(
-            top: 123,
-            left: 25,
+            top: screenHeight * 0.145,
+            left: screenWidth * 0.05,
             child: Text(
               'Contact Us',
               style: TextStyle(
-                fontSize: 22,
+                fontSize: screenWidth * 0.055, // Adjust text size
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
@@ -259,24 +234,24 @@ class ContactUsPage extends StatelessWidget {
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               'assets/images/home_icon.svg',
-              height: 24,
-              width: 24,
+              height: screenHeight * .03,
+              width: screenWidth * .03,
             ),
             label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               'assets/images/contact_us_icon.svg',
-              height: 24,
-              width: 24,
+              height: screenHeight * .03,
+              width: screenWidth * .03,
             ),
             label: 'Contact Us',
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               'assets/images/about_us_icon.svg',
-              height: 24,
-              width: 24,
+              height: screenHeight * .03,
+              width: screenWidth * .03,
             ),
             label: 'About Us',
           ),
@@ -331,18 +306,22 @@ class ContactInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return GestureDetector(
       onTap: onTap,
       onLongPress: onLongPress,
       child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 0),
-        padding: const EdgeInsets.fromLTRB(30, 35, 50, 35),
+        margin: EdgeInsets.symmetric(
+            vertical: screenHeight * 0.014, horizontal: screenWidth * 0.01),
+        padding: EdgeInsets.fromLTRB(screenWidth * 0.06, screenHeight * 0.035,
+            screenWidth * 0.06, screenHeight * 0.035),
         decoration: BoxDecoration(
           color: Colors.white, // Background color of the inner box
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
             color: const Color.fromARGB(255, 85, 18, 181),
-            width: 1.3,
+            width: 1.5,
           ),
           boxShadow: [
             BoxShadow(
@@ -360,45 +339,30 @@ class ContactInfoCard extends StatelessWidget {
               height: 30,
               width: 40,
             ),
-            SizedBox(width: 20),
+            SizedBox(width: screenWidth * 0.05),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
-                  style: TextStyle(fontSize: 18, color: titleColor),
+                  style: TextStyle(
+                      fontSize:
+                          screenWidth * 0.055, // Adjust based on screen width
+                      color: titleColor,
+                      fontWeight: FontWeight.w500),
                 ),
                 Text(
                   subtitle,
-                  style: TextStyle(fontSize: 14, color: subtitleColor),
+                  style: TextStyle(
+                    fontSize:
+                        screenWidth * 0.045, // Adjust based on screen width
+                    color: subtitleColor,
+                  ),
                 ),
               ],
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class SocialMediaButton extends StatelessWidget {
-  final String svgPath;
-
-  SocialMediaButton({required this.svgPath});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(5.5),
-      child: IconButton(
-        icon: SvgPicture.asset(
-          svgPath,
-          height: 42,
-          width: 40,
-        ),
-        onPressed: () {
-          // Implement your onPressed logic
-        },
       ),
     );
   }
