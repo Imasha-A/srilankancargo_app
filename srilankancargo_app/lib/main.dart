@@ -190,7 +190,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
           // White Card with Content (middle layer)
           Positioned(
-            top: screenHeight * 0.26, // Adjust to start below the banner
+            top: screenHeight * 0.25, // Adjust to start below the banner
             left: 0,
             right: 0,
             child: Container(
@@ -215,13 +215,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      SizedBox(height: screenHeight * 0.185),
+                      SizedBox(height: screenHeight * 0.19),
                       DotsIndicator(
                         dotsCount: 3,
                         position: _currentPage.toInt(),
                         decorator: DotsDecorator(
-                          size: const Size.square(9.0),
-                          activeSize: const Size(18.0, 9.0),
+                          size: Size.square(screenWidth * 0.025),
+                          activeSize:
+                              Size(screenWidth * 0.04, screenHeight * 0.0095),
                           color: const Color.fromARGB(255, 85, 88, 181),
                           activeColor: Color.fromARGB(255, 28, 31, 106),
                           activeShape: RoundedRectangleBorder(
@@ -237,18 +238,17 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: Text(
                           'Categories',
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: screenWidth * 0.05,
                             color: Color.fromARGB(255, 28, 31, 106),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
-                      const SizedBox(height: 5),
 
                       // Category Icons
                       Padding(
                         padding: EdgeInsets.symmetric(
-                            horizontal: screenWidth * 0.01,
+                            horizontal: screenWidth * 0.001,
                             vertical: screenHeight * 0.015),
                         child: Column(
                           children: [
@@ -292,7 +292,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           ],
                         ),
                       ),
-                      SizedBox(height: screenHeight * 0.005),
 
                       // Website Banner
                       Positioned(
@@ -302,8 +301,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: Stack(
                           children: [
                             SizedBox(
-                              width: screenWidth * 0.9,
-                              height: screenHeight * 0.185,
+                              width: screenWidth * 0.88,
+                              height: screenHeight * 0.182,
                               child: Image.asset(
                                 'assets/images/visit_website_banner.png',
                                 fit: BoxFit.cover,
@@ -322,6 +321,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 child: const Text("Click here"),
                                 style: ElevatedButton.styleFrom(
                                   foregroundColor: Colors.white,
+
                                   backgroundColor: Color.fromARGB(
                                       255, 26, 26, 54), // Text color
                                   padding: EdgeInsets.symmetric(
@@ -347,7 +347,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Text(
               'Welcome to',
               style: TextStyle(
-                fontSize: 19,
+                fontSize: screenWidth * 0.045,
                 color: Color.fromARGB(255, 255, 255, 255),
               ),
               textAlign: TextAlign.left,
@@ -362,7 +362,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Text(
               'SriLankan Airlines Cargo',
               style: TextStyle(
-                fontSize: 22,
+                fontSize: screenWidth * 0.055,
                 fontWeight: FontWeight.bold,
                 color: Color.fromARGB(255, 255, 255, 255),
               ),
@@ -372,11 +372,11 @@ class _MyHomePageState extends State<MyHomePage> {
           // Image Slider (PageView) (top layer)
           Positioned(
             top: screenHeight *
-                0.22, // Adjust to overlap the white card and banner
+                0.218, // Adjust to overlap the white card and banner
             left: screenWidth * 0.05,
             right: screenWidth * 0.05,
             child: Container(
-              height: 200, // Adjust height as necessary
+              height: screenHeight * 0.23, // Adjust height as necessary
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 boxShadow: [
@@ -415,25 +415,25 @@ class _MyHomePageState extends State<MyHomePage> {
         items: [
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
-              'assets/images/home_icon.svg', // Relative path to your SVG asset
-              height: 24, // Adjust the size as needed
-              width: 24,
+              'assets/images/home_icon.svg',
+              height: screenHeight * .03,
+              width: screenWidth * .03,
             ),
             label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
-              'assets/images/contact_us_icon.svg', // Relative path to your SVG asset
-              height: 24, // Adjust the size as needed
-              width: 24,
+              'assets/images/contact_us_icon.svg',
+              height: screenHeight * .03,
+              width: screenWidth * .03,
             ),
             label: 'Contact Us',
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
-              'assets/images/about_us_icon.svg', // Relative path to your SVG asset
-              height: 24, // Adjust the size as needed
-              width: 24,
+              'assets/images/about_us_icon.svg',
+              height: screenHeight * .03,
+              width: screenWidth * .03,
             ),
             label: 'About Us',
           ),
@@ -468,6 +468,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget buildOutlinedButton(String label, String svgPath) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return SizedBox(
       width: buttonWidth,
       height: buttonHeight * 1.5,
@@ -526,12 +528,12 @@ class _MyHomePageState extends State<MyHomePage> {
               height: 24,
               width: 24,
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: screenHeight * 0.005),
             Text(
               label,
               textAlign: TextAlign.center,
               style: TextStyle(
-                  fontSize: buttonTextSize,
+                  fontSize: screenWidth * 0.03,
                   color: Color.fromARGB(255, 28, 31, 106)),
             ),
           ],
@@ -556,8 +558,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<void> launchUrlTracking(Uri parse) async {
     final Uri url = Uri.parse(
         'http://www.srilankanskychain.aero/skychain/app?service=page/nwp:Trackshipmt'); // Updated to use Uri.parse
-    forceWebView:
-    true;
+
     if (!await launchUrl(url)) {
       throw 'Could not launch $url';
     }

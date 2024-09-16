@@ -72,7 +72,7 @@ class AboutUsPage extends StatelessWidget {
             child: Image.asset(
               'assets/images/homescreen_banner.jpg', // Your blue banner image
               fit: BoxFit.cover,
-              height: 235,
+              height: screenHeight * 0.28,
             ),
           ),
 
@@ -94,48 +94,50 @@ class AboutUsPage extends StatelessWidget {
                   ),
                 ],
               ),
-              padding: EdgeInsets.all(16),
+              padding: EdgeInsets.symmetric(
+                  horizontal: screenWidth * 0.05,
+                  vertical: screenHeight * 0.01),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Center(
                     child: Image.asset(
                       'assets/images/2022451025672_Big-removebg-preview (1).png', // Replace with your image path
-                      height: 65,
+                      height: screenHeight * 0.08,
                       // Adjust height as needed
                       fit: BoxFit.contain,
                     ),
                   ),
-                  const SizedBox(height: 5),
+                  SizedBox(height: screenHeight * 0.001),
                   Text(
                     'SriLankan Cargo is the Cargo Arm of SriLankan Airlines - The National Carrier of Sri Lanka.',
                     style: TextStyle(
-                      fontSize: 16.3,
+                      fontSize: screenWidth * 0.042,
                       color: Color.fromARGB(255, 28, 31, 106),
                     ),
                   ),
-                  const SizedBox(height: 30),
+                  SizedBox(height: screenHeight * 0.02),
                   Text(
                     'SriLankan Cargo provides connectivity to its global network of 37 destinations in 21 countries across Europe, the Middle East, South Asia, Southeast Asia, the Far East and Australia.',
                     style: TextStyle(
-                      fontSize: 16.3,
+                      fontSize: screenWidth * 0.042,
                       color: Color.fromARGB(255, 28, 31, 106),
                     ),
                   ),
-                  const SizedBox(height: 35),
+                  SizedBox(height: screenHeight * 0.03),
                   Center(
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(
                           8.0), // Adjust the radius as needed
                       child: Image.asset(
                         'assets/images/about_us_picture.jpg',
-                        height: 165,
-                        width: 410, // Adjust height as needed
+                        height: screenHeight * 0.2,
+                        width: screenWidth * 0.9, // Adjust height as needed
                         fit: BoxFit.fill, // Adjust fit as needed
                       ),
                     ),
                   ),
-                  const SizedBox(height: 15),
+                  SizedBox(height: screenHeight * 0.015),
                   GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -150,12 +152,12 @@ class AboutUsPage extends StatelessWidget {
                         Text(
                           'Terms and Conditions',
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: screenWidth * 0.043,
                             fontWeight: FontWeight.w500,
                             color: Color.fromARGB(255, 28, 31, 106),
                           ),
                         ),
-                        const SizedBox(width: 8),
+                        SizedBox(width: screenWidth * 0.02),
                         SvgPicture.asset(
                           'assets/images/terms_icon.svg', // Add the path to your icon asset
                           height: 20,
@@ -164,43 +166,43 @@ class AboutUsPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 45),
+                  SizedBox(height: screenHeight * 0.03),
                   Text(
                     'SriLankan IT Systems. All rights reserved',
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: screenWidth * 0.038,
                       color: Color.fromARGB(255, 51, 51, 51),
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: screenHeight * 0.003),
                   Text(
                     'Last Updated on 11/11/2024',
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: screenWidth * 0.038,
                       color: Color.fromARGB(255, 51, 51, 51),
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: screenHeight * 0.003),
                   Text(
                     'Created on 10/10/2024',
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: screenWidth * 0.038,
                       color: Color.fromARGB(255, 51, 51, 51),
                     ),
                   ),
-                  const SizedBox(height: 30),
+                  SizedBox(height: screenHeight * 0.1),
                 ],
               ),
             ),
           ),
 
           Positioned(
-            top: 123,
-            left: 25,
+            top: screenHeight * 0.145,
+            left: screenWidth * 0.05,
             child: Text(
               'About Us',
               style: TextStyle(
-                fontSize: 22,
+                fontSize: screenWidth * 0.055,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
@@ -216,24 +218,24 @@ class AboutUsPage extends StatelessWidget {
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               'assets/images/home_icon.svg',
-              height: 24,
-              width: 24,
+              height: screenHeight * .03,
+              width: screenWidth * .03,
             ),
             label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               'assets/images/contact_us_icon.svg',
-              height: 24,
-              width: 24,
+              height: screenHeight * .03,
+              width: screenWidth * .03,
             ),
             label: 'Contact Us',
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               'assets/images/about_us_icon.svg',
-              height: 24,
-              width: 24,
+              height: screenHeight * .03,
+              width: screenWidth * .03,
             ),
             label: 'About Us',
           ),

@@ -70,7 +70,7 @@ class ContactUsPage extends StatelessWidget {
             child: Image.asset(
               'assets/images/homescreen_banner.jpg', // Your blue banner image
               fit: BoxFit.cover,
-              height: 235,
+              height: screenHeight * 0.28,
             ),
           ),
 
@@ -150,8 +150,8 @@ class ContactUsPage extends StatelessWidget {
                               IconButton(
                                 icon: SvgPicture.asset(
                                   'assets/images/youtube_icon.svg',
-                                  height: screenHeight * .05,
-                                  width: screenWidth * .05,
+                                  height: screenHeight * .055,
+                                  width: screenWidth * .055,
                                 ),
                                 onPressed: () {
                                   _launchURLYoutube(Uri.parse(
@@ -162,8 +162,8 @@ class ContactUsPage extends StatelessWidget {
                               IconButton(
                                 icon: SvgPicture.asset(
                                   'assets/images/instagram_icon.svg',
-                                  height: screenHeight * .05,
-                                  width: screenWidth * .05,
+                                  height: screenHeight * .055,
+                                  width: screenWidth * .055,
                                 ),
                                 onPressed: () {
                                   launchUrl(Uri.parse(
@@ -173,8 +173,8 @@ class ContactUsPage extends StatelessWidget {
                               IconButton(
                                 icon: SvgPicture.asset(
                                   'assets/images/facebook_icon.svg',
-                                  height: screenHeight * .05,
-                                  width: screenWidth * .05,
+                                  height: screenHeight * .055,
+                                  width: screenWidth * .055,
                                 ),
                                 onPressed: () {
                                   launchUrl(Uri.parse(
@@ -184,8 +184,8 @@ class ContactUsPage extends StatelessWidget {
                               IconButton(
                                 icon: SvgPicture.asset(
                                   'assets/images/x_icon.svg',
-                                  height: screenHeight * .05,
-                                  width: screenWidth * .05,
+                                  height: screenHeight * .055,
+                                  width: screenWidth * .055,
                                 ),
                                 onPressed: () {
                                   launchUrl(
@@ -195,8 +195,8 @@ class ContactUsPage extends StatelessWidget {
                               IconButton(
                                 icon: SvgPicture.asset(
                                   'assets/images/linkedin_icon.svg',
-                                  height: screenHeight * .05,
-                                  width: screenWidth * .05,
+                                  height: screenHeight * .055,
+                                  width: screenWidth * .055,
                                 ),
                                 onPressed: () {
                                   launchUrl(Uri.parse(
