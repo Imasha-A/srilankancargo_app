@@ -571,29 +571,30 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
           ),
         ],
       ),
+      // Bottom Navigation Bar
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               'assets/images/home_icon.svg',
-              height: 24,
-              width: 24,
+              height: screenHeight * .03,
+              width: screenWidth * .03,
             ),
             label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               'assets/images/contact_us_icon.svg',
-              height: 24,
-              width: 24,
+              height: screenHeight * .03,
+              width: screenWidth * .03,
             ),
             label: 'Contact Us',
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               'assets/images/about_us_icon.svg',
-              height: 24,
-              width: 24,
+              height: screenHeight * .03,
+              width: screenWidth * .03,
             ),
             label: 'About Us',
           ),

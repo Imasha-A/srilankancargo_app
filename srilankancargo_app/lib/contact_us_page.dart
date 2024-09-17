@@ -51,11 +51,6 @@ class ContactUsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextScaler? textScaler = MediaQuery.maybeTextScalerOf(context);
-    final double textScale = textScaler != null
-        ? (textScaler.scale is double ? textScaler.scale as double : 1.0)
-        : 1.0;
-
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 

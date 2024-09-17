@@ -39,6 +39,8 @@ class _TermsAndConditionsPageState extends State<TermsAndConditionsPage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Stack(
         children: [
@@ -51,20 +53,21 @@ class _TermsAndConditionsPageState extends State<TermsAndConditionsPage> {
           ),
           // White background behind title and close icon
           Positioned(
-            top: 40.0, // Adjust the distance from the top
+            top: screenHeight * 0.01, // Adjust the distance from the top
             left: 0.0, // Align with the left side
             right: 0.0, // Align with the right side
             child: Container(
               color: const Color.fromARGB(1, 243, 247, 249), // White background
-              padding:
-                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              padding: EdgeInsets.symmetric(
+                  vertical: screenHeight * 0.02,
+                  horizontal: screenWidth * 0.06),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     'Terms and Conditions',
                     style: TextStyle(
-                      fontSize: 22,
+                      fontSize: screenWidth * 0.06,
                       fontWeight: FontWeight.bold,
                       color: Color.fromARGB(255, 28, 31, 106),
                     ),
@@ -83,8 +86,9 @@ class _TermsAndConditionsPageState extends State<TermsAndConditionsPage> {
           ),
           // Scrollable content below the title and icon
           Padding(
-            padding: const EdgeInsets.only(
-                top: 100.0), // To place content below the fixed header
+            padding: EdgeInsets.only(
+                top: screenHeight *
+                    0.02), // To place content below the fixed header
             child: FutureBuilder<Map<String, dynamic>>(
               future: _data,
               builder: (context, snapshot) {
@@ -105,7 +109,7 @@ class _TermsAndConditionsPageState extends State<TermsAndConditionsPage> {
                           Text(
                             data['termsAndConditions'],
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: screenWidth * 0.03,
                               color: const Color.fromARGB(
                                   255, 51, 51, 51), // Text color
                             ),

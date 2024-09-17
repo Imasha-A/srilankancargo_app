@@ -104,21 +104,6 @@ class _FlightSchedulePageState extends State<FlightSchedulePage> {
     return customizationValues;
   }
 
-  Map<String, double> customizeAppBar(double screenWidth) {
-    Map<String, double> customizationValues = {};
-
-    if (screenWidth <= 600 && screenWidth >= 400) {
-      customizationValues['appBarOffsetPercentage'] = -0.60;
-      customizationValues['titleXOffset'] = 60.0;
-    }
-    if (screenWidth == 430) {
-      customizationValues['appBarOffsetPercentage'] = -0.60;
-      customizationValues['titleXOffset'] = 0.0;
-    }
-
-    return customizationValues;
-  }
-
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
@@ -157,6 +142,8 @@ class _FlightSchedulePageState extends State<FlightSchedulePage> {
 
 // Scrollable Alert dialog for displaying flight information
   void _showScrollableAlert(String title, List<String> flightDetails) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -172,25 +159,26 @@ class _FlightSchedulePageState extends State<FlightSchedulePage> {
                 Text(
                   title,
                   style: TextStyle(
-                    fontSize: 22.0,
+                    fontSize: screenWidth * 0.01,
                     fontWeight: FontWeight.bold,
                     color: const Color.fromARGB(255, 28, 31, 106),
                   ),
                 ),
-                SizedBox(height: 10.0),
+                SizedBox(height: screenHeight * 0.01),
                 // Wrap the content in a scrollable widget
                 Container(
-                  height: 400, // Set a max height for the scrollable area
+                  height: screenHeight *
+                      0.7, // Set a max height for the scrollable area
                   child: SingleChildScrollView(
                     child: Column(
                       children: flightDetails.map((flight) {
                         return Padding(
-                          padding: const EdgeInsets.only(bottom: 15.0),
+                          padding: const EdgeInsets.only(bottom: 10.0),
                           child: Text(
                             flight,
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: 18.0,
+                              fontSize: screenWidth * 0.006,
                               color: const Color.fromARGB(255, 28, 31, 106),
                             ),
                           ),
@@ -199,7 +187,7 @@ class _FlightSchedulePageState extends State<FlightSchedulePage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 15.0),
+                SizedBox(height: screenHeight * 0.01),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
@@ -208,7 +196,8 @@ class _FlightSchedulePageState extends State<FlightSchedulePage> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
-                      padding: EdgeInsets.symmetric(vertical: 15.0),
+                      padding:
+                          EdgeInsets.symmetric(vertical: screenHeight * 0.015),
                     ),
                     onPressed: () {
                       Navigator.of(context).pop();
@@ -216,7 +205,7 @@ class _FlightSchedulePageState extends State<FlightSchedulePage> {
                     child: Text(
                       'Close',
                       style: TextStyle(
-                        fontSize: 16.0,
+                        fontSize: screenWidth * 0.08,
                         color: Colors.white,
                       ),
                     ),
@@ -296,6 +285,8 @@ Arrival Time: ${flightInfo['Atime']}''';
 
   // Alert dialog for displaying information
   void _showAlert(String title, String message) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -311,21 +302,21 @@ Arrival Time: ${flightInfo['Atime']}''';
                 Text(
                   title,
                   style: TextStyle(
-                    fontSize: 22.0,
+                    fontSize: screenWidth * 0.06,
                     fontWeight: FontWeight.bold,
                     color: const Color.fromARGB(255, 28, 31, 106),
                   ),
                 ),
-                SizedBox(height: 10.0),
+                SizedBox(height: screenHeight * 0.01),
                 Text(
                   message,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 18.0,
+                    fontSize: screenWidth * 0.04,
                     color: const Color.fromARGB(255, 28, 31, 106),
                   ),
                 ),
-                SizedBox(height: 15.0),
+                SizedBox(height: screenHeight * 0.025),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
@@ -334,7 +325,8 @@ Arrival Time: ${flightInfo['Atime']}''';
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
-                      padding: EdgeInsets.symmetric(vertical: 15.0),
+                      padding:
+                          EdgeInsets.symmetric(vertical: screenHeight * 0.015),
                     ),
                     onPressed: () {
                       Navigator.of(context).pop();
@@ -342,7 +334,7 @@ Arrival Time: ${flightInfo['Atime']}''';
                     child: Text(
                       'Close',
                       style: TextStyle(
-                        fontSize: 16.0,
+                        fontSize: screenWidth * 0.04,
                         color: Colors.white,
                       ),
                     ),
@@ -357,6 +349,9 @@ Arrival Time: ${flightInfo['Atime']}''';
   }
 
   Widget _buildOriginDestinationRow() {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     String originCountryName = _allCountries.firstWhere(
         (country) => country['code'] == _originCountryController.text)['name'];
     String destinationCountryName = _allCountries.firstWhere((country) =>
@@ -376,16 +371,16 @@ Arrival Time: ${flightInfo['Atime']}''';
                 Text(
                   _originCountryController.text, // Origin country code
                   style: TextStyle(
-                    fontSize: 22,
+                    fontSize: screenWidth * 0.06,
                     fontWeight: FontWeight.bold,
                     color: Color.fromARGB(255, 28, 31, 106),
                   ),
                 ),
-                SizedBox(height: 4),
+                SizedBox(height: screenWidth * 0.006),
                 Text(
                   originCountryName,
                   style: TextStyle(
-                    fontSize: 10,
+                    fontSize: screenWidth * 0.025,
                     color: Color.fromARGB(255, 28, 31, 106),
                   ),
                 ),
@@ -395,10 +390,11 @@ Arrival Time: ${flightInfo['Atime']}''';
 
           // Airplane SVG in the middle
           Padding(
-            padding: const EdgeInsets.only(bottom: 15.0), // Move it slightly up
+            padding: EdgeInsets.only(
+                bottom: screenHeight * 0.01), // Move it slightly up
             child: SvgPicture.asset(
               'assets/images/airplane_line.svg',
-              height: 115,
+              height: screenHeight * 0.125,
               color: Color.fromARGB(
                   255, 27, 31, 127), // Keep the same size for the airplane icon
             ),
@@ -414,16 +410,16 @@ Arrival Time: ${flightInfo['Atime']}''';
                   _destinationCountryController
                       .text, // Destination country code
                   style: TextStyle(
-                    fontSize: 22,
+                    fontSize: screenWidth * 0.06,
                     fontWeight: FontWeight.bold,
                     color: Color.fromARGB(255, 28, 31, 106),
                   ),
                 ),
-                SizedBox(height: 4),
+                SizedBox(height: screenWidth * 0.006),
                 Text(
                   destinationCountryName,
                   style: TextStyle(
-                    fontSize: 10,
+                    fontSize: screenWidth * 0.025,
                     color: Color.fromARGB(255, 28, 31, 106),
                   ),
                 ),
@@ -436,6 +432,8 @@ Arrival Time: ${flightInfo['Atime']}''';
   }
 
   Widget _buildFlightDetails() {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     // Define a function that simulates a delay
     Future<List<String>> _fetchFlightDetailsWithDelay() async {
       // Simulate a delay of 2 seconds
@@ -478,9 +476,8 @@ Arrival Time: ${flightInfo['Atime']}''';
                         title: Text(
                           'No Flights',
                           style: TextStyle(
-                            color: Color.fromARGB(
-                                255, 28, 31, 106), // Dark blue color
-                            fontSize: 16, // Font size 16
+                            color: Color.fromARGB(255, 28, 31, 106),
+                            fontSize: screenWidth * 0.05,
                           ),
                         ),
                       ),
@@ -496,6 +493,12 @@ Arrival Time: ${flightInfo['Atime']}''';
                     child: ListTile(
                       title: Text(
                           'Flight Number: ${flightInfo[0].split(': ')[1]}'),
+                      titleTextStyle: TextStyle(
+                          fontSize: screenWidth * 0.041,
+                          color: Color.fromARGB(255, 10, 6, 33)),
+                      subtitleTextStyle: TextStyle(
+                          fontSize: screenWidth * 0.04,
+                          color: Color.fromARGB(255, 4, 3, 21)),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -571,12 +574,12 @@ Arrival Time: ${flightInfo['Atime']}''';
                   Text(
                     'Flight Schedule',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: screenWidth * 0.05,
                       fontWeight: FontWeight.w900,
                       color: Color.fromARGB(255, 28, 31, 106),
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: screenHeight * 0.01),
                   // Inner White Card with the Flight Form
                   AnimatedContainer(
                     duration: Duration(milliseconds: 300), // Animation duration
@@ -602,16 +605,16 @@ Arrival Time: ${flightInfo['Atime']}''';
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         if (!_isCollapsed) ...[
-                          SizedBox(height: 10),
+                          SizedBox(height: screenHeight * 0.01),
                           Text(
                             'Origin Country',
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: screenWidth * 0.035,
                               fontWeight: FontWeight.w900,
                               color: Color.fromARGB(255, 28, 31, 106),
                             ),
                           ),
-                          SizedBox(height: 3),
+                          SizedBox(height: screenHeight * 0.005),
                           Container(
                             width: double.infinity,
                             decoration: BoxDecoration(
@@ -639,6 +642,7 @@ Arrival Time: ${flightInfo['Atime']}''';
                                       labelStyle: TextStyle(
                                         color: const Color.fromARGB(
                                             255, 204, 203, 203),
+                                        fontSize: screenWidth * 0.035,
                                         fontWeight: FontWeight.bold,
                                       ),
                                       hintStyle: TextStyle(
@@ -667,18 +671,19 @@ Arrival Time: ${flightInfo['Atime']}''';
                                       ),
                                     ),
                                     style: TextStyle(
-                                      color: const Color.fromARGB(
-                                          255, 204, 203, 203),
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                        color: const Color.fromARGB(
+                                            255, 204, 203, 203),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: screenWidth * 0.035),
                                   ),
                                   itemBuilder: (context, item, isSelected) {
                                     return Container(
                                       padding: EdgeInsets.symmetric(
-                                          vertical: 8, horizontal: 16),
+                                          vertical: screenHeight * .01,
+                                          horizontal: screenWidth * 0.03),
                                       decoration: BoxDecoration(
                                         color: isSelected
-                                            ? Colors.grey[300]
+                                            ? Color.fromARGB(255, 97, 95, 95)
                                             : Colors.white,
                                       ),
                                       child: Text(
@@ -741,7 +746,7 @@ Arrival Time: ${flightInfo['Atime']}''';
                               ),
                             ),
                           ),
-                          SizedBox(height: 15),
+                          SizedBox(height: screenHeight * 0.01),
                           Text(
                             'Destination Country',
                             style: TextStyle(
@@ -750,7 +755,7 @@ Arrival Time: ${flightInfo['Atime']}''';
                               color: Color.fromARGB(255, 28, 31, 106),
                             ),
                           ),
-                          SizedBox(height: 3),
+                          SizedBox(height: screenHeight * 0.005),
                           Container(
                             width: double.infinity,
                             decoration: BoxDecoration(
@@ -882,11 +887,11 @@ Arrival Time: ${flightInfo['Atime']}''';
                               ),
                             ),
                           ),
-                          SizedBox(height: 15),
+                          SizedBox(height: screenHeight * 0.015),
                           Text(
                             'Flight Date',
                             style: TextStyle(
-                                fontSize: 14,
+                                fontSize: screenWidth * 0.035,
                                 fontWeight: FontWeight.w900,
                                 color: Color.fromARGB(255, 28, 31, 106)),
                           ),
@@ -907,8 +912,7 @@ Arrival Time: ${flightInfo['Atime']}''';
                                         : const Color.fromARGB(255, 135, 130,
                                             130), // Text color when a date is selected
                                     fontWeight: FontWeight.bold,
-                                    fontSize:
-                                        14, // Optional: Adjust font size as needed
+                                    fontSize: screenWidth * 0.035,
                                   ),
                                   filled: true,
                                   fillColor: Color.fromARGB(255, 245, 245, 245),
@@ -942,7 +946,7 @@ Arrival Time: ${flightInfo['Atime']}''';
                             ),
                           ),
                         ],
-                        SizedBox(height: 20),
+                        SizedBox(height: screenHeight * 0.025),
                         Center(
                           child: Container(
                             width: screenWidth *
@@ -993,7 +997,8 @@ Arrival Time: ${flightInfo['Atime']}''';
                               },
                               style: ElevatedButton.styleFrom(
                                 padding: EdgeInsets.symmetric(
-                                    horizontal: buttonPadding, vertical: 10),
+                                    horizontal: screenWidth * 0.2,
+                                    vertical: screenHeight * 0.02),
                                 backgroundColor:
                                     Color.fromARGB(255, 28, 31, 106),
                                 shape: RoundedRectangleBorder(
@@ -1010,14 +1015,14 @@ Arrival Time: ${flightInfo['Atime']}''';
                                     Text(
                                       'More',
                                       style: TextStyle(
-                                        fontSize: 16,
+                                        fontSize: screenWidth * 0.035,
                                         color:
                                             Color.fromARGB(255, 255, 255, 255),
                                       ),
                                     ),
                                     SizedBox(
-                                        width:
-                                            8), // Space between text and icon
+                                        width: screenWidth *
+                                            0.01), // Space between text and icon
                                     Icon(
                                       Icons.arrow_drop_down,
                                       color: Color.fromARGB(255, 255, 255, 255),
@@ -1026,7 +1031,7 @@ Arrival Time: ${flightInfo['Atime']}''';
                                     Text(
                                       'Submit',
                                       style: TextStyle(
-                                        fontSize: 16,
+                                        fontSize: screenWidth * 0.035,
                                         color:
                                             Color.fromARGB(255, 255, 255, 255),
                                       ),
@@ -1037,6 +1042,7 @@ Arrival Time: ${flightInfo['Atime']}''';
                             ),
                           ),
                         ),
+                        SizedBox(height: screenHeight * 0.01),
                       ],
                     ),
                   ),
@@ -1062,29 +1068,30 @@ Arrival Time: ${flightInfo['Atime']}''';
           ),
         ],
       ),
+      // Bottom Navigation Bar
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               'assets/images/home_icon.svg',
-              height: 24,
-              width: 24,
+              height: screenHeight * .03,
+              width: screenWidth * .03,
             ),
             label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               'assets/images/contact_us_icon.svg',
-              height: 24,
-              width: 24,
+              height: screenHeight * .03,
+              width: screenWidth * .03,
             ),
             label: 'Contact Us',
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               'assets/images/about_us_icon.svg',
-              height: 24,
-              width: 24,
+              height: screenHeight * .03,
+              width: screenWidth * .03,
             ),
             label: 'About Us',
           ),

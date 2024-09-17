@@ -193,29 +193,34 @@ class _MyHomePageState extends State<MyHomePage> {
             top: screenHeight * 0.25, // Adjust to start below the banner
             left: 0,
             right: 0,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10), // Rounded corners
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset: Offset(0, 3), // Shadow position
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                double cardWidth =
+                    constraints.maxWidth * 0.9; // Responsive width
+                double maxScrollableHeight =
+                    screenHeight * 0.5; // Max height for the scrollable area
+
+                return Container(
+                  width: cardWidth,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10), // Rounded corners
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 3), // Shadow position
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              padding: EdgeInsets.symmetric(
-                  horizontal: screenWidth * 0.01,
-                  vertical: screenHeight * 0.012),
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.01),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: cardWidth * 0.01,
+                    vertical: screenHeight * 0.012,
+                  ),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      SizedBox(height: screenHeight * 0.19),
+                    children: [
+                      SizedBox(height: screenHeight * 0.2),
                       DotsIndicator(
                         dotsCount: 3,
                         position: _currentPage.toInt(),
@@ -230,119 +235,162 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ),
                       ),
+                      Center(
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxHeight:
+                                maxScrollableHeight, // Set the maximum height for the scrollable area
+                          ),
+                          child: SingleChildScrollView(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: cardWidth * 0.01),
+                              child: Column(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      right: cardWidth *
+                                          0.6, // Adjust the value as needed
+                                    ),
+                                    child: Text(
+                                      'Categories',
+                                      style: TextStyle(
+                                        fontSize: screenWidth * 0.05,
+                                        color: Color.fromARGB(255, 28, 31, 106),
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  // Category Icons
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: cardWidth * 0.001,
+                                        vertical: screenHeight * 0.015),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                                child: buildOutlinedButton(
+                                                    'Schedule',
+                                                    'assets/images/flight_schedule_icon.svg')),
+                                            // Space between buttons
+                                            Expanded(
+                                                child: buildOutlinedButton(
+                                                    'Flight Status',
+                                                    'assets/images/flight_status_icon.svg')),
+                                            // Space between buttons
+                                            Expanded(
+                                                child: buildOutlinedButton(
+                                                    'Loadibility',
+                                                    'assets/images/loadability_icon.svg')),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                            height: screenHeight *
+                                                0.02), // Space between rows
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                                child: buildOutlinedButton(
+                                                    'Storage Calculator',
+                                                    'assets/images/storage_calculator_icon.svg')),
+                                            SizedBox(
+                                                width:
+                                                    5), // Space between buttons
+                                            Expanded(
+                                                child: buildOutlinedButton(
+                                                    'Volume Calculator',
+                                                    'assets/images/volume_calculator_icon.svg')),
+                                            SizedBox(
+                                                width:
+                                                    5), // Space between buttons
+                                            Expanded(
+                                                child: buildOutlinedButton(
+                                                    'Tracking',
+                                                    'assets/images/tracking_icon.svg')),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
 
-                      Padding(
-                        padding: EdgeInsets.only(
-                            right: screenWidth *
-                                0.6), // Adjust the value as needed
-                        child: Text(
-                          'Categories',
-                          style: TextStyle(
-                            fontSize: screenWidth * 0.05,
-                            color: Color.fromARGB(255, 28, 31, 106),
-                            fontWeight: FontWeight.bold,
+                                  // Website Banner
+                                  Center(
+                                    child: SizedBox(
+                                      width: screenWidth * 0.9,
+                                      height: screenHeight *
+                                          0.185, // Set height for the banner
+                                      child: Stack(
+                                        children: [
+                                          Image.asset(
+                                            'assets/images/visit_website_banner.png',
+                                            fit: BoxFit.cover,
+                                            width: double
+                                                .infinity, // Ensure the image covers the entire SizedBox
+                                            height: double.infinity,
+                                          ),
+                                          Positioned(
+                                            bottom: screenHeight *
+                                                0.005, // Adjust as needed for proper alignment
+                                            left: screenWidth *
+                                                0.1, // Adjust as needed for proper alignment
+                                            child: ElevatedButton(
+                                              onPressed: () {
+                                                launchUrl(Uri.parse(
+                                                    'https://www.srilankancargo.com'));
+                                              },
+                                              child: Text(
+                                                "Click here",
+                                                style: TextStyle(
+                                                  fontSize: screenWidth *
+                                                      0.03, // Adjust the font size as needed
+                                                ),
+                                              ),
+                                              style: ElevatedButton.styleFrom(
+                                                foregroundColor: Colors.white,
+                                                backgroundColor: Color.fromARGB(
+                                                    255,
+                                                    26,
+                                                    26,
+                                                    54), // Button color
+                                                padding: EdgeInsets.symmetric(
+                                                  horizontal: screenWidth *
+                                                      0.05, // Adjust horizontal padding if needed
+                                                  vertical: screenHeight *
+                                                      0.01, // Adjust vertical padding if needed
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+
+                                  SizedBox(
+                                      height: screenHeight *
+                                          0.01), // Extra space for bottom
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                       ),
-
-                      // Category Icons
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: screenWidth * 0.001,
-                            vertical: screenHeight * 0.015),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                    child: buildOutlinedButton('Schedule',
-                                        'assets/images/flight_schedule_icon.svg')),
-                                // Space between buttons
-                                Expanded(
-                                    child: buildOutlinedButton('Flight Status',
-                                        'assets/images/flight_status_icon.svg')),
-                                // Space between buttons
-                                Expanded(
-                                    child: buildOutlinedButton('Loadibility',
-                                        'assets/images/loadability_icon.svg')),
-                              ],
-                            ),
-                            SizedBox(
-                                height:
-                                    screenHeight * 0.02), // Space between rows
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                    child: buildOutlinedButton(
-                                        'Storage Calculator',
-                                        'assets/images/storage_calculator_icon.svg')),
-                                SizedBox(width: 5), // Space between buttons
-                                Expanded(
-                                    child: buildOutlinedButton(
-                                        'Volume Calculator',
-                                        'assets/images/volume_calculator_icon.svg')),
-                                SizedBox(width: 5), // Space between buttons
-                                Expanded(
-                                    child: buildOutlinedButton('Tracking',
-                                        'assets/images/tracking_icon.svg')),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      // Website Banner
-                      Positioned(
-                        top: screenHeight * 0.05,
-                        left: screenWidth * 0.05,
-                        right: screenWidth * 0.05,
-                        child: Stack(
-                          children: [
-                            SizedBox(
-                              width: screenWidth * 0.88,
-                              height: screenHeight * 0.182,
-                              child: Image.asset(
-                                'assets/images/visit_website_banner.png',
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Positioned(
-                              bottom: screenWidth *
-                                  0.01, // Position from the bottom
-                              left:
-                                  screenWidth * 0.09, // Position from the left
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  launchUrl((Uri.parse(
-                                      'https://www.srilankancargo.com')));
-                                },
-                                child: const Text("Click here"),
-                                style: ElevatedButton.styleFrom(
-                                  foregroundColor: Colors.white,
-
-                                  backgroundColor: Color.fromARGB(
-                                      255, 26, 26, 54), // Text color
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: screenWidth * 0.05,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: screenHeight * 0.5),
                     ],
                   ),
-                ),
-              ),
+                );
+              },
             ),
           ),
+
           Positioned(
             top: screenHeight *
-                0.155, // Adjust this value to position the text above the slider
+                0.158, // Adjust this value to position the text above the slider
             left: screenWidth * 0.05,
             child: Text(
               'Welcome to',
@@ -356,7 +404,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
           Positioned(
             top: screenHeight *
-                0.18, // Adjust this value to position the text above the slider
+                0.184, // Adjust this value to position the text above the slider
             left: screenWidth * 0.05,
 
             child: Text(
@@ -372,7 +420,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // Image Slider (PageView) (top layer)
           Positioned(
             top: screenHeight *
-                0.218, // Adjust to overlap the white card and banner
+                0.228, // Adjust to overlap the white card and banner
             left: screenWidth * 0.05,
             right: screenWidth * 0.05,
             child: Container(

@@ -81,118 +81,138 @@ class AboutUsPage extends StatelessWidget {
             top: screenHeight * 0.205,
             left: 0,
             right: 0,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset: Offset(0, 3),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                double cardWidth =
+                    constraints.maxWidth * 0.9; // Responsive width
+                double maxHeight =
+                    screenHeight * 0.71; // Available height for scrollable area
+
+                return Container(
+                  width: cardWidth,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              padding: EdgeInsets.symmetric(
-                  horizontal: screenWidth * 0.05,
-                  vertical: screenHeight * 0.01),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                    child: Image.asset(
-                      'assets/images/2022451025672_Big-removebg-preview (1).png', // Replace with your image path
-                      height: screenHeight * 0.08,
-                      // Adjust height as needed
-                      fit: BoxFit.contain,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: cardWidth * 0.05,
+                    vertical: screenHeight * 0.01,
+                  ),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxHeight:
+                          maxHeight, // Set the maximum height for the scrollable area
                     ),
-                  ),
-                  SizedBox(height: screenHeight * 0.001),
-                  Text(
-                    'SriLankan Cargo is the Cargo Arm of SriLankan Airlines - The National Carrier of Sri Lanka.',
-                    style: TextStyle(
-                      fontSize: screenWidth * 0.042,
-                      color: Color.fromARGB(255, 28, 31, 106),
-                    ),
-                  ),
-                  SizedBox(height: screenHeight * 0.02),
-                  Text(
-                    'SriLankan Cargo provides connectivity to its global network of 37 destinations in 21 countries across Europe, the Middle East, South Asia, Southeast Asia, the Far East and Australia.',
-                    style: TextStyle(
-                      fontSize: screenWidth * 0.042,
-                      color: Color.fromARGB(255, 28, 31, 106),
-                    ),
-                  ),
-                  SizedBox(height: screenHeight * 0.03),
-                  Center(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(
-                          8.0), // Adjust the radius as needed
-                      child: Image.asset(
-                        'assets/images/about_us_picture.jpg',
-                        height: screenHeight * 0.2,
-                        width: screenWidth * 0.9, // Adjust height as needed
-                        fit: BoxFit.fill, // Adjust fit as needed
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Center(
+                            child: Image.asset(
+                              'assets/images/2022451025672_Big-removebg-preview (1).png', // Replace with your image path
+                              height: screenHeight * 0.08,
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                          SizedBox(height: screenHeight * 0.001),
+                          Text(
+                            'SriLankan Cargo is the Cargo Arm of SriLankan Airlines - The National Carrier of Sri Lanka.',
+                            style: TextStyle(
+                              fontSize: screenWidth * 0.0425,
+                              color: Color.fromARGB(255, 28, 31, 106),
+                            ),
+                          ),
+                          SizedBox(height: screenHeight * 0.02),
+                          Text(
+                            'SriLankan Cargo provides connectivity to its global network of 37 destinations in 21 countries across Europe, the Middle East, South Asia, Southeast Asia, the Far East and Australia.',
+                            style: TextStyle(
+                              fontSize: screenWidth * 0.0425,
+                              color: Color.fromARGB(255, 28, 31, 106),
+                            ),
+                          ),
+                          SizedBox(height: screenHeight * 0.03),
+                          Center(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Image.asset(
+                                'assets/images/about_us_picture.jpg',
+                                height: screenHeight * 0.2,
+                                width:
+                                    cardWidth, // Use cardWidth to match the container width
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: screenHeight * 0.015),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      TermsAndConditionsPage(),
+                                ),
+                              );
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Terms and Conditions',
+                                  style: TextStyle(
+                                    fontSize: screenWidth * 0.043,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color.fromARGB(255, 28, 31, 106),
+                                  ),
+                                ),
+                                SizedBox(width: screenWidth * 0.02),
+                                SvgPicture.asset(
+                                  'assets/images/terms_icon.svg', // Add the path to your icon asset
+                                  height: 20,
+                                  width: 20,
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: screenHeight * 0.03),
+                          Text(
+                            'SriLankan IT Systems. All rights reserved',
+                            style: TextStyle(
+                              fontSize: screenWidth * 0.038,
+                              color: Color.fromARGB(255, 51, 51, 51),
+                            ),
+                          ),
+                          SizedBox(height: screenHeight * 0.003),
+                          Text(
+                            'Last Updated on 11/11/2024',
+                            style: TextStyle(
+                              fontSize: screenWidth * 0.038,
+                              color: Color.fromARGB(255, 51, 51, 51),
+                            ),
+                          ),
+                          SizedBox(height: screenHeight * 0.003),
+                          Text(
+                            'Created on 10/10/2024',
+                            style: TextStyle(
+                              fontSize: screenWidth * 0.038,
+                              color: Color.fromARGB(255, 51, 51, 51),
+                            ),
+                          ),
+                          SizedBox(height: screenHeight * 0.1),
+                        ],
                       ),
                     ),
                   ),
-                  SizedBox(height: screenHeight * 0.015),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => TermsAndConditionsPage()),
-                      );
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Terms and Conditions',
-                          style: TextStyle(
-                            fontSize: screenWidth * 0.043,
-                            fontWeight: FontWeight.w500,
-                            color: Color.fromARGB(255, 28, 31, 106),
-                          ),
-                        ),
-                        SizedBox(width: screenWidth * 0.02),
-                        SvgPicture.asset(
-                          'assets/images/terms_icon.svg', // Add the path to your icon asset
-                          height: 20,
-                          width: 20,
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: screenHeight * 0.03),
-                  Text(
-                    'SriLankan IT Systems. All rights reserved',
-                    style: TextStyle(
-                      fontSize: screenWidth * 0.038,
-                      color: Color.fromARGB(255, 51, 51, 51),
-                    ),
-                  ),
-                  SizedBox(height: screenHeight * 0.003),
-                  Text(
-                    'Last Updated on 11/11/2024',
-                    style: TextStyle(
-                      fontSize: screenWidth * 0.038,
-                      color: Color.fromARGB(255, 51, 51, 51),
-                    ),
-                  ),
-                  SizedBox(height: screenHeight * 0.003),
-                  Text(
-                    'Created on 10/10/2024',
-                    style: TextStyle(
-                      fontSize: screenWidth * 0.038,
-                      color: Color.fromARGB(255, 51, 51, 51),
-                    ),
-                  ),
-                  SizedBox(height: screenHeight * 0.1),
-                ],
-              ),
+                );
+              },
             ),
           ),
 
