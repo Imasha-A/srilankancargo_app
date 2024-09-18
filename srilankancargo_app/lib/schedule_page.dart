@@ -35,6 +35,7 @@ class _FlightSchedulePageState extends State<FlightSchedulePage> {
   @override
   void initState() {
     super.initState();
+
     fetchCountries();
     _searchController.addListener(() {
       filterCountries();
@@ -566,18 +567,15 @@ Arrival Time: ${flightInfo['Atime']}''';
     );
   }
 
-// Helper function to extract and parse time from flight details
   DateTime _extractTime(String flightDetail) {
     final flightInfo = flightDetail.split('\n');
     final arrivalTimeString = flightInfo[3].split(': ')[1];
 
-    // Assuming the format is "HH:mm", e.g., "12:12"
     final timeParts = arrivalTimeString.split(':');
     final hour = int.parse(timeParts[0]);
     final minute = int.parse(timeParts[1]);
 
-    // Returning DateTime object for sorting purposes
-    return DateTime(0, 1, 1, hour, minute); // Date components are dummy values
+    return DateTime(0, 1, 1, hour, minute);
   }
 
   Future<void> _handleBackButton(BuildContext context) async {
@@ -751,7 +749,11 @@ Arrival Time: ${flightInfo['Atime']}''';
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 16.0),
                                 child: DropdownSearch<String>(
-                                  items: _allCountries
+                                  items: _filteredCountries
+                                      .where((country) =>
+                                          country['code'] !=
+                                          _destinationCountryController
+                                              .text) // Exclude selected destination
                                       .map<String>((country) =>
                                           country['name'] as String)
                                       .toList(),
@@ -804,7 +806,8 @@ Arrival Time: ${flightInfo['Atime']}''';
                                             horizontal: screenWidth * 0.03),
                                         decoration: BoxDecoration(
                                           color: isSelected
-                                              ? Color.fromARGB(255, 97, 95, 95)
+                                              ? Color.fromARGB(
+                                                  255, 135, 130, 130)
                                               : Colors.white,
                                         ),
                                         child: Text(
@@ -814,7 +817,7 @@ Arrival Time: ${flightInfo['Atime']}''';
                                                 ? Color.fromARGB(
                                                     255, 163, 133, 133)
                                                 : Color.fromARGB(
-                                                    255, 208, 202, 202),
+                                                    255, 204, 203, 203),
                                             fontWeight: isSelected
                                                 ? FontWeight.bold
                                                 : FontWeight.w500,
@@ -839,21 +842,21 @@ Arrival Time: ${flightInfo['Atime']}''';
                                   ),
                                   onChanged: (String? newValue) {
                                     setState(() {
-                                      var selectedCountry =
-                                          _allCountries.firstWhere((country) =>
+                                      var selectedCountry = _filteredCountries
+                                          .firstWhere((country) =>
                                               country['name'] == newValue);
                                       _originCountryController.text =
-                                          selectedCountry[
-                                              'code']; // Save the code of the selected country
+                                          selectedCountry['code'];
                                     });
                                   },
-                                  selectedItem: _originCountryController
-                                          .text.isEmpty
-                                      ? null
-                                      : _allCountries.firstWhere((country) =>
-                                          country['code'] ==
-                                          _originCountryController
-                                              .text)['name'],
+                                  selectedItem:
+                                      _originCountryController.text.isEmpty
+                                          ? null
+                                          : _filteredCountries.firstWhere(
+                                              (country) =>
+                                                  country['code'] ==
+                                                  _originCountryController
+                                                      .text)['name'],
                                   dropdownBuilder: (context, selectedItem) {
                                     return Text(
                                       selectedItem ?? "Select Origin Country",
@@ -861,9 +864,15 @@ Arrival Time: ${flightInfo['Atime']}''';
                                         fontWeight: FontWeight.bold,
                                         color: selectedItem == null
                                             ? const Color.fromARGB(
-                                                255, 204, 203, 203)
+                                                255,
+                                                204,
+                                                203,
+                                                203) // Default color when no selection
                                             : const Color.fromARGB(
-                                                255, 135, 130, 130),
+                                                255,
+                                                135,
+                                                130,
+                                                130), // Change this color to whatever you want for the selected text
                                       ),
                                     );
                                   },
@@ -896,6 +905,10 @@ Arrival Time: ${flightInfo['Atime']}''';
                                     horizontal: 16.0),
                                 child: DropdownSearch<String>(
                                   items: _filteredCountries
+                                      .where((country) =>
+                                          country['code'] !=
+                                          _originCountryController
+                                              .text) // Exclude selected origin
                                       .map<String>((country) =>
                                           country['name'] as String)
                                       .toList(),
@@ -984,8 +997,7 @@ Arrival Time: ${flightInfo['Atime']}''';
                                           .firstWhere((country) =>
                                               country['name'] == newValue);
                                       _destinationCountryController.text =
-                                          selectedCountry[
-                                              'code']; // Save the code of the selected country
+                                          selectedCountry['code'];
                                     });
                                   },
                                   selectedItem:
@@ -1004,9 +1016,15 @@ Arrival Time: ${flightInfo['Atime']}''';
                                         fontWeight: FontWeight.bold,
                                         color: selectedItem == null
                                             ? const Color.fromARGB(
-                                                255, 204, 203, 203)
+                                                255,
+                                                204,
+                                                203,
+                                                203) // Default color when no selection
                                             : const Color.fromARGB(
-                                                255, 135, 130, 130),
+                                                255,
+                                                135,
+                                                130,
+                                                130), // Change this color to whatever you want for the selected text
                                       ),
                                     );
                                   },
