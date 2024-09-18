@@ -378,27 +378,30 @@ Arrival Time: ${flightInfo['Atime']}''';
                 ),
                 SizedBox(height: screenWidth * 0.006),
                 Text(
-                  originCountryName,
+                  originCountryName
+                      .split(' - ')[0], // Extract only the city part
                   style: TextStyle(
-                    fontSize: screenWidth * 0.025,
+                    fontSize: screenWidth * 0.03,
                     color: Color.fromARGB(255, 28, 31, 106),
                   ),
-                ),
+                )
               ],
             ),
           ),
+          SizedBox(width: screenWidth * 0.04),
 
           // Airplane SVG in the middle
           Padding(
             padding: EdgeInsets.only(
-                bottom: screenHeight * 0.01), // Move it slightly up
+                bottom: screenHeight * 0.001), // Move it slightly up
             child: SvgPicture.asset(
               'assets/images/airplane_line.svg',
-              height: screenHeight * 0.125,
+              height: screenHeight * 0.085,
               color: Color.fromARGB(
                   255, 27, 31, 127), // Keep the same size for the airplane icon
             ),
           ),
+          SizedBox(width: screenWidth * 0.04),
 
           // Destination country column with aligned text
           Flexible(
@@ -417,12 +420,13 @@ Arrival Time: ${flightInfo['Atime']}''';
                 ),
                 SizedBox(height: screenWidth * 0.006),
                 Text(
-                  destinationCountryName,
+                  destinationCountryName
+                      .split(' - ')[0], // Extract only the city part
                   style: TextStyle(
-                    fontSize: screenWidth * 0.025,
+                    fontSize: screenWidth * 0.03,
                     color: Color.fromARGB(255, 28, 31, 106),
                   ),
-                ),
+                )
               ],
             ),
           ),
@@ -433,7 +437,7 @@ Arrival Time: ${flightInfo['Atime']}''';
 
   Widget _buildFlightDetails() {
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
+
     // Define a function that simulates a delay
     Future<List<String>> _fetchFlightDetailsWithDelay() async {
       // Simulate a delay of 2 seconds
@@ -518,604 +522,667 @@ Arrival Time: ${flightInfo['Atime']}''';
     );
   }
 
+  Future<void> _handleBackButton(BuildContext context) async {
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    if (_fetched) {
+      bool? shouldExit = await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Confirm Exit'),
+            titleTextStyle: TextStyle(
+                color: Color.fromARGB(255, 17, 4, 100),
+                fontWeight: FontWeight.bold,
+                fontSize: screenWidth * 0.06),
+            content: Text(
+                'Are you sure you want to leave? Flight info will be lost.'),
+            contentTextStyle: TextStyle(
+                color: Color.fromARGB(255, 25, 7, 138),
+                fontSize: screenWidth * 0.04),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(false); // Stay on the page
+                },
+                child: Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(true); // Exit the page
+                },
+                child: Text('Yes'),
+              ),
+            ],
+          );
+        },
+      );
+
+      if (shouldExit == true) {
+        Navigator.of(context).pop(); // Perform the back navigation if confirmed
+      }
+    } else {
+      Navigator.of(context)
+          .pop(); // Allow back navigation if no flight info is loaded
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     double buttonPadding = screenWidth * 0.34;
 
-    return Scaffold(
-      body: Stack(
-        children: [
-          // Top Banner Image (bottom layer)
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: Image.asset(
-              'assets/images/flight_schedule.png',
-              fit: BoxFit.cover,
-              height: 185,
-            ),
-          ),
-          Positioned(
-            top: screenHeight * 0.025,
-            left: screenWidth * 0.0012,
-            child: SizedBox(
-              width: 58, // Set width of the button
-              height: 48, // Set height of the button
-              child: BackButton(
-                color: Color.fromARGB(255, 255, 255, 255), // Icon color
+    return WillPopScope(
+      onWillPop: () async {
+        // Calls your custom back button handler
+        await _handleBackButton(context);
+        return false; // Prevents default back navigation
+      },
+      child: Scaffold(
+        body: Stack(
+          children: [
+            // Top Banner Image (bottom layer)
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: Image.asset(
+                'assets/images/flight_schedule.png',
+                fit: BoxFit.cover,
+                height: 185,
               ),
             ),
-          ),
-          // Outer White Card (middle layer) wrapping the form
-          Positioned(
-            top: screenHeight * 0.18,
-            left: 0,
-            right: 0,
-            child: Container(
-              padding: EdgeInsets.all(18),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: [
-                  BoxShadow(
-                    color: Color.fromARGB(255, 226, 223, 223).withOpacity(0.5),
-                    spreadRadius: 1,
-                    blurRadius: 1,
-                    offset: Offset(0, 1),
-                  ),
-                ],
+            Positioned(
+              top: screenHeight * 0.025,
+              left: screenWidth * 0.0012,
+              child: SizedBox(
+                width: 58, // Set width of the button
+                height: 48, // Set height of the button
+                child: BackButton(
+                  color: Color.fromARGB(255, 255, 255, 255), // Icon color
+                ),
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Text(
-                    'Flight Schedule',
-                    style: TextStyle(
-                      fontSize: screenWidth * 0.05,
-                      fontWeight: FontWeight.w900,
-                      color: Color.fromARGB(255, 28, 31, 106),
+            ),
+            // Outer White Card (middle layer) wrapping the form
+            Positioned(
+              top: screenHeight * 0.18,
+              left: 0,
+              right: 0,
+              child: Container(
+                padding: EdgeInsets.all(18),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                      color:
+                          Color.fromARGB(255, 226, 223, 223).withOpacity(0.5),
+                      spreadRadius: 1,
+                      blurRadius: 1,
+                      offset: Offset(0, 1),
                     ),
-                  ),
-                  SizedBox(height: screenHeight * 0.01),
-                  // Inner White Card with the Flight Form
-                  AnimatedContainer(
-                    duration: Duration(milliseconds: 300), // Animation duration
-                    height: _isCollapsed
-                        ? buttonPadding * 0.7
-                        : null, // Adjust height when collapsed
-                    padding:
-                        EdgeInsets.all(_isCollapsed ? 0 : 16), // Adjust padding
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 3,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
+                  ],
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      'Flight Schedule',
+                      style: TextStyle(
+                        fontSize: screenWidth * 0.05,
+                        fontWeight: FontWeight.w900,
+                        color: Color.fromARGB(255, 28, 31, 106),
+                      ),
                     ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (!_isCollapsed) ...[
-                          SizedBox(height: screenHeight * 0.01),
-                          Text(
-                            'Origin Country',
-                            style: TextStyle(
-                              fontSize: screenWidth * 0.035,
-                              fontWeight: FontWeight.w900,
-                              color: Color.fromARGB(255, 28, 31, 106),
-                            ),
+                    SizedBox(height: screenHeight * 0.01),
+                    // Inner White Card with the Flight Form
+                    AnimatedContainer(
+                      duration:
+                          Duration(milliseconds: 300), // Animation duration
+                      height: _isCollapsed
+                          ? buttonPadding * 0.7
+                          : null, // Adjust height when collapsed
+                      padding: EdgeInsets.all(
+                          _isCollapsed ? 0 : 12), // Adjust padding
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 3,
+                            offset: Offset(0, 3),
                           ),
-                          SizedBox(height: screenHeight * 0.005),
-                          Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.0),
-                              color: Colors.grey[100], // Fill color
-                              border: Border.all(
-                                color: const Color.fromARGB(
-                                    255, 206, 197, 197), // Border color
-                                width: 1.0,
-                              ),
-                            ),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16.0),
-                              child: DropdownSearch<String>(
-                                items: _allCountries
-                                    .map<String>(
-                                        (country) => country['name'] as String)
-                                    .toList(),
-                                popupProps: PopupProps.menu(
-                                  showSearchBox: true,
-                                  searchFieldProps: TextFieldProps(
-                                    decoration: InputDecoration(
-                                      labelText: "Search Origin Country",
-                                      labelStyle: TextStyle(
-                                        color: const Color.fromARGB(
-                                            255, 204, 203, 203),
-                                        fontSize: screenWidth * 0.035,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      hintStyle: TextStyle(
-                                        color: Colors.grey,
-                                      ),
-                                      border: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: const Color.fromARGB(
-                                              255, 204, 203, 203),
-                                          width: 1.0,
-                                        ),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: const Color.fromARGB(
-                                              255, 204, 203, 203),
-                                          width: 1.0,
-                                        ),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: const Color.fromARGB(
-                                              255, 204, 203, 203),
-                                          width: 1.0,
-                                        ),
-                                      ),
-                                    ),
-                                    style: TextStyle(
-                                        color: const Color.fromARGB(
-                                            255, 204, 203, 203),
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: screenWidth * 0.035),
-                                  ),
-                                  itemBuilder: (context, item, isSelected) {
-                                    return Container(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: screenHeight * .01,
-                                          horizontal: screenWidth * 0.03),
-                                      decoration: BoxDecoration(
-                                        color: isSelected
-                                            ? Color.fromARGB(255, 97, 95, 95)
-                                            : Colors.white,
-                                      ),
-                                      child: Text(
-                                        item,
-                                        style: TextStyle(
-                                          color: isSelected
-                                              ? const Color.fromARGB(
-                                                  255, 135, 130, 130)
-                                              : const Color.fromARGB(
-                                                  255, 204, 203, 203),
-                                          fontWeight: isSelected
-                                              ? FontWeight.bold
-                                              : FontWeight.normal,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                                dropdownDecoratorProps: DropDownDecoratorProps(
-                                  dropdownSearchDecoration: InputDecoration(
-                                    border: InputBorder.none,
-                                  ),
-                                ),
-                                dropdownButtonProps: DropdownButtonProps(
-                                  icon: Icon(
-                                    Icons.arrow_drop_down,
-                                    size: 32.0,
-                                    color: const Color.fromARGB(
-                                        255, 145, 145, 145),
-                                  ),
-                                ),
-                                onChanged: (String? newValue) {
-                                  setState(() {
-                                    var selectedCountry =
-                                        _allCountries.firstWhere((country) =>
-                                            country['name'] == newValue);
-                                    _originCountryController.text = selectedCountry[
-                                        'code']; // Save the code of the selected country
-                                  });
-                                },
-                                selectedItem: _originCountryController
-                                        .text.isEmpty
-                                    ? null
-                                    : _allCountries.firstWhere((country) =>
-                                        country['code'] ==
-                                        _originCountryController.text)['name'],
-                                dropdownBuilder: (context, selectedItem) {
-                                  return Text(
-                                    selectedItem ?? "Select Origin Country",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: selectedItem == null
-                                          ? const Color.fromARGB(
-                                              255, 204, 203, 203)
-                                          : const Color.fromARGB(
-                                              255, 135, 130, 130),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: screenHeight * 0.01),
-                          Text(
-                            'Destination Country',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w900,
-                              color: Color.fromARGB(255, 28, 31, 106),
-                            ),
-                          ),
-                          SizedBox(height: screenHeight * 0.005),
-                          Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.0),
-                              color: Colors.grey[100], // Fill color
-                              border: Border.all(
-                                color: const Color.fromARGB(
-                                    255, 206, 197, 197), // Border color
-                                width: 1.0,
-                              ),
-                            ),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16.0),
-                              child: DropdownSearch<String>(
-                                items: _filteredCountries
-                                    .map<String>(
-                                        (country) => country['name'] as String)
-                                    .toList(),
-                                popupProps: PopupProps.menu(
-                                  showSearchBox: true,
-                                  searchFieldProps: TextFieldProps(
-                                    decoration: InputDecoration(
-                                      labelText: "Search Destination Country",
-                                      labelStyle: TextStyle(
-                                        color: const Color.fromARGB(
-                                            255, 204, 203, 203),
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      hintStyle: TextStyle(
-                                        color: const Color.fromARGB(
-                                            255, 204, 203, 203),
-                                      ),
-                                      border: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Colors.grey, // Border color
-                                          width: 1.0,
-                                        ),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Colors
-                                              .grey, // Border color when enabled
-                                          width: 1.0,
-                                        ),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Colors
-                                              .grey, // Border color when focused
-                                          width: 1.0,
-                                        ),
-                                      ),
-                                    ),
-                                    style: TextStyle(
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  itemBuilder: (context, item, isSelected) {
-                                    return Container(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 8, horizontal: 16),
-                                      decoration: BoxDecoration(
-                                        color: isSelected
-                                            ? Colors.grey[300]
-                                            : Colors.white,
-                                      ),
-                                      child: Text(
-                                        item,
-                                        style: TextStyle(
-                                          color: isSelected
-                                              ? const Color.fromARGB(
-                                                  255, 135, 130, 130)
-                                              : const Color.fromARGB(
-                                                  255, 204, 203, 203),
-                                          fontWeight: isSelected
-                                              ? FontWeight.bold
-                                              : FontWeight.normal,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                                dropdownDecoratorProps: DropDownDecoratorProps(
-                                  dropdownSearchDecoration: InputDecoration(
-                                    border: InputBorder.none,
-                                  ),
-                                ),
-                                dropdownButtonProps: DropdownButtonProps(
-                                  icon: Icon(
-                                    Icons.arrow_drop_down,
-                                    size: 32.0,
-                                    color: const Color.fromARGB(
-                                        255, 145, 145, 145),
-                                  ),
-                                ),
-                                onChanged: (String? newValue) {
-                                  setState(() {
-                                    var selectedCountry = _filteredCountries
-                                        .firstWhere((country) =>
-                                            country['name'] == newValue);
-                                    _destinationCountryController.text =
-                                        selectedCountry[
-                                            'code']; // Save the code of the selected country
-                                  });
-                                },
-                                selectedItem: _destinationCountryController
-                                        .text.isEmpty
-                                    ? null
-                                    : _filteredCountries.firstWhere((country) =>
-                                        country['code'] ==
-                                        _destinationCountryController
-                                            .text)['name'],
-                                dropdownBuilder: (context, selectedItem) {
-                                  return Text(
-                                    selectedItem ??
-                                        "Select Destination Country",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: selectedItem == null
-                                          ? const Color.fromARGB(
-                                              255, 204, 203, 203)
-                                          : const Color.fromARGB(
-                                              255, 135, 130, 130),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: screenHeight * 0.015),
-                          Text(
-                            'Flight Date',
-                            style: TextStyle(
+                        ],
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (!_isCollapsed) ...[
+                            SizedBox(height: screenHeight * 0.01),
+                            Text(
+                              'Origin Country',
+                              style: TextStyle(
                                 fontSize: screenWidth * 0.035,
                                 fontWeight: FontWeight.w900,
-                                color: Color.fromARGB(255, 28, 31, 106)),
-                          ),
-                          SizedBox(height: 3),
-                          GestureDetector(
-                            onTap: () => _selectDate(context),
-                            child: AbsorbPointer(
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  hintText: _selectedDate == null
-                                      ? 'MM/DD/YYYY'
-                                      : DateFormat('MM/dd/yyyy')
-                                          .format(_selectedDate!),
-                                  hintStyle: TextStyle(
-                                    color: _selectedDate == null
-                                        ? Color.fromARGB(255, 204, 203,
-                                            203) // Default text color
-                                        : const Color.fromARGB(255, 135, 130,
-                                            130), // Text color when a date is selected
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: screenWidth * 0.035,
+                                color: Color.fromARGB(255, 28, 31, 106),
+                              ),
+                            ),
+                            SizedBox(height: screenHeight * 0.005),
+                            Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.0),
+                                color: Colors.grey[100], // Fill color
+                                border: Border.all(
+                                  color: const Color.fromARGB(
+                                      255, 206, 197, 197), // Border color
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0),
+                                child: DropdownSearch<String>(
+                                  items: _allCountries
+                                      .map<String>((country) =>
+                                          country['name'] as String)
+                                      .toList(),
+                                  popupProps: PopupProps.menu(
+                                    showSearchBox: true,
+                                    searchFieldProps: TextFieldProps(
+                                      decoration: InputDecoration(
+                                        labelText: "Search Origin Country",
+                                        labelStyle: TextStyle(
+                                          color: const Color.fromARGB(
+                                              255, 204, 203, 203),
+                                          fontSize: screenWidth * 0.035,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        hintStyle: TextStyle(
+                                          color: Colors.grey,
+                                        ),
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: const Color.fromARGB(
+                                                255, 204, 203, 203),
+                                            width: 1.0,
+                                          ),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: const Color.fromARGB(
+                                                255, 204, 203, 203),
+                                            width: 1.0,
+                                          ),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: const Color.fromARGB(
+                                                255, 204, 203, 203),
+                                            width: 1.0,
+                                          ),
+                                        ),
+                                      ),
+                                      style: TextStyle(
+                                          color: const Color.fromARGB(
+                                              255, 204, 203, 203),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: screenWidth * 0.035),
+                                    ),
+                                    itemBuilder: (context, item, isSelected) {
+                                      return Container(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: screenHeight * .01,
+                                            horizontal: screenWidth * 0.03),
+                                        decoration: BoxDecoration(
+                                          color: isSelected
+                                              ? Color.fromARGB(255, 97, 95, 95)
+                                              : Colors.white,
+                                        ),
+                                        child: Text(
+                                          item,
+                                          style: TextStyle(
+                                            color: isSelected
+                                                ? Color.fromARGB(
+                                                    255, 163, 133, 133)
+                                                : Color.fromARGB(
+                                                    255, 208, 202, 202),
+                                            fontWeight: isSelected
+                                                ? FontWeight.bold
+                                                : FontWeight.w500,
+                                          ),
+                                        ),
+                                      );
+                                    },
                                   ),
-                                  filled: true,
-                                  fillColor: Color.fromARGB(255, 245, 245, 245),
-                                  suffixIcon: SizedBox(
-                                      // Optionally set width to maintain aspect ratio
-                                      child: Icon(
-                                    Icons.calendar_today,
-                                    color: Color.fromARGB(
-                                        255, 51, 51, 51), // Suffix icon color
-                                    size: 19.0, // Set the icon size
-                                  )),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: BorderSide(
-                                        color:
-                                            Color.fromARGB(255, 206, 197, 197),
-                                        width: 0.1),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: BorderSide(
-                                      color: const Color.fromARGB(255, 204, 203,
-                                          203), // Border color when unfocused
-                                      width: 1.0, // Border width when unfocused
+                                  dropdownDecoratorProps:
+                                      DropDownDecoratorProps(
+                                    dropdownSearchDecoration: InputDecoration(
+                                      border: InputBorder.none,
                                     ),
                                   ),
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 12.0, horizontal: 16.0),
+                                  dropdownButtonProps: DropdownButtonProps(
+                                    icon: Icon(
+                                      Icons.arrow_drop_down,
+                                      size: 32.0,
+                                      color: const Color.fromARGB(
+                                          255, 145, 145, 145),
+                                    ),
+                                  ),
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      var selectedCountry =
+                                          _allCountries.firstWhere((country) =>
+                                              country['name'] == newValue);
+                                      _originCountryController.text =
+                                          selectedCountry[
+                                              'code']; // Save the code of the selected country
+                                    });
+                                  },
+                                  selectedItem: _originCountryController
+                                          .text.isEmpty
+                                      ? null
+                                      : _allCountries.firstWhere((country) =>
+                                          country['code'] ==
+                                          _originCountryController
+                                              .text)['name'],
+                                  dropdownBuilder: (context, selectedItem) {
+                                    return Text(
+                                      selectedItem ?? "Select Origin Country",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: selectedItem == null
+                                            ? const Color.fromARGB(
+                                                255, 204, 203, 203)
+                                            : const Color.fromARGB(
+                                                255, 135, 130, 130),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: screenHeight * 0.01),
+                            Text(
+                              'Destination Country',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w900,
+                                color: Color.fromARGB(255, 28, 31, 106),
+                              ),
+                            ),
+                            SizedBox(height: screenHeight * 0.005),
+                            Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.0),
+                                color: Colors.grey[100], // Fill color
+                                border: Border.all(
+                                  color: const Color.fromARGB(
+                                      255, 206, 197, 197), // Border color
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0),
+                                child: DropdownSearch<String>(
+                                  items: _filteredCountries
+                                      .map<String>((country) =>
+                                          country['name'] as String)
+                                      .toList(),
+                                  popupProps: PopupProps.menu(
+                                    showSearchBox: true,
+                                    searchFieldProps: TextFieldProps(
+                                      decoration: InputDecoration(
+                                        labelText: "Search Destination Country",
+                                        labelStyle: TextStyle(
+                                          color: const Color.fromARGB(
+                                              255, 204, 203, 203),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        hintStyle: TextStyle(
+                                          color: const Color.fromARGB(
+                                              255, 204, 203, 203),
+                                        ),
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Colors.grey, // Border color
+                                            width: 1.0,
+                                          ),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Colors
+                                                .grey, // Border color when enabled
+                                            width: 1.0,
+                                          ),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Colors
+                                                .grey, // Border color when focused
+                                            width: 1.0,
+                                          ),
+                                        ),
+                                      ),
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    itemBuilder: (context, item, isSelected) {
+                                      return Container(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 8, horizontal: 16),
+                                        decoration: BoxDecoration(
+                                          color: isSelected
+                                              ? Colors.grey[300]
+                                              : Colors.white,
+                                        ),
+                                        child: Text(
+                                          item,
+                                          style: TextStyle(
+                                            color: isSelected
+                                                ? const Color.fromARGB(
+                                                    255, 135, 130, 130)
+                                                : const Color.fromARGB(
+                                                    255, 208, 202, 202),
+                                            fontWeight: isSelected
+                                                ? FontWeight.bold
+                                                : FontWeight.w500,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  dropdownDecoratorProps:
+                                      DropDownDecoratorProps(
+                                    dropdownSearchDecoration: InputDecoration(
+                                      border: InputBorder.none,
+                                    ),
+                                  ),
+                                  dropdownButtonProps: DropdownButtonProps(
+                                    icon: Icon(
+                                      Icons.arrow_drop_down,
+                                      size: 32.0,
+                                      color: const Color.fromARGB(
+                                          255, 145, 145, 145),
+                                    ),
+                                  ),
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      var selectedCountry = _filteredCountries
+                                          .firstWhere((country) =>
+                                              country['name'] == newValue);
+                                      _destinationCountryController.text =
+                                          selectedCountry[
+                                              'code']; // Save the code of the selected country
+                                    });
+                                  },
+                                  selectedItem:
+                                      _destinationCountryController.text.isEmpty
+                                          ? null
+                                          : _filteredCountries.firstWhere(
+                                              (country) =>
+                                                  country['code'] ==
+                                                  _destinationCountryController
+                                                      .text)['name'],
+                                  dropdownBuilder: (context, selectedItem) {
+                                    return Text(
+                                      selectedItem ??
+                                          "Select Destination Country",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: selectedItem == null
+                                            ? const Color.fromARGB(
+                                                255, 204, 203, 203)
+                                            : const Color.fromARGB(
+                                                255, 135, 130, 130),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: screenHeight * 0.013),
+                            Text(
+                              'Flight Date',
+                              style: TextStyle(
+                                  fontSize: screenWidth * 0.035,
+                                  fontWeight: FontWeight.w900,
+                                  color: Color.fromARGB(255, 28, 31, 106)),
+                            ),
+                            GestureDetector(
+                              onTap: () => _selectDate(context),
+                              child: AbsorbPointer(
+                                child: TextField(
+                                  decoration: InputDecoration(
+                                    hintText: _selectedDate == null
+                                        ? 'MM/DD/YYYY'
+                                        : DateFormat('MM/dd/yyyy')
+                                            .format(_selectedDate!),
+                                    hintStyle: TextStyle(
+                                      color: _selectedDate == null
+                                          ? Color.fromARGB(255, 204, 203,
+                                              203) // Default text color
+                                          : const Color.fromARGB(255, 135, 130,
+                                              130), // Text color when a date is selected
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: screenWidth * 0.035,
+                                    ),
+                                    filled: true,
+                                    fillColor:
+                                        Color.fromARGB(255, 245, 245, 245),
+                                    suffixIcon: SizedBox(
+                                        // Optionally set width to maintain aspect ratio
+                                        child: Icon(
+                                      Icons.calendar_today,
+                                      color: Color.fromARGB(
+                                          255, 51, 51, 51), // Suffix icon color
+                                      size: 19.0, // Set the icon size
+                                    )),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide(
+                                          color: Color.fromARGB(
+                                              255, 206, 197, 197),
+                                          width: 0.1),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide(
+                                        color: const Color.fromARGB(
+                                            255,
+                                            204,
+                                            203,
+                                            203), // Border color when unfocused
+                                        width:
+                                            1.0, // Border width when unfocused
+                                      ),
+                                    ),
+                                    contentPadding: EdgeInsets.symmetric(
+                                        vertical: 12.0, horizontal: 16.0),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                          SizedBox(height: screenHeight * 0.015),
+                          Center(
+                            child: Container(
+                              height: screenHeight * 0.065,
+                              width: screenWidth *
+                                  0.86, // Fixed width for the button
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  if (_isCollapsed) {
+                                    // Handle "More" button press
+                                    clearFormFields(); // Clear the fields
+                                    setState(() {
+                                      _isCollapsed =
+                                          !_isCollapsed; // Uncollapse the form
+                                      _fetched = false; // Clear fetched data
+                                      _flightDetails =
+                                          []; // Clear flight details
+                                    });
+                                  } else {
+                                    if (_originCountryController.text.isEmpty &&
+                                        _destinationCountryController
+                                            .text.isEmpty &&
+                                        _selectedDate == null) {
+                                      _showAlert('Incomplete Form',
+                                          'Please enter origin country, destination country, and select date.');
+                                      return;
+                                    } else if (_originCountryController
+                                        .text.isEmpty) {
+                                      _showAlert('Incomplete Form',
+                                          'Please enter origin country.');
+                                      return;
+                                    } else if (_destinationCountryController
+                                        .text.isEmpty) {
+                                      _showAlert('Incomplete Form',
+                                          'Please enter destination country.');
+                                      return;
+                                    } else if (_selectedDate == null) {
+                                      _showAlert('Incomplete Form',
+                                          'Please select a date.');
+                                      return;
+                                    }
+
+                                    // Handle "Submit" button press
+                                    fetchFlightSchedule(); // Fetch flight status
+                                    _fetched = true;
+                                    setState(() {
+                                      _isCollapsed =
+                                          !_isCollapsed; // Collapse the form
+                                    });
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: screenWidth * 0.2,
+                                      vertical: screenHeight * 0.02),
+                                  backgroundColor:
+                                      Color.fromARGB(255, 28, 31, 106),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment
+                                      .end, // Aligns text and icon to the right
+                                  mainAxisSize: MainAxisSize
+                                      .min, // Ensures Row size is only as big as its children
+                                  children: [
+                                    if (_isCollapsed) ...[
+                                      Text(
+                                        'Search More',
+                                        style: TextStyle(
+                                          fontSize: screenWidth * 0.035,
+                                          color: Color.fromARGB(
+                                              255, 255, 255, 255),
+                                        ),
+                                      ),
+                                      Icon(
+                                        Icons.arrow_drop_down,
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
+                                        size: screenWidth * 0.05,
+                                      ),
+                                    ] else ...[
+                                      Text(
+                                        'Submit',
+                                        style: TextStyle(
+                                          fontSize: screenWidth * 0.035,
+                                          color: Color.fromARGB(
+                                              255, 255, 255, 255),
+                                        ),
+                                      ),
+                                    ],
+                                  ],
                                 ),
                               ),
                             ),
                           ),
                         ],
-                        SizedBox(height: screenHeight * 0.025),
-                        Center(
-                          child: Container(
-                            width: screenWidth *
-                                0.86, // Fixed width for the button
-                            child: ElevatedButton(
-                              onPressed: () {
-                                if (_isCollapsed) {
-                                  // Handle "More" button press
-                                  clearFormFields(); // Clear the fields
-                                  setState(() {
-                                    _isCollapsed =
-                                        !_isCollapsed; // Uncollapse the form
-                                    _fetched = false; // Clear fetched data
-                                    _flightDetails = []; // Clear flight details
-                                  });
-                                } else {
-                                  if (_originCountryController.text.isEmpty &&
-                                      _destinationCountryController
-                                          .text.isEmpty &&
-                                      _selectedDate == null) {
-                                    _showAlert('Incomplete Form',
-                                        'Please enter origin country, destination country, and select date.');
-                                    return;
-                                  } else if (_originCountryController
-                                      .text.isEmpty) {
-                                    _showAlert('Incomplete Form',
-                                        'Please enter origin country.');
-                                    return;
-                                  } else if (_destinationCountryController
-                                      .text.isEmpty) {
-                                    _showAlert('Incomplete Form',
-                                        'Please enter destination country.');
-                                    return;
-                                  } else if (_selectedDate == null) {
-                                    _showAlert('Incomplete Form',
-                                        'Please select a date.');
-                                    return;
-                                  }
-
-                                  // Handle "Submit" button press
-                                  fetchFlightSchedule(); // Fetch flight status
-                                  _fetched = true;
-                                  setState(() {
-                                    _isCollapsed =
-                                        !_isCollapsed; // Collapse the form
-                                  });
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: screenWidth * 0.2,
-                                    vertical: screenHeight * 0.02),
-                                backgroundColor:
-                                    Color.fromARGB(255, 28, 31, 106),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment
-                                    .end, // Aligns text and icon to the right
-                                mainAxisSize: MainAxisSize
-                                    .min, // Ensures Row size is only as big as its children
-                                children: [
-                                  if (_isCollapsed) ...[
-                                    Text(
-                                      'More',
-                                      style: TextStyle(
-                                        fontSize: screenWidth * 0.035,
-                                        color:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                        width: screenWidth *
-                                            0.01), // Space between text and icon
-                                    Icon(
-                                      Icons.arrow_drop_down,
-                                      color: Color.fromARGB(255, 255, 255, 255),
-                                    ),
-                                  ] else ...[
-                                    Text(
-                                      'Submit',
-                                      style: TextStyle(
-                                        fontSize: screenWidth * 0.035,
-                                        color:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                      ),
-                                    ),
-                                  ],
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: screenHeight * 0.01),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: screenHeight * 0.0001),
-                  Row(),
-                  if (_fetched) ...[
-                    _buildOriginDestinationRow(), // Display the origin-destination row
-                  ],
-                  if (_fetched) ...[
-                    Container(
-                      height: screenHeight *
-                          0.425, // Adjust height for scrollable details
-                      child: SingleChildScrollView(
-                        child:
-                            _buildFlightDetails(), // Display flight details here
                       ),
                     ),
+                    SizedBox(height: screenHeight * 0.001),
+                    Row(),
+                    if (_fetched) ...[
+                      _buildOriginDestinationRow(), // Display the origin-destination row
+                    ],
+                    if (_fetched) ...[
+                      Container(
+                        height: screenHeight *
+                            0.425, // Adjust height for scrollable details
+                        child: SingleChildScrollView(
+                          child:
+                              _buildFlightDetails(), // Display flight details here
+                        ),
+                      ),
+                    ],
+                    SizedBox(height: screenHeight * 0.9),
                   ],
-                  SizedBox(height: screenHeight * 0.9),
-                ],
+                ),
               ),
             ),
-          ),
-        ],
-      ),
-      // Bottom Navigation Bar
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/images/home_icon.svg',
-              height: screenHeight * .03,
-              width: screenWidth * .03,
+          ],
+        ),
+        // Bottom Navigation Bar
+        bottomNavigationBar: BottomNavigationBar(
+          items: [
+            BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                'assets/images/home_icon.svg',
+                height: screenHeight * .03,
+                width: screenWidth * .03,
+              ),
+              label: 'Home',
             ),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/images/contact_us_icon.svg',
-              height: screenHeight * .03,
-              width: screenWidth * .03,
+            BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                'assets/images/contact_us_icon.svg',
+                height: screenHeight * .03,
+                width: screenWidth * .03,
+              ),
+              label: 'Contact Us',
             ),
-            label: 'Contact Us',
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/images/about_us_icon.svg',
-              height: screenHeight * .03,
-              width: screenWidth * .03,
+            BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                'assets/images/about_us_icon.svg',
+                height: screenHeight * .03,
+                width: screenWidth * .03,
+              ),
+              label: 'About Us',
             ),
-            label: 'About Us',
-          ),
-        ],
-        selectedItemColor: Color.fromARGB(255, 28, 31, 106),
-        unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
-        onTap: (index) {
-          if (index == 1) {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ContactUsPage()));
-          } else if (index == 0) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      MyHomePage(title: 'Flutter Demo Home Page')),
-            );
-          } else if (index == 2) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AboutUsPage()),
-            );
-          }
-        },
+          ],
+          selectedItemColor: Color.fromARGB(255, 28, 31, 106),
+          unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
+          onTap: (index) {
+            if (index == 1) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ContactUsPage()));
+            } else if (index == 0) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        MyHomePage(title: 'Flutter Demo Home Page')),
+              );
+            } else if (index == 2) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AboutUsPage()),
+              );
+            }
+          },
+        ),
       ),
     );
   }

@@ -292,13 +292,13 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                   Text(
                     'Loadability',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: screenWidth * 0.05,
                       fontWeight: FontWeight.w900,
                       color: Color.fromARGB(255, 28, 31, 106),
                     ),
                   ),
 
-                  const SizedBox(height: 10),
+                  SizedBox(height: screenHeight * 0.01),
                   // Inner White Card with the Flight Form
                   Container(
                     decoration: BoxDecoration(
@@ -321,15 +321,15 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                         Text(
                           'Enter Details',
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: screenWidth * 0.03,
                             fontWeight: FontWeight.w900,
                             color: Color.fromARGB(255, 28, 31, 106),
                           ),
                         ),
                         Container(
                           constraints: BoxConstraints(
-                            maxHeight:
-                                45, // Adjust this value to control the height
+                            maxHeight: screenHeight *
+                                0.053, // Adjust this value to control the height
                           ),
                           decoration: BoxDecoration(
                             border: Border.all(
@@ -343,8 +343,8 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                             children: [
                               Expanded(
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 14.0),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: screenHeight * 0.017),
                                   child: TextField(
                                     controller: _lengthController,
                                     decoration: InputDecoration(
@@ -360,8 +360,8 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                       border: InputBorder.none,
-                                      contentPadding:
-                                          EdgeInsets.symmetric(vertical: 15.0),
+                                      contentPadding: EdgeInsets.symmetric(
+                                          vertical: screenHeight * 0.07),
                                     ),
                                     style: TextStyle(
                                       fontSize:
@@ -378,7 +378,8 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                               ),
                               Container(
                                 padding: EdgeInsets.symmetric(
-                                    horizontal: 12.0, vertical: 10),
+                                    horizontal: screenWidth * 0.03,
+                                    vertical: 10),
                                 decoration: BoxDecoration(
                                   color:
                                       const Color.fromARGB(255, 206, 197, 197),
@@ -401,7 +402,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                             ],
                           ),
                         ),
-                        SizedBox(height: 15),
+                        SizedBox(height: screenHeight * 0.015),
                         Container(
                           constraints: BoxConstraints(
                             maxHeight:
