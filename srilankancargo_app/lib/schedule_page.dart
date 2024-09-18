@@ -437,13 +437,11 @@ Arrival Time: ${flightInfo['Atime']}''';
 
   Widget _buildFlightDetails() {
     double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
 
-    // Define a function that simulates a delay
+    // Simulate flight details fetching with delay
     Future<List<String>> _fetchFlightDetailsWithDelay() async {
-      // Simulate a delay of 2 seconds
       await Future.delayed(Duration(seconds: 2));
-
-      // Return flight details after the delay
       return _flightDetails;
     }
 
@@ -451,66 +449,112 @@ Arrival Time: ${flightInfo['Atime']}''';
       future: _fetchFlightDetailsWithDelay(),
       builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          // While waiting for the delay, show a loading indicator
           return Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          // Handle any errors
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          // If no data or empty list, show a message
           return Center(
               child: Text('No flight schedule information available.'));
         } else {
-          // Build the flight details if data is available
+          // Get the flight details
           final flightDetails = snapshot.data!;
+
+          // Sort the flight details by Arrival Time (Index 3)
+          flightDetails.sort((a, b) {
+            final timeA = _extractTime(a);
+            final timeB = _extractTime(b);
+            return timeA.compareTo(timeB); // Sort in ascending order
+          });
+
           return SingleChildScrollView(
             child: Column(
               children: flightDetails.map((flightDetail) {
-                final flightInfo = flightDetail
-                    .split('\n'); // Adjust as per actual data format
+                final flightInfo =
+                    flightDetail.split('\n'); // Adjust per data format
 
-                // Ensure flightInfo has enough elements
                 if (flightInfo.length < 4) {
-                  return Card(
-                    color: Color.fromARGB(255, 251, 250, 255),
-                    margin: EdgeInsets.symmetric(vertical: 3.5, horizontal: 0),
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 125.0, top: 7, bottom: 7),
-                      child: ListTile(
-                        title: Text(
-                          'No Flights',
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 28, 31, 106),
-                            fontSize: screenWidth * 0.05,
-                          ),
-                        ),
+                  return Container(
+                    child: Center(
+                      child: Text(
+                        'No Flights Available',
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 6, 10, 83),
+                            fontSize: screenWidth * 0.045,
+                            fontWeight: FontWeight.w400),
                       ),
                     ),
                   );
                 }
 
                 return Card(
-                  color: Color.fromARGB(255, 251, 250, 255),
-                  margin: EdgeInsets.symmetric(vertical: 3.5, horizontal: 0),
+                  color: Color.fromARGB(255, 255, 255, 255),
+                  margin: EdgeInsets.symmetric(vertical: screenHeight * 0.006),
                   child: Padding(
-                    padding: EdgeInsets.only(left: 100.0, top: 7, bottom: 7),
-                    child: ListTile(
-                      title: Text(
-                          'Flight Number: ${flightInfo[0].split(': ')[1]}'),
-                      titleTextStyle: TextStyle(
-                          fontSize: screenWidth * 0.041,
-                          color: Color.fromARGB(255, 10, 6, 33)),
-                      subtitleTextStyle: TextStyle(
-                          fontSize: screenWidth * 0.04,
-                          color: Color.fromARGB(255, 4, 3, 21)),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                              'Aircraft Type: ${flightInfo[2].split(': ')[1]}'),
-                          Text('Arrival Time: ${flightInfo[3].split(': ')[1]}'),
-                        ],
-                      ),
+                    padding: EdgeInsets.symmetric(
+                        vertical: screenHeight * 0.01,
+                        horizontal: screenWidth * 0.03),
+                    child: Row(
+                      children: [
+                        // Placeholder for logo
+                        Container(
+                          width: screenWidth * 0.12,
+                          height: screenHeight * 0.06,
+                          color: const Color.fromARGB(255, 237, 236, 236),
+                          child: Center(
+                            child: Text(
+                              'Logo',
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 11, 5, 56),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: screenWidth * 0.02),
+                        // Flight Info (Flight No & Aircraft Type)
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${flightInfo[0].split(': ')[1]} (${flightInfo[2].split(': ')[1]})',
+                                style: TextStyle(
+                                  fontSize: screenWidth * 0.045,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromARGB(255, 3, 5, 74),
+                                ),
+                              ),
+                              Text(
+                                'Flight No & Type',
+                                style: TextStyle(
+                                  fontSize: screenWidth * 0.035,
+                                  color: Color.fromARGB(255, 29, 28, 78),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // Arrival Time
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              flightInfo[3].split(': ')[1],
+                              style: TextStyle(
+                                fontSize: screenWidth * 0.045,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(255, 3, 5, 74),
+                              ),
+                            ),
+                            Text(
+                              'Arrival Time',
+                              style: TextStyle(
+                                fontSize: screenWidth * 0.035,
+                                color: const Color.fromARGB(255, 29, 28, 78),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 );
@@ -520,6 +564,20 @@ Arrival Time: ${flightInfo['Atime']}''';
         }
       },
     );
+  }
+
+// Helper function to extract and parse time from flight details
+  DateTime _extractTime(String flightDetail) {
+    final flightInfo = flightDetail.split('\n');
+    final arrivalTimeString = flightInfo[3].split(': ')[1];
+
+    // Assuming the format is "HH:mm", e.g., "12:12"
+    final timeParts = arrivalTimeString.split(':');
+    final hour = int.parse(timeParts[0]);
+    final minute = int.parse(timeParts[1]);
+
+    // Returning DateTime object for sorting purposes
+    return DateTime(0, 1, 1, hour, minute); // Date components are dummy values
   }
 
   Future<void> _handleBackButton(BuildContext context) async {
@@ -532,26 +590,32 @@ Arrival Time: ${flightInfo['Atime']}''';
           return AlertDialog(
             title: Text('Confirm Exit'),
             titleTextStyle: TextStyle(
-                color: Color.fromARGB(255, 17, 4, 100),
+                color: Color.fromARGB(255, 21, 5, 126),
                 fontWeight: FontWeight.bold,
                 fontSize: screenWidth * 0.06),
             content: Text(
-                'Are you sure you want to leave? Flight info will be lost.'),
+                'Are you sure you want to leave? Flight information will be lost.'),
             contentTextStyle: TextStyle(
-                color: Color.fromARGB(255, 25, 7, 138),
-                fontSize: screenWidth * 0.04),
+                color: Color.fromARGB(255, 21, 7, 110),
+                fontSize: screenWidth * 0.045),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(false); // Stay on the page
                 },
-                child: Text('Cancel'),
+                child: Text('Cancel',
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 25, 7, 138),
+                        fontSize: screenWidth * 0.043)),
               ),
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(true); // Exit the page
                 },
-                child: Text('Yes'),
+                child: Text('Yes',
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 25, 7, 138),
+                        fontSize: screenWidth * 0.043)),
               ),
             ],
           );
@@ -1098,7 +1162,7 @@ Arrival Time: ${flightInfo['Atime']}''';
                                       Text(
                                         'Submit',
                                         style: TextStyle(
-                                          fontSize: screenWidth * 0.035,
+                                          fontSize: screenWidth * 0.04,
                                           color: Color.fromARGB(
                                               255, 255, 255, 255),
                                         ),
@@ -1112,15 +1176,16 @@ Arrival Time: ${flightInfo['Atime']}''';
                         ],
                       ),
                     ),
-                    SizedBox(height: screenHeight * 0.001),
+                    SizedBox(height: screenHeight * 0.01),
                     Row(),
                     if (_fetched) ...[
                       _buildOriginDestinationRow(), // Display the origin-destination row
                     ],
                     if (_fetched) ...[
+                      SizedBox(height: screenHeight * 0.02),
                       Container(
                         height: screenHeight *
-                            0.425, // Adjust height for scrollable details
+                            0.46, // Adjust height for scrollable details
                         child: SingleChildScrollView(
                           child:
                               _buildFlightDetails(), // Display flight details here

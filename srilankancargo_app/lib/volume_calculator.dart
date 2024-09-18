@@ -278,620 +278,636 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
     double buttonPaddingCalc = screenWidth * 0.32;
 
     return Scaffold(
-      body: Stack(
-        children: [
-          // Top Banner Image (bottom layer)
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: Image.asset(
-              'assets/images/volume_calculator.png',
-              fit: BoxFit.cover,
-              height: 185,
-            ),
-          ),
-          Positioned(
-            top: screenHeight * 0.025,
-            left: screenWidth * 0.0012,
-            child: SizedBox(
-              width: 58, // Set width of the button
-              height: 48, // Set height of the button
-              child: BackButton(
-                color: Color.fromARGB(255, 255, 255, 255), // Icon color
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus(); // Dismiss the keyboard
+        },
+        child: Stack(
+          children: [
+            // Top Banner Image (bottom layer)
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: Image.asset(
+                'assets/images/volume_calculator.png',
+                fit: BoxFit.cover,
+                height: 185,
               ),
             ),
-          ),
-
-          // Outer White Card (middle layer) wrapping the form
-          Positioned(
-            top: screenHeight * 0.18,
-            left: 0,
-            right: 0,
-            child: Container(
-              padding: EdgeInsets.all(18),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset: Offset(0, 3),
-                  ),
-                ],
+            Positioned(
+              top: screenHeight * 0.025,
+              left: screenWidth * 0.0012,
+              child: SizedBox(
+                width: 58, // Set width of the button
+                height: 48, // Set height of the button
+                child: BackButton(
+                  color: Color.fromARGB(255, 255, 255, 255), // Icon color
+                ),
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'Volume Calculator',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w900,
-                      color: Color.fromARGB(255, 28, 31, 106),
-                    ),
-                  ),
+            ),
 
-                  const SizedBox(height: 10),
-                  // Inner White Card with the Flight Form
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 3,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
+            // Outer White Card (middle layer) wrapping the form
+            Positioned(
+              top: screenHeight * 0.18,
+              left: 0,
+              right: 0,
+              child: Container(
+                padding: EdgeInsets.all(18),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: Offset(0, 3),
                     ),
-                    padding: EdgeInsets.all(16),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Enter Details',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w900,
-                            color: Color.fromARGB(255, 28, 31, 106),
+                  ],
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Volume Calculator',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w900,
+                        color: Color.fromARGB(255, 28, 31, 106),
+                      ),
+                    ),
+
+                    const SizedBox(height: 10),
+                    // Inner White Card with the Flight Form
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 3,
+                            offset: Offset(0, 3),
                           ),
-                        ),
-                        Container(
-                          constraints: BoxConstraints(
-                            maxHeight:
-                                45, // Adjust this value to control the height
-                          ),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Color.fromARGB(
-                                  255, 206, 197, 197), // Border color
-                              width: 1.0, // Border width
+                        ],
+                      ),
+                      padding: EdgeInsets.all(16),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Enter Details',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w900,
+                              color: Color.fromARGB(255, 28, 31, 106),
                             ),
-                            borderRadius: BorderRadius.circular(8.0),
                           ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 14.0),
-                                  child: TextField(
-                                    controller: _lengthController,
-                                    decoration: InputDecoration(
-                                      labelText: 'Length',
-                                      floatingLabelBehavior:
-                                          FloatingLabelBehavior.never,
-                                      labelStyle: TextStyle(
+                          Container(
+                            constraints: BoxConstraints(
+                              maxHeight:
+                                  45, // Adjust this value to control the height
+                            ),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Color.fromARGB(
+                                    255, 206, 197, 197), // Border color
+                                width: 1.0, // Border width
+                              ),
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 14.0),
+                                    child: TextField(
+                                      controller: _lengthController,
+                                      decoration: InputDecoration(
+                                        labelText: 'Length',
+                                        floatingLabelBehavior:
+                                            FloatingLabelBehavior.never,
+                                        labelStyle: TextStyle(
+                                          fontSize:
+                                              customizationValues['fontSize'] ??
+                                                  14.0,
+                                          color: const Color.fromARGB(
+                                              255, 206, 197, 197),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        border: InputBorder.none,
+                                        contentPadding: EdgeInsets.symmetric(
+                                            vertical: 15.0),
+                                      ),
+                                      style: TextStyle(
                                         fontSize:
                                             customizationValues['fontSize'] ??
                                                 14.0,
                                         color: const Color.fromARGB(
-                                            255, 206, 197, 197),
+                                            255, 135, 130, 130),
                                         fontWeight: FontWeight.bold,
                                       ),
-                                      border: InputBorder.none,
-                                      contentPadding:
-                                          EdgeInsets.symmetric(vertical: 15.0),
+                                      keyboardType:
+                                          TextInputType.numberWithOptions(
+                                              decimal: true),
                                     ),
+                                  ),
+                                ),
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 12.0, vertical: 10),
+                                  decoration: BoxDecoration(
+                                    color: const Color.fromARGB(
+                                        255, 206, 197, 197),
+                                    borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(7.0),
+                                      bottomRight: Radius.circular(7.0),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    'cm',
                                     style: TextStyle(
                                       fontSize:
                                           customizationValues['fontSize'] ??
-                                              14.0,
-                                      color: const Color.fromARGB(
-                                          255, 135, 130, 130),
+                                              16.0,
+                                      color: const Color.fromARGB(255, 51, 51,
+                                          51), // Ensure contrast for the "cm" label
                                       fontWeight: FontWeight.bold,
                                     ),
-                                    keyboardType:
-                                        TextInputType.numberWithOptions(
-                                            decimal: true),
                                   ),
                                 ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 12.0, vertical: 10),
-                                decoration: BoxDecoration(
-                                  color:
-                                      const Color.fromARGB(255, 206, 197, 197),
-                                  borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(7.0),
-                                    bottomRight: Radius.circular(7.0),
-                                  ),
-                                ),
-                                child: Text(
-                                  'cm',
-                                  style: TextStyle(
-                                    fontSize:
-                                        customizationValues['fontSize'] ?? 16.0,
-                                    color: const Color.fromARGB(255, 51, 51,
-                                        51), // Ensure contrast for the "cm" label
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 15),
-                        Container(
-                          constraints: BoxConstraints(
-                            maxHeight:
-                                45, // Adjust this value to control the height
-                          ),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Color.fromARGB(
-                                  255, 206, 197, 197), // Border color
-                              width: 1.0, // Border width
+                              ],
                             ),
-                            borderRadius: BorderRadius.circular(8.0),
                           ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16.0),
-                                  child: TextField(
-                                    controller: _widthController,
-                                    decoration: InputDecoration(
-                                      labelText: 'Width',
-                                      floatingLabelBehavior:
-                                          FloatingLabelBehavior.never,
-                                      labelStyle: TextStyle(
+                          SizedBox(height: 15),
+                          Container(
+                            constraints: BoxConstraints(
+                              maxHeight:
+                                  45, // Adjust this value to control the height
+                            ),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Color.fromARGB(
+                                    255, 206, 197, 197), // Border color
+                                width: 1.0, // Border width
+                              ),
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16.0),
+                                    child: TextField(
+                                      controller: _widthController,
+                                      decoration: InputDecoration(
+                                        labelText: 'Width',
+                                        floatingLabelBehavior:
+                                            FloatingLabelBehavior.never,
+                                        labelStyle: TextStyle(
+                                          fontSize:
+                                              customizationValues['fontSize'] ??
+                                                  14.0,
+                                          color: const Color.fromARGB(
+                                              255, 206, 197, 197),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        border: InputBorder.none,
+                                        contentPadding: EdgeInsets.symmetric(
+                                            vertical: 15.0),
+                                      ),
+                                      style: TextStyle(
                                         fontSize:
                                             customizationValues['fontSize'] ??
                                                 14.0,
                                         color: const Color.fromARGB(
-                                            255, 206, 197, 197),
+                                            255, 135, 130, 130),
                                         fontWeight: FontWeight.bold,
                                       ),
-                                      border: InputBorder.none,
-                                      contentPadding:
-                                          EdgeInsets.symmetric(vertical: 15.0),
+                                      keyboardType:
+                                          TextInputType.numberWithOptions(
+                                              decimal: true),
                                     ),
+                                  ),
+                                ),
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 12.0, vertical: 10),
+                                  decoration: BoxDecoration(
+                                    color: const Color.fromARGB(
+                                        255, 206, 197, 197),
+                                    borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(7.0),
+                                      bottomRight: Radius.circular(7.0),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    'cm',
                                     style: TextStyle(
                                       fontSize:
                                           customizationValues['fontSize'] ??
-                                              14.0,
-                                      color: const Color.fromARGB(
-                                          255, 135, 130, 130),
+                                              16.0,
+                                      color: const Color.fromARGB(255, 51, 51,
+                                          51), // Ensure contrast for the "cm" label
                                       fontWeight: FontWeight.bold,
                                     ),
-                                    keyboardType:
-                                        TextInputType.numberWithOptions(
-                                            decimal: true),
                                   ),
                                 ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 12.0, vertical: 10),
-                                decoration: BoxDecoration(
-                                  color:
-                                      const Color.fromARGB(255, 206, 197, 197),
-                                  borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(7.0),
-                                    bottomRight: Radius.circular(7.0),
-                                  ),
-                                ),
-                                child: Text(
-                                  'cm',
-                                  style: TextStyle(
-                                    fontSize:
-                                        customizationValues['fontSize'] ?? 16.0,
-                                    color: const Color.fromARGB(255, 51, 51,
-                                        51), // Ensure contrast for the "cm" label
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 15),
-                        Container(
-                          constraints: BoxConstraints(
-                            maxHeight:
-                                45, // Adjust this value to control the height
-                          ),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Color.fromARGB(
-                                  255, 206, 197, 197), // Border color
-                              width: 1.0, // Border width
+                              ],
                             ),
-                            borderRadius: BorderRadius.circular(8.0),
                           ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16.0),
-                                  child: TextField(
-                                    controller: _heightController,
-                                    decoration: InputDecoration(
-                                      labelText: 'Height',
-                                      floatingLabelBehavior:
-                                          FloatingLabelBehavior.never,
-                                      labelStyle: TextStyle(
+                          SizedBox(height: 15),
+                          Container(
+                            constraints: BoxConstraints(
+                              maxHeight:
+                                  45, // Adjust this value to control the height
+                            ),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Color.fromARGB(
+                                    255, 206, 197, 197), // Border color
+                                width: 1.0, // Border width
+                              ),
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16.0),
+                                    child: TextField(
+                                      controller: _heightController,
+                                      decoration: InputDecoration(
+                                        labelText: 'Height',
+                                        floatingLabelBehavior:
+                                            FloatingLabelBehavior.never,
+                                        labelStyle: TextStyle(
+                                          fontSize:
+                                              customizationValues['fontSize'] ??
+                                                  14.0,
+                                          color: const Color.fromARGB(
+                                              255, 206, 197, 197),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        border: InputBorder.none,
+                                        contentPadding: EdgeInsets.symmetric(
+                                            vertical: 15.0),
+                                      ),
+                                      style: TextStyle(
                                         fontSize:
                                             customizationValues['fontSize'] ??
                                                 14.0,
                                         color: const Color.fromARGB(
-                                            255, 206, 197, 197),
+                                            255, 135, 130, 130),
                                         fontWeight: FontWeight.bold,
                                       ),
-                                      border: InputBorder.none,
-                                      contentPadding:
-                                          EdgeInsets.symmetric(vertical: 15.0),
+                                      keyboardType:
+                                          TextInputType.numberWithOptions(
+                                              decimal: true),
                                     ),
+                                  ),
+                                ),
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 12.0, vertical: 10),
+                                  decoration: BoxDecoration(
+                                    color: const Color.fromARGB(
+                                        255, 206, 197, 197),
+                                    borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(7.0),
+                                      bottomRight: Radius.circular(7.0),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    'cm',
                                     style: TextStyle(
                                       fontSize:
                                           customizationValues['fontSize'] ??
-                                              14.0,
-                                      color: const Color.fromARGB(
-                                          255, 135, 130, 130),
+                                              16.0,
+                                      color: const Color.fromARGB(255, 51, 51,
+                                          51), // Ensure contrast for the "cm" label
                                       fontWeight: FontWeight.bold,
                                     ),
-                                    keyboardType:
-                                        TextInputType.numberWithOptions(
-                                            decimal: true),
                                   ),
                                 ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 12.0, vertical: 10),
-                                decoration: BoxDecoration(
-                                  color:
-                                      const Color.fromARGB(255, 206, 197, 197),
-                                  borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(7.0),
-                                    bottomRight: Radius.circular(7.0),
-                                  ),
-                                ),
-                                child: Text(
-                                  'cm',
-                                  style: TextStyle(
-                                    fontSize:
-                                        customizationValues['fontSize'] ?? 16.0,
-                                    color: const Color.fromARGB(255, 51, 51,
-                                        51), // Ensure contrast for the "cm" label
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Container(
-                          constraints: BoxConstraints(
-                            maxHeight: 42, // Controls the height
-                          ),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Color(
-                                  0xFFCEC5C5), // Border color matching the image
-                              width: 1.0,
+                              ],
                             ),
-                            borderRadius: BorderRadius.circular(8.0),
                           ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                flex:
-                                    2, // Occupies 3 parts of the available space
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 0),
+                          SizedBox(height: 10),
+                          Container(
+                            constraints: BoxConstraints(
+                              maxHeight: 42, // Controls the height
+                            ),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Color(
+                                    0xFFCEC5C5), // Border color matching the image
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex:
+                                      2, // Occupies 3 parts of the available space
+                                  child: Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Color.fromARGB(255, 206, 197,
+                                            197), // Light gray background color
+                                        borderRadius: BorderRadius.circular(
+                                            8.0), // Optional: rounded corners
+                                      ),
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 10.0,
+                                          horizontal:
+                                              12.0), // Add padding inside the box
+                                      child: Text(
+                                        'Number of Pieces',
+                                        style: TextStyle(
+                                          fontSize: 14.0,
+                                          color: Color(
+                                              0xFF333333), // Dark text color
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex:
+                                      2, // Occupies 2 parts of the available space
                                   child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Color.fromARGB(255, 206, 197,
-                                          197), // Light gray background color
-                                      borderRadius: BorderRadius.circular(
-                                          8.0), // Optional: rounded corners
-                                    ),
                                     padding: EdgeInsets.symmetric(
-                                        vertical: 10.0,
-                                        horizontal:
-                                            12.0), // Add padding inside the box
-                                    child: Text(
-                                      'Number of Pieces',
+                                        horizontal: 12.0, vertical: 0.0),
+                                    child: TextField(
+                                      controller: _piecesController,
+                                      decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide
+                                              .none, // Removes default border
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
+                                        contentPadding: EdgeInsets.symmetric(
+                                            vertical: 12.0),
+                                        hintText:
+                                            '', // You can add a placeholder if needed
+                                      ),
                                       style: TextStyle(
                                         fontSize: 14.0,
-                                        color: Color(
-                                            0xFF333333), // Dark text color
+                                        color: Color.fromARGB(
+                                            255, 135, 130, 130), // Text color
                                         fontWeight: FontWeight.bold,
                                       ),
+                                      keyboardType:
+                                          TextInputType.numberWithOptions(
+                                              decimal: true),
                                     ),
                                   ),
                                 ),
-                              ),
-                              Expanded(
-                                flex:
-                                    2, // Occupies 2 parts of the available space
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 12.0, vertical: 0.0),
-                                  child: TextField(
-                                    controller: _piecesController,
-                                    decoration: InputDecoration(
-                                      border: OutlineInputBorder(
-                                        borderSide: BorderSide
-                                            .none, // Removes default border
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                      ),
-                                      contentPadding:
-                                          EdgeInsets.symmetric(vertical: 12.0),
-                                      hintText:
-                                          '', // You can add a placeholder if needed
-                                    ),
-                                    style: TextStyle(
-                                      fontSize: 14.0,
-                                      color: Color.fromARGB(
-                                          255, 135, 130, 130), // Text color
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    keyboardType:
-                                        TextInputType.numberWithOptions(
-                                            decimal: true),
-                                  ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Center(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                calculateVolume();
+                                FocusScope.of(context).unfocus();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: buttonPaddingCalc,
+                                    vertical: 10),
+                                backgroundColor:
+                                    Color.fromARGB(255, 28, 31, 106),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Center(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              calculateVolume();
-                              FocusScope.of(context).unfocus();
-                            },
-                            style: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: buttonPaddingCalc, vertical: 10),
-                              backgroundColor: Color.fromARGB(255, 28, 31, 106),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            child: Text(
-                              'Calculate',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Color.fromARGB(255, 255, 255, 255)),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 20),
-                        Container(
-                          height: 250, // Adjust height as needed
-                          padding: EdgeInsets.all(0), // Padding for container
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.white,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Details per Cargo',
+                              child: Text(
+                                'Calculate',
                                 style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromARGB(255, 28, 31, 106),
-                                ),
+                                    fontSize: 16,
+                                    color: Color.fromARGB(255, 255, 255, 255)),
                               ),
-
-                              Expanded(
-                                child: ListView.builder(
-                                  padding: EdgeInsets.zero,
-                                  itemCount: userSelections.length,
-                                  itemBuilder: (context, index) {
-                                    final selection = userSelections[index];
-                                    return Container(
-                                      margin: EdgeInsets.symmetric(
-                                        vertical: 5,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(3),
-                                        color: Colors.grey[200],
-                                      ),
-                                      child: ExpansionTile(
-                                        tilePadding: EdgeInsets.symmetric(
-                                            horizontal:
-                                                10), // Padding for layout
-                                        title: Text(
-                                          'Cargo ${index + 1}',
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w700,
-                                              color: Color.fromARGB(
-                                                  255, 51, 51, 51)),
-                                        ),
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(
-                                                0.2), // Padding inside expanded tile
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Expanded(
-                                                      child: Align(
-                                                        alignment: Alignment
-                                                            .centerLeft,
-                                                        child: Text(
-                                                          'Length: ${selection.length} cm',
-                                                          style: TextStyle(
-                                                              fontSize: 11),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      child: Align(
-                                                        alignment:
-                                                            Alignment.center,
-                                                        child: Text(
-                                                          'Width: ${selection.width} cm',
-                                                          style: TextStyle(
-                                                              fontSize: 11),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      child: Align(
-                                                        alignment: Alignment
-                                                            .centerRight,
-                                                        child: Text(
-                                                          'Height: ${selection.height} cm',
-                                                          style: TextStyle(
-                                                              fontSize: 11),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                SizedBox(height: 5),
-                                                Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment
-                                                          .center, // Center items vertically
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .start, // Align items to the left
-                                                  children: [
-                                                    Align(
-                                                      alignment: Alignment
-                                                          .centerLeft, // Align text to the left
-                                                      child: Padding(
-                                                        padding: const EdgeInsets
-                                                            .only(
-                                                            right:
-                                                                20.0), // Add padding if needed
-                                                        child: Text(
-                                                          'Pieces: ${selection.numberOfPieces}',
-                                                          style: TextStyle(
-                                                              fontSize: 11),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                        width:
-                                                            20), // Add space between texts if needed
-                                                    Align(
-                                                      alignment: Alignment
-                                                          .centerLeft, // Align text to the left
-                                                      child: Text(
-                                                        'Cubic cm: ${selection.finalTotal.toStringAsFixed(4)} cm³',
-                                                        style: TextStyle(
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Color.fromARGB(
-                                                              255, 28, 31, 106),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                              Divider(), // Add a line divider above the total and button section
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  ElevatedButton(
-                                    onPressed: clearSelections,
-                                    style: ElevatedButton.styleFrom(
-                                      foregroundColor:
-                                          Color.fromARGB(255, 28, 31, 106),
-                                      backgroundColor: Colors.white,
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: buttonPadding,
-                                          vertical: 5), // White fill
-                                      side: BorderSide(
-                                          color:
-                                              Color.fromARGB(255, 28, 31, 106),
-                                          width: 1), // Blue border
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ), // Text color
-                                    ),
-                                    child: Text(
-                                      'Clear',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color:
-                                              Color.fromARGB(255, 28, 31, 106)),
-                                    ),
-                                  ),
-                                  Text(
-                                    'Total: ${totalCBM.toStringAsFixed(4)} cm³',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color.fromARGB(255, 28, 31, 106),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ],
+                          SizedBox(height: 20),
+                          Container(
+                            height: 250, // Adjust height as needed
+                            padding: EdgeInsets.all(0), // Padding for container
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Details per Cargo',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromARGB(255, 28, 31, 106),
+                                  ),
+                                ),
+
+                                Expanded(
+                                  child: ListView.builder(
+                                    padding: EdgeInsets.zero,
+                                    itemCount: userSelections.length,
+                                    itemBuilder: (context, index) {
+                                      final selection = userSelections[index];
+                                      return Container(
+                                        margin: EdgeInsets.symmetric(
+                                          vertical: 5,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(3),
+                                          color: Colors.grey[200],
+                                        ),
+                                        child: ExpansionTile(
+                                          tilePadding: EdgeInsets.symmetric(
+                                              horizontal:
+                                                  10), // Padding for layout
+                                          title: Text(
+                                            'Cargo ${index + 1}',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w700,
+                                                color: Color.fromARGB(
+                                                    255, 51, 51, 51)),
+                                          ),
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.all(
+                                                  0.2), // Padding inside expanded tile
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Expanded(
+                                                        child: Align(
+                                                          alignment: Alignment
+                                                              .centerLeft,
+                                                          child: Text(
+                                                            'Length: ${selection.length} cm',
+                                                            style: TextStyle(
+                                                                fontSize: 11),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Align(
+                                                          alignment:
+                                                              Alignment.center,
+                                                          child: Text(
+                                                            'Width: ${selection.width} cm',
+                                                            style: TextStyle(
+                                                                fontSize: 11),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Align(
+                                                          alignment: Alignment
+                                                              .centerRight,
+                                                          child: Text(
+                                                            'Height: ${selection.height} cm',
+                                                            style: TextStyle(
+                                                                fontSize: 11),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(height: 5),
+                                                  Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center, // Center items vertically
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .start, // Align items to the left
+                                                    children: [
+                                                      Align(
+                                                        alignment: Alignment
+                                                            .centerLeft, // Align text to the left
+                                                        child: Padding(
+                                                          padding: const EdgeInsets
+                                                              .only(
+                                                              right:
+                                                                  20.0), // Add padding if needed
+                                                          child: Text(
+                                                            'Pieces: ${selection.numberOfPieces}',
+                                                            style: TextStyle(
+                                                                fontSize: 11),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                          width:
+                                                              20), // Add space between texts if needed
+                                                      Align(
+                                                        alignment: Alignment
+                                                            .centerLeft, // Align text to the left
+                                                        child: Text(
+                                                          'Cubic cm: ${selection.finalTotal.toStringAsFixed(4)} cm³',
+                                                          style: TextStyle(
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    28,
+                                                                    31,
+                                                                    106),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                                Divider(), // Add a line divider above the total and button section
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: clearSelections,
+                                      style: ElevatedButton.styleFrom(
+                                        foregroundColor:
+                                            Color.fromARGB(255, 28, 31, 106),
+                                        backgroundColor: Colors.white,
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: buttonPadding,
+                                            vertical: 5), // White fill
+                                        side: BorderSide(
+                                            color: Color.fromARGB(
+                                                255, 28, 31, 106),
+                                            width: 1), // Blue border
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ), // Text color
+                                      ),
+                                      child: Text(
+                                        'Clear',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: Color.fromARGB(
+                                                255, 28, 31, 106)),
+                                      ),
+                                    ),
+                                    Text(
+                                      'Total: ${totalCBM.toStringAsFixed(4)} cm³',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color.fromARGB(255, 28, 31, 106),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       // Bottom Navigation Bar
       bottomNavigationBar: BottomNavigationBar(

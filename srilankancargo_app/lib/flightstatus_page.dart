@@ -235,26 +235,32 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
           return AlertDialog(
             title: Text('Confirm Exit'),
             titleTextStyle: TextStyle(
-                color: Color.fromARGB(255, 17, 4, 100),
+                color: Color.fromARGB(255, 21, 5, 126),
                 fontWeight: FontWeight.bold,
                 fontSize: screenWidth * 0.06),
             content: Text(
-                'Are you sure you want to leave? Flight info will be lost.'),
+                'Are you sure you want to leave? Flight information will be lost.'),
             contentTextStyle: TextStyle(
-                color: Color.fromARGB(255, 25, 7, 138),
-                fontSize: screenWidth * 0.04),
+                color: Color.fromARGB(255, 21, 7, 110),
+                fontSize: screenWidth * 0.045),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(false); // Stay on the page
                 },
-                child: Text('Cancel'),
+                child: Text('Cancel',
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 25, 7, 138),
+                        fontSize: screenWidth * 0.043)),
               ),
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(true); // Exit the page
                 },
-                child: Text('Yes'),
+                child: Text('Yes',
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 25, 7, 138),
+                        fontSize: screenWidth * 0.043)),
               ),
             ],
           );
@@ -284,188 +290,128 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
         return false; // Prevents default back navigation
       },
       child: Scaffold(
-        body: Stack(
-          children: [
-            // Top Banner Image (bottom layer)
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: Image.asset(
-                'assets/images/flight_status.png',
-                fit: BoxFit.cover,
-                height: 185,
-              ),
-            ),
-            Positioned(
-              top: screenHeight * 0.025,
-              left: screenWidth * 0.0012,
-              child: SizedBox(
-                width: 58, // Set width of the button
-                height: 48, // Set height of the button
-                child: IconButton(
-                  icon: Icon(Icons.arrow_back),
-                  color: Color.fromARGB(255, 255, 255, 255), // Icon color
-                  onPressed: () => _handleBackButton(context),
+        body: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus(); // Dismiss the keyboard
+          },
+          child: Stack(
+            children: [
+              // Top Banner Image (bottom layer)
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: Image.asset(
+                  'assets/images/flight_status.png',
+                  fit: BoxFit.cover,
+                  height: 185,
                 ),
               ),
-            ),
-            // Outer White Card (middle layer) wrapping the form
-            Positioned(
-              top: screenHeight * 0.18,
-              left: 0,
-              right: 0,
-              child: Container(
-                padding: EdgeInsets.all(18),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(15),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                      offset: Offset(0, 3),
-                    ),
-                  ],
+              Positioned(
+                top: screenHeight * 0.025,
+                left: screenWidth * 0.0012,
+                child: SizedBox(
+                  width: 58, // Set width of the button
+                  height: 48, // Set height of the button
+                  child: IconButton(
+                    icon: Icon(Icons.arrow_back),
+                    color: Color.fromARGB(255, 255, 255, 255), // Icon color
+                    onPressed: () => _handleBackButton(context),
+                  ),
                 ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Flight Status',
-                      style: TextStyle(
-                        fontSize: screenWidth * 0.05,
-                        fontWeight: FontWeight.w900,
-                        color: Color.fromARGB(255, 28, 31, 106),
+              ),
+              // Outer White Card (middle layer) wrapping the form
+              Positioned(
+                top: screenHeight * 0.18,
+                left: 0,
+                right: 0,
+                child: Container(
+                  padding: EdgeInsets.all(18),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
                       ),
-                    ),
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Flight Status',
+                        style: TextStyle(
+                          fontSize: screenWidth * 0.05,
+                          fontWeight: FontWeight.w900,
+                          color: Color.fromARGB(255, 28, 31, 106),
+                        ),
+                      ),
 
-                    const SizedBox(height: 10),
-                    // Inner White Card with the Flight Form
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 1,
-                            blurRadius: 3,
-                            offset: Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      padding: EdgeInsets.all(16),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Flight Number',
-                            style: TextStyle(
-                                fontSize: screenWidth * 0.035,
-                                fontWeight: FontWeight.w900,
-                                color: Color.fromARGB(255, 28, 31, 106)),
-                          ),
-                          SizedBox(
-                            height: screenHeight * 0.06,
-                            child: TextField(
-                              controller: _flightNumberController,
-                              style: TextStyle(
-                                  color: Color.fromARGB(255, 135, 130, 130),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: screenWidth * 0.035),
-                              decoration: InputDecoration(
-                                hintText: 'Enter Flight Number (Ex: UL225)',
-                                hintStyle: TextStyle(
-                                  color: Color.fromARGB(255, 204, 203,
-                                      203), // Change hint text color to red
-                                  fontSize: screenWidth *
-                                      0.035, // Optional: Adjust font size as needed
-                                ),
-                                filled: true,
-                                fillColor: Color.fromARGB(
-                                    255, 245, 245, 245), // Background color
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                    color: Color.fromARGB(
-                                        255, 204, 203, 203), // Border color
-                                    width: 1.0, // Border width
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                    color: const Color.fromARGB(255, 204, 203,
-                                        203), // Border color when focused
-                                    width: 1.0, // Border width when focused
-                                  ),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                    color: const Color.fromARGB(255, 204, 203,
-                                        203), // Border color when unfocused
-                                    width: 1.0, // Border width when unfocused
-                                  ),
-                                ),
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: screenHeight * 0.01,
-                                    horizontal:
-                                        screenWidth * 0.02), // Adjust padding
-                              ),
+                      const SizedBox(height: 10),
+                      // Inner White Card with the Flight Form
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 1,
+                              blurRadius: 3,
+                              offset: Offset(0, 3),
                             ),
-                          ),
-                          SizedBox(height: screenHeight * 0.01),
-                          Text(
-                            'Select Flight Date',
-                            style: TextStyle(
-                                fontSize: screenWidth * 0.035,
-                                fontWeight: FontWeight.w900,
-                                color: Color.fromARGB(255, 28, 31, 106)),
-                          ),
-                          SizedBox(height: screenHeight * 0.001),
-                          GestureDetector(
-                            onTap: () => _selectDate(context),
-                            child: AbsorbPointer(
+                          ],
+                        ),
+                        padding: EdgeInsets.all(16),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Flight Number',
+                              style: TextStyle(
+                                  fontSize: screenWidth * 0.035,
+                                  fontWeight: FontWeight.w900,
+                                  color: Color.fromARGB(255, 28, 31, 106)),
+                            ),
+                            SizedBox(
+                              height: screenHeight * 0.06,
                               child: TextField(
+                                controller: _flightNumberController,
                                 style: TextStyle(
-                                  color: Color.fromARGB(255, 96, 92, 92),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: screenWidth * 0.025,
-                                ),
-                                decoration: InputDecoration(
-                                  hintText: _selectedDate == null
-                                      ? 'Select Flight Date'
-                                      : "${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}",
-                                  hintStyle: TextStyle(
-                                    color: _selectedDate == null
-                                        ? Color.fromARGB(255, 204, 203,
-                                            203) // Default text color
-                                        : const Color.fromARGB(255, 135, 130,
-                                            130), // Text color when a date is selected
+                                    color: Color.fromARGB(255, 135, 130, 130),
                                     fontWeight: FontWeight.bold,
-                                    fontSize: screenWidth * 0.035,
-                                    // Optional: Adjust font size as needed
+                                    fontSize: screenWidth * 0.035),
+                                decoration: InputDecoration(
+                                  hintText: 'Enter Flight Number (Ex: UL225)',
+                                  hintStyle: TextStyle(
+                                    color: Color.fromARGB(255, 204, 203,
+                                        203), // Change hint text color to red
+                                    fontSize: screenWidth *
+                                        0.035, // Optional: Adjust font size as needed
                                   ),
                                   filled: true,
-                                  fillColor: Color.fromARGB(255, 245, 245, 245),
-                                  suffixIcon: SizedBox(
-                                      // Optionally set width to maintain aspect ratio
-                                      child: Icon(
-                                    Icons.calendar_today,
-                                    color: Color.fromARGB(
-                                        255, 51, 51, 51), // Suffix icon color
-                                    size: 19.0, // Set the icon size
-                                  )),
+                                  fillColor: Color.fromARGB(
+                                      255, 245, 245, 245), // Background color
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                     borderSide: BorderSide(
-                                        color:
-                                            Color.fromARGB(255, 206, 197, 197),
-                                        width: 0.1),
+                                      color: Color.fromARGB(
+                                          255, 204, 203, 203), // Border color
+                                      width: 1.0, // Border width
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                      color: const Color.fromARGB(255, 204, 203,
+                                          203), // Border color when focused
+                                      width: 1.0, // Border width when focused
+                                    ),
                                   ),
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
@@ -477,166 +423,237 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                                   ),
                                   contentPadding: EdgeInsets.symmetric(
                                       vertical: screenHeight * 0.01,
-                                      horizontal: screenWidth * 0.02),
+                                      horizontal:
+                                          screenWidth * 0.02), // Adjust padding
                                 ),
                               ),
                             ),
-                          ),
-                          SizedBox(height: screenHeight * 0.02),
+                            SizedBox(height: screenHeight * 0.01),
+                            Text(
+                              'Select Flight Date',
+                              style: TextStyle(
+                                  fontSize: screenWidth * 0.035,
+                                  fontWeight: FontWeight.w900,
+                                  color: Color.fromARGB(255, 28, 31, 106)),
+                            ),
+                            SizedBox(height: screenHeight * 0.001),
+                            GestureDetector(
+                              onTap: () => _selectDate(context),
+                              child: AbsorbPointer(
+                                child: TextField(
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 96, 92, 92),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: screenWidth * 0.025,
+                                  ),
+                                  decoration: InputDecoration(
+                                    hintText: _selectedDate == null
+                                        ? 'Select Flight Date'
+                                        : "${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}",
+                                    hintStyle: TextStyle(
+                                      color: _selectedDate == null
+                                          ? Color.fromARGB(255, 204, 203,
+                                              203) // Default text color
+                                          : const Color.fromARGB(255, 135, 130,
+                                              130), // Text color when a date is selected
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: screenWidth * 0.035,
+                                      // Optional: Adjust font size as needed
+                                    ),
+                                    filled: true,
+                                    fillColor:
+                                        Color.fromARGB(255, 245, 245, 245),
+                                    suffixIcon: SizedBox(
+                                        // Optionally set width to maintain aspect ratio
+                                        child: Icon(
+                                      Icons.calendar_today,
+                                      color: Color.fromARGB(
+                                          255, 51, 51, 51), // Suffix icon color
+                                      size: 19.0, // Set the icon size
+                                    )),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide(
+                                          color: Color.fromARGB(
+                                              255, 206, 197, 197),
+                                          width: 0.1),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide(
+                                        color: const Color.fromARGB(
+                                            255,
+                                            204,
+                                            203,
+                                            203), // Border color when unfocused
+                                        width:
+                                            1.0, // Border width when unfocused
+                                      ),
+                                    ),
+                                    contentPadding: EdgeInsets.symmetric(
+                                        vertical: screenHeight * 0.01,
+                                        horizontal: screenWidth * 0.02),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: screenHeight * 0.02),
 
-                          ElevatedButton(
+                            ElevatedButton(
+                              onPressed:
+                                  fetchFlightStatus, // Call fetchFlightStatus on submit
+                              style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: buttonPadding,
+                                    vertical: screenHeight * 0.013),
+                                backgroundColor:
+                                    Color.fromARGB(255, 28, 31, 106),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              child: _isLoading
+                                  ? CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                          Colors.white),
+                                    )
+                                  : Text(
+                                      'Submit',
+                                      style: TextStyle(
+                                        fontSize: screenWidth * 0.04,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                            ),
+                            SizedBox(height: screenHeight * 0.01),
+                            // Display flight status
+                            if (_flightStatus != null)
+                              Text(
+                                _flightStatus!,
+                                style: TextStyle(
+                                  fontSize: screenWidth * 0.04,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                      // Display flight status below the form
+                      if (_flightInfo != null) ...[
+                        SizedBox(height: screenHeight * 0.05),
+                        Text(
+                          'ON-SCHEDULE',
+                          style: TextStyle(
+                            fontSize: screenWidth * 0.06,
+                            fontWeight: FontWeight.w900,
+                            color: Color.fromARGB(255, 15, 20, 158),
+                          ),
+                        ),
+                        SizedBox(height: screenHeight * 0.01),
+                        Text(
+                          'Scheduled Time: ${_flightInfo!['Schedultime']}',
+                          style: TextStyle(
+                            fontSize: screenWidth * 0.035,
+                            color: Color.fromARGB(255, 15, 20, 158),
+                          ),
+                        ),
+
+                        // Flight route with airplane line
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              _flightInfo!['Sector'].split('-')[0],
+                              style: TextStyle(
+                                fontSize: screenWidth * 0.05,
+                                fontWeight: FontWeight.bold,
+                                color: const Color.fromARGB(255, 15, 20, 158),
+                              ),
+                            ),
+                            SizedBox(width: screenWidth * 0.05),
+                            // Airplane SVG in the middle
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  bottom: screenHeight *
+                                      0.015), // Move it slightly up
+                              child: SvgPicture.asset(
+                                'assets/images/airplane_line.svg',
+                                height: screenHeight * 0.085,
+                                color: Color.fromARGB(255, 27, 31,
+                                    127), // Keep the same size for the airplane icon
+                              ),
+                            ),
+                            SizedBox(width: screenWidth * 0.05),
+                            Text(
+                              _flightInfo!['Sector'].split('-')[1],
+                              style: TextStyle(
+                                fontSize: screenWidth * 0.05,
+                                fontWeight: FontWeight.bold,
+                                color: const Color.fromARGB(255, 15, 20, 158),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: screenHeight * 0.01),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Flight number: ${_flightInfo!['Flight_No']}',
+                              style: TextStyle(
+                                fontSize: screenWidth *
+                                    0.035, // Adjust the size as needed
+                                color: const Color.fromARGB(
+                                    255, 15, 20, 158), // Set the color
+                              ),
+                            ),
+                            Text(
+                              'Flight Date: ${_flightInfo!['FlightDate']}',
+                              style: TextStyle(
+                                fontSize: screenWidth *
+                                    0.035, // Adjust the size as needed
+                                color: const Color.fromARGB(
+                                    255, 15, 20, 158), // Set the color
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: screenHeight * 0.01),
+                        Padding(
+                          padding: EdgeInsets.only(left: screenWidth * 0.6),
+                          child: ElevatedButton(
                             onPressed:
-                                fetchFlightStatus, // Call fetchFlightStatus on submit
+                                _clearFlightInfo, // Call _clearFlightInfo on press
                             style: ElevatedButton.styleFrom(
                               padding: EdgeInsets.symmetric(
-                                  horizontal: buttonPadding,
-                                  vertical: screenHeight * 0.013),
-                              backgroundColor: Color.fromARGB(255, 28, 31, 106),
+                                  horizontal: screenWidth * 0.05,
+                                  vertical: screenHeight * 0.012),
+                              backgroundColor: Color.fromARGB(
+                                  255, 28, 31, 106), // Color for clear button
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
-                            child: _isLoading
-                                ? CircularProgressIndicator(
-                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                        Colors.white),
-                                  )
-                                : Text(
-                                    'Submit',
-                                    style: TextStyle(
-                                      fontSize: screenWidth * 0.04,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                          ),
-                          SizedBox(height: screenHeight * 0.01),
-                          // Display flight status
-                          if (_flightStatus != null)
-                            Text(
-                              _flightStatus!,
+                            child: Text(
+                              'Clear',
                               style: TextStyle(
                                 fontSize: screenWidth * 0.04,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
+                                color: Colors.white,
                               ),
                             ),
-                        ],
-                      ),
-                    ),
-                    // Display flight status below the form
-                    if (_flightInfo != null) ...[
-                      SizedBox(height: screenHeight * 0.05),
-                      Text(
-                        'ON-SCHEDULE',
-                        style: TextStyle(
-                          fontSize: screenWidth * 0.06,
-                          fontWeight: FontWeight.w900,
-                          color: Color.fromARGB(255, 15, 20, 158),
+                          ),
                         ),
-                      ),
-                      SizedBox(height: screenHeight * 0.01),
-                      Text(
-                        'Scheduled Time: ${_flightInfo!['Schedultime']}',
-                        style: TextStyle(
-                          fontSize: screenWidth * 0.035,
-                          color: Color.fromARGB(255, 15, 20, 158),
-                        ),
-                      ),
+                      ],
 
-                      // Flight route with airplane line
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            _flightInfo!['Sector'].split('-')[0],
-                            style: TextStyle(
-                              fontSize: screenWidth * 0.05,
-                              fontWeight: FontWeight.bold,
-                              color: const Color.fromARGB(255, 15, 20, 158),
-                            ),
-                          ),
-                          SizedBox(width: screenWidth * 0.05),
-                          // Airplane SVG in the middle
-                          Padding(
-                            padding: EdgeInsets.only(
-                                bottom: screenHeight *
-                                    0.015), // Move it slightly up
-                            child: SvgPicture.asset(
-                              'assets/images/airplane_line.svg',
-                              height: screenHeight * 0.085,
-                              color: Color.fromARGB(255, 27, 31,
-                                  127), // Keep the same size for the airplane icon
-                            ),
-                          ),
-                          SizedBox(width: screenWidth * 0.05),
-                          Text(
-                            _flightInfo!['Sector'].split('-')[1],
-                            style: TextStyle(
-                              fontSize: screenWidth * 0.05,
-                              fontWeight: FontWeight.bold,
-                              color: const Color.fromARGB(255, 15, 20, 158),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: screenHeight * 0.01),
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Flight number: ${_flightInfo!['Flight_No']}',
-                            style: TextStyle(
-                              fontSize: screenWidth *
-                                  0.035, // Adjust the size as needed
-                              color: const Color.fromARGB(
-                                  255, 15, 20, 158), // Set the color
-                            ),
-                          ),
-                          Text(
-                            'Flight Date: ${_flightInfo!['FlightDate']}',
-                            style: TextStyle(
-                              fontSize: screenWidth *
-                                  0.035, // Adjust the size as needed
-                              color: const Color.fromARGB(
-                                  255, 15, 20, 158), // Set the color
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: screenHeight * 0.01),
-                      Padding(
-                        padding: EdgeInsets.only(left: screenWidth * 0.6),
-                        child: ElevatedButton(
-                          onPressed:
-                              _clearFlightInfo, // Call _clearFlightInfo on press
-                          style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: screenWidth * 0.05,
-                                vertical: screenHeight * 0.012),
-                            backgroundColor: Color.fromARGB(
-                                255, 28, 31, 106), // Color for clear button
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          child: Text(
-                            'Clear',
-                            style: TextStyle(
-                              fontSize: screenWidth * 0.04,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
+                      SizedBox(height: screenHeight),
                     ],
-
-                    SizedBox(height: screenHeight),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         // Bottom Navigation Bar
         bottomNavigationBar: BottomNavigationBar(
