@@ -720,6 +720,8 @@ class _StorageCalOldPageState extends State<StorageCalOldPage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+
     double screenWidth = MediaQuery.of(context).size.width;
     double buttonPadding = screenWidth * 0.128;
     Map<String, double> customizationValues = customizeFormCard(screenWidth);
@@ -743,13 +745,13 @@ class _StorageCalOldPageState extends State<StorageCalOldPage> {
               ),
             ),
             Positioned(
-              top: 25, // Adjust according to your design
-              left: 3, // Adjust according to your design
+              top: screenHeight * 0.04,
+              left: screenWidth * 0.001,
               child: SizedBox(
-                width: 58, // Set width of the button
-                height: 48, // Set height of the button
+                width: 58,
+                height: 48,
                 child: BackButton(
-                  color: Color.fromARGB(255, 255, 255, 255), // Icon color
+                  color: Color.fromARGB(255, 255, 255, 255),
                 ),
               ),
             ),

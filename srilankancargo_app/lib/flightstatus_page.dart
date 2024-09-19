@@ -18,6 +18,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
   DateTime? _selectedDate;
   String? _flightStatus; // To hold flight status information
   bool _isLoading = false; // Loading indicator
+  bool _canNavigate = true;
   Map<String, dynamic>? _flightInfo;
 
   Map<String, double> customizeFormCard(double screenWidth) {
@@ -68,7 +69,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
-        firstDate: DateTime(2000),
+        firstDate: DateTime.now(),
         lastDate: DateTime(2101),
         builder: (BuildContext context, Widget? child) {
           return Theme(
@@ -246,6 +247,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
             actions: <Widget>[
               TextButton(
                 onPressed: () {
+                  _canNavigate = false;
                   Navigator.of(context).pop(false); // Stay on the page
                 },
                 child: Text('Cancel',
@@ -255,6 +257,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
               ),
               TextButton(
                 onPressed: () {
+                  _canNavigate = true;
                   Navigator.of(context).pop(true); // Exit the page
                 },
                 child: Text('Yes',
@@ -268,9 +271,11 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
       );
 
       if (shouldExit == true) {
+        _canNavigate = true;
         Navigator.of(context).pop(); // Perform the back navigation if confirmed
       }
     } else {
+      _canNavigate = true;
       Navigator.of(context)
           .pop(); // Allow back navigation if no flight info is loaded
     }
@@ -308,8 +313,8 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                 ),
               ),
               Positioned(
-                top: screenHeight * 0.025,
-                left: screenWidth * 0.0012,
+                top: screenHeight * 0.04,
+                left: screenWidth * 0.001,
                 child: SizedBox(
                   width: 58, // Set width of the button
                   height: 48, // Set height of the button
@@ -467,8 +472,8 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                                         // Optionally set width to maintain aspect ratio
                                         child: Icon(
                                       Icons.calendar_today,
-                                      color: Color.fromARGB(
-                                          255, 51, 51, 51), // Suffix icon color
+                                      color: Color.fromARGB(255, 128, 126,
+                                          126), // Suffix icon color
                                       size: 19.0, // Set the icon size
                                     )),
                                     border: OutlineInputBorder(
@@ -620,28 +625,32 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                             ),
                           ],
                         ),
-                        SizedBox(height: screenHeight * 0.01),
+                        SizedBox(height: screenHeight * 0.018),
                         Padding(
                           padding: EdgeInsets.only(left: screenWidth * 0.6),
                           child: ElevatedButton(
-                            onPressed:
-                                _clearFlightInfo, // Call _clearFlightInfo on press
+                            onPressed: () {
+                              _clearFlightInfo();
+                            },
                             style: ElevatedButton.styleFrom(
+                              foregroundColor: Color.fromARGB(255, 28, 31, 106),
+                              backgroundColor: Colors.white,
                               padding: EdgeInsets.symmetric(
-                                  horizontal: screenWidth * 0.05,
-                                  vertical: screenHeight * 0.012),
-                              backgroundColor: Color.fromARGB(
-                                  255, 28, 31, 106), // Color for clear button
+                                  horizontal: screenWidth * 0.1,
+                                  vertical: screenHeight * 0.01), // White fill
+                              side: BorderSide(
+                                  color: Color.fromARGB(255, 28, 31, 106),
+                                  width: 1), // Blue border
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
-                              ),
+                              ), // Text color
                             ),
                             child: Text(
                               'Clear',
                               style: TextStyle(
-                                fontSize: screenWidth * 0.04,
-                                color: Colors.white,
-                              ),
+                                  fontSize: screenWidth * 0.04,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromARGB(255, 28, 31, 106)),
                             ),
                           ),
                         ),
@@ -686,26 +695,43 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
           selectedItemColor: Color.fromARGB(255, 28, 31, 106),
           unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
           onTap: (index) {
-            if (index == 1) {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ContactUsPage()));
-            } else if (index == 0) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        MyHomePage(title: 'Flutter Demo Home Page')),
-              );
-            } else if (index == 2) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AboutUsPage()),
-              );
-            }
+            _handleNavigation(index, context);
           },
         ),
       ),
     );
+  }
+
+// New method for navigation
+  Future<void> _handleNavigation(int index, BuildContext context) async {
+    // Reset _canNavigate to true before handling back button
+    _canNavigate = true;
+
+    // Call the existing handle back button method
+    await _handleBackButton(context);
+
+    // Check if navigation is allowed
+    if (_canNavigate) {
+      // Now navigate based on the index
+      if (index == 0) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MyHomePage(title: 'Flutter Demo Home Page'),
+          ),
+        );
+      } else if (index == 1) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ContactUsPage()),
+        );
+      } else if (index == 2) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => AboutUsPage()),
+        );
+      }
+    }
   }
 
   void _clearFlightInfo() {

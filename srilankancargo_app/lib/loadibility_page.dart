@@ -14,10 +14,12 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
   bool _isTiltedPermitted = false;
   String? _selectedAircraftType;
   String? _selectedCargoHold;
+  bool _canNavigate = true;
   final TextEditingController _lengthController = TextEditingController();
   final TextEditingController _widthController = TextEditingController();
   final TextEditingController _heightController = TextEditingController();
-  final TextEditingController _flightNumberController = TextEditingController();
+
+  bool _fetched = false;
 
   Map<String, double> customizeFormCard(double screenWidth) {
     Map<String, double> customizationValues = {};
@@ -128,6 +130,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
   }
 
   void _lodabilityCheck() {
+    _fetched = true;
     final length = double.tryParse(_lengthController.text);
     final width = double.tryParse(_widthController.text);
     final height = double.tryParse(_heightController.text);
@@ -234,6 +237,61 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
     });
   }
 
+  Future<void> _handleBackButton(BuildContext context) async {
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    if (_fetched) {
+      bool? shouldExit = await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Confirm Exit'),
+            titleTextStyle: TextStyle(
+                color: Color.fromARGB(255, 21, 5, 126),
+                fontWeight: FontWeight.bold,
+                fontSize: screenWidth * 0.06),
+            content: Text(
+                'Are you sure you want to leave? Flight information will be lost.'),
+            contentTextStyle: TextStyle(
+                color: Color.fromARGB(255, 21, 7, 110),
+                fontSize: screenWidth * 0.045),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  _canNavigate = false;
+                  Navigator.of(context).pop(false); // Stay on the page
+                },
+                child: Text('Cancel',
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 25, 7, 138),
+                        fontSize: screenWidth * 0.043)),
+              ),
+              TextButton(
+                onPressed: () {
+                  _canNavigate = true;
+                  Navigator.of(context).pop(true); // Exit the page
+                },
+                child: Text('Yes',
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 25, 7, 138),
+                        fontSize: screenWidth * 0.043)),
+              ),
+            ],
+          );
+        },
+      );
+
+      if (shouldExit == true) {
+        _canNavigate = true;
+        Navigator.of(context).pop(); // Perform the back navigation if confirmed
+      }
+    } else {
+      _canNavigate = true;
+      Navigator.of(context)
+          .pop(); // Allow back navigation if no flight info is loaded
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -260,8 +318,8 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
               ),
             ),
             Positioned(
-              top: screenHeight * 0.025,
-              left: screenWidth * 0.0012,
+              top: screenHeight * 0.04,
+              left: screenWidth * 0.001,
               child: SizedBox(
                 width: 58, // Set width of the button
                 height: 48, // Set height of the button
@@ -880,24 +938,41 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
         selectedItemColor: Color.fromARGB(255, 28, 31, 106),
         unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
         onTap: (index) {
-          if (index == 1) {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ContactUsPage()));
-          } else if (index == 0) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      MyHomePage(title: 'Flutter Demo Home Page')),
-            );
-          } else if (index == 2) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AboutUsPage()),
-            );
-          }
+          _handleNavigation(index, context);
         },
       ),
     );
+  }
+
+  // New method for navigation
+  Future<void> _handleNavigation(int index, BuildContext context) async {
+    // Reset _canNavigate to true before handling back button
+    _canNavigate = true;
+
+    // Call the existing handle back button method
+    await _handleBackButton(context);
+
+    // Check if navigation is allowed
+    if (_canNavigate) {
+      // Now navigate based on the index
+      if (index == 0) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MyHomePage(title: 'Flutter Demo Home Page'),
+          ),
+        );
+      } else if (index == 1) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ContactUsPage()),
+        );
+      } else if (index == 2) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => AboutUsPage()),
+        );
+      }
+    }
   }
 }

@@ -190,7 +190,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
           // White Card with Content (middle layer)
           Positioned(
-            top: screenHeight * 0.25, // Adjust to start below the banner
+            top: screenHeight * 0.26, // Adjust to start below the banner
             left: 0,
             right: 0,
             child: LayoutBuilder(
@@ -290,7 +290,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                         ),
                                         SizedBox(
                                             height: screenHeight *
-                                                0.02), // Space between rows
+                                                0.016), // Space between rows
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -390,12 +390,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
           Positioned(
             top: screenHeight *
-                0.158, // Adjust this value to position the text above the slider
+                0.178, // Adjust this value to position the text above the slider
             left: screenWidth * 0.05,
             child: Text(
               'Welcome to',
               style: TextStyle(
-                fontSize: screenWidth * 0.045,
+                fontSize: screenWidth * 0.043,
                 color: Color.fromARGB(255, 255, 255, 255),
               ),
               textAlign: TextAlign.left,
@@ -404,7 +404,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
           Positioned(
             top: screenHeight *
-                0.184, // Adjust this value to position the text above the slider
+                0.197, // Adjust this value to position the text above the slider
             left: screenWidth * 0.05,
 
             child: Text(
@@ -420,7 +420,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // Image Slider (PageView) (top layer)
           Positioned(
             top: screenHeight *
-                0.228, // Adjust to overlap the white card and banner
+                0.232, // Adjust to overlap the white card and banner
             left: screenWidth * 0.05,
             right: screenWidth * 0.05,
             child: Container(

@@ -29,6 +29,7 @@ class _FlightSchedulePageState extends State<FlightSchedulePage> {
   bool _isCollapsed = false;
   bool _fetched = false;
   bool _showFlightDetails = false;
+  bool _canNavigate = true;
 
   List<String> _flightDetails = [];
 
@@ -109,7 +110,7 @@ class _FlightSchedulePageState extends State<FlightSchedulePage> {
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
-        firstDate: DateTime(2000),
+        firstDate: DateTime.now(),
         lastDate: DateTime(2101),
         builder: (BuildContext context, Widget? child) {
           return Theme(
@@ -392,15 +393,30 @@ Arrival Time: ${flightInfo['Atime']}''';
           SizedBox(width: screenWidth * 0.04),
 
           // Airplane SVG in the middle
-          Padding(
-            padding: EdgeInsets.only(
-                bottom: screenHeight * 0.001), // Move it slightly up
-            child: SvgPicture.asset(
-              'assets/images/airplane_line.svg',
-              height: screenHeight * 0.085,
-              color: Color.fromARGB(
-                  255, 27, 31, 127), // Keep the same size for the airplane icon
-            ),
+          Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(bottom: screenHeight * 0.001),
+                child: SvgPicture.asset(
+                  'assets/images/airplane_line.svg',
+                  height: screenHeight * 0.085,
+                  color: Color.fromARGB(255, 27, 31, 127),
+                ),
+              ),
+              // Date below the airplane SVG
+              Text(
+                _selectedDate == null
+                    ? 'Select Flight Date'
+                    : DateFormat('MM/dd/yyyy').format(_selectedDate!),
+                style: TextStyle(
+                  fontSize: screenWidth * 0.037,
+                  fontWeight: FontWeight.bold,
+                  color: _selectedDate == null
+                      ? Color.fromARGB(255, 204, 203, 203)
+                      : Color.fromARGB(255, 28, 31, 106),
+                ),
+              ),
+            ],
           ),
           SizedBox(width: screenWidth * 0.04),
 
@@ -427,7 +443,8 @@ Arrival Time: ${flightInfo['Atime']}''';
                     fontSize: screenWidth * 0.03,
                     color: Color.fromARGB(255, 28, 31, 106),
                   ),
-                )
+                ),
+                SizedBox(height: screenWidth * 0.006),
               ],
             ),
           ),
@@ -599,6 +616,7 @@ Arrival Time: ${flightInfo['Atime']}''';
             actions: <Widget>[
               TextButton(
                 onPressed: () {
+                  _canNavigate = false;
                   Navigator.of(context).pop(false); // Stay on the page
                 },
                 child: Text('Cancel',
@@ -608,6 +626,7 @@ Arrival Time: ${flightInfo['Atime']}''';
               ),
               TextButton(
                 onPressed: () {
+                  _canNavigate = true;
                   Navigator.of(context).pop(true); // Exit the page
                 },
                 child: Text('Yes',
@@ -621,9 +640,11 @@ Arrival Time: ${flightInfo['Atime']}''';
       );
 
       if (shouldExit == true) {
+        _canNavigate = true;
         Navigator.of(context).pop(); // Perform the back navigation if confirmed
       }
     } else {
+      _canNavigate = true;
       Navigator.of(context)
           .pop(); // Allow back navigation if no flight info is loaded
     }
@@ -656,8 +677,8 @@ Arrival Time: ${flightInfo['Atime']}''';
               ),
             ),
             Positioned(
-              top: screenHeight * 0.025,
-              left: screenWidth * 0.0012,
+              top: screenHeight * 0.04,
+              left: screenWidth * 0.001,
               child: SizedBox(
                 width: 58, // Set width of the button
                 height: 48, // Set height of the button
@@ -746,8 +767,7 @@ Arrival Time: ${flightInfo['Atime']}''';
                                 ),
                               ),
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16.0),
+                                padding: const EdgeInsets.only(left: 12.0),
                                 child: DropdownSearch<String>(
                                   items: _filteredCountries
                                       .where((country) =>
@@ -763,13 +783,14 @@ Arrival Time: ${flightInfo['Atime']}''';
                                       decoration: InputDecoration(
                                         labelText: "Search Origin Country",
                                         labelStyle: TextStyle(
-                                          color: const Color.fromARGB(
-                                              255, 204, 203, 203),
+                                          color: Color.fromARGB(
+                                              255, 160, 156, 156),
                                           fontSize: screenWidth * 0.035,
                                           fontWeight: FontWeight.bold,
                                         ),
                                         hintStyle: TextStyle(
-                                          color: Colors.grey,
+                                          color: Color.fromARGB(
+                                              255, 178, 172, 172),
                                         ),
                                         border: OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -794,7 +815,7 @@ Arrival Time: ${flightInfo['Atime']}''';
                                         ),
                                       ),
                                       style: TextStyle(
-                                          color: const Color.fromARGB(
+                                          color: Color.fromARGB(
                                               255, 204, 203, 203),
                                           fontWeight: FontWeight.bold,
                                           fontSize: screenWidth * 0.035),
@@ -815,9 +836,9 @@ Arrival Time: ${flightInfo['Atime']}''';
                                           style: TextStyle(
                                             color: isSelected
                                                 ? Color.fromARGB(
-                                                    255, 163, 133, 133)
+                                                    255, 135, 130, 130)
                                                 : Color.fromARGB(
-                                                    255, 204, 203, 203),
+                                                    255, 135, 130, 130),
                                             fontWeight: isSelected
                                                 ? FontWeight.bold
                                                 : FontWeight.w500,
@@ -863,16 +884,9 @@ Arrival Time: ${flightInfo['Atime']}''';
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: selectedItem == null
-                                            ? const Color.fromARGB(
-                                                255,
-                                                204,
-                                                203,
-                                                203) // Default color when no selection
+                                            ? Color.fromARGB(255, 204, 203, 203)
                                             : const Color.fromARGB(
-                                                255,
-                                                135,
-                                                130,
-                                                130), // Change this color to whatever you want for the selected text
+                                                255, 135, 130, 130),
                                       ),
                                     );
                                   },
@@ -883,7 +897,7 @@ Arrival Time: ${flightInfo['Atime']}''';
                             Text(
                               'Destination Country',
                               style: TextStyle(
-                                fontSize: 14,
+                                fontSize: screenWidth * 0.035,
                                 fontWeight: FontWeight.w900,
                                 color: Color.fromARGB(255, 28, 31, 106),
                               ),
@@ -901,8 +915,7 @@ Arrival Time: ${flightInfo['Atime']}''';
                                 ),
                               ),
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16.0),
+                                padding: const EdgeInsets.only(left: 12.0),
                                 child: DropdownSearch<String>(
                                   items: _filteredCountries
                                       .where((country) =>
@@ -918,9 +931,10 @@ Arrival Time: ${flightInfo['Atime']}''';
                                       decoration: InputDecoration(
                                         labelText: "Search Destination Country",
                                         labelStyle: TextStyle(
-                                          color: const Color.fromARGB(
-                                              255, 204, 203, 203),
+                                          color: Color.fromARGB(
+                                              255, 169, 165, 165),
                                           fontWeight: FontWeight.bold,
+                                          fontSize: screenWidth * 0.035,
                                         ),
                                         hintStyle: TextStyle(
                                           color: const Color.fromARGB(
@@ -958,7 +972,8 @@ Arrival Time: ${flightInfo['Atime']}''';
                                             vertical: 8, horizontal: 16),
                                         decoration: BoxDecoration(
                                           color: isSelected
-                                              ? Colors.grey[300]
+                                              ? Color.fromARGB(
+                                                  255, 123, 115, 115)
                                               : Colors.white,
                                         ),
                                         child: Text(
@@ -968,7 +983,7 @@ Arrival Time: ${flightInfo['Atime']}''';
                                                 ? const Color.fromARGB(
                                                     255, 135, 130, 130)
                                                 : const Color.fromARGB(
-                                                    255, 208, 202, 202),
+                                                    255, 135, 130, 130),
                                             fontWeight: isSelected
                                                 ? FontWeight.bold
                                                 : FontWeight.w500,
@@ -1015,10 +1030,7 @@ Arrival Time: ${flightInfo['Atime']}''';
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: selectedItem == null
-                                            ? const Color.fromARGB(
-                                                255,
-                                                204,
-                                                203,
+                                            ? Color.fromARGB(255, 204, 203,
                                                 203) // Default color when no selection
                                             : const Color.fromARGB(
                                                 255,
@@ -1061,11 +1073,10 @@ Arrival Time: ${flightInfo['Atime']}''';
                                     fillColor:
                                         Color.fromARGB(255, 245, 245, 245),
                                     suffixIcon: SizedBox(
-                                        // Optionally set width to maintain aspect ratio
                                         child: Icon(
                                       Icons.calendar_today,
-                                      color: Color.fromARGB(
-                                          255, 51, 51, 51), // Suffix icon color
+                                      color: Color.fromARGB(255, 128, 126,
+                                          126), // Suffix icon color
                                       size: 19.0, // Set the icon size
                                     )),
                                     border: OutlineInputBorder(
@@ -1194,7 +1205,7 @@ Arrival Time: ${flightInfo['Atime']}''';
                         ],
                       ),
                     ),
-                    SizedBox(height: screenHeight * 0.01),
+                    SizedBox(height: screenHeight * 0.001),
                     Row(),
                     if (_fetched) ...[
                       _buildOriginDestinationRow(), // Display the origin-destination row
@@ -1203,7 +1214,7 @@ Arrival Time: ${flightInfo['Atime']}''';
                       SizedBox(height: screenHeight * 0.02),
                       Container(
                         height: screenHeight *
-                            0.46, // Adjust height for scrollable details
+                            0.435, // Adjust height for scrollable details
                         child: SingleChildScrollView(
                           child:
                               _buildFlightDetails(), // Display flight details here
@@ -1248,26 +1259,43 @@ Arrival Time: ${flightInfo['Atime']}''';
           selectedItemColor: Color.fromARGB(255, 28, 31, 106),
           unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
           onTap: (index) {
-            if (index == 1) {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ContactUsPage()));
-            } else if (index == 0) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        MyHomePage(title: 'Flutter Demo Home Page')),
-              );
-            } else if (index == 2) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AboutUsPage()),
-              );
-            }
+            _handleNavigation(index, context);
           },
         ),
       ),
     );
+  }
+
+// New method for navigation
+  Future<void> _handleNavigation(int index, BuildContext context) async {
+    // Reset _canNavigate to true before handling back button
+    _canNavigate = true;
+
+    // Call the existing handle back button method
+    await _handleBackButton(context);
+
+    // Check if navigation is allowed
+    if (_canNavigate) {
+      // Now navigate based on the index
+      if (index == 0) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MyHomePage(title: 'Flutter Demo Home Page'),
+          ),
+        );
+      } else if (index == 1) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ContactUsPage()),
+        );
+      } else if (index == 2) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => AboutUsPage()),
+        );
+      }
+    }
   }
 
   void clearFormFields() {
