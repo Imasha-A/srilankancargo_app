@@ -556,11 +556,27 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                           ),
                         ),
                         SizedBox(height: screenHeight * 0.01),
-                        Text(
-                          'Scheduled Time: ${_flightInfo!['Schedultime']}',
-                          style: TextStyle(
-                            fontSize: screenWidth * 0.035,
-                            color: Color.fromARGB(255, 15, 20, 158),
+
+                        Text.rich(
+                          TextSpan(
+                            text:
+                                'Scheduled Time: ', // This part stays the same
+                            style: TextStyle(
+                              fontSize: screenWidth *
+                                  0.035, // Adjust the size as needed
+                              color: const Color.fromARGB(
+                                  255, 15, 20, 158), // Set the color
+                            ),
+                            children: <TextSpan>[
+                              TextSpan(
+                                text:
+                                    '${_flightInfo!['Schedultime']}', // This is the part with the different font weight
+                                style: TextStyle(
+                                  fontWeight: FontWeight
+                                      .w900, // Change font weight here
+                                ),
+                              ),
+                            ],
                           ),
                         ),
 
@@ -605,24 +621,50 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              'Flight number: ${_flightInfo!['Flight_No']}',
-                              style: TextStyle(
-                                fontSize: screenWidth *
-                                    0.035, // Adjust the size as needed
-                                color: const Color.fromARGB(
-                                    255, 15, 20, 158), // Set the color
+                            Text.rich(
+                              TextSpan(
+                                text:
+                                    'Flight number: ', // This part stays the same
+                                style: TextStyle(
+                                  fontSize: screenWidth *
+                                      0.035, // Adjust the size as needed
+                                  color: const Color.fromARGB(
+                                      255, 15, 20, 158), // Set the color
+                                ),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text:
+                                        '${_flightInfo!['Flight_No']}', // This is the part with the different font weight
+                                    style: TextStyle(
+                                      fontWeight: FontWeight
+                                          .bold, // Change font weight here
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            Text(
-                              'Flight Date: ${_flightInfo!['FlightDate']}',
-                              style: TextStyle(
-                                fontSize: screenWidth *
-                                    0.035, // Adjust the size as needed
-                                color: const Color.fromARGB(
-                                    255, 15, 20, 158), // Set the color
+                            Text.rich(
+                              TextSpan(
+                                text:
+                                    'Flight Date: ', // This part stays the same
+                                style: TextStyle(
+                                  fontSize: screenWidth *
+                                      0.035, // Adjust the size as needed
+                                  color: const Color.fromARGB(
+                                      255, 15, 20, 158), // Set the color
+                                ),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text:
+                                        '${_flightInfo!['FlightDate']}', // This is the part with the different font weight
+                                    style: TextStyle(
+                                      fontWeight: FontWeight
+                                          .bold, // Change font weight here
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
+                            )
                           ],
                         ),
                         SizedBox(height: screenHeight * 0.018),

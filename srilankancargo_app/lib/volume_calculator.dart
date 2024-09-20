@@ -56,8 +56,22 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
   final FocusNode _lengthFocusNode = FocusNode();
   final FocusNode _widthFocusNode = FocusNode();
   final FocusNode _heightFocusNode = FocusNode();
+  final FocusNode _piecesFocusNode = FocusNode();
   bool _canNavigate = true;
   bool _fetched = false;
+
+  @override
+  void dispose() {
+    _lengthController.dispose();
+    _widthController.dispose();
+    _heightController.dispose();
+    _piecesController.dispose();
+    _lengthFocusNode.dispose();
+    _widthFocusNode.dispose();
+    _heightFocusNode.dispose();
+    _piecesFocusNode.dispose();
+    super.dispose();
+  }
 
   Map<String, dynamic> customizeFormCard(double screenWidth) {
     Map<String, dynamic> customizationValues = {};
@@ -634,6 +648,11 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                               keyboardType: TextInputType
                                                   .numberWithOptions(
                                                       decimal: true),
+                                              onEditingComplete: () {
+                                                FocusScope.of(context)
+                                                    .requestFocus(
+                                                        _piecesFocusNode);
+                                              },
                                             ),
                                           ),
                                         ),
@@ -681,6 +700,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                             height: 45,
                                             child: TextField(
                                               controller: _piecesController,
+                                              focusNode: _piecesFocusNode,
                                               decoration: InputDecoration(
                                                 labelText: 'Number of Pieces',
                                                 floatingLabelBehavior:
@@ -775,15 +795,17 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    'Details per Cargo',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color.fromARGB(255, 28, 31, 106),
+                                  if (userSelections != null &&
+                                      userSelections.isNotEmpty) ...[
+                                    Text(
+                                      'Details per Cargo',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color.fromARGB(255, 28, 31, 106),
+                                      ),
                                     ),
-                                  ),
-
+                                  ],
                                   Expanded(
                                     child: ListView.builder(
                                       padding: EdgeInsets.zero,

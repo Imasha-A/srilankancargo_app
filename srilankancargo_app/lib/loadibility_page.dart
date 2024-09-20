@@ -18,8 +18,23 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
   final TextEditingController _lengthController = TextEditingController();
   final TextEditingController _widthController = TextEditingController();
   final TextEditingController _heightController = TextEditingController();
+  final FocusNode _lengthFocusNode = FocusNode();
+  final FocusNode _widthFocusNode = FocusNode();
+  final FocusNode _heightFocusNode = FocusNode();
 
   bool _fetched = false;
+
+  @override
+  void dispose() {
+    _lengthController.dispose();
+    _widthController.dispose();
+    _heightController.dispose();
+
+    _lengthFocusNode.dispose();
+    _widthFocusNode.dispose();
+    _heightFocusNode.dispose();
+    super.dispose();
+  }
 
   Map<String, double> customizeFormCard(double screenWidth) {
     Map<String, double> customizationValues = {};
@@ -65,7 +80,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
     return customizationValues;
   }
 
-  void _showAlert(String title, String message) {
+  void _showAlertForIncomplete(String title, String message) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -78,6 +93,13 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                Icon(
+                  Icons.error, // or Icons.warning
+                  size: 65.0,
+                  color: Color.fromARGB(
+                      255, 24, 12, 114), // Adjust color as needed
+                ),
+                SizedBox(height: 10.0),
                 Text(
                   title,
                   style: TextStyle(
@@ -129,6 +151,84 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
     );
   }
 
+  void _showAlert(String flightType, String cargoHold,
+      {bool isLoadable = true}) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(23.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Conditional icon for loadable/not loadable
+                Icon(
+                  isLoadable ? Icons.check_circle : Icons.cancel,
+                  color: isLoadable
+                      ? const Color.fromARGB(255, 101, 195, 104)
+                      : const Color.fromARGB(255, 220, 83, 73),
+                  size: 65.0,
+                ),
+                const SizedBox(height: 15.0),
+
+                // Loadable or Not Loadable Text
+                Text(
+                  isLoadable ? 'Loadable' : 'Not Loadable',
+                  style: const TextStyle(
+                    fontSize: 22.0,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 13, 3, 103),
+                  ),
+                ),
+                const SizedBox(height: 10.0),
+
+                // Flight Type and Cargo Hold Info
+                Text(
+                  'Flight Type: $flightType\nCargo Hold: $cargoHold',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                      fontSize: 16.0,
+                      color: Color.fromARGB(255, 11, 5, 108),
+                      fontWeight: FontWeight.w500),
+                ),
+                const SizedBox(height: 20.0),
+
+                // Close button
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromARGB(
+                          255, 5, 8, 110), // Matching button color
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 15.0),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text(
+                      'Close',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   void _lodabilityCheck() {
     _fetched = true;
     final length = double.tryParse(_lengthController.text);
@@ -136,23 +236,23 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
     final height = double.tryParse(_heightController.text);
 
     if (length == null) {
-      _showAlert('Loadability', 'Please enter the length');
+      _showAlertForIncomplete('Loadability', 'Please enter the length');
       return;
     }
     if (width == null) {
-      _showAlert('Loadability', 'Please enter the width');
+      _showAlertForIncomplete('Loadability', 'Please enter the width');
       return;
     }
     if (height == null) {
-      _showAlert('Loadability', 'Please enter the height');
+      _showAlertForIncomplete('Loadability', 'Please enter the height');
       return;
     }
     if (_selectedAircraftType == null) {
-      _showAlert('Loadability', 'Please select the Aircraft Type');
+      _showAlertForIncomplete('Loadability', 'Please select the Aircraft Type');
       return;
     }
     if (_selectedCargoHold == null) {
-      _showAlert('Loadability', 'Please select the cargo hold');
+      _showAlertForIncomplete('Loadability', 'Please select the cargo hold');
       return;
     }
 
@@ -160,68 +260,69 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
 
     if (isTilted && _selectedCargoHold == 'Forward Cargo Hold') {
       if (height <= 25.0 && width <= 25.0 && length <= 500.0) {
-        _showAlert(_selectedAircraftType!,
-            'You will be able to load your Item into Forward Cargo hold');
+        _showAlert(_selectedAircraftType!, 'Forward Cargo hold',
+            isLoadable: true);
       } else if (height <= 50.0 && width <= 50.0 && length <= 493.0) {
-        _showAlert(_selectedAircraftType!,
-            'You will be able to load your Item into Forward Cargo hold');
+        _showAlert(_selectedAircraftType!, 'Forward Cargo hold',
+            isLoadable: true);
       } else if (height <= 75.0 && width <= 75.0 && length <= 489.5) {
-        _showAlert(_selectedAircraftType!,
-            'You will be able to load your Item into Forward Cargo hold');
+        _showAlert(_selectedAircraftType!, 'Forward Cargo hold',
+            isLoadable: true);
       } else {
-        _showAlert(_selectedAircraftType!,
-            'You will not be able to load your Item into Forward Cargo hold');
+        _showAlert(_selectedAircraftType!, 'Forward Cargo hold',
+            isLoadable: false);
       }
     } else if (isTilted && _selectedCargoHold == 'After Cargo Hold') {
       if (height <= 25.0 && width <= 25.0 && length <= 530.9) {
-        _showAlert(_selectedAircraftType!,
-            'You will be able to load your Item into After Cargo hold');
+        _showAlert(_selectedAircraftType!, 'After Cargo hold',
+            isLoadable: true);
       } else if (height <= 50.0 && width <= 50.0 && length <= 514.4) {
-        _showAlert(_selectedAircraftType!,
-            'You will be able to load your Item into After Cargo hold');
+        _showAlert(_selectedAircraftType!, 'After Cargo hold',
+            isLoadable: true);
       } else if (height <= 75.0 && width <= 75.0 && length <= 491.5) {
-        _showAlert(_selectedAircraftType!,
-            'You will be able to load your Item into After Cargo hold');
+        _showAlert(_selectedAircraftType!, 'After Cargo hold',
+            isLoadable: true);
       } else {
-        _showAlert(_selectedAircraftType!,
-            'You will not be able to load your Item into After Cargo hold');
+        _showAlert(_selectedAircraftType!, 'After Cargo hold',
+            isLoadable: false);
       }
     } else if (isTilted && _selectedCargoHold == 'Rear (bulk) Cargo Hold') {
       if (height <= 25.0 && width <= 25.0 && length <= 324.0) {
-        _showAlert(_selectedAircraftType!,
-            'You will be able to load your Item into Rear (bulk) Cargo hold');
+        _showAlert(_selectedAircraftType!, 'Rear (bulk) Cargo hold',
+            isLoadable: true);
       } else if (height <= 50.0 && width <= 50.0 && length <= 324.0) {
-        _showAlert(_selectedAircraftType!,
-            'You will be able to load your Item into Rear (bulk) Cargo hold');
+        _showAlert(_selectedAircraftType!, 'Rear (bulk) Cargo hold',
+            isLoadable: true);
       } else if (height <= 75.0 && width <= 75.0 && length <= 324.0) {
-        _showAlert(_selectedAircraftType!,
-            'You will be able to load your Item into Rear (bulk) Cargo hold');
+        _showAlert(_selectedAircraftType!, 'Rear (bulk) Cargo hold',
+            isLoadable: true);
       } else {
-        _showAlert(_selectedAircraftType!,
-            'You will not be able to load your Item into Rear (bulk) Cargo hold');
+        _showAlert(_selectedAircraftType!, 'Rear (bulk) Cargo hold',
+            isLoadable: false);
       }
     } else if (!isTilted) {
       if (_selectedCargoHold == 'Forward Cargo Hold' &&
           height <= 119.4 &&
           width <= 149.9 &&
           length <= 164.3) {
-        _showAlert(_selectedAircraftType!,
-            'You will be able to load your Item into Forward Cargo hold');
+        _showAlert(_selectedAircraftType!, 'Forward Cargo hold',
+            isLoadable: true);
       } else if (_selectedCargoHold == 'After Cargo Hold' &&
           height <= 119.4 &&
           width <= 149.9 &&
           length <= 171.5) {
-        _showAlert(_selectedAircraftType!,
-            'You will be able to load your Item into After Cargo hold');
+        _showAlert(_selectedAircraftType!, 'After Cargo hold',
+            isLoadable: true);
       } else if (_selectedCargoHold == 'Rear (bulk) Cargo Hold' &&
           height <= 149.9 &&
           width <= 149.9 &&
           length <= 174.8) {
-        _showAlert(_selectedAircraftType!,
-            'You will be able to load your Item into Rear (bulk) Cargo hold');
+        _showAlert(_selectedAircraftType!, 'Rear (bulk) Cargo hold',
+            isLoadable: true);
       } else {
         _showAlert(_selectedAircraftType!,
-            'You will not be able to load your Item into Cargo holds');
+            'You will not be able to load your Item into Cargo holds',
+            isLoadable: false);
       }
     }
   }
@@ -409,6 +510,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                         horizontal: screenHeight * 0.017),
                                     child: TextField(
                                       controller: _lengthController,
+                                      focusNode: _lengthFocusNode,
                                       decoration: InputDecoration(
                                         labelText: 'Length',
                                         floatingLabelBehavior:
@@ -436,6 +538,10 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                       keyboardType:
                                           TextInputType.numberWithOptions(
                                               decimal: true),
+                                      onEditingComplete: () {
+                                        FocusScope.of(context)
+                                            .requestFocus(_widthFocusNode);
+                                      },
                                     ),
                                   ),
                                 ),
@@ -488,6 +594,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                         horizontal: 16.0),
                                     child: TextField(
                                       controller: _widthController,
+                                      focusNode: _widthFocusNode,
                                       decoration: InputDecoration(
                                         labelText: 'Width',
                                         floatingLabelBehavior:
@@ -515,6 +622,10 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                       keyboardType:
                                           TextInputType.numberWithOptions(
                                               decimal: true),
+                                      onEditingComplete: () {
+                                        FocusScope.of(context)
+                                            .requestFocus(_heightFocusNode);
+                                      },
                                     ),
                                   ),
                                 ),
@@ -566,6 +677,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                         horizontal: 16.0),
                                     child: TextField(
                                       controller: _heightController,
+                                      focusNode: _heightFocusNode,
                                       decoration: InputDecoration(
                                         labelText: 'Height',
                                         floatingLabelBehavior:

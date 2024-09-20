@@ -390,12 +390,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
           Positioned(
             top: screenHeight *
-                0.178, // Adjust this value to position the text above the slider
+                0.1425, // Adjust this value to position the text above the slider
             left: screenWidth * 0.05,
             child: Text(
               'Welcome to',
               style: TextStyle(
-                fontSize: screenWidth * 0.043,
+                fontSize: screenWidth * 0.045,
                 color: Color.fromARGB(255, 255, 255, 255),
               ),
               textAlign: TextAlign.left,
@@ -404,13 +404,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
           Positioned(
             top: screenHeight *
-                0.197, // Adjust this value to position the text above the slider
+                0.163, // Adjust this value to position the text above the slider
             left: screenWidth * 0.05,
 
             child: Text(
               'SriLankan Airlines Cargo',
               style: TextStyle(
-                fontSize: screenWidth * 0.055,
+                fontSize: screenWidth * 0.06,
                 fontWeight: FontWeight.bold,
                 color: Color.fromARGB(255, 255, 255, 255),
               ),
@@ -420,7 +420,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // Image Slider (PageView) (top layer)
           Positioned(
             top: screenHeight *
-                0.232, // Adjust to overlap the white card and banner
+                0.21, // Adjust to overlap the white card and banner
             left: screenWidth * 0.05,
             right: screenWidth * 0.05,
             child: Container(
@@ -432,8 +432,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     color: Colors.black.withOpacity(0.2),
                     blurRadius: 8,
                     spreadRadius: 2,
-                    offset: Offset(0, 4), // Shadow position
-                  ),
+                    offset: Offset(0, 0), // Shadow position
+                  )
                 ],
               ),
               child: ClipRRect(
