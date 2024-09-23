@@ -254,9 +254,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
           padding: const EdgeInsets.symmetric(vertical: 4.0),
           child: Text(
             description,
-            style: TextStyle(
-                color: Color.fromARGB(
-                    255, 28, 31, 106)), // Blue color for descriptions
+            style: TextStyle(color: Color.fromARGB(255, 28, 31, 106)),
           ),
         ),
         Padding(
@@ -264,9 +262,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
           child: Text(
             value.toStringAsFixed(2),
             textAlign: TextAlign.right,
-            style: TextStyle(
-                color:
-                    Color.fromARGB(255, 28, 31, 106)), // Blue color for charges
+            style: TextStyle(color: Color.fromARGB(255, 28, 31, 106)),
           ),
         ),
       ],
@@ -284,18 +280,13 @@ class _StorageCalPageState extends State<StorageCalPage> {
           builder: (BuildContext context, Widget? child) {
             return Theme(
               data: ThemeData.light().copyWith(
-                primaryColor: Color.fromARGB(
-                    255, 28, 31, 106), // Selected date circle color
-                hintColor: Color.fromARGB(
-                    255, 28, 31, 106), // Accent color for buttons
+                primaryColor: Color.fromARGB(255, 28, 31, 106),
+                hintColor: Color.fromARGB(255, 28, 31, 106),
                 buttonTheme:
                     ButtonThemeData(textTheme: ButtonTextTheme.primary),
-                dialogBackgroundColor:
-                    Colors.lightBlue[50], // Background color of the calendar
+                dialogBackgroundColor: Colors.lightBlue[50],
                 colorScheme: ColorScheme.light(
-                    primary: Color.fromARGB(
-                        255, 28, 31, 106)), // Selected date circle color
-                // Define any other customizations here
+                    primary: Color.fromARGB(255, 28, 31, 106)),
               ),
               child: child!,
             );
@@ -303,16 +294,14 @@ class _StorageCalPageState extends State<StorageCalPage> {
       if (picked != null) {
         setState(() {
           _arrivalDate = picked;
-          // Clear the clearing date if the new arrival date is later than the current clearing date
+
           if (_clearingDate != null && _clearingDate!.isBefore(_arrivalDate!)) {
             _clearingDate = null;
           }
         });
       }
     } else {
-      // For Clearing Date
-      final DateTime firstDate = _arrivalDate ??
-          DateTime.now(); // Use arrival date if set, otherwise now
+      final DateTime firstDate = _arrivalDate ?? DateTime.now();
       final DateTime? picked = await showDatePicker(
           context: context,
           initialDate: _clearingDate ?? firstDate,
@@ -321,18 +310,13 @@ class _StorageCalPageState extends State<StorageCalPage> {
           builder: (BuildContext context, Widget? child) {
             return Theme(
               data: ThemeData.light().copyWith(
-                primaryColor: Color.fromARGB(
-                    255, 28, 31, 106), // Selected date circle color
-                hintColor: Color.fromARGB(
-                    255, 28, 31, 106), // Accent color for buttons
+                primaryColor: Color.fromARGB(255, 28, 31, 106),
+                hintColor: Color.fromARGB(255, 28, 31, 106),
                 buttonTheme:
                     ButtonThemeData(textTheme: ButtonTextTheme.primary),
-                dialogBackgroundColor:
-                    Colors.lightBlue[50], // Background color of the calendar
+                dialogBackgroundColor: Colors.lightBlue[50],
                 colorScheme: ColorScheme.light(
-                    primary: Color.fromARGB(
-                        255, 28, 31, 106)), // Selected date circle color
-                // Define any other customizations here
+                    primary: Color.fromARGB(255, 28, 31, 106)),
               ),
               child: child!,
             );
@@ -645,8 +629,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(horizontal: 102),
-                    backgroundColor:
-                        Color.fromARGB(255, 28, 31, 106), // Blue fill
+                    backgroundColor: Color.fromARGB(255, 28, 31, 106),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -697,8 +680,8 @@ class _StorageCalPageState extends State<StorageCalPage> {
           actions: <Widget>[
             Center(
               child: SizedBox(
-                width: 250, // Set the desired width
-                height: 50, // Set the desired height
+                width: 250,
+                height: 50,
                 child: TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -728,8 +711,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
   Future<void> _showInfoDialog() async {
     return showDialog<void>(
       context: context,
-      barrierDismissible:
-          true, // User can dismiss the dialog by tapping outside
+      barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Special Cargo Info'),
@@ -875,7 +857,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                       'Storage Calculator',
                       style: TextStyle(
                         fontSize: 20,
-                        fontWeight: FontWeight.w900,
+                        fontWeight: FontWeight.w600,
                         color: Color.fromARGB(255, 28, 31, 106),
                       ),
                     ),
@@ -904,7 +886,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                             'Flight Actual Arrival Date',
                             style: TextStyle(
                                 fontSize: 14,
-                                fontWeight: FontWeight.w900,
+                                fontWeight: FontWeight.w600,
                                 color: Color.fromARGB(255, 28, 31, 106)),
                           ),
                           Container(
@@ -913,9 +895,8 @@ class _StorageCalPageState extends State<StorageCalPage> {
                               borderRadius: BorderRadius.circular(8.0),
                               color: const Color.fromARGB(255, 245, 245, 245),
                               border: Border.all(
-                                color: Color.fromARGB(
-                                    255, 204, 203, 203), // Grey border color
-                                width: 1.0, // Border width of 1
+                                color: Color.fromARGB(255, 204, 203, 203),
+                                width: 1.0,
                               ),
                             ),
                             child: Padding(
@@ -935,13 +916,10 @@ class _StorageCalPageState extends State<StorageCalPage> {
                                               : 'Arrival: ${_arrivalDate.toString().split(' ')[0]}',
                                           style: TextStyle(
                                             color: _arrivalDate == null
-                                                ? Color.fromARGB(255, 204, 203,
-                                                    203) // Default text color
+                                                ? Color.fromARGB(
+                                                    255, 204, 203, 203)
                                                 : const Color.fromARGB(
-                                                    255,
-                                                    135,
-                                                    130,
-                                                    130), // Text color when a date is selected
+                                                    255, 135, 130, 130),
                                             fontWeight: FontWeight.bold,
                                             fontSize: 14,
                                           ),
@@ -964,7 +942,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                             'Flight Cargo Clearing Date',
                             style: TextStyle(
                                 fontSize: 14,
-                                fontWeight: FontWeight.w900,
+                                fontWeight: FontWeight.w600,
                                 color: Color.fromARGB(255, 28, 31, 106)),
                           ),
                           Container(
@@ -973,9 +951,8 @@ class _StorageCalPageState extends State<StorageCalPage> {
                               borderRadius: BorderRadius.circular(8.0),
                               color: Color.fromARGB(255, 245, 245, 245),
                               border: Border.all(
-                                color: Color.fromARGB(
-                                    255, 204, 203, 203), // Grey border color
-                                width: 1.0, // Border width of 1
+                                color: Color.fromARGB(255, 204, 203, 203),
+                                width: 1.0,
                               ),
                             ),
                             child: Padding(
@@ -995,13 +972,10 @@ class _StorageCalPageState extends State<StorageCalPage> {
                                               : 'Clearing: ${_clearingDate.toString().split(' ')[0]}',
                                           style: TextStyle(
                                             color: _clearingDate == null
-                                                ? Color.fromARGB(255, 204, 203,
-                                                    203) // Default text color
+                                                ? Color.fromARGB(
+                                                    255, 204, 203, 203)
                                                 : const Color.fromARGB(
-                                                    255,
-                                                    135,
-                                                    130,
-                                                    130), // Text color when a date is selected
+                                                    255, 135, 130, 130),
                                             fontWeight: FontWeight.bold,
                                             fontSize: 14,
                                           ),
@@ -1024,7 +998,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                             'Chargeable Weight',
                             style: TextStyle(
                               fontSize: 14,
-                              fontWeight: FontWeight.w900,
+                              fontWeight: FontWeight.w600,
                               color: Color.fromARGB(255, 28, 31, 106),
                             ),
                           ),
@@ -1034,14 +1008,12 @@ class _StorageCalPageState extends State<StorageCalPage> {
                               borderRadius: BorderRadius.circular(8.0),
                               color: Color.fromARGB(255, 245, 245, 245),
                               border: Border.all(
-                                color: Color.fromARGB(
-                                    255, 204, 203, 203), // Grey border color
-                                width: 1.0, // Border width of 1
+                                color: Color.fromARGB(255, 204, 203, 203),
+                                width: 1.0,
                               ),
                             ),
                             child: Row(
                               children: [
-                                // TextFormField for input
                                 Expanded(
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -1050,12 +1022,10 @@ class _StorageCalPageState extends State<StorageCalPage> {
                                       controller: _weightController,
                                       decoration: InputDecoration(
                                         contentPadding: EdgeInsets.symmetric(
-                                          vertical:
-                                              18.0, // Center the text vertically
+                                          vertical: 18.0,
                                           horizontal: 8.0,
                                         ),
-                                        hintText:
-                                            'Chargeable Weight', // Text inside the field that goes away when typing
+                                        hintText: 'Chargeable Weight',
                                         hintStyle: TextStyle(
                                           color: const Color.fromARGB(
                                               255, 204, 203, 203),
@@ -1092,8 +1062,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                                 ),
                                 // Box with "kg" on the right
                                 Container(
-                                  height:
-                                      57.0, // Set smaller height for the kg box to match the reduced input field height
+                                  height: 57.0,
                                   padding:
                                       EdgeInsets.symmetric(horizontal: 12.0),
                                   decoration: BoxDecoration(
@@ -1104,8 +1073,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                                       bottomRight: Radius.circular(8.0),
                                     ),
                                   ),
-                                  alignment:
-                                      Alignment.center, // Center the 'kg' text
+                                  alignment: Alignment.center,
                                   child: Text(
                                     'kg',
                                     style: TextStyle(
@@ -1123,7 +1091,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                             'Cargo Type',
                             style: TextStyle(
                                 fontSize: 14,
-                                fontWeight: FontWeight.w900,
+                                fontWeight: FontWeight.w600,
                                 color: Color.fromARGB(255, 28, 31, 106)),
                           ),
                           Container(
@@ -1133,8 +1101,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                               borderRadius: BorderRadius.circular(8.0),
                               color: Colors.grey[100],
                               border: Border.all(
-                                  color: Color.fromARGB(
-                                      255, 204, 203, 203), // Grey border color
+                                  color: Color.fromARGB(255, 204, 203, 203),
                                   width: 1.0),
                             ),
                             child: Transform.translate(
@@ -1193,7 +1160,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                             'Room Type',
                             style: TextStyle(
                                 fontSize: 14,
-                                fontWeight: FontWeight.w900,
+                                fontWeight: FontWeight.w600,
                                 color: Color.fromARGB(255, 28, 31, 106)),
                           ),
                           Container(
@@ -1202,9 +1169,8 @@ class _StorageCalPageState extends State<StorageCalPage> {
                               borderRadius: BorderRadius.circular(8.0),
                               color: Color.fromARGB(255, 245, 245, 245),
                               border: Border.all(
-                                color: Color.fromARGB(
-                                    255, 204, 203, 203), // Grey border color
-                                width: 1.0, // Border width of 1
+                                color: Color.fromARGB(255, 204, 203, 203),
+                                width: 1.0,
                               ),
                             ),
                             child: Padding(
@@ -1249,7 +1215,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                             'Tax Type',
                             style: TextStyle(
                                 fontSize: 14,
-                                fontWeight: FontWeight.w900,
+                                fontWeight: FontWeight.w600,
                                 color: Color.fromARGB(255, 28, 31, 106)),
                           ),
                           Container(
@@ -1258,9 +1224,8 @@ class _StorageCalPageState extends State<StorageCalPage> {
                               borderRadius: BorderRadius.circular(8.0),
                               color: const Color.fromARGB(255, 245, 245, 245),
                               border: Border.all(
-                                color: Color.fromARGB(
-                                    255, 204, 203, 203), // Grey border color
-                                width: 1.0, // Border width of 1
+                                color: Color.fromARGB(255, 204, 203, 203),
+                                width: 1.0,
                               ),
                             ),
                             child: Padding(
@@ -1312,13 +1277,13 @@ class _StorageCalPageState extends State<StorageCalPage> {
                                     backgroundColor: Colors.white,
                                     padding: EdgeInsets.symmetric(
                                         horizontal: buttonPadding,
-                                        vertical: 10), // White fill
+                                        vertical: 10),
                                     side: BorderSide(
                                         color: Color.fromARGB(255, 28, 31, 106),
-                                        width: 1), // Blue border
+                                        width: 1),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                    ), // Text color
+                                    ),
                                   ),
                                   child: Text(
                                     'Clear',
@@ -1329,9 +1294,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                                             Color.fromARGB(255, 28, 31, 106)),
                                   ),
                                 ),
-                                const SizedBox(
-                                    width: 8), // Space between buttons
-                                // Existing Submit Button
+                                const SizedBox(width: 8),
                                 ElevatedButton(
                                   onPressed: () {
                                     _handleFormSubmision();
@@ -1407,15 +1370,11 @@ class _StorageCalPageState extends State<StorageCalPage> {
   }
 
   Future<void> _handleNavigation(int index, BuildContext context) async {
-    // Reset _canNavigate to true before handling back button
     _canNavigate = true;
 
-    // Call the existing handle back button method
     await _handleBackButton(context);
 
-    // Check if navigation is allowed
     if (_canNavigate) {
-      // Now navigate based on the index
       if (index == 0) {
         Navigator.push(
           context,

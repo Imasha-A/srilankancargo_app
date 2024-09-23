@@ -213,8 +213,8 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
             actions: <Widget>[
               Center(
                 child: SizedBox(
-                  width: 250, // Set the desired width
-                  height: 50, // Set the desired height
+                  width: 250,
+                  height: 50,
                   child: TextButton(
                     onPressed: () {
                       Navigator.of(context).pop();
@@ -257,7 +257,6 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
       ));
     });
 
-    // Print the array with details of each selection
     print('User Selections:');
     for (var selection in userSelections) {
       print(selection);
@@ -355,7 +354,6 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
 
     return WillPopScope(
       onWillPop: () async {
-        // Calls your custom back button handler
         await _handleBackButton(context);
         return false; // Prevents default back navigation
       },
@@ -381,10 +379,10 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                 top: screenHeight * 0.04,
                 left: screenWidth * 0.001,
                 child: SizedBox(
-                  width: 58, // Set width of the button
-                  height: 48, // Set height of the button
+                  width: 58,
+                  height: 48,
                   child: BackButton(
-                    color: Color.fromARGB(255, 255, 255, 255), // Icon color
+                    color: Color.fromARGB(255, 255, 255, 255),
                   ),
                 ),
               ),
@@ -415,7 +413,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                         'Volume Calculator',
                         style: TextStyle(
                           fontSize: 20,
-                          fontWeight: FontWeight.w900,
+                          fontWeight: FontWeight.w600,
                           color: Color.fromARGB(255, 28, 31, 106),
                         ),
                       ),
@@ -450,7 +448,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                       'Enter Details',
                                       style: TextStyle(
                                         fontSize: 14,
-                                        fontWeight: FontWeight.w900,
+                                        fontWeight: FontWeight.w600,
                                         color: Color.fromARGB(255, 28, 31, 106),
                                       ),
                                     ),
@@ -479,7 +477,6 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                   borderSide: BorderSide(
                                                     color: const Color.fromARGB(
                                                         255, 206, 197, 197),
-                                                    // Set your desired border color here
                                                   ),
                                                   borderRadius:
                                                       BorderRadius.only(
@@ -493,7 +490,6 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                   borderSide: BorderSide(
                                                     color: const Color.fromARGB(
                                                         255, 206, 197, 197),
-                                                    // Set your desired focused border color here
                                                   ),
                                                   borderRadius:
                                                       BorderRadius.only(
@@ -545,7 +541,6 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                   borderSide: BorderSide(
                                                     color: const Color.fromARGB(
                                                         255, 206, 197, 197),
-                                                    // Set your desired border color here
                                                   ),
                                                   borderRadius:
                                                       BorderRadius.only(
@@ -559,7 +554,6 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                   borderSide: BorderSide(
                                                     color: const Color.fromARGB(
                                                         255, 206, 197, 197),
-                                                    // Set your desired focused border color here
                                                   ),
                                                   borderRadius:
                                                       BorderRadius.only(
@@ -612,7 +606,6 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                   borderSide: BorderSide(
                                                     color: const Color.fromARGB(
                                                         255, 206, 197, 197),
-                                                    // Set your desired border color here
                                                   ),
                                                   borderRadius:
                                                       BorderRadius.only(
@@ -626,7 +619,6 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                   borderSide: BorderSide(
                                                     color: const Color.fromARGB(
                                                         255, 206, 197, 197),
-                                                    // Set your desired focused border color here
                                                   ),
                                                   borderRadius:
                                                       BorderRadius.only(
@@ -672,7 +664,6 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                             border: Border.all(
                                               color: const Color.fromARGB(
                                                   255, 206, 197, 197),
-                                              // Set your desired border color here
                                             ),
                                           ),
                                           child: Center(
@@ -719,24 +710,22 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                   ),
                                                   borderRadius:
                                                       BorderRadius.circular(
-                                                          8.0), // Keep rounded edges
+                                                          8.0),
                                                 ),
                                                 focusedBorder:
                                                     OutlineInputBorder(
                                                   borderSide: BorderSide(
                                                     color: const Color.fromARGB(
                                                         255, 206, 197, 197),
-                                                    // Set your desired focused border color here
                                                   ),
                                                   borderRadius:
                                                       BorderRadius.circular(
-                                                          8.0), // Keep rounded edges
+                                                          8.0),
                                                 ),
                                                 contentPadding:
                                                     EdgeInsets.symmetric(
                                                   vertical: 10.0,
-                                                  horizontal:
-                                                      12.0, // Adjust horizontal padding
+                                                  horizontal: 12.0,
                                                 ),
                                               ),
                                               style: TextStyle(
@@ -785,9 +774,8 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                               ],
                             ),
                             Container(
-                              height: 380, // Adjust height as needed
-                              padding:
-                                  EdgeInsets.all(0), // Padding for container
+                              height: 380,
+                              padding: EdgeInsets.all(0),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 color: Colors.white,
@@ -823,8 +811,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                           ),
                                           child: ExpansionTile(
                                             tilePadding: EdgeInsets.symmetric(
-                                                horizontal:
-                                                    10), // Padding for layout
+                                                horizontal: 10),
                                             title: Text(
                                               'Cargo ${index + 1}',
                                               style: TextStyle(
@@ -835,8 +822,8 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                             ),
                                             children: [
                                               Padding(
-                                                padding: const EdgeInsets.all(
-                                                    0.2), // Padding inside expanded tile
+                                                padding:
+                                                    const EdgeInsets.all(0.2),
                                                 child: Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
@@ -885,20 +872,20 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                     Row(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
-                                                              .center, // Center items vertically
+                                                              .center,
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
-                                                              .start, // Align items to the left
+                                                              .start,
                                                       children: [
                                                         Align(
                                                           alignment: Alignment
-                                                              .centerLeft, // Align text to the left
+                                                              .centerLeft,
                                                           child: Padding(
                                                             padding:
                                                                 const EdgeInsets
                                                                     .only(
                                                                     right:
-                                                                        20.0), // Add padding if needed
+                                                                        20.0),
                                                             child: Text(
                                                               'Pieces: ${selection.numberOfPieces}',
                                                               style: TextStyle(
@@ -906,12 +893,10 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                             ),
                                                           ),
                                                         ),
-                                                        SizedBox(
-                                                            width:
-                                                                20), // Add space between texts if needed
+                                                        SizedBox(width: 20),
                                                         Align(
                                                           alignment: Alignment
-                                                              .centerLeft, // Align text to the left
+                                                              .centerLeft,
                                                           child: Text(
                                                             'Cubic cm: ${selection.finalTotal.toStringAsFixed(4)} cm³',
                                                             style: TextStyle(
@@ -939,7 +924,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                       },
                                     ),
                                   ),
-                                  Divider(), // Add a line divider above the total and button section
+                                  Divider(),
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -952,15 +937,15 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                           backgroundColor: Colors.white,
                                           padding: EdgeInsets.symmetric(
                                               horizontal: buttonPadding,
-                                              vertical: 5), // White fill
+                                              vertical: 5),
                                           side: BorderSide(
                                               color: Color.fromARGB(
                                                   255, 28, 31, 106),
-                                              width: 1), // Blue border
+                                              width: 1),
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(10),
-                                          ), // Text color
+                                          ),
                                         ),
                                         child: Text(
                                           'Clear',
@@ -1034,15 +1019,11 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
   }
 
   Future<void> _handleNavigation(int index, BuildContext context) async {
-    // Reset _canNavigate to true before handling back button
     _canNavigate = true;
 
-    // Call the existing handle back button method
     await _handleBackButton(context);
 
-    // Check if navigation is allowed
     if (_canNavigate) {
-      // Now navigate based on the index
       if (index == 0) {
         Navigator.push(
           context,

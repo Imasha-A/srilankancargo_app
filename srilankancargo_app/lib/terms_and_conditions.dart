@@ -47,17 +47,17 @@ class _TermsAndConditionsPageState extends State<TermsAndConditionsPage> {
           // Background image
           Positioned.fill(
             child: Image.asset(
-              'assets/images/terms_and_conditions.png', // Replace with your image path
-              fit: BoxFit.cover, // Cover the whole screen
+              'assets/images/terms_and_conditions.png',
+              fit: BoxFit.cover,
             ),
           ),
-          // White background behind title and close icon
+
           Positioned(
-            top: screenHeight * 0.01, // Adjust the distance from the top
-            left: 0.0, // Align with the left side
-            right: 0.0, // Align with the right side
+            top: screenHeight * 0.01,
+            left: 0.0,
+            right: 0.0,
             child: Container(
-              color: const Color.fromARGB(1, 243, 247, 249), // White background
+              color: const Color.fromARGB(1, 243, 247, 249),
               padding: EdgeInsets.symmetric(
                   vertical: screenHeight * 0.02,
                   horizontal: screenWidth * 0.06),
@@ -75,9 +75,9 @@ class _TermsAndConditionsPageState extends State<TermsAndConditionsPage> {
                   IconButton(
                     icon: Icon(Icons.close,
                         color: const Color.fromARGB(255, 28, 31, 106)),
-                    iconSize: 30.0, // Adjust the size of the button
+                    iconSize: 30.0,
                     onPressed: () {
-                      Navigator.of(context).pop(); // Close the page
+                      Navigator.of(context).pop();
                     },
                   ),
                 ],
@@ -86,9 +86,7 @@ class _TermsAndConditionsPageState extends State<TermsAndConditionsPage> {
           ),
           // Scrollable content below the title and icon
           Padding(
-            padding: EdgeInsets.only(
-                top: screenHeight *
-                    0.02), // To place content below the fixed header
+            padding: EdgeInsets.only(top: screenHeight * 0.02),
             child: FutureBuilder<Map<String, dynamic>>(
               future: _data,
               builder: (context, snapshot) {
@@ -110,8 +108,7 @@ class _TermsAndConditionsPageState extends State<TermsAndConditionsPage> {
                             data['termsAndConditions'],
                             style: TextStyle(
                               fontSize: screenWidth * 0.03,
-                              color: const Color.fromARGB(
-                                  255, 51, 51, 51), // Text color
+                              color: const Color.fromARGB(255, 51, 51, 51),
                             ),
                           ),
                         ],

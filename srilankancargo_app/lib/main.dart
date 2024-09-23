@@ -7,7 +7,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:srilankancargo_app/about_us_page.dart';
 import 'package:srilankancargo_app/contact_us_page.dart';
 import 'package:srilankancargo_app/storagecalculator_page.dart';
-import 'package:srilankancargo_app/terms_and_conditions.dart';
 import 'package:srilankancargo_app/volume_calculator.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'schedule_page.dart';
@@ -50,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _currentPage = 0;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   late Timer _timer;
-  late double paddingBottom; // Adjusted dynamically based on screen width
+  late double paddingBottom;
   late double buttonWidth;
   late double buttonHeight;
   late double buttonTextSize;
@@ -182,35 +181,33 @@ class _MyHomePageState extends State<MyHomePage> {
             left: 0,
             right: 0,
             child: Image.asset(
-              'assets/images/home_background_banner_try.png', // Your blue banner image
+              'assets/images/home_background_banner_try.png',
               fit: BoxFit.cover,
-              height: screenHeight * 0.28, // Adjust as necessary
+              height: screenHeight * 0.28,
             ),
           ),
 
           // White Card with Content (middle layer)
           Positioned(
-            top: screenHeight * 0.26, // Adjust to start below the banner
+            top: screenHeight * 0.26,
             left: 0,
             right: 0,
             child: LayoutBuilder(
               builder: (context, constraints) {
-                double cardWidth =
-                    constraints.maxWidth * 0.9; // Responsive width
-                double maxScrollableHeight =
-                    screenHeight * 0.5; // Max height for the scrollable area
+                double cardWidth = constraints.maxWidth * 0.9;
+                double maxScrollableHeight = screenHeight * 0.5;
 
                 return Container(
                   width: cardWidth,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(10), // Rounded corners
+                    borderRadius: BorderRadius.circular(10),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.5),
                         spreadRadius: 2,
                         blurRadius: 5,
-                        offset: Offset(0, 3), // Shadow position
+                        offset: Offset(0, 3),
                       ),
                     ],
                   ),
@@ -238,8 +235,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       Center(
                         child: ConstrainedBox(
                           constraints: BoxConstraints(
-                            maxHeight:
-                                maxScrollableHeight, // Set the maximum height for the scrollable area
+                            maxHeight: maxScrollableHeight,
                           ),
                           child: SingleChildScrollView(
                             child: Padding(
@@ -249,8 +245,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 children: <Widget>[
                                   Padding(
                                     padding: EdgeInsets.only(
-                                      right: cardWidth *
-                                          0.6, // Adjust the value as needed
+                                      right: cardWidth * 0.6,
                                     ),
                                     child: Text(
                                       'Categories',
@@ -276,21 +271,17 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 child: buildOutlinedButton(
                                                     'Schedule',
                                                     'assets/images/flight_schedule_icon.svg')),
-                                            // Space between buttons
                                             Expanded(
                                                 child: buildOutlinedButton(
                                                     'Flight Status',
                                                     'assets/images/flight_status_icon.svg')),
-                                            // Space between buttons
                                             Expanded(
                                                 child: buildOutlinedButton(
                                                     'Loadibility',
                                                     'assets/images/loadability_icon.svg')),
                                           ],
                                         ),
-                                        SizedBox(
-                                            height: screenHeight *
-                                                0.016), // Space between rows
+                                        SizedBox(height: screenHeight * 0.016),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -299,16 +290,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 child: buildOutlinedButton(
                                                     'Storage Calculator',
                                                     'assets/images/storage_calculator_icon.svg')),
-                                            SizedBox(
-                                                width:
-                                                    5), // Space between buttons
+                                            SizedBox(width: 5),
                                             Expanded(
                                                 child: buildOutlinedButton(
                                                     'Volume Calculator',
                                                     'assets/images/volume_calculator_icon.svg')),
-                                            SizedBox(
-                                                width:
-                                                    5), // Space between buttons
+                                            SizedBox(width: 5),
                                             Expanded(
                                                 child: buildOutlinedButton(
                                                     'Tracking',
@@ -323,22 +310,18 @@ class _MyHomePageState extends State<MyHomePage> {
                                   Center(
                                     child: SizedBox(
                                       width: screenWidth * 0.9,
-                                      height: screenHeight *
-                                          0.185, // Set height for the banner
+                                      height: screenHeight * 0.185,
                                       child: Stack(
                                         children: [
                                           Image.asset(
                                             'assets/images/visit_website_banner.png',
                                             fit: BoxFit.cover,
-                                            width: double
-                                                .infinity, // Ensure the image covers the entire SizedBox
+                                            width: double.infinity,
                                             height: double.infinity,
                                           ),
                                           Positioned(
-                                            bottom: screenHeight *
-                                                0.005, // Adjust as needed for proper alignment
-                                            left: screenWidth *
-                                                0.1, // Adjust as needed for proper alignment
+                                            bottom: screenHeight * 0.005,
+                                            left: screenWidth * 0.1,
                                             child: ElevatedButton(
                                               onPressed: () {
                                                 launchUrl(Uri.parse(
@@ -347,22 +330,17 @@ class _MyHomePageState extends State<MyHomePage> {
                                               child: Text(
                                                 "Click here",
                                                 style: TextStyle(
-                                                  fontSize: screenWidth *
-                                                      0.03, // Adjust the font size as needed
+                                                  fontSize: screenWidth * 0.03,
                                                 ),
                                               ),
                                               style: ElevatedButton.styleFrom(
                                                 foregroundColor: Colors.white,
                                                 backgroundColor: Color.fromARGB(
-                                                    255,
-                                                    26,
-                                                    26,
-                                                    54), // Button color
+                                                    255, 26, 26, 54),
                                                 padding: EdgeInsets.symmetric(
-                                                  horizontal: screenWidth *
-                                                      0.05, // Adjust horizontal padding if needed
-                                                  vertical: screenHeight *
-                                                      0.01, // Adjust vertical padding if needed
+                                                  horizontal:
+                                                      screenWidth * 0.05,
+                                                  vertical: screenHeight * 0.01,
                                                 ),
                                               ),
                                             ),
@@ -372,9 +350,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     ),
                                   ),
 
-                                  SizedBox(
-                                      height: screenHeight *
-                                          0.01), // Extra space for bottom
+                                  SizedBox(height: screenHeight * 0.01),
                                 ],
                               ),
                             ),
@@ -389,8 +365,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
 
           Positioned(
-            top: screenHeight *
-                0.1425, // Adjust this value to position the text above the slider
+            top: screenHeight * 0.1425,
             left: screenWidth * 0.05,
             child: Text(
               'Welcome to',
@@ -403,10 +378,8 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
 
           Positioned(
-            top: screenHeight *
-                0.163, // Adjust this value to position the text above the slider
+            top: screenHeight * 0.163,
             left: screenWidth * 0.05,
-
             child: Text(
               'SriLankan Airlines Cargo',
               style: TextStyle(
@@ -417,14 +390,13 @@ class _MyHomePageState extends State<MyHomePage> {
               textAlign: TextAlign.left,
             ),
           ),
-          // Image Slider (PageView) (top layer)
+          // Image Slider
           Positioned(
-            top: screenHeight *
-                0.21, // Adjust to overlap the white card and banner
+            top: screenHeight * 0.21,
             left: screenWidth * 0.05,
             right: screenWidth * 0.05,
             child: Container(
-              height: screenHeight * 0.23, // Adjust height as necessary
+              height: screenHeight * 0.23,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 boxShadow: [
@@ -432,7 +404,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     color: Colors.black.withOpacity(0.2),
                     blurRadius: 8,
                     spreadRadius: 2,
-                    offset: Offset(0, 0), // Shadow position
+                    offset: Offset(0, 0),
                   )
                 ],
               ),
@@ -488,7 +460,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
         selectedItemColor: Color.fromARGB(255, 28, 31, 106),
         unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
-        currentIndex: 0, // This can be updated as per the current screen
+        currentIndex: 0,
         onTap: (index) {
           if (index == 1) {
             // Navigate to Contact Us page
@@ -523,10 +495,9 @@ class _MyHomePageState extends State<MyHomePage> {
       height: buttonHeight * 1.5,
       child: TextButton(
         style: TextButton.styleFrom(
-          backgroundColor:
-              Color.fromARGB(255, 255, 255, 255), // Button background color
+          backgroundColor: Color.fromARGB(255, 255, 255, 255),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(0), // Square corners
+            borderRadius: BorderRadius.circular(0),
           ),
           padding: EdgeInsets.zero, // Remove padding
           side: BorderSide.none, // No border
@@ -605,7 +576,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> launchUrlTracking(Uri parse) async {
     final Uri url = Uri.parse(
-        'http://www.srilankanskychain.aero/skychain/app?service=page/nwp:Trackshipmt'); // Updated to use Uri.parse
+        'http://www.srilankanskychain.aero/skychain/app?service=page/nwp:Trackshipmt');
 
     if (!await launchUrl(url)) {
       throw 'Could not launch $url';

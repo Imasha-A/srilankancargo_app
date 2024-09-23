@@ -94,10 +94,9 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(
-                  Icons.error, // or Icons.warning
+                  Icons.error,
                   size: 65.0,
-                  color: Color.fromARGB(
-                      255, 24, 12, 114), // Adjust color as needed
+                  color: Color.fromARGB(255, 24, 12, 114),
                 ),
                 SizedBox(height: 10.0),
                 Text(
@@ -105,8 +104,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                   style: TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.bold,
-                    color: const Color.fromARGB(
-                        255, 28, 31, 106), // You can tweak this color to match
+                    color: const Color.fromARGB(255, 28, 31, 106),
                   ),
                 ),
                 SizedBox(height: 10.0),
@@ -120,14 +118,12 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                 ),
                 SizedBox(height: 20.0),
                 SizedBox(
-                  width: double.infinity, // Make button take full width
+                  width: double.infinity,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(
-                          255, 28, 31, 106), // Button color
+                      backgroundColor: const Color.fromARGB(255, 28, 31, 106),
                       shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(10.0), // Rounded corners
+                        borderRadius: BorderRadius.circular(10.0),
                       ),
                       padding: EdgeInsets.symmetric(vertical: 15.0),
                     ),
@@ -165,7 +161,6 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Conditional icon for loadable/not loadable
                 Icon(
                   isLoadable ? Icons.check_circle : Icons.cancel,
                   color: isLoadable
@@ -175,7 +170,6 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                 ),
                 const SizedBox(height: 15.0),
 
-                // Loadable or Not Loadable Text
                 Text(
                   isLoadable ? 'Loadable' : 'Not Loadable',
                   style: const TextStyle(
@@ -422,8 +416,8 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
               top: screenHeight * 0.04,
               left: screenWidth * 0.001,
               child: SizedBox(
-                width: 58, // Set width of the button
-                height: 48, // Set height of the button
+                width: 58,
+                height: 48,
                 child: BackButton(
                   color: Color.fromARGB(255, 255, 255, 255), // Icon color
                 ),
@@ -456,7 +450,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                       'Loadability',
                       style: TextStyle(
                         fontSize: screenWidth * 0.05,
-                        fontWeight: FontWeight.w900,
+                        fontWeight: FontWeight.w600,
                         color: Color.fromARGB(255, 28, 31, 106),
                       ),
                     ),
@@ -484,21 +478,19 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                           Text(
                             'Enter Details',
                             style: TextStyle(
-                              fontSize: screenWidth * 0.03,
-                              fontWeight: FontWeight.w900,
+                              fontSize: screenWidth * 0.035,
+                              fontWeight: FontWeight.w600,
                               color: Color.fromARGB(255, 28, 31, 106),
                             ),
                           ),
                           Container(
                             constraints: BoxConstraints(
-                              maxHeight: screenHeight *
-                                  0.053, // Adjust this value to control the height
+                              maxHeight: screenHeight * 0.053,
                             ),
                             decoration: BoxDecoration(
                               border: Border.all(
-                                color: Color.fromARGB(
-                                    255, 206, 197, 197), // Border color
-                                width: 1.0, // Border width
+                                color: Color.fromARGB(255, 206, 197, 197),
+                                width: 1.0,
                               ),
                               borderRadius: BorderRadius.circular(8.0),
                             ),
@@ -563,8 +555,8 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                       fontSize:
                                           customizationValues['fontSize'] ??
                                               16.0,
-                                      color: const Color.fromARGB(255, 51, 51,
-                                          51), // Ensure contrast for the "cm" label
+                                      color:
+                                          const Color.fromARGB(255, 51, 51, 51),
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -575,14 +567,12 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                           SizedBox(height: screenHeight * 0.015),
                           Container(
                             constraints: BoxConstraints(
-                              maxHeight:
-                                  45, // Adjust this value to control the height
+                              maxHeight: 45,
                             ),
                             decoration: BoxDecoration(
                               border: Border.all(
-                                color: Color.fromARGB(
-                                    255, 206, 197, 197), // Border color
-                                width: 1.0, // Border width
+                                color: Color.fromARGB(255, 206, 197, 197),
+                                width: 1.0,
                               ),
                               borderRadius: BorderRadius.circular(8.0),
                             ),
@@ -646,8 +636,8 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                       fontSize:
                                           customizationValues['fontSize'] ??
                                               16.0,
-                                      color: const Color.fromARGB(255, 51, 51,
-                                          51), // Ensure contrast for the "cm" label
+                                      color:
+                                          const Color.fromARGB(255, 51, 51, 51),
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -663,9 +653,8 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                             ),
                             decoration: BoxDecoration(
                               border: Border.all(
-                                color: Color.fromARGB(
-                                    255, 206, 197, 197), // Border color
-                                width: 1.0, // Border width
+                                color: Color.fromARGB(255, 206, 197, 197),
+                                width: 1.0,
                               ),
                               borderRadius: BorderRadius.circular(8.0),
                             ),
@@ -725,8 +714,8 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                       fontSize:
                                           customizationValues['fontSize'] ??
                                               16.0,
-                                      color: const Color.fromARGB(255, 51, 51,
-                                          51), // Ensure contrast for the "cm" label
+                                      color:
+                                          const Color.fromARGB(255, 51, 51, 51),
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -746,17 +735,17 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                       _isTiltedPermitted = newValue ?? false;
                                     });
                                   },
-                                  activeColor: const Color.fromARGB(255, 28, 31,
-                                      106), // Checkbox border and check color
-                                  checkColor: Color.fromARGB(255, 255, 255,
-                                      255), // Color of the check mark
+                                  activeColor:
+                                      const Color.fromARGB(255, 28, 31, 106),
+                                  checkColor:
+                                      Color.fromARGB(255, 255, 255, 255),
                                 ),
                                 Text(
                                   'Tilted Permitted',
                                   style: TextStyle(
                                     color:
                                         const Color.fromARGB(255, 28, 31, 106),
-                                    fontWeight: FontWeight.bold, // Text color
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ],
@@ -774,7 +763,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                   'Aircraft Type',
                                   style: TextStyle(
                                       fontSize: 14,
-                                      fontWeight: FontWeight.w900,
+                                      fontWeight: FontWeight.w600,
                                       color: Color.fromARGB(255, 28, 31, 106)),
                                 ),
                                 SizedBox(height: 3),
@@ -795,20 +784,17 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                     child: DropdownButton<String>(
                                       value: _selectedAircraftType,
                                       icon: Container(
-                                        width:
-                                            20.0, // Adjust the width of the icon container
-                                        height:
-                                            35.0, // Adjust the height of the icon container
+                                        width: 20.0,
+                                        height: 35.0,
                                         child: Icon(
                                           Icons.arrow_drop_down,
-                                          size: 32.0, // Size of the icon
-                                          color: Color.fromARGB(255, 145, 145,
-                                              145), // Color of the icon
+                                          size: 32.0,
+                                          color: Color.fromARGB(
+                                              255, 145, 145, 145),
                                         ),
                                       ),
                                       iconSize: 30.0,
-                                      underline:
-                                          SizedBox(), // Removes the default underline
+                                      underline: SizedBox(),
                                       style: TextStyle(
                                         fontSize: 14.0,
                                         fontWeight: FontWeight.bold,
@@ -858,7 +844,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                   'Cargo Hold',
                                   style: TextStyle(
                                       fontSize: 14,
-                                      fontWeight: FontWeight.w900,
+                                      fontWeight: FontWeight.w600,
                                       color: Color.fromARGB(255, 28, 31, 106)),
                                 ),
                                 SizedBox(height: 3),
@@ -879,20 +865,17 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                     child: DropdownButton<String>(
                                       value: _selectedCargoHold,
                                       icon: Container(
-                                        width:
-                                            20.0, // Adjust the width of the icon container
-                                        height:
-                                            35.0, // Adjust the height of the icon container
+                                        width: 20.0,
+                                        height: 35.0,
                                         child: Icon(
                                           Icons.arrow_drop_down,
-                                          size: 32.0, // Size of the icon
-                                          color: Color.fromARGB(255, 145, 145,
-                                              145), // Color of the icon
+                                          size: 32.0,
+                                          color: Color.fromARGB(
+                                              255, 145, 145, 145),
                                         ),
                                       ),
                                       iconSize: 30.0,
-                                      underline:
-                                          SizedBox(), // Removes the default underline
+                                      underline: SizedBox(),
                                       style: TextStyle(
                                         fontSize: 14.0,
                                         fontWeight: FontWeight.bold,
@@ -948,13 +931,13 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                     backgroundColor: Colors.white,
                                     padding: EdgeInsets.symmetric(
                                         horizontal: buttonPadding,
-                                        vertical: 10), // White fill
+                                        vertical: 10),
                                     side: BorderSide(
                                         color: Color.fromARGB(255, 28, 31, 106),
-                                        width: 1), // Blue border
+                                        width: 1),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                    ), // Text color
+                                    ),
                                   ),
                                   child: Text(
                                     'Clear',
@@ -965,8 +948,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                             Color.fromARGB(255, 28, 31, 106)),
                                   ),
                                 ),
-                                const SizedBox(
-                                    width: 8), // Space between buttons
+                                const SizedBox(width: 8),
                                 // Existing Submit Button
                                 ElevatedButton(
                                   onPressed: _lodabilityCheck,
@@ -974,8 +956,8 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                     padding: EdgeInsets.symmetric(
                                         horizontal: buttonPadding,
                                         vertical: 10),
-                                    backgroundColor: Color.fromARGB(
-                                        255, 28, 31, 106), // Blue fill
+                                    backgroundColor:
+                                        Color.fromARGB(255, 28, 31, 106),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     ),
@@ -984,8 +966,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                     'Calculate',
                                     style: TextStyle(
                                       fontSize: 16,
-                                      color: Color.fromARGB(255, 255, 255,
-                                          255), // White text color
+                                      color: Color.fromARGB(255, 255, 255, 255),
                                     ),
                                   ),
                                 ),
@@ -1056,17 +1037,12 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
     );
   }
 
-  // New method for navigation
   Future<void> _handleNavigation(int index, BuildContext context) async {
-    // Reset _canNavigate to true before handling back button
     _canNavigate = true;
 
-    // Call the existing handle back button method
     await _handleBackButton(context);
 
-    // Check if navigation is allowed
     if (_canNavigate) {
-      // Now navigate based on the index
       if (index == 0) {
         Navigator.push(
           context,

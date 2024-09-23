@@ -63,7 +63,7 @@ class ContactUsPage extends StatelessWidget {
             left: 0,
             right: 0,
             child: Image.asset(
-              'assets/images/homescreen_banner.jpg', // Your blue banner image
+              'assets/images/homescreen_banner.jpg', 
               fit: BoxFit.cover,
               height: screenHeight * 0.28,
             ),
@@ -77,9 +77,9 @@ class ContactUsPage extends StatelessWidget {
             child: LayoutBuilder(
               builder: (context, constraints) {
                 double cardWidth =
-                    constraints.maxWidth * 0.9; // Responsive width
+                    constraints.maxWidth * 0.9; 
                 double maxHeight =
-                    screenHeight * 0.7; // Available height for scrollable area
+                    screenHeight * 0.7; 
                 return Container(
                   width: cardWidth,
                   decoration: BoxDecoration(
@@ -92,14 +92,14 @@ class ContactUsPage extends StatelessWidget {
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
                       maxHeight:
-                          maxHeight, // Set the maximum height for the scrollable area
+                          maxHeight, 
                     ),
                     child: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(height: screenHeight * 0.01),
-                          // Contact Information Cards with colors applied
+                          
                           ContactInfoCard(
                             svgPath: 'assets/images/call_us_icon.svg',
                             title: 'Call us',
@@ -134,7 +134,7 @@ class ContactUsPage extends StatelessWidget {
                               'Follow on',
                               style: TextStyle(
                                 fontSize:
-                                    screenWidth * 0.05, // Adjust text size
+                                    screenWidth * 0.05, 
                                 color: const Color.fromARGB(255, 28, 31, 106),
                               ),
                             ),
@@ -215,7 +215,7 @@ class ContactUsPage extends StatelessWidget {
             child: Text(
               'Contact Us',
               style: TextStyle(
-                fontSize: screenWidth * 0.055, // Adjust text size
+                fontSize: screenWidth * 0.055, 
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
@@ -312,7 +312,7 @@ class ContactInfoCard extends StatelessWidget {
         padding: EdgeInsets.fromLTRB(screenWidth * 0.06, screenHeight * 0.035,
             screenWidth * 0.06, screenHeight * 0.035),
         decoration: BoxDecoration(
-          color: Colors.white, // Background color of the inner box
+          color: Colors.white, 
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
             color: const Color.fromARGB(255, 85, 18, 181),
@@ -320,10 +320,10 @@ class ContactInfoCard extends StatelessWidget {
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.2), // Shadow color
-              spreadRadius: 0, // Spread of the shadow
-              blurRadius: 3, // Blur radius of the shadow
-              offset: Offset(0, 4), // Offset of the shadow (bottom shadow)
+              color: Colors.black.withOpacity(0.2), 
+              spreadRadius: 0, 
+              blurRadius: 3, 
+              offset: Offset(0, 4), 
             ),
           ],
         ),
@@ -342,7 +342,7 @@ class ContactInfoCard extends StatelessWidget {
                   title,
                   style: TextStyle(
                       fontSize:
-                          screenWidth * 0.055, // Adjust based on screen width
+                          screenWidth * 0.055, 
                       color: titleColor,
                       fontWeight: FontWeight.w500),
                 ),
@@ -350,7 +350,7 @@ class ContactInfoCard extends StatelessWidget {
                   subtitle,
                   style: TextStyle(
                     fontSize:
-                        screenWidth * 0.045, // Adjust based on screen width
+                        screenWidth * 0.045, 
                     color: subtitleColor,
                   ),
                 ),

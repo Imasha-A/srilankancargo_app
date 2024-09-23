@@ -6,7 +6,6 @@ import 'package:srilankancargo_app/contact_us_page.dart';
 import 'package:srilankancargo_app/main.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:xml/xml.dart' as xml;
 
 class FlightStatusPage extends StatefulWidget {
   @override
@@ -74,17 +73,12 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
         builder: (BuildContext context, Widget? child) {
           return Theme(
             data: ThemeData.light().copyWith(
-              primaryColor: Color.fromARGB(
-                  255, 28, 31, 106), // Selected date circle color
-              hintColor:
-                  Color.fromARGB(255, 28, 31, 106), // Accent color for buttons
+              primaryColor: Color.fromARGB(255, 28, 31, 106),
+              hintColor: Color.fromARGB(255, 28, 31, 106),
               buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
-              dialogBackgroundColor:
-                  Colors.lightBlue[50], // Background color of the calendar
-              colorScheme: ColorScheme.light(
-                  primary: Color.fromARGB(
-                      255, 28, 31, 106)), // Selected date circle color
-              // Define any other customizations here
+              dialogBackgroundColor: Colors.lightBlue[50],
+              colorScheme:
+                  ColorScheme.light(primary: Color.fromARGB(255, 28, 31, 106)),
             ),
             child: child!,
           );
@@ -140,7 +134,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
 
         if (data.isNotEmpty) {
           setState(() {
-            _flightInfo = data[0]; // Save the flight information
+            _flightInfo = data[0];
           });
         } else {
           _clearFlightInfo();
@@ -248,7 +242,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
               TextButton(
                 onPressed: () {
                   _canNavigate = false;
-                  Navigator.of(context).pop(false); // Stay on the page
+                  Navigator.of(context).pop(false);
                 },
                 child: Text('Cancel',
                     style: TextStyle(
@@ -258,7 +252,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
               TextButton(
                 onPressed: () {
                   _canNavigate = true;
-                  Navigator.of(context).pop(true); // Exit the page
+                  Navigator.of(context).pop(true);
                 },
                 child: Text('Yes',
                     style: TextStyle(
@@ -272,12 +266,11 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
 
       if (shouldExit == true) {
         _canNavigate = true;
-        Navigator.of(context).pop(); // Perform the back navigation if confirmed
+        Navigator.of(context).pop();
       }
     } else {
       _canNavigate = true;
-      Navigator.of(context)
-          .pop(); // Allow back navigation if no flight info is loaded
+      Navigator.of(context).pop();
     }
   }
 
@@ -290,14 +283,13 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
 
     return WillPopScope(
       onWillPop: () async {
-        // Calls your custom back button handler
         await _handleBackButton(context);
         return false; // Prevents default back navigation
       },
       child: Scaffold(
         body: GestureDetector(
           onTap: () {
-            FocusScope.of(context).unfocus(); // Dismiss the keyboard
+            FocusScope.of(context).unfocus();
           },
           child: Stack(
             children: [
@@ -316,11 +308,11 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                 top: screenHeight * 0.04,
                 left: screenWidth * 0.001,
                 child: SizedBox(
-                  width: 58, // Set width of the button
-                  height: 48, // Set height of the button
+                  width: 58,
+                  height: 48,
                   child: IconButton(
                     icon: Icon(Icons.arrow_back),
-                    color: Color.fromARGB(255, 255, 255, 255), // Icon color
+                    color: Color.fromARGB(255, 255, 255, 255),
                     onPressed: () => _handleBackButton(context),
                   ),
                 ),
@@ -351,7 +343,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                         'Flight Status',
                         style: TextStyle(
                           fontSize: screenWidth * 0.05,
-                          fontWeight: FontWeight.w900,
+                          fontWeight: FontWeight.w600,
                           color: Color.fromARGB(255, 28, 31, 106),
                         ),
                       ),
@@ -380,7 +372,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                               'Flight Number',
                               style: TextStyle(
                                   fontSize: screenWidth * 0.035,
-                                  fontWeight: FontWeight.w900,
+                                  fontWeight: FontWeight.w600,
                                   color: Color.fromARGB(255, 28, 31, 106)),
                             ),
                             SizedBox(
@@ -394,42 +386,37 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                                 decoration: InputDecoration(
                                   hintText: 'Enter Flight Number (Ex: UL225)',
                                   hintStyle: TextStyle(
-                                    color: Color.fromARGB(255, 204, 203,
-                                        203), // Change hint text color to red
-                                    fontSize: screenWidth *
-                                        0.035, // Optional: Adjust font size as needed
+                                    color: Color.fromARGB(255, 204, 203, 203),
+                                    fontSize: screenWidth * 0.035,
                                   ),
                                   filled: true,
-                                  fillColor: Color.fromARGB(
-                                      255, 245, 245, 245), // Background color
+                                  fillColor: Color.fromARGB(255, 245, 245, 245),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                     borderSide: BorderSide(
-                                      color: Color.fromARGB(
-                                          255, 204, 203, 203), // Border color
-                                      width: 1.0, // Border width
+                                      color: Color.fromARGB(255, 204, 203, 203),
+                                      width: 1.0,
                                     ),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                     borderSide: BorderSide(
-                                      color: const Color.fromARGB(255, 204, 203,
-                                          203), // Border color when focused
-                                      width: 1.0, // Border width when focused
+                                      color: const Color.fromARGB(
+                                          255, 204, 203, 203),
+                                      width: 1.0,
                                     ),
                                   ),
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                     borderSide: BorderSide(
-                                      color: const Color.fromARGB(255, 204, 203,
-                                          203), // Border color when unfocused
-                                      width: 1.0, // Border width when unfocused
+                                      color: const Color.fromARGB(
+                                          255, 204, 203, 203),
+                                      width: 1.0,
                                     ),
                                   ),
                                   contentPadding: EdgeInsets.symmetric(
                                       vertical: screenHeight * 0.01,
-                                      horizontal:
-                                          screenWidth * 0.02), // Adjust padding
+                                      horizontal: screenWidth * 0.02),
                                 ),
                               ),
                             ),
@@ -438,7 +425,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                               'Select Flight Date',
                               style: TextStyle(
                                   fontSize: screenWidth * 0.035,
-                                  fontWeight: FontWeight.w900,
+                                  fontWeight: FontWeight.w600,
                                   color: Color.fromARGB(255, 28, 31, 106)),
                             ),
                             SizedBox(height: screenHeight * 0.001),
@@ -457,24 +444,20 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                                         : "${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}",
                                     hintStyle: TextStyle(
                                       color: _selectedDate == null
-                                          ? Color.fromARGB(255, 204, 203,
-                                              203) // Default text color
-                                          : const Color.fromARGB(255, 135, 130,
-                                              130), // Text color when a date is selected
+                                          ? Color.fromARGB(255, 204, 203, 203)
+                                          : const Color.fromARGB(
+                                              255, 135, 130, 130),
                                       fontWeight: FontWeight.bold,
                                       fontSize: screenWidth * 0.035,
-                                      // Optional: Adjust font size as needed
                                     ),
                                     filled: true,
                                     fillColor:
                                         Color.fromARGB(255, 245, 245, 245),
                                     suffixIcon: SizedBox(
-                                        // Optionally set width to maintain aspect ratio
                                         child: Icon(
                                       Icons.calendar_today,
-                                      color: Color.fromARGB(255, 128, 126,
-                                          126), // Suffix icon color
-                                      size: 19.0, // Set the icon size
+                                      color: Color.fromARGB(255, 128, 126, 126),
+                                      size: 19.0,
                                     )),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
@@ -487,12 +470,8 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                                       borderRadius: BorderRadius.circular(10),
                                       borderSide: BorderSide(
                                         color: const Color.fromARGB(
-                                            255,
-                                            204,
-                                            203,
-                                            203), // Border color when unfocused
-                                        width:
-                                            1.0, // Border width when unfocused
+                                            255, 204, 203, 203),
+                                        width: 1.0,
                                       ),
                                     ),
                                     contentPadding: EdgeInsets.symmetric(
@@ -505,8 +484,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                             SizedBox(height: screenHeight * 0.02),
 
                             ElevatedButton(
-                              onPressed:
-                                  fetchFlightStatus, // Call fetchFlightStatus on submit
+                              onPressed: fetchFlightStatus,
                               style: ElevatedButton.styleFrom(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: buttonPadding,
@@ -544,14 +522,14 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                           ],
                         ),
                       ),
-                      // Display flight status below the form
+
                       if (_flightInfo != null) ...[
                         SizedBox(height: screenHeight * 0.05),
                         Text(
                           'ON-SCHEDULE',
                           style: TextStyle(
                             fontSize: screenWidth * 0.06,
-                            fontWeight: FontWeight.w900,
+                            fontWeight: FontWeight.w600,
                             color: Color.fromARGB(255, 15, 20, 158),
                           ),
                         ),
@@ -559,21 +537,16 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
 
                         Text.rich(
                           TextSpan(
-                            text:
-                                'Scheduled Time: ', // This part stays the same
+                            text: 'Scheduled Time: ',
                             style: TextStyle(
-                              fontSize: screenWidth *
-                                  0.035, // Adjust the size as needed
-                              color: const Color.fromARGB(
-                                  255, 15, 20, 158), // Set the color
+                              fontSize: screenWidth * 0.035,
+                              color: const Color.fromARGB(255, 15, 20, 158),
                             ),
                             children: <TextSpan>[
                               TextSpan(
-                                text:
-                                    '${_flightInfo!['Schedultime']}', // This is the part with the different font weight
+                                text: '${_flightInfo!['Schedultime']}',
                                 style: TextStyle(
-                                  fontWeight: FontWeight
-                                      .w900, // Change font weight here
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
                             ],
@@ -595,14 +568,12 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                             SizedBox(width: screenWidth * 0.05),
                             // Airplane SVG in the middle
                             Padding(
-                              padding: EdgeInsets.only(
-                                  bottom: screenHeight *
-                                      0.015), // Move it slightly up
+                              padding:
+                                  EdgeInsets.only(bottom: screenHeight * 0.015),
                               child: SvgPicture.asset(
                                 'assets/images/airplane_line.svg',
                                 height: screenHeight * 0.085,
-                                color: Color.fromARGB(255, 27, 31,
-                                    127), // Keep the same size for the airplane icon
+                                color: Color.fromARGB(255, 27, 31, 127),
                               ),
                             ),
                             SizedBox(width: screenWidth * 0.05),
@@ -623,21 +594,16 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                           children: [
                             Text.rich(
                               TextSpan(
-                                text:
-                                    'Flight number: ', // This part stays the same
+                                text: 'Flight number: ',
                                 style: TextStyle(
-                                  fontSize: screenWidth *
-                                      0.035, // Adjust the size as needed
-                                  color: const Color.fromARGB(
-                                      255, 15, 20, 158), // Set the color
+                                  fontSize: screenWidth * 0.035,
+                                  color: const Color.fromARGB(255, 15, 20, 158),
                                 ),
                                 children: <TextSpan>[
                                   TextSpan(
-                                    text:
-                                        '${_flightInfo!['Flight_No']}', // This is the part with the different font weight
+                                    text: '${_flightInfo!['Flight_No']}',
                                     style: TextStyle(
-                                      fontWeight: FontWeight
-                                          .bold, // Change font weight here
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ],
@@ -645,21 +611,16 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                             ),
                             Text.rich(
                               TextSpan(
-                                text:
-                                    'Flight Date: ', // This part stays the same
+                                text: 'Flight Date: ',
                                 style: TextStyle(
-                                  fontSize: screenWidth *
-                                      0.035, // Adjust the size as needed
-                                  color: const Color.fromARGB(
-                                      255, 15, 20, 158), // Set the color
+                                  fontSize: screenWidth * 0.035,
+                                  color: const Color.fromARGB(255, 15, 20, 158),
                                 ),
                                 children: <TextSpan>[
                                   TextSpan(
-                                    text:
-                                        '${_flightInfo!['FlightDate']}', // This is the part with the different font weight
+                                    text: '${_flightInfo!['FlightDate']}',
                                     style: TextStyle(
-                                      fontWeight: FontWeight
-                                          .bold, // Change font weight here
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ],
@@ -679,13 +640,13 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                               backgroundColor: Colors.white,
                               padding: EdgeInsets.symmetric(
                                   horizontal: screenWidth * 0.1,
-                                  vertical: screenHeight * 0.01), // White fill
+                                  vertical: screenHeight * 0.01),
                               side: BorderSide(
                                   color: Color.fromARGB(255, 28, 31, 106),
-                                  width: 1), // Blue border
+                                  width: 1),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
-                              ), // Text color
+                              ),
                             ),
                             child: Text(
                               'Clear',
@@ -744,17 +705,12 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
     );
   }
 
-// New method for navigation
   Future<void> _handleNavigation(int index, BuildContext context) async {
-    // Reset _canNavigate to true before handling back button
     _canNavigate = true;
 
-    // Call the existing handle back button method
     await _handleBackButton(context);
 
-    // Check if navigation is allowed
     if (_canNavigate) {
-      // Now navigate based on the index
       if (index == 0) {
         Navigator.push(
           context,

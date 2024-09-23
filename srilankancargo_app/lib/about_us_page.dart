@@ -13,54 +13,6 @@ class AboutUsPage extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
-    double paddingBottom;
-    double buttonWidth;
-    double buttonHeight;
-    double buttonTextSize;
-
-    // Use the same dimension logic as HomePage
-    if (screenWidth == 1024) {
-      paddingBottom = 65.0;
-      buttonWidth = (screenWidth - 100) / 3;
-      buttonHeight = 45;
-      buttonTextSize = 12;
-    } else if (screenWidth >= 768) {
-      paddingBottom = 85.0;
-      buttonWidth = (screenWidth - 80) / 3;
-      buttonHeight = 50;
-      buttonTextSize = 12;
-    } else if (screenWidth == 375) {
-      paddingBottom = 15.0;
-      buttonWidth = (screenWidth - 60) / 2;
-      buttonHeight = 28;
-      buttonTextSize = 10.5;
-    } else if (screenWidth == 393) {
-      paddingBottom = 70.0;
-      buttonWidth = (screenWidth - 60) / 2;
-      buttonHeight = 43;
-      buttonTextSize = 10;
-    } else if (screenWidth == 430) {
-      paddingBottom = 92.0;
-      buttonWidth = (screenWidth - 60) / 2;
-      buttonHeight = 43;
-      buttonTextSize = 12;
-    } else if (screenWidth <= 768 && screenWidth > 600) {
-      paddingBottom = 90.0;
-      buttonWidth = (screenWidth - 100) / 3;
-      buttonHeight = 55;
-      buttonTextSize = 14.0;
-    } else if (screenWidth <= 600 && screenWidth > 400) {
-      paddingBottom = 60.0;
-      buttonWidth = (screenWidth - 60) / 2;
-      buttonHeight = 50;
-      buttonTextSize = 11.0;
-    } else {
-      paddingBottom = 85.0;
-      buttonWidth = (screenWidth - 30) / 2;
-      buttonHeight = 45;
-      buttonTextSize = 12.0;
-    }
-
     return Scaffold(
       body: Stack(
         children: [
@@ -70,7 +22,7 @@ class AboutUsPage extends StatelessWidget {
             left: 0,
             right: 0,
             child: Image.asset(
-              'assets/images/homescreen_banner.jpg', // Your blue banner image
+              'assets/images/homescreen_banner.jpg',
               fit: BoxFit.cover,
               height: screenHeight * 0.28,
             ),
@@ -83,10 +35,8 @@ class AboutUsPage extends StatelessWidget {
             right: 0,
             child: LayoutBuilder(
               builder: (context, constraints) {
-                double cardWidth =
-                    constraints.maxWidth * 0.9; // Responsive width
-                double maxHeight =
-                    screenHeight * 0.71; // Available height for scrollable area
+                double cardWidth = constraints.maxWidth * 0.9;
+                double maxHeight = screenHeight * 0.71;
 
                 return Container(
                   width: cardWidth,
@@ -108,8 +58,7 @@ class AboutUsPage extends StatelessWidget {
                   ),
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
-                      maxHeight:
-                          maxHeight, // Set the maximum height for the scrollable area
+                      maxHeight: maxHeight,
                     ),
                     child: SingleChildScrollView(
                       child: Column(
@@ -117,7 +66,7 @@ class AboutUsPage extends StatelessWidget {
                         children: [
                           Center(
                             child: Image.asset(
-                              'assets/images/2022451025672_Big-removebg-preview (1).png', // Replace with your image path
+                              'assets/images/2022451025672_Big-removebg-preview (1).png',
                               height: screenHeight * 0.08,
                               fit: BoxFit.contain,
                             ),
@@ -145,8 +94,7 @@ class AboutUsPage extends StatelessWidget {
                               child: Image.asset(
                                 'assets/images/about_us_picture.jpg',
                                 height: screenHeight * 0.2,
-                                width:
-                                    cardWidth, // Use cardWidth to match the container width
+                                width: cardWidth,
                                 fit: BoxFit.fill,
                               ),
                             ),
@@ -175,7 +123,7 @@ class AboutUsPage extends StatelessWidget {
                                 ),
                                 SizedBox(width: screenWidth * 0.02),
                                 SvgPicture.asset(
-                                  'assets/images/terms_icon.svg', // Add the path to your icon asset
+                                  'assets/images/terms_icon.svg',
                                   height: 20,
                                   width: 20,
                                 ),
