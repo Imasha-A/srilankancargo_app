@@ -30,7 +30,67 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const SplashScreen(),
+    );
+  }
+}
+
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({Key? key}) : super(key: key);
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _navigateToHome();
+  }
+
+  void _navigateToHome() {
+    Timer(const Duration(seconds: 3), () {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+            builder: (context) =>
+                const MyHomePage(title: 'Flutter Demo Home Page')),
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          // Background Image
+          Container(
+            width: double.infinity,
+            height: double.infinity,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/android12splash.jpg'),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+
+          Positioned(
+            bottom: 10,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: Image.asset(
+                'assets/images/logo_white.png',
+                height: 130,
+                width: 250,
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -431,58 +491,72 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       // Bottom Navigation Bar
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/images/home_icon.svg',
-              height: screenHeight * .03,
-              width: screenWidth * .03,
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1), // Shadow color
+              offset: Offset(0, -2), // Shadow position
+              blurRadius: 4, // Shadow blur radius
             ),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/images/contact_us_icon.svg',
-              height: screenHeight * .03,
-              width: screenWidth * .03,
+          ],
+        ),
+        child: BottomNavigationBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          items: [
+            BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                'assets/images/home_icon.svg',
+                height: screenHeight * .03,
+                width: screenWidth * .03,
+              ),
+              label: 'Home',
             ),
-            label: 'Contact Us',
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/images/about_us_icon.svg',
-              height: screenHeight * .03,
-              width: screenWidth * .03,
+            BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                'assets/images/contact_us_icon.svg',
+                height: screenHeight * .03,
+                width: screenWidth * .03,
+              ),
+              label: 'Contact Us',
             ),
-            label: 'About Us',
-          ),
-        ],
-        selectedItemColor: Color.fromARGB(255, 28, 31, 106),
-        unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
-        currentIndex: 0,
-        onTap: (index) {
-          if (index == 1) {
-            // Navigate to Contact Us page
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ContactUsPage()));
-          } else if (index == 0) {
-            // Navigate to Home page
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      MyHomePage(title: 'Flutter Demo Home Page')),
-            );
-          } else if (index == 2) {
-            // Navigate to About Us page
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AboutUsPage()),
-            );
-          }
-        },
-        selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
+            BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                'assets/images/about_us_icon.svg',
+                height: screenHeight * .03,
+                width: screenWidth * .03,
+              ),
+              label: 'About Us',
+            ),
+          ],
+          selectedItemColor: Color.fromARGB(255, 28, 31, 106),
+          unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
+          currentIndex: 0,
+          onTap: (index) {
+            if (index == 1) {
+              // Navigate to Contact Us page
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ContactUsPage()));
+            } else if (index == 0) {
+              // Navigate to Home page
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        MyHomePage(title: 'Flutter Demo Home Page')),
+              );
+            } else if (index == 2) {
+              // Navigate to About Us page
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AboutUsPage()),
+              );
+            }
+          },
+          selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
+        ),
       ),
     );
   }

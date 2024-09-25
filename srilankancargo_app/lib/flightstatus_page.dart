@@ -668,8 +668,22 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
           ),
         ),
         // Bottom Navigation Bar
-        bottomNavigationBar: BottomNavigationBar(
-          items: [
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1), // Shadow color
+                offset: Offset(0, -2), // Shadow position
+                blurRadius: 4, // Shadow blur radius
+              ),
+            ],
+          ),
+          child: BottomNavigationBar(
+            backgroundColor: Colors.white,
+            elevation: 0,
+            items: [
+
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 'assets/images/home_icon.svg',
@@ -701,7 +715,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
             _handleNavigation(index, context);
           },
         ),
-      ),
+      ),),
     );
   }
 

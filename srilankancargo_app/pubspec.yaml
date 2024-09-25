@@ -84,6 +84,8 @@ flutter:
      - assets/images/home_background_banner_try.png
      - assets/images/cross.svg
      - assets/images/tick.svg
+     - assets/images/android12splash.jpg
+     - assets/images/logo_white.png
     
   fonts:
     - family: SriLankan Regular
