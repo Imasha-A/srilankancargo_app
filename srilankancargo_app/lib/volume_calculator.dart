@@ -187,6 +187,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
     double width = double.tryParse(_widthController.text) ?? 0;
     double height = double.tryParse(_heightController.text) ?? 0;
     double numberOfPieces = double.tryParse(_piecesController.text) ?? 0;
+    double screenWidth = MediaQuery.of(context).size.width;
 
     if (length <= 0 || width <= 0 || height <= 0 || numberOfPieces <= 0) {
       // Show an alert if any of the values are invalid
@@ -203,7 +204,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
               style: TextStyle(
                 color: Color.fromARGB(255, 28, 31, 106),
                 fontWeight: FontWeight.bold,
-                fontSize: 22,
+                fontSize: screenWidth * 0.055,
               ),
             ),
             content: Text(
@@ -223,7 +224,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                       'OK',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 16,
+                        fontSize: screenWidth * 0.04,
                       ),
                     ),
                     style: TextButton.styleFrom(
@@ -412,7 +413,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                       Text(
                         'Volume Calculator',
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: screenWidth * 0.05,
                           fontWeight: FontWeight.w600,
                           color: Color.fromARGB(255, 28, 31, 106),
                         ),
@@ -447,7 +448,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                     Text(
                                       'Enter Details',
                                       style: TextStyle(
-                                        fontSize: 14,
+                                        fontSize: screenWidth * 0.035,
                                         fontWeight: FontWeight.w600,
                                         color: Color.fromARGB(255, 28, 31, 106),
                                       ),
@@ -459,7 +460,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                         Expanded(
                                           flex: 4,
                                           child: Container(
-                                            height: 45,
+                                            height: screenHeight * 0.05,
                                             child: TextField(
                                               controller: _lengthController,
                                               focusNode: _lengthFocusNode,
@@ -468,7 +469,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                 floatingLabelBehavior:
                                                     FloatingLabelBehavior.never,
                                                 labelStyle: TextStyle(
-                                                  fontSize: 14.0,
+                                                  fontSize: screenWidth * 0.035,
                                                   color: Color(0xFFCEC5C5),
                                                   fontWeight: FontWeight.bold,
                                                 ),
@@ -504,7 +505,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                         horizontal: 12.0),
                                               ),
                                               style: TextStyle(
-                                                fontSize: 14.0,
+                                                fontSize: screenWidth * 0.035,
                                                 color: Color(0xFF878282),
                                                 fontWeight: FontWeight.bold,
                                               ),
@@ -523,7 +524,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                         Expanded(
                                           flex: 4,
                                           child: Container(
-                                            height: 45,
+                                            height: screenHeight * 0.05,
                                             child: TextField(
                                               controller: _widthController,
                                               focusNode: _widthFocusNode,
@@ -532,7 +533,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                 floatingLabelBehavior:
                                                     FloatingLabelBehavior.never,
                                                 labelStyle: TextStyle(
-                                                  fontSize: 14.0,
+                                                  fontSize: screenWidth * 0.035,
                                                   color: Color(0xFFCEC5C5),
                                                   fontWeight: FontWeight.bold,
                                                 ),
@@ -568,7 +569,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                         horizontal: 12.0),
                                               ),
                                               style: TextStyle(
-                                                fontSize: 14.0,
+                                                fontSize: screenWidth * 0.035,
                                                 color: Color(0xFF878282),
                                                 fontWeight: FontWeight.bold,
                                               ),
@@ -588,7 +589,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                         Expanded(
                                           flex: 4,
                                           child: Container(
-                                            height: 45,
+                                            height: screenHeight * 0.05,
                                             child: TextField(
                                               controller: _heightController,
                                               focusNode: _heightFocusNode,
@@ -597,7 +598,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                 floatingLabelBehavior:
                                                     FloatingLabelBehavior.never,
                                                 labelStyle: TextStyle(
-                                                  fontSize: 14.0,
+                                                  fontSize: screenWidth * 0.035,
                                                   color: Color(0xFFCEC5C5),
                                                   fontWeight: FontWeight.bold,
                                                 ),
@@ -633,7 +634,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                         horizontal: 12.0),
                                               ),
                                               style: TextStyle(
-                                                fontSize: 14.0,
+                                                fontSize: screenWidth * 0.035,
                                                 color: Color(0xFF878282),
                                                 fontWeight: FontWeight.bold,
                                               ),
@@ -651,7 +652,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
 
 // Unit (cm)
                                         Container(
-                                          height: 45,
+                                          height: screenHeight * 0.05,
                                           padding: EdgeInsets.symmetric(
                                               horizontal: 12.0),
                                           decoration: BoxDecoration(
@@ -670,7 +671,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                             child: Text(
                                               'cm',
                                               style: TextStyle(
-                                                fontSize: 16.0,
+                                                fontSize: screenWidth * 0.045,
                                                 color: Color.fromARGB(
                                                     255, 40, 41, 48),
                                                 fontWeight: FontWeight.bold,
@@ -680,7 +681,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(height: 15),
+                                    SizedBox(height: screenHeight * 0.015),
 // Number of Pieces and Calculate Button
                                     Row(
                                       children: [
@@ -688,7 +689,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                         Expanded(
                                           flex: 5,
                                           child: Container(
-                                            height: 45,
+                                            height: screenHeight * 0.05,
                                             child: TextField(
                                               controller: _piecesController,
                                               focusNode: _piecesFocusNode,
@@ -697,7 +698,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                 floatingLabelBehavior:
                                                     FloatingLabelBehavior.never,
                                                 labelStyle: TextStyle(
-                                                  fontSize: 14.0,
+                                                  fontSize: screenWidth * 0.035,
                                                   color: Color(0xFFCEC5C5),
                                                   fontWeight: FontWeight.bold,
                                                 ),
@@ -729,7 +730,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                 ),
                                               ),
                                               style: TextStyle(
-                                                fontSize: 14.0,
+                                                fontSize: screenWidth * 0.035,
                                                 color: Color(0xFF878282),
                                                 fontWeight: FontWeight.bold,
                                               ),
@@ -739,7 +740,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                           ),
                                         ),
 
-                                        SizedBox(width: 10),
+                                        SizedBox(width: screenWidth * 0.03),
                                         Expanded(
                                           flex: 5,
                                           child: ElevatedButton(
@@ -760,7 +761,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                             child: Text(
                                               'Calculate',
                                               style: TextStyle(
-                                                fontSize: 16,
+                                                fontSize: screenWidth * 0.04,
                                                 color: Colors.white,
                                               ),
                                             ),
@@ -768,13 +769,13 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(height: 20),
+                                    SizedBox(height: screenHeight * 0.02),
                                   ],
                                 ),
                               ],
                             ),
                             Container(
-                              height: 380,
+                              height: screenHeight * 0.45,
                               padding: EdgeInsets.all(0),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
@@ -788,7 +789,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                     Text(
                                       'Details per Cargo',
                                       style: TextStyle(
-                                        fontSize: 14,
+                                        fontSize: screenWidth * 0.035,
                                         fontWeight: FontWeight.bold,
                                         color: Color.fromARGB(255, 28, 31, 106),
                                       ),
@@ -802,7 +803,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                         final selection = userSelections[index];
                                         return Container(
                                           margin: EdgeInsets.symmetric(
-                                            vertical: 5,
+                                            vertical: screenHeight * 0.005,
                                           ),
                                           decoration: BoxDecoration(
                                             borderRadius:
@@ -811,11 +812,11 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                           ),
                                           child: ExpansionTile(
                                             tilePadding: EdgeInsets.symmetric(
-                                                horizontal: 10),
+                                                horizontal: screenWidth * 0.01),
                                             title: Text(
                                               'Cargo ${index + 1}',
                                               style: TextStyle(
-                                                  fontSize: 14,
+                                                  fontSize: screenWidth * 0.035,
                                                   fontWeight: FontWeight.w700,
                                                   color: Color.fromARGB(
                                                       255, 51, 51, 51)),
@@ -851,7 +852,9 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                             child: Text(
                                                               'Width: ${selection.width} cm',
                                                               style: TextStyle(
-                                                                  fontSize: 11),
+                                                                  fontSize:
+                                                                      screenWidth *
+                                                                          0.025),
                                                             ),
                                                           ),
                                                         ),
@@ -862,13 +865,17 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                             child: Text(
                                                               'Height: ${selection.height} cm',
                                                               style: TextStyle(
-                                                                  fontSize: 11),
+                                                                  fontSize:
+                                                                      screenWidth *
+                                                                          0.025),
                                                             ),
                                                           ),
                                                         ),
                                                       ],
                                                     ),
-                                                    SizedBox(height: 5),
+                                                    SizedBox(
+                                                        height: screenHeight *
+                                                            0.005),
                                                     Row(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
@@ -893,14 +900,18 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                             ),
                                                           ),
                                                         ),
-                                                        SizedBox(width: 20),
+                                                        SizedBox(
+                                                            width: screenWidth *
+                                                                0.02),
                                                         Align(
                                                           alignment: Alignment
                                                               .centerLeft,
                                                           child: Text(
                                                             'Cubic cm: ${selection.finalTotal.toStringAsFixed(4)} cm³',
                                                             style: TextStyle(
-                                                              fontSize: 12,
+                                                              fontSize:
+                                                                  screenWidth *
+                                                                      0.025,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold,
@@ -950,7 +961,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                         child: Text(
                                           'Clear',
                                           style: TextStyle(
-                                              fontSize: 15,
+                                              fontSize: screenWidth * 0.04,
                                               fontWeight: FontWeight.bold,
                                               color: Color.fromARGB(
                                                   255, 28, 31, 106)),
@@ -959,7 +970,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                       Text(
                                         'Total: ${totalCBM.toStringAsFixed(4)} cm³',
                                         style: TextStyle(
-                                          fontSize: 15,
+                                          fontSize: screenWidth * 0.045,
                                           fontWeight: FontWeight.bold,
                                           color:
                                               Color.fromARGB(255, 28, 31, 106),
@@ -973,6 +984,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                           ],
                         ),
                       ),
+                      SizedBox(height: screenHeight * 0.2),
                     ],
                   ),
                 ),
@@ -980,7 +992,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
             ],
           ),
         ),
-         // Bottom Navigation Bar
+        // Bottom Navigation Bar
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
             color: Colors.white,
@@ -996,39 +1008,38 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
             backgroundColor: Colors.white,
             elevation: 0,
             items: [
-
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                'assets/images/home_icon.svg',
-                height: screenHeight * .03,
-                width: screenWidth * .03,
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  'assets/images/home_icon.svg',
+                  height: screenHeight * .03,
+                  width: screenWidth * .03,
+                ),
+                label: 'Home',
               ),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                'assets/images/contact_us_icon.svg',
-                height: screenHeight * .03,
-                width: screenWidth * .03,
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  'assets/images/contact_us_icon.svg',
+                  height: screenHeight * .03,
+                  width: screenWidth * .03,
+                ),
+                label: 'Contact Us',
               ),
-              label: 'Contact Us',
-            ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                'assets/images/about_us_icon.svg',
-                height: screenHeight * .03,
-                width: screenWidth * .03,
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  'assets/images/about_us_icon.svg',
+                  height: screenHeight * .03,
+                  width: screenWidth * .03,
+                ),
+                label: 'About Us',
               ),
-              label: 'About Us',
-            ),
-          ],
-          selectedItemColor: Color.fromARGB(255, 28, 31, 106),
-          unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
-          onTap: (index) {
-            _handleNavigation(index, context);
-          },
+            ],
+            selectedItemColor: Color.fromARGB(255, 28, 31, 106),
+            unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
+            onTap: (index) {
+              _handleNavigation(index, context);
+            },
+          ),
         ),
-      ),
       ),
     );
   }

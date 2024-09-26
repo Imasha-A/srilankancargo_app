@@ -277,7 +277,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   child: Column(
                     children: [
-                      SizedBox(height: screenHeight * 0.2),
+                      SizedBox(height: screenHeight * 0.175),
                       DotsIndicator(
                         dotsCount: 3,
                         position: _currentPage.toInt(),

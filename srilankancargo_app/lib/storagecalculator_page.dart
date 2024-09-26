@@ -540,6 +540,8 @@ class _StorageCalPageState extends State<StorageCalPage> {
     );
 
     void _showChargesDialog(BuildContext context) {
+      double screenWidth = MediaQuery.of(context).size.width;
+      double screenHeight = MediaQuery.of(context).size.height;
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -549,7 +551,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                 'Storage Charge',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 20,
+                  fontSize: screenWidth * 0.05,
                   color: Color.fromARGB(255, 28, 31, 106),
                 ),
               ),
@@ -563,13 +565,13 @@ class _StorageCalPageState extends State<StorageCalPage> {
                       1: FlexColumnWidth(1),
                     },
                     children: [
-                      const TableRow(
+                      TableRow(
                         children: [
                           Text(
                             'Description',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 14,
+                              fontSize: screenWidth * 0.35,
                               color: Color.fromARGB(255, 28, 31, 106),
                             ),
                           ),
@@ -578,7 +580,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                             textAlign: TextAlign.right,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 14,
+                              fontSize: screenWidth * 0.035,
                               color: Color.fromARGB(255, 28, 31, 106),
                             ),
                           ),
@@ -594,7 +596,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                       _buildTableRow('VAT', VAT),
                     ],
                   ),
-                  SizedBox(height: 5),
+                  SizedBox(height: screenHeight * 0.005),
                   Divider(
                     thickness: 1,
                     color: Color.fromARGB(255, 28, 31, 106),
@@ -606,7 +608,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                         'Final Charges',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                          fontSize: screenWidth * 0.45,
                           color: Color.fromARGB(255, 28, 31, 106),
                         ),
                       ),
@@ -614,7 +616,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                         '${finalCharge.toStringAsFixed(2)}',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                          fontSize: screenWidth * 0.04,
                           color: Color.fromARGB(255, 28, 31, 106),
                         ),
                         textAlign: TextAlign.right,
@@ -637,7 +639,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                   child: Text(
                     'Close',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: screenWidth * 0.04,
                       color: Colors.white,
                     ),
                   ),
@@ -657,6 +659,8 @@ class _StorageCalPageState extends State<StorageCalPage> {
   }
 
   void _showIncompleteFormDialog(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -670,7 +674,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
             style: TextStyle(
               color: Color.fromARGB(255, 28, 31, 106),
               fontWeight: FontWeight.bold,
-              fontSize: 22,
+              fontSize: screenHeight * 0.07,
             ),
           ),
           content: Text(
@@ -680,8 +684,8 @@ class _StorageCalPageState extends State<StorageCalPage> {
           actions: <Widget>[
             Center(
               child: SizedBox(
-                width: 250,
-                height: 50,
+                width: screenWidth * 0.5,
+                height: screenHeight * 0.5,
                 child: TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -690,7 +694,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                     'OK',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 16,
+                      fontSize: screenHeight * 0.04,
                     ),
                   ),
                   style: TextButton.styleFrom(
@@ -856,13 +860,13 @@ class _StorageCalPageState extends State<StorageCalPage> {
                     Text(
                       'Storage Calculator',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: screenWidth * 0.05,
                         fontWeight: FontWeight.w600,
                         color: Color.fromARGB(255, 28, 31, 106),
                       ),
                     ),
 
-                    const SizedBox(height: 10),
+                    SizedBox(height: screenHeight * 0.01),
                     // Inner White Card with the Flight Form
                     Container(
                       decoration: BoxDecoration(
@@ -885,7 +889,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                           Text(
                             'Flight Actual Arrival Date',
                             style: TextStyle(
-                                fontSize: 14,
+                                fontSize: screenWidth * 0.035,
                                 fontWeight: FontWeight.w600,
                                 color: Color.fromARGB(255, 28, 31, 106)),
                           ),
@@ -937,11 +941,11 @@ class _StorageCalPageState extends State<StorageCalPage> {
                               ),
                             ),
                           ),
-                          const SizedBox(height: 10),
+                          SizedBox(height: screenHeight * 0.01),
                           Text(
                             'Flight Cargo Clearing Date',
                             style: TextStyle(
-                                fontSize: 14,
+                                fontSize: screenWidth * 0.035,
                                 fontWeight: FontWeight.w600,
                                 color: Color.fromARGB(255, 28, 31, 106)),
                           ),
@@ -977,7 +981,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                                                 : const Color.fromARGB(
                                                     255, 135, 130, 130),
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 14,
+                                            fontSize: screenWidth * 0.035,
                                           ),
                                         ),
                                       ),
@@ -993,11 +997,11 @@ class _StorageCalPageState extends State<StorageCalPage> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 10.0),
+                          SizedBox(height: screenHeight * 0.01),
                           Text(
                             'Chargeable Weight',
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: screenWidth * 0.035,
                               fontWeight: FontWeight.w600,
                               color: Color.fromARGB(255, 28, 31, 106),
                             ),
@@ -1062,9 +1066,9 @@ class _StorageCalPageState extends State<StorageCalPage> {
                                 ),
                                 // Box with "kg" on the right
                                 Container(
-                                  height: 57.0,
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 12.0),
+                                  height: screenHeight * 0.057,
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: screenWidth * 0.012),
                                   decoration: BoxDecoration(
                                     color: Color.fromARGB(255, 170, 170,
                                         170), // Darker grey background
@@ -1079,7 +1083,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 14.0,
+                                      fontSize: screenWidth * 0.035,
                                     ),
                                   ),
                                 ),
@@ -1090,7 +1094,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                           Text(
                             'Cargo Type',
                             style: TextStyle(
-                                fontSize: 14,
+                                fontSize: screenWidth * 0.035,
                                 fontWeight: FontWeight.w600,
                                 color: Color.fromARGB(255, 28, 31, 106)),
                           ),
@@ -1155,11 +1159,11 @@ class _StorageCalPageState extends State<StorageCalPage> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 10.0),
+                          SizedBox(height: screenHeight * 0.01),
                           Text(
                             'Room Type',
                             style: TextStyle(
-                                fontSize: 14,
+                                fontSize: screenWidth * 0.035,
                                 fontWeight: FontWeight.w600,
                                 color: Color.fromARGB(255, 28, 31, 106)),
                           ),
@@ -1210,11 +1214,11 @@ class _StorageCalPageState extends State<StorageCalPage> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 10.0),
+                          SizedBox(height: screenHeight * 0.01),
                           Text(
                             'Tax Type',
                             style: TextStyle(
-                                fontSize: 14,
+                                fontSize: screenWidth * 0.035,
                                 fontWeight: FontWeight.w600,
                                 color: Color.fromARGB(255, 28, 31, 106)),
                           ),
@@ -1262,7 +1266,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 10.0),
+                          SizedBox(height: screenHeight * 0.01),
                           Center(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -1277,7 +1281,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                                     backgroundColor: Colors.white,
                                     padding: EdgeInsets.symmetric(
                                         horizontal: buttonPadding,
-                                        vertical: 10),
+                                        vertical: screenHeight * .01),
                                     side: BorderSide(
                                         color: Color.fromARGB(255, 28, 31, 106),
                                         width: 1),
@@ -1288,7 +1292,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                                   child: Text(
                                     'Clear',
                                     style: TextStyle(
-                                        fontSize: 16,
+                                        fontSize: screenWidth * 0.04,
                                         fontWeight: FontWeight.bold,
                                         color:
                                             Color.fromARGB(255, 28, 31, 106)),
@@ -1312,7 +1316,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                                   child: Text(
                                     'Calculate',
                                     style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: screenWidth * 0.04,
                                       color: Color.fromARGB(255, 255, 255,
                                           255), // White text color
                                     ),
@@ -1332,55 +1336,54 @@ class _StorageCalPageState extends State<StorageCalPage> {
           ],
         ),
       ),
-       // Bottom Navigation Bar
-        bottomNavigationBar: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1), // Shadow color
-                offset: Offset(0, -2), // Shadow position
-                blurRadius: 4, // Shadow blur radius
-              ),
-            ],
-          ),
-          child: BottomNavigationBar(
-            backgroundColor: Colors.white,
-            elevation: 0,
-            items: [
-
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/images/home_icon.svg',
-              height: screenHeight * .03,
-              width: screenWidth * .03,
+      // Bottom Navigation Bar
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1), // Shadow color
+              offset: Offset(0, -2), // Shadow position
+              blurRadius: 4, // Shadow blur radius
             ),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/images/contact_us_icon.svg',
-              height: screenHeight * .03,
-              width: screenWidth * .03,
-            ),
-            label: 'Contact Us',
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/images/about_us_icon.svg',
-              height: screenHeight * .03,
-              width: screenWidth * .03,
-            ),
-            label: 'About Us',
-          ),
-        ],
-        selectedItemColor: Color.fromARGB(255, 28, 31, 106),
-        unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
-        onTap: (index) {
-          _handleNavigation(index, context);
-        },
-      ),
+          ],
         ),
+        child: BottomNavigationBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          items: [
+            BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                'assets/images/home_icon.svg',
+                height: screenHeight * .03,
+                width: screenWidth * .03,
+              ),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                'assets/images/contact_us_icon.svg',
+                height: screenHeight * .03,
+                width: screenWidth * .03,
+              ),
+              label: 'Contact Us',
+            ),
+            BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                'assets/images/about_us_icon.svg',
+                height: screenHeight * .03,
+                width: screenWidth * .03,
+              ),
+              label: 'About Us',
+            ),
+          ],
+          selectedItemColor: Color.fromARGB(255, 28, 31, 106),
+          unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
+          onTap: (index) {
+            _handleNavigation(index, context);
+          },
+        ),
+      ),
     );
   }
 

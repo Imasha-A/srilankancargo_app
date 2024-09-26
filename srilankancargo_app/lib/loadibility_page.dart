@@ -81,6 +81,8 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
   }
 
   void _showAlertForIncomplete(String title, String message) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -98,25 +100,25 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                   size: 65.0,
                   color: Color.fromARGB(255, 24, 12, 114),
                 ),
-                SizedBox(height: 10.0),
+                SizedBox(height: screenHeight * 0.01),
                 Text(
                   title,
                   style: TextStyle(
-                    fontSize: 20.0,
+                    fontSize: screenWidth * 0.06,
                     fontWeight: FontWeight.bold,
                     color: const Color.fromARGB(255, 28, 31, 106),
                   ),
                 ),
-                SizedBox(height: 10.0),
+                SizedBox(height: screenHeight * 0.01),
                 Text(
                   message,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 18.0,
+                    fontSize: screenWidth * 0.04,
                     color: const Color.fromARGB(255, 28, 31, 106),
                   ),
                 ),
-                SizedBox(height: 20.0),
+                SizedBox(height: screenHeight * 0.02),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
@@ -125,7 +127,8 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
-                      padding: EdgeInsets.symmetric(vertical: 15.0),
+                      padding:
+                          EdgeInsets.symmetric(vertical: screenHeight * 0.015),
                     ),
                     onPressed: () {
                       Navigator.of(context).pop();
@@ -133,7 +136,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                     child: Text(
                       'Close',
                       style: TextStyle(
-                        fontSize: 16.0,
+                        fontSize: screenWidth * 0.04,
                         color: Colors.white,
                       ),
                     ),
@@ -152,6 +155,9 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        double screenWidth = MediaQuery.of(context).size.width;
+        double screenHeight = MediaQuery.of(context).size.height;
+
         return Dialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.0),
@@ -168,28 +174,28 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                       : const Color.fromARGB(255, 220, 83, 73),
                   size: 65.0,
                 ),
-                const SizedBox(height: 15.0),
+                SizedBox(height: screenHeight * 0.01),
 
                 Text(
                   isLoadable ? 'Loadable' : 'Not Loadable',
-                  style: const TextStyle(
-                    fontSize: 22.0,
+                  style: TextStyle(
+                    fontSize: screenWidth * 0.055,
                     fontWeight: FontWeight.bold,
                     color: Color.fromARGB(255, 13, 3, 103),
                   ),
                 ),
-                const SizedBox(height: 10.0),
+                SizedBox(height: screenHeight * 0.01),
 
                 // Flight Type and Cargo Hold Info
                 Text(
                   'Flight Type: $flightType\nCargo Hold: $cargoHold',
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
-                      fontSize: 16.0,
+                  style: TextStyle(
+                      fontSize: screenWidth * 0.045,
                       color: Color.fromARGB(255, 11, 5, 108),
                       fontWeight: FontWeight.w500),
                 ),
-                const SizedBox(height: 20.0),
+                SizedBox(height: screenHeight * 0.025),
 
                 // Close button
                 SizedBox(
@@ -201,15 +207,16 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
-                      padding: const EdgeInsets.symmetric(vertical: 15.0),
+                      padding:
+                          EdgeInsets.symmetric(vertical: screenHeight * 0.01),
                     ),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child: const Text(
+                    child: Text(
                       'Close',
                       style: TextStyle(
-                        fontSize: 16.0,
+                        fontSize: screenWidth * 0.045,
                         color: Colors.white,
                       ),
                     ),
@@ -409,15 +416,15 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
               child: Image.asset(
                 'assets/images/loadability.png',
                 fit: BoxFit.cover,
-                height: 185,
+                height: screenHeight * 0.23,
               ),
             ),
             Positioned(
               top: screenHeight * 0.04,
               left: screenWidth * 0.001,
               child: SizedBox(
-                width: 58,
-                height: 48,
+                width: screenWidth * 0.048,
+                height: screenHeight * 0.048,
                 child: BackButton(
                   color: Color.fromARGB(255, 255, 255, 255), // Icon color
                 ),
@@ -485,7 +492,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                           ),
                           Container(
                             constraints: BoxConstraints(
-                              maxHeight: screenHeight * 0.053,
+                              maxHeight: screenHeight * 0.065,
                             ),
                             decoration: BoxDecoration(
                               border: Border.all(
@@ -508,9 +515,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                         floatingLabelBehavior:
                                             FloatingLabelBehavior.never,
                                         labelStyle: TextStyle(
-                                          fontSize:
-                                              customizationValues['fontSize'] ??
-                                                  14.0,
+                                          fontSize: screenWidth * 0.035,
                                           color: const Color.fromARGB(
                                               255, 206, 197, 197),
                                           fontWeight: FontWeight.bold,
@@ -520,9 +525,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                             vertical: screenHeight * 0.02),
                                       ),
                                       style: TextStyle(
-                                        fontSize:
-                                            customizationValues['fontSize'] ??
-                                                14.0,
+                                        fontSize: screenWidth * 0.035,
                                         color:
                                             Color.fromARGB(255, 135, 130, 130),
                                         fontWeight: FontWeight.bold,
@@ -539,8 +542,8 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                 ),
                                 Container(
                                   padding: EdgeInsets.symmetric(
-                                      horizontal: screenWidth * 0.03,
-                                      vertical: 10),
+                                      horizontal: screenWidth * 0.035,
+                                      vertical: screenHeight * 0.015),
                                   decoration: BoxDecoration(
                                     color: const Color.fromARGB(
                                         255, 206, 197, 197),
@@ -567,7 +570,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                           SizedBox(height: screenHeight * 0.015),
                           Container(
                             constraints: BoxConstraints(
-                              maxHeight: 45,
+                              maxHeight: screenHeight * 0.065,
                             ),
                             decoration: BoxDecoration(
                               border: Border.all(
@@ -580,8 +583,8 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                               children: [
                                 Expanded(
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16.0),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: screenWidth * 0.038),
                                     child: TextField(
                                       controller: _widthController,
                                       focusNode: _widthFocusNode,
@@ -602,9 +605,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                             vertical: 15.0),
                                       ),
                                       style: TextStyle(
-                                        fontSize:
-                                            customizationValues['fontSize'] ??
-                                                14.0,
+                                        fontSize: screenWidth * 0.035,
                                         color: const Color.fromARGB(
                                             255, 135, 130, 130),
                                         fontWeight: FontWeight.bold,
@@ -621,7 +622,8 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                 ),
                                 Container(
                                   padding: EdgeInsets.symmetric(
-                                      horizontal: 12.0, vertical: 10),
+                                      horizontal: screenWidth * 0.035,
+                                      vertical: screenHeight * 0.015),
                                   decoration: BoxDecoration(
                                     color: const Color.fromARGB(
                                         255, 206, 197, 197),
@@ -645,11 +647,10 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                               ],
                             ),
                           ),
-                          SizedBox(height: 15),
+                          SizedBox(height: screenHeight * 0.015),
                           Container(
                             constraints: BoxConstraints(
-                              maxHeight:
-                                  45, // Adjust this value to control the height
+                              maxHeight: screenHeight * 0.065,
                             ),
                             decoration: BoxDecoration(
                               border: Border.all(
@@ -662,8 +663,8 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                               children: [
                                 Expanded(
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16.0),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: screenWidth * 0.038),
                                     child: TextField(
                                       controller: _heightController,
                                       focusNode: _heightFocusNode,
@@ -672,21 +673,17 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                         floatingLabelBehavior:
                                             FloatingLabelBehavior.never,
                                         labelStyle: TextStyle(
-                                          fontSize:
-                                              customizationValues['fontSize'] ??
-                                                  14.0,
+                                          fontSize: screenWidth * 0.035,
                                           color: const Color.fromARGB(
                                               255, 206, 197, 197),
                                           fontWeight: FontWeight.bold,
                                         ),
                                         border: InputBorder.none,
                                         contentPadding: EdgeInsets.symmetric(
-                                            vertical: 15.0),
+                                            vertical: screenHeight * .015),
                                       ),
                                       style: TextStyle(
-                                        fontSize:
-                                            customizationValues['fontSize'] ??
-                                                14.0,
+                                        fontSize: screenWidth * 0.035,
                                         color: const Color.fromARGB(
                                             255, 135, 130, 130),
                                         fontWeight: FontWeight.bold,
@@ -699,7 +696,8 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                 ),
                                 Container(
                                   padding: EdgeInsets.symmetric(
-                                      horizontal: 12.0, vertical: 10),
+                                      horizontal: screenWidth * 0.035,
+                                      vertical: screenHeight * 0.015),
                                   decoration: BoxDecoration(
                                     color: const Color.fromARGB(
                                         255, 206, 197, 197),
@@ -723,7 +721,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                               ],
                             ),
                           ),
-                          SizedBox(height: 5),
+                          SizedBox(height: screenHeight * 0.005),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 0),
                             child: Row(
@@ -751,22 +749,22 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                               ],
                             ),
                           ),
-                          SizedBox(height: 5),
+                          SizedBox(height: screenHeight * 0.005),
                           // Aircraft Type Dropdown
                           Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 3.0),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: screenWidth * 0.003),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   'Aircraft Type',
                                   style: TextStyle(
-                                      fontSize: 14,
+                                      fontSize: screenWidth * 0.035,
                                       fontWeight: FontWeight.w600,
                                       color: Color.fromARGB(255, 28, 31, 106)),
                                 ),
-                                SizedBox(height: 3),
+                                SizedBox(height: screenHeight * 0.003),
                                 Container(
                                   width: double.infinity,
                                   decoration: BoxDecoration(
@@ -779,8 +777,8 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                         width: 1.0),
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16.0),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: screenWidth * 0.03),
                                     child: DropdownButton<String>(
                                       value: _selectedAircraftType,
                                       icon: Container(
@@ -796,7 +794,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                       iconSize: 30.0,
                                       underline: SizedBox(),
                                       style: TextStyle(
-                                        fontSize: 14.0,
+                                        fontSize: screenWidth * 0.0035,
                                         fontWeight: FontWeight.bold,
                                         color: const Color.fromARGB(
                                             255, 135, 130, 130),
@@ -807,9 +805,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                           color: const Color.fromARGB(
                                               255, 206, 197, 197),
                                           fontWeight: FontWeight.bold,
-                                          fontSize:
-                                              customizationValues['fontSize'] ??
-                                                  14.0,
+                                          fontSize: screenWidth * 0.035,
                                         ),
                                       ),
                                       isExpanded: true,
@@ -831,23 +827,23 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                               ],
                             ),
                           ),
-                          SizedBox(height: 15.0),
+                          SizedBox(height: screenHeight * 0.015),
 
                           // Cargo Hold Dropdown
                           Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 3.0),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: screenHeight * 0.003),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   'Cargo Hold',
                                   style: TextStyle(
-                                      fontSize: 14,
+                                      fontSize: screenWidth * 0.035,
                                       fontWeight: FontWeight.w600,
                                       color: Color.fromARGB(255, 28, 31, 106)),
                                 ),
-                                SizedBox(height: 3),
+                                SizedBox(height: screenHeight * 0.003),
                                 Container(
                                   width: double.infinity,
                                   decoration: BoxDecoration(
@@ -877,7 +873,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                       iconSize: 30.0,
                                       underline: SizedBox(),
                                       style: TextStyle(
-                                        fontSize: 14.0,
+                                        fontSize: screenWidth * 0.035,
                                         fontWeight: FontWeight.bold,
                                         color: const Color.fromARGB(
                                             255, 135, 130, 130),
@@ -888,9 +884,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                           color: const Color.fromARGB(
                                               255, 206, 197, 197),
                                           fontWeight: FontWeight.bold,
-                                          fontSize:
-                                              customizationValues['fontSize'] ??
-                                                  14.0,
+                                          fontSize: screenWidth * 0.035,
                                         ),
                                       ),
                                       isExpanded: true,
@@ -917,7 +911,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                           ),
 
                           SizedBox(
-                            height: 14,
+                            height: screenHeight * .014,
                           ),
                           Center(
                             child: Row(
@@ -931,7 +925,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                     backgroundColor: Colors.white,
                                     padding: EdgeInsets.symmetric(
                                         horizontal: buttonPadding,
-                                        vertical: 10),
+                                        vertical: screenHeight * .01),
                                     side: BorderSide(
                                         color: Color.fromARGB(255, 28, 31, 106),
                                         width: 1),
@@ -942,20 +936,20 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                   child: Text(
                                     'Clear',
                                     style: TextStyle(
-                                        fontSize: 16,
+                                        fontSize: screenWidth * 0.04,
                                         fontWeight: FontWeight.bold,
                                         color:
                                             Color.fromARGB(255, 28, 31, 106)),
                                   ),
                                 ),
-                                const SizedBox(width: 8),
+                                SizedBox(width: screenWidth * 0.03),
                                 // Existing Submit Button
                                 ElevatedButton(
                                   onPressed: _lodabilityCheck,
                                   style: ElevatedButton.styleFrom(
                                     padding: EdgeInsets.symmetric(
                                         horizontal: buttonPadding,
-                                        vertical: 10),
+                                        vertical: screenHeight * 0.01),
                                     backgroundColor:
                                         Color.fromARGB(255, 28, 31, 106),
                                     shape: RoundedRectangleBorder(
@@ -965,7 +959,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                   child: Text(
                                     'Calculate',
                                     style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: screenWidth * 0.04,
                                       color: Color.fromARGB(255, 255, 255, 255),
                                     ),
                                   ),
@@ -981,8 +975,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                               child: Text(
                                 'Maximum Weight per Package : 150Kg',
                                 style: TextStyle(
-                                    fontSize:
-                                        customizationValues['fontSize'] ?? 12.0,
+                                    fontSize: screenWidth * 0.035,
                                     color: Color.fromARGB(255, 28, 31, 106),
                                     fontWeight: FontWeight.bold),
                               ),
@@ -992,7 +985,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                       ),
                     ),
 
-                    const SizedBox(height: 500),
+                    SizedBox(height: screenHeight * 0.3),
                   ],
                 ),
               ),
@@ -1000,55 +993,54 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
           ],
         ),
       ),
- // Bottom Navigation Bar
-        bottomNavigationBar: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1), // Shadow color
-                offset: Offset(0, -2), // Shadow position
-                blurRadius: 4, // Shadow blur radius
-              ),
-            ],
-          ),
-          child: BottomNavigationBar(
-            backgroundColor: Colors.white,
-            elevation: 0,
-            items: [
-
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/images/home_icon.svg',
-              height: screenHeight * .03,
-              width: screenWidth * .03,
+      // Bottom Navigation Bar
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1), // Shadow color
+              offset: Offset(0, -2), // Shadow position
+              blurRadius: 4, // Shadow blur radius
             ),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/images/contact_us_icon.svg',
-              height: screenHeight * .03,
-              width: screenWidth * .03,
-            ),
-            label: 'Contact Us',
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/images/about_us_icon.svg',
-              height: screenHeight * .03,
-              width: screenWidth * .03,
-            ),
-            label: 'About Us',
-          ),
-        ],
-        selectedItemColor: Color.fromARGB(255, 28, 31, 106),
-        unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
-        onTap: (index) {
-          _handleNavigation(index, context);
-        },
-      ),
+          ],
         ),
+        child: BottomNavigationBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          items: [
+            BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                'assets/images/home_icon.svg',
+                height: screenHeight * .03,
+                width: screenWidth * .03,
+              ),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                'assets/images/contact_us_icon.svg',
+                height: screenHeight * .03,
+                width: screenWidth * .03,
+              ),
+              label: 'Contact Us',
+            ),
+            BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                'assets/images/about_us_icon.svg',
+                height: screenHeight * .03,
+                width: screenWidth * .03,
+              ),
+              label: 'About Us',
+            ),
+          ],
+          selectedItemColor: Color.fromARGB(255, 28, 31, 106),
+          unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
+          onTap: (index) {
+            _handleNavigation(index, context);
+          },
+        ),
+      ),
     );
   }
 
