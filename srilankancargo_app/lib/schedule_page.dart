@@ -443,14 +443,16 @@ Arrival Time: ${flightInfo['Atime']}''';
 
     // Simulating flight details fetching with delay
     Future<List<String>> _fetchFlightDetailsWithDelay() async {
-      await Future.delayed(Duration(seconds: 2));
-      return _flightDetails;
+      await Future.delayed(Duration(seconds: 2)); // Simulate network delay
+      return _flightDetails; // Replace with actual API data fetching
     }
 
     return FutureBuilder<List<String>>(
       future: _fetchFlightDetailsWithDelay(),
       builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
+        if (snapshot.connectionState == ConnectionState.waiting ||
+            snapshot.connectionState == ConnectionState.active) {
+          // Display loading indicator while data is still being fetched
           return Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
@@ -479,9 +481,10 @@ Arrival Time: ${flightInfo['Atime']}''';
                       child: Text(
                         'No Flights Available',
                         style: TextStyle(
-                            color: Color.fromARGB(255, 6, 10, 83),
-                            fontSize: screenWidth * 0.045,
-                            fontWeight: FontWeight.w400),
+                          color: Color.fromARGB(255, 6, 10, 83),
+                          fontSize: screenWidth * 0.045,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
                     ),
                   );
@@ -510,7 +513,6 @@ Arrival Time: ${flightInfo['Atime']}''';
                             ),
                           ),
                         ),
-                        //Icon(Icons.airplanemode_active)
                         SizedBox(width: screenWidth * 0.02),
                         // Flight Info
                         Expanded(
@@ -535,7 +537,6 @@ Arrival Time: ${flightInfo['Atime']}''';
                             ],
                           ),
                         ),
-
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
@@ -656,15 +657,15 @@ Arrival Time: ${flightInfo['Atime']}''';
               child: Image.asset(
                 'assets/images/flight_schedule.png',
                 fit: BoxFit.cover,
-                height: 185,
+                height: screenHeight * .23,
               ),
             ),
             Positioned(
               top: screenHeight * 0.04,
               left: screenWidth * 0.001,
               child: SizedBox(
-                width: 58,
-                height: 48,
+                width: screenWidth * .12,
+                height: screenHeight * 0.04,
                 child: BackButton(
                   color: Color.fromARGB(255, 255, 255, 255), // Icon color
                 ),
@@ -1169,9 +1170,9 @@ Arrival Time: ${flightInfo['Atime']}''';
                       _buildOriginDestinationRow(),
                     ],
                     if (_fetched) ...[
-                      SizedBox(height: screenHeight * 0.02),
+                      SizedBox(height: screenHeight * 0.018),
                       Container(
-                        height: screenHeight * 0.435,
+                        height: screenHeight * 0.4,
                         child: SingleChildScrollView(
                           physics: BouncingScrollPhysics(),
                           child: _buildFlightDetails(),
@@ -1185,8 +1186,7 @@ Arrival Time: ${flightInfo['Atime']}''';
             ),
           ],
         ),
-        // Bottom Navigation Bar
-        bottomNavigationBar: Container(
+         bottomNavigationBar: Container(
           decoration: BoxDecoration(
             color: Colors.white,
             boxShadow: [
@@ -1197,43 +1197,49 @@ Arrival Time: ${flightInfo['Atime']}''';
               ),
             ],
           ),
-          child: BottomNavigationBar(
-            backgroundColor: Colors.white,
-            elevation: 0,
-            items: [
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  'assets/images/home_icon.svg',
-                  height: screenHeight * .03,
-                  width: screenWidth * .03,
-                ),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  'assets/images/contact_us_icon.svg',
-                  height: screenHeight * .03,
-                  width: screenWidth * .03,
-                ),
-                label: 'Contact Us',
-              ),
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  'assets/images/about_us_icon.svg',
-                  height: screenHeight * .03,
-                  width: screenWidth * .03,
-                ),
-                label: 'About Us',
-              ),
-            ],
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                  height: screenHeight *
+                      0.006), // Change this height to increase space
+              BottomNavigationBar(
+                backgroundColor: Colors.white,
+                elevation: 0,
+                items: [
+                  BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      'assets/images/home_icon.svg',
+                      height: screenHeight * .03,
+                      width: screenWidth * .03,
+                    ),
+                    label: 'Home',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      'assets/images/contact_us_icon.svg',
+                      height: screenHeight * .03,
+                      width: screenWidth * .03,
+                    ),
+                    label: 'Contact Us',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      'assets/images/about_us_icon.svg',
+                      height: screenHeight * .03,
+                      width: screenWidth * .03,
+                    ),
+                    label: 'About Us',
+                  ),
+                ],
             selectedItemColor: Color.fromARGB(255, 28, 31, 106),
             unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
             onTap: (index) {
               _handleNavigation(index, context);
             },
-          ),
+          ),],
         ),
-      ),
+      ),),
     );
   }
 

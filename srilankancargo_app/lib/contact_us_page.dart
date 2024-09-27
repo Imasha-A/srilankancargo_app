@@ -63,7 +63,7 @@ class ContactUsPage extends StatelessWidget {
             left: 0,
             right: 0,
             child: Image.asset(
-              'assets/images/homescreen_banner.jpg', 
+              'assets/images/homescreen_banner.jpg',
               fit: BoxFit.cover,
               height: screenHeight * 0.28,
             ),
@@ -76,10 +76,8 @@ class ContactUsPage extends StatelessWidget {
             right: 0,
             child: LayoutBuilder(
               builder: (context, constraints) {
-                double cardWidth =
-                    constraints.maxWidth * 0.9; 
-                double maxHeight =
-                    screenHeight * 0.7; 
+                double cardWidth = constraints.maxWidth * 0.9;
+                double maxHeight = screenHeight * 0.71;
                 return Container(
                   width: cardWidth,
                   decoration: BoxDecoration(
@@ -91,15 +89,14 @@ class ContactUsPage extends StatelessWidget {
                       vertical: screenHeight * 0.01),
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
-                      maxHeight:
-                          maxHeight, 
+                      maxHeight: maxHeight,
                     ),
                     child: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(height: screenHeight * 0.01),
-                          
+
                           ContactInfoCard(
                             svgPath: 'assets/images/call_us_icon.svg',
                             title: 'Call us',
@@ -133,8 +130,7 @@ class ContactUsPage extends StatelessWidget {
                             child: Text(
                               'Follow on',
                               style: TextStyle(
-                                fontSize:
-                                    screenWidth * 0.05, 
+                                fontSize: screenWidth * 0.05,
                                 color: const Color.fromARGB(255, 28, 31, 106),
                               ),
                             ),
@@ -200,6 +196,7 @@ class ContactUsPage extends StatelessWidget {
                               ),
                             ],
                           ),
+                          SizedBox(height: screenHeight * 0.025),
                         ],
                       ),
                     ),
@@ -215,7 +212,7 @@ class ContactUsPage extends StatelessWidget {
             child: Text(
               'Contact Us',
               style: TextStyle(
-                fontSize: screenWidth * 0.055, 
+                fontSize: screenWidth * 0.055,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
@@ -224,74 +221,78 @@ class ContactUsPage extends StatelessWidget {
           ),
         ],
       ),
-      // Bottom Navigation Bar
-        bottomNavigationBar: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1), // Shadow color
-                offset: Offset(0, -2), // Shadow position
-                blurRadius: 4, // Shadow blur radius
-              ),
-            ],
-          ),
-          child: BottomNavigationBar(
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1), // Shadow color
+              offset: Offset(0, -2), // Shadow position
+              blurRadius: 4, // Shadow blur radius
+            ),
+          ],
+        ),
+        child: Column(mainAxisSize: MainAxisSize.min, children: [
+          SizedBox(
+              height:
+                  screenHeight * 0.006), // Change this height to increase space
+          BottomNavigationBar(
             backgroundColor: Colors.white,
             elevation: 0,
             items: [
-
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/images/home_icon.svg',
-              height: screenHeight * .03,
-              width: screenWidth * .03,
-            ),
-            label: 'Home',
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  'assets/images/home_icon.svg',
+                  height: screenHeight * .03,
+                  width: screenWidth * .03,
+                ),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  'assets/images/contact_us_icon.svg',
+                  height: screenHeight * .03,
+                  width: screenWidth * .03,
+                ),
+                label: 'Contact Us',
+              ),
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  'assets/images/about_us_icon.svg',
+                  height: screenHeight * .03,
+                  width: screenWidth * .03,
+                ),
+                label: 'About Us',
+              ),
+            ],
+            selectedItemColor: Color.fromARGB(255, 28, 31, 106),
+            unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
+            currentIndex: 1,
+            onTap: (index) {
+              if (index == 1) {
+                // Navigate to Contact Us page
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ContactUsPage()));
+              } else if (index == 0) {
+                // Navigate to Home page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          MyHomePage(title: 'Flutter Demo Home Page')),
+                );
+              } else if (index == 2) {
+                // Navigate to About Us page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AboutUsPage()),
+                );
+              }
+            },
+            selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
           ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/images/contact_us_icon.svg',
-              height: screenHeight * .03,
-              width: screenWidth * .03,
-            ),
-            label: 'Contact Us',
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'assets/images/about_us_icon.svg',
-              height: screenHeight * .03,
-              width: screenWidth * .03,
-            ),
-            label: 'About Us',
-          ),
-        ],
-        selectedItemColor: Color.fromARGB(255, 28, 31, 106),
-        unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
-        currentIndex: 1,
-        onTap: (index) {
-          if (index == 1) {
-            // Navigate to Contact Us page
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ContactUsPage()));
-          } else if (index == 0) {
-            // Navigate to Home page
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      MyHomePage(title: 'Flutter Demo Home Page')),
-            );
-          } else if (index == 2) {
-            // Navigate to About Us page
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AboutUsPage()),
-            );
-          }
-        },
-        selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
-      ),),
+        ]),
+      ),
     );
   }
 }
@@ -327,7 +328,7 @@ class ContactInfoCard extends StatelessWidget {
         padding: EdgeInsets.fromLTRB(screenWidth * 0.06, screenHeight * 0.035,
             screenWidth * 0.06, screenHeight * 0.035),
         decoration: BoxDecoration(
-          color: Colors.white, 
+          color: Colors.white,
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
             color: const Color.fromARGB(255, 85, 18, 181),
@@ -335,10 +336,10 @@ class ContactInfoCard extends StatelessWidget {
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.2), 
-              spreadRadius: 0, 
-              blurRadius: 3, 
-              offset: Offset(0, 4), 
+              color: Colors.black.withOpacity(0.2),
+              spreadRadius: 0,
+              blurRadius: 3,
+              offset: Offset(0, 4),
             ),
           ],
         ),
@@ -356,16 +357,14 @@ class ContactInfoCard extends StatelessWidget {
                 Text(
                   title,
                   style: TextStyle(
-                      fontSize:
-                          screenWidth * 0.055, 
+                      fontSize: screenWidth * 0.055,
                       color: titleColor,
                       fontWeight: FontWeight.w500),
                 ),
                 Text(
                   subtitle,
                   style: TextStyle(
-                    fontSize:
-                        screenWidth * 0.045, 
+                    fontSize: screenWidth * 0.045,
                     color: subtitleColor,
                   ),
                 ),

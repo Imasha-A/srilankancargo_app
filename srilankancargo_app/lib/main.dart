@@ -232,333 +232,347 @@ class _MyHomePageState extends State<MyHomePage> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      key: _scaffoldKey,
-      body: Stack(
-        children: [
-          // Top Banner Image (bottom layer)
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: Image.asset(
-              'assets/images/home_background_banner_try.png',
-              fit: BoxFit.cover,
-              height: screenHeight * 0.28,
+        key: _scaffoldKey,
+        body: Stack(
+          children: [
+            // Top Banner Image (bottom layer)
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: Image.asset(
+                'assets/images/home_background_banner_try.png',
+                fit: BoxFit.cover,
+                height: screenHeight * 0.28,
+              ),
             ),
-          ),
 
-          // White Card with Content (middle layer)
-          Positioned(
-            top: screenHeight * 0.26,
-            left: 0,
-            right: 0,
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                double cardWidth = constraints.maxWidth * 0.9;
-                double maxScrollableHeight = screenHeight * 0.5;
+            // White Card with Content (middle layer)
+            Positioned(
+              top: screenHeight * 0.26,
+              left: 0,
+              right: 0,
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  double cardWidth = constraints.maxWidth * 0.9;
+                  double maxScrollableHeight = screenHeight * 0.45;
 
-                return Container(
-                  width: cardWidth,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: cardWidth * 0.01,
-                    vertical: screenHeight * 0.012,
-                  ),
-                  child: Column(
-                    children: [
-                      SizedBox(height: screenHeight * 0.175),
-                      DotsIndicator(
-                        dotsCount: 3,
-                        position: _currentPage.toInt(),
-                        decorator: DotsDecorator(
-                          size: Size.square(screenWidth * 0.025),
-                          activeSize:
-                              Size(screenWidth * 0.04, screenHeight * 0.0095),
-                          color: const Color.fromARGB(255, 85, 88, 181),
-                          activeColor: Color.fromARGB(255, 28, 31, 106),
-                          activeShape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.0),
+                  return Container(
+                    width: cardWidth,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: cardWidth * 0.01,
+                      vertical: screenHeight * 0.012,
+                    ),
+                    child: Column(
+                      children: [
+                        SizedBox(height: screenHeight * 0.175),
+                        DotsIndicator(
+                          dotsCount: 3,
+                          position: _currentPage.toInt(),
+                          decorator: DotsDecorator(
+                            size: Size.square(screenWidth * 0.025),
+                            activeSize:
+                                Size(screenWidth * 0.04, screenHeight * 0.0095),
+                            color: const Color.fromARGB(255, 85, 88, 181),
+                            activeColor: Color.fromARGB(255, 28, 31, 106),
+                            activeShape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
                           ),
                         ),
-                      ),
-                      Center(
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(
-                            maxHeight: maxScrollableHeight,
-                          ),
-                          child: SingleChildScrollView(
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: cardWidth * 0.01),
-                              child: Column(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      right: cardWidth * 0.6,
-                                    ),
-                                    child: Text(
-                                      'Categories',
-                                      style: TextStyle(
-                                        fontSize: screenWidth * 0.05,
-                                        color: Color.fromARGB(255, 28, 31, 106),
-                                        fontWeight: FontWeight.bold,
+                        Center(
+                          child: ConstrainedBox(
+                            constraints: BoxConstraints(
+                              maxHeight: maxScrollableHeight,
+                            ),
+                            child: SingleChildScrollView(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: cardWidth * 0.01),
+                                child: Column(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                        right: cardWidth * 0.6,
+                                      ),
+                                      child: Text(
+                                        'Categories',
+                                        style: TextStyle(
+                                          fontSize: screenWidth * 0.05,
+                                          color:
+                                              Color.fromARGB(255, 28, 31, 106),
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  // Category Icons
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: cardWidth * 0.001,
-                                        vertical: screenHeight * 0.015),
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Expanded(
-                                                child: buildOutlinedButton(
-                                                    'Schedule',
-                                                    'assets/images/flight_schedule_icon.svg')),
-                                            Expanded(
-                                                child: buildOutlinedButton(
-                                                    'Flight Status',
-                                                    'assets/images/flight_status_icon.svg')),
-                                            Expanded(
-                                                child: buildOutlinedButton(
-                                                    'Loadibility',
-                                                    'assets/images/loadability_icon.svg')),
-                                          ],
-                                        ),
-                                        SizedBox(height: screenHeight * 0.016),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Expanded(
-                                                child: buildOutlinedButton(
-                                                    'Storage Calculator',
-                                                    'assets/images/storage_calculator_icon.svg')),
-                                            SizedBox(width: 5),
-                                            Expanded(
-                                                child: buildOutlinedButton(
-                                                    'Volume Calculator',
-                                                    'assets/images/volume_calculator_icon.svg')),
-                                            SizedBox(width: 5),
-                                            Expanded(
-                                                child: buildOutlinedButton(
-                                                    'Tracking',
-                                                    'assets/images/tracking_icon.svg')),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-
-                                  // Website Banner
-                                  Center(
-                                    child: SizedBox(
-                                      width: screenWidth * 0.9,
-                                      height: screenHeight * 0.185,
-                                      child: Stack(
+                                    // Category Icons
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: cardWidth * 0.001,
+                                          vertical: screenHeight * 0.015),
+                                      child: Column(
                                         children: [
-                                          Image.asset(
-                                            'assets/images/visit_website_banner.png',
-                                            fit: BoxFit.cover,
-                                            width: double.infinity,
-                                            height: double.infinity,
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Expanded(
+                                                  child: buildOutlinedButton(
+                                                      'Schedule',
+                                                      'assets/images/flight_schedule_icon.svg')),
+                                              Expanded(
+                                                  child: buildOutlinedButton(
+                                                      'Flight Status',
+                                                      'assets/images/flight_status_icon.svg')),
+                                              Expanded(
+                                                  child: buildOutlinedButton(
+                                                      'Loadibility',
+                                                      'assets/images/loadability_icon.svg')),
+                                            ],
                                           ),
-                                          Positioned(
-                                            bottom: screenHeight * 0.005,
-                                            left: screenWidth * 0.1,
-                                            child: ElevatedButton(
-                                              onPressed: () {
-                                                launchUrl(Uri.parse(
-                                                    'https://www.srilankancargo.com'));
-                                              },
-                                              child: Text(
-                                                "Click here",
-                                                style: TextStyle(
-                                                  fontSize: screenWidth * 0.03,
-                                                ),
-                                              ),
-                                              style: ElevatedButton.styleFrom(
-                                                foregroundColor: Colors.white,
-                                                backgroundColor: Color.fromARGB(
-                                                    255, 26, 26, 54),
-                                                padding: EdgeInsets.symmetric(
-                                                  horizontal:
-                                                      screenWidth * 0.05,
-                                                  vertical: screenHeight * 0.01,
-                                                ),
-                                              ),
-                                            ),
+                                          SizedBox(
+                                              height: screenHeight * 0.016),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Expanded(
+                                                  child: buildOutlinedButton(
+                                                      'Storage Calculator',
+                                                      'assets/images/storage_calculator_icon.svg')),
+                                              SizedBox(width: 5),
+                                              Expanded(
+                                                  child: buildOutlinedButton(
+                                                      'Volume Calculator',
+                                                      'assets/images/volume_calculator_icon.svg')),
+                                              SizedBox(width: 5),
+                                              Expanded(
+                                                  child: buildOutlinedButton(
+                                                      'Tracking',
+                                                      'assets/images/tracking_icon.svg')),
+                                            ],
                                           ),
                                         ],
                                       ),
                                     ),
-                                  ),
 
-                                  SizedBox(height: screenHeight * 0.01),
-                                ],
+                                    // Website Banner
+                                    Center(
+                                      child: SizedBox(
+                                        width: screenWidth * 0.93,
+                                        height: screenHeight * 0.19,
+                                        child: Stack(
+                                          children: [
+                                            Image.asset(
+                                              'assets/images/visit_website_banner.png',
+                                              fit: BoxFit.cover,
+                                              width: double.infinity,
+                                              height: double.infinity,
+                                            ),
+                                            Positioned(
+                                              bottom:
+                                                  screenHeight * 0.185 * 0.03,
+                                              left: screenWidth * 0.1,
+                                              child: ElevatedButton(
+                                                onPressed: () {
+                                                  launchUrl(Uri.parse(
+                                                      'https://www.srilankancargo.com'));
+                                                },
+                                                child: Text(
+                                                  "Click here",
+                                                  style: TextStyle(
+                                                    fontSize:
+                                                        screenWidth * 0.028,
+                                                  ),
+                                                ),
+                                                style: ElevatedButton.styleFrom(
+                                                  foregroundColor: Colors.white,
+                                                  backgroundColor:
+                                                      Color.fromARGB(
+                                                          255, 26, 26, 54),
+                                                  padding: EdgeInsets.symmetric(
+                                                    horizontal:
+                                                        screenWidth * 0.05,
+                                                    vertical:
+                                                        screenHeight * 0.001,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+
+                                    SizedBox(height: screenHeight * 0.02),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+
+            Positioned(
+              top: screenHeight * 0.1425,
+              left: screenWidth * 0.05,
+              child: Text(
+                'Welcome to',
+                style: TextStyle(
+                  fontSize: screenWidth * 0.045,
+                  color: Color.fromARGB(255, 255, 255, 255),
+                ),
+                textAlign: TextAlign.left,
+              ),
+            ),
+
+            Positioned(
+              top: screenHeight * 0.163,
+              left: screenWidth * 0.05,
+              child: Text(
+                'SriLankan Airlines Cargo',
+                style: TextStyle(
+                  fontSize: screenWidth * 0.06,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 255, 255, 255),
+                ),
+                textAlign: TextAlign.left,
+              ),
+            ),
+            // Image Slider
+            Positioned(
+              top: screenHeight * 0.21,
+              left: screenWidth * 0.05,
+              right: screenWidth * 0.05,
+              child: Container(
+                height: screenHeight * 0.23,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      blurRadius: 8,
+                      spreadRadius: 2,
+                      offset: Offset(0, 0),
+                    )
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: PageView.builder(
+                    controller: _pageController,
+                    onPageChanged: (int page) {
+                      setState(() {
+                        _currentPage = page;
+                      });
+                    },
+                    itemBuilder: (context, index) {
+                      return Image.asset(
+                        getImagePath(index),
+                        fit: BoxFit.cover,
+                      );
+                    },
+                    itemCount: 3,
                   ),
-                );
-              },
-            ),
-          ),
-
-          Positioned(
-            top: screenHeight * 0.1425,
-            left: screenWidth * 0.05,
-            child: Text(
-              'Welcome to',
-              style: TextStyle(
-                fontSize: screenWidth * 0.045,
-                color: Color.fromARGB(255, 255, 255, 255),
-              ),
-              textAlign: TextAlign.left,
-            ),
-          ),
-
-          Positioned(
-            top: screenHeight * 0.163,
-            left: screenWidth * 0.05,
-            child: Text(
-              'SriLankan Airlines Cargo',
-              style: TextStyle(
-                fontSize: screenWidth * 0.06,
-                fontWeight: FontWeight.bold,
-                color: Color.fromARGB(255, 255, 255, 255),
-              ),
-              textAlign: TextAlign.left,
-            ),
-          ),
-          // Image Slider
-          Positioned(
-            top: screenHeight * 0.21,
-            left: screenWidth * 0.05,
-            right: screenWidth * 0.05,
-            child: Container(
-              height: screenHeight * 0.23,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    blurRadius: 8,
-                    spreadRadius: 2,
-                    offset: Offset(0, 0),
-                  )
-                ],
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(15),
-                child: PageView.builder(
-                  controller: _pageController,
-                  onPageChanged: (int page) {
-                    setState(() {
-                      _currentPage = page;
-                    });
-                  },
-                  itemBuilder: (context, index) {
-                    return Image.asset(
-                      getImagePath(index),
-                      fit: BoxFit.cover,
-                    );
-                  },
-                  itemCount: 3,
                 ),
               ),
             ),
+          ],
+        ),
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1), // Shadow color
+                offset: Offset(0, -2), // Shadow position
+                blurRadius: 4, // Shadow blur radius
+              ),
+            ],
           ),
-        ],
-      ),
-      // Bottom Navigation Bar
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1), // Shadow color
-              offset: Offset(0, -2), // Shadow position
-              blurRadius: 4, // Shadow blur radius
-            ),
-          ],
-        ),
-        child: BottomNavigationBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          items: [
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                'assets/images/home_icon.svg',
-                height: screenHeight * .03,
-                width: screenWidth * .03,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                  height: screenHeight *
+                      0.006), // Change this height to increase space
+              BottomNavigationBar(
+                backgroundColor: Colors.white,
+                elevation: 0,
+                items: [
+                  BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      'assets/images/home_icon.svg',
+                      height: screenHeight * .03,
+                      width: screenWidth * .03,
+                    ),
+                    label: 'Home',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      'assets/images/contact_us_icon.svg',
+                      height: screenHeight * .03,
+                      width: screenWidth * .03,
+                    ),
+                    label: 'Contact Us',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      'assets/images/about_us_icon.svg',
+                      height: screenHeight * .03,
+                      width: screenWidth * .03,
+                    ),
+                    label: 'About Us',
+                  ),
+                ],
+                selectedItemColor: Color.fromARGB(255, 28, 31, 106),
+                unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
+                currentIndex: 0,
+                onTap: (index) {
+                  if (index == 1) {
+                    // Navigate to Contact Us page
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ContactUsPage()));
+                  } else if (index == 0) {
+                    // Navigate to Home page
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              MyHomePage(title: 'Flutter Demo Home Page')),
+                    );
+                  } else if (index == 2) {
+                    // Navigate to About Us page
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AboutUsPage()),
+                    );
+                  }
+                },
+                selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
               ),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                'assets/images/contact_us_icon.svg',
-                height: screenHeight * .03,
-                width: screenWidth * .03,
-              ),
-              label: 'Contact Us',
-            ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                'assets/images/about_us_icon.svg',
-                height: screenHeight * .03,
-                width: screenWidth * .03,
-              ),
-              label: 'About Us',
-            ),
-          ],
-          selectedItemColor: Color.fromARGB(255, 28, 31, 106),
-          unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
-          currentIndex: 0,
-          onTap: (index) {
-            if (index == 1) {
-              // Navigate to Contact Us page
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ContactUsPage()));
-            } else if (index == 0) {
-              // Navigate to Home page
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        MyHomePage(title: 'Flutter Demo Home Page')),
-              );
-            } else if (index == 2) {
-              // Navigate to About Us page
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AboutUsPage()),
-              );
-            }
-          },
-          selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
-        ),
-      ),
-    );
+            ],
+          ),
+        ));
   }
 
   Widget buildOutlinedButton(String label, String svgPath) {
@@ -573,9 +587,9 @@ class _MyHomePageState extends State<MyHomePage> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(0),
           ),
-          padding: EdgeInsets.zero, // Remove padding
-          side: BorderSide.none, // No border
-          elevation: 0, // Ensure no elevation
+          padding: EdgeInsets.zero,
+          side: BorderSide.none,
+          elevation: 0,
         ),
         onPressed: () {
           if (label == 'Schedule') {

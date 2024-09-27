@@ -373,15 +373,15 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                 child: Image.asset(
                   'assets/images/volume_calculator.png',
                   fit: BoxFit.cover,
-                  height: 185,
+                  height: screenHeight * 0.23,
                 ),
               ),
               Positioned(
                 top: screenHeight * 0.04,
                 left: screenWidth * 0.001,
                 child: SizedBox(
-                  width: 58,
-                  height: 48,
+                  width: screenWidth * .12,
+                  height: screenHeight * 0.04,
                   child: BackButton(
                     color: Color.fromARGB(255, 255, 255, 255),
                   ),
@@ -422,6 +422,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                       const SizedBox(height: 10),
                       // Inner White Card with the Flight Form
                       Container(
+                        height: screenHeight * 0.635,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(10),
@@ -434,557 +435,619 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                             ),
                           ],
                         ),
-                        padding: EdgeInsets.all(16),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Enter Details',
-                                      style: TextStyle(
-                                        fontSize: screenWidth * 0.035,
-                                        fontWeight: FontWeight.w600,
-                                        color: Color.fromARGB(255, 28, 31, 106),
-                                      ),
-                                    ),
-                                    SizedBox(height: 10),
-                                    Row(
-                                      children: [
-                                        // Length Input
-                                        Expanded(
-                                          flex: 4,
-                                          child: Container(
-                                            height: screenHeight * 0.05,
-                                            child: TextField(
-                                              controller: _lengthController,
-                                              focusNode: _lengthFocusNode,
-                                              decoration: InputDecoration(
-                                                labelText: 'Length',
-                                                floatingLabelBehavior:
-                                                    FloatingLabelBehavior.never,
-                                                labelStyle: TextStyle(
-                                                  fontSize: screenWidth * 0.035,
-                                                  color: Color(0xFFCEC5C5),
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                                enabledBorder:
-                                                    OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                    color: const Color.fromARGB(
-                                                        255, 206, 197, 197),
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.only(
-                                                    topLeft: Radius.circular(8),
-                                                    bottomLeft:
-                                                        Radius.circular(8),
-                                                  ),
-                                                ),
-                                                focusedBorder:
-                                                    OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                    color: const Color.fromARGB(
-                                                        255, 206, 197, 197),
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.only(
-                                                    topLeft: Radius.circular(8),
-                                                    bottomLeft:
-                                                        Radius.circular(8),
-                                                  ),
-                                                ),
-                                                contentPadding:
-                                                    EdgeInsets.symmetric(
-                                                        vertical: 10.0,
-                                                        horizontal: 12.0),
-                                              ),
-                                              style: TextStyle(
-                                                fontSize: screenWidth * 0.035,
-                                                color: Color(0xFF878282),
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                              keyboardType: TextInputType
-                                                  .numberWithOptions(
-                                                      decimal: true),
-                                              onEditingComplete: () {
-                                                FocusScope.of(context)
-                                                    .requestFocus(
-                                                        _widthFocusNode);
-                                              },
-                                            ),
-                                          ),
-                                        ),
-// Width Input
-                                        Expanded(
-                                          flex: 4,
-                                          child: Container(
-                                            height: screenHeight * 0.05,
-                                            child: TextField(
-                                              controller: _widthController,
-                                              focusNode: _widthFocusNode,
-                                              decoration: InputDecoration(
-                                                labelText: 'Width',
-                                                floatingLabelBehavior:
-                                                    FloatingLabelBehavior.never,
-                                                labelStyle: TextStyle(
-                                                  fontSize: screenWidth * 0.035,
-                                                  color: Color(0xFFCEC5C5),
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                                enabledBorder:
-                                                    OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                    color: const Color.fromARGB(
-                                                        255, 206, 197, 197),
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.only(
-                                                    topLeft: Radius.circular(0),
-                                                    bottomLeft:
-                                                        Radius.circular(0),
-                                                  ),
-                                                ),
-                                                focusedBorder:
-                                                    OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                    color: const Color.fromARGB(
-                                                        255, 206, 197, 197),
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.only(
-                                                    topLeft: Radius.circular(0),
-                                                    bottomLeft:
-                                                        Radius.circular(0),
-                                                  ),
-                                                ),
-                                                contentPadding:
-                                                    EdgeInsets.symmetric(
-                                                        vertical: 10.0,
-                                                        horizontal: 12.0),
-                                              ),
-                                              style: TextStyle(
-                                                fontSize: screenWidth * 0.035,
-                                                color: Color(0xFF878282),
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                              keyboardType: TextInputType
-                                                  .numberWithOptions(
-                                                      decimal: true),
-                                              onEditingComplete: () {
-                                                FocusScope.of(context)
-                                                    .requestFocus(
-                                                        _heightFocusNode);
-                                              },
-                                            ),
-                                          ),
-                                        ),
-
-                                        // Height Input
-                                        Expanded(
-                                          flex: 4,
-                                          child: Container(
-                                            height: screenHeight * 0.05,
-                                            child: TextField(
-                                              controller: _heightController,
-                                              focusNode: _heightFocusNode,
-                                              decoration: InputDecoration(
-                                                labelText: 'Height',
-                                                floatingLabelBehavior:
-                                                    FloatingLabelBehavior.never,
-                                                labelStyle: TextStyle(
-                                                  fontSize: screenWidth * 0.035,
-                                                  color: Color(0xFFCEC5C5),
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                                enabledBorder:
-                                                    OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                    color: const Color.fromARGB(
-                                                        255, 206, 197, 197),
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.only(
-                                                    topLeft: Radius.circular(0),
-                                                    bottomLeft:
-                                                        Radius.circular(0),
-                                                  ),
-                                                ),
-                                                focusedBorder:
-                                                    OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                    color: const Color.fromARGB(
-                                                        255, 206, 197, 197),
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.only(
-                                                    topLeft: Radius.circular(0),
-                                                    bottomLeft:
-                                                        Radius.circular(0),
-                                                  ),
-                                                ),
-                                                contentPadding:
-                                                    EdgeInsets.symmetric(
-                                                        vertical: 10.0,
-                                                        horizontal: 12.0),
-                                              ),
-                                              style: TextStyle(
-                                                fontSize: screenWidth * 0.035,
-                                                color: Color(0xFF878282),
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                              keyboardType: TextInputType
-                                                  .numberWithOptions(
-                                                      decimal: true),
-                                              onEditingComplete: () {
-                                                FocusScope.of(context)
-                                                    .requestFocus(
-                                                        _piecesFocusNode);
-                                              },
-                                            ),
-                                          ),
-                                        ),
-
-// Unit (cm)
-                                        Container(
-                                          height: screenHeight * 0.05,
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 12.0),
-                                          decoration: BoxDecoration(
-                                            color: Color.fromARGB(
-                                                255, 206, 197, 197),
-                                            borderRadius: BorderRadius.only(
-                                              topRight: Radius.circular(8.0),
-                                              bottomRight: Radius.circular(8.0),
-                                            ),
-                                            border: Border.all(
-                                              color: const Color.fromARGB(
-                                                  255, 206, 197, 197),
-                                            ),
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                              'cm',
-                                              style: TextStyle(
-                                                fontSize: screenWidth * 0.045,
-                                                color: Color.fromARGB(
-                                                    255, 40, 41, 48),
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(height: screenHeight * 0.015),
-// Number of Pieces and Calculate Button
-                                    Row(
-                                      children: [
-                                        // Number of Pieces Input
-                                        Expanded(
-                                          flex: 5,
-                                          child: Container(
-                                            height: screenHeight * 0.05,
-                                            child: TextField(
-                                              controller: _piecesController,
-                                              focusNode: _piecesFocusNode,
-                                              decoration: InputDecoration(
-                                                labelText: 'Number of Pieces',
-                                                floatingLabelBehavior:
-                                                    FloatingLabelBehavior.never,
-                                                labelStyle: TextStyle(
-                                                  fontSize: screenWidth * 0.035,
-                                                  color: Color(0xFFCEC5C5),
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                                enabledBorder:
-                                                    OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                    color: const Color.fromARGB(
-                                                        255, 206, 197, 197),
-// Set your desired border color here
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          8.0),
-                                                ),
-                                                focusedBorder:
-                                                    OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                    color: const Color.fromARGB(
-                                                        255, 206, 197, 197),
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          8.0),
-                                                ),
-                                                contentPadding:
-                                                    EdgeInsets.symmetric(
-                                                  vertical: 10.0,
-                                                  horizontal: 12.0,
-                                                ),
-                                              ),
-                                              style: TextStyle(
-                                                fontSize: screenWidth * 0.035,
-                                                color: Color(0xFF878282),
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                              keyboardType:
-                                                  TextInputType.number,
-                                            ),
-                                          ),
-                                        ),
-
-                                        SizedBox(width: screenWidth * 0.03),
-                                        Expanded(
-                                          flex: 5,
-                                          child: ElevatedButton(
-                                            onPressed: () {
-                                              calculateVolume();
-                                              FocusScope.of(context).unfocus();
-                                            },
-                                            style: ElevatedButton.styleFrom(
-                                              padding: EdgeInsets.symmetric(
-                                                  vertical: 10),
-                                              backgroundColor: Color.fromARGB(
-                                                  255, 28, 31, 106),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10.0),
-                                              ),
-                                            ),
-                                            child: Text(
-                                              'Calculate',
-                                              style: TextStyle(
-                                                fontSize: screenWidth * 0.04,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(height: screenHeight * 0.02),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Container(
-                              height: screenHeight * 0.45,
-                              padding: EdgeInsets.all(0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.white,
-                              ),
-                              child: Column(
+                        child: SingleChildScrollView(
+                          padding: EdgeInsets.all(16),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  if (userSelections != null &&
-                                      userSelections.isNotEmpty) ...[
-                                    Text(
-                                      'Details per Cargo',
-                                      style: TextStyle(
-                                        fontSize: screenWidth * 0.035,
-                                        fontWeight: FontWeight.bold,
-                                        color: Color.fromARGB(255, 28, 31, 106),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Enter Details',
+                                        style: TextStyle(
+                                          fontSize: screenWidth * 0.035,
+                                          fontWeight: FontWeight.w600,
+                                          color:
+                                              Color.fromARGB(255, 28, 31, 106),
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                  Expanded(
-                                    child: ListView.builder(
-                                      padding: EdgeInsets.zero,
-                                      itemCount: userSelections.length,
-                                      itemBuilder: (context, index) {
-                                        final selection = userSelections[index];
-                                        return Container(
-                                          margin: EdgeInsets.symmetric(
-                                            vertical: screenHeight * 0.005,
-                                          ),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(3),
-                                            color: Colors.grey[200],
-                                          ),
-                                          child: ExpansionTile(
-                                            tilePadding: EdgeInsets.symmetric(
-                                                horizontal: screenWidth * 0.01),
-                                            title: Text(
-                                              'Cargo ${index + 1}',
-                                              style: TextStyle(
-                                                  fontSize: screenWidth * 0.035,
-                                                  fontWeight: FontWeight.w700,
-                                                  color: Color.fromARGB(
-                                                      255, 51, 51, 51)),
-                                            ),
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(0.2),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Expanded(
-                                                          child: Align(
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            child: Text(
-                                                              'Length: ${selection.length} cm',
-                                                              style: TextStyle(
-                                                                  fontSize: 11),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Expanded(
-                                                          child: Align(
-                                                            alignment: Alignment
-                                                                .center,
-                                                            child: Text(
-                                                              'Width: ${selection.width} cm',
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                      screenWidth *
-                                                                          0.025),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Expanded(
-                                                          child: Align(
-                                                            alignment: Alignment
-                                                                .centerRight,
-                                                            child: Text(
-                                                              'Height: ${selection.height} cm',
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                      screenWidth *
-                                                                          0.025),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
+                                      SizedBox(height: screenHeight * 0.001),
+                                      Row(
+                                        children: [
+                                          // Length Input
+                                          Expanded(
+                                            flex: 4,
+                                            child: Container(
+                                              height: screenHeight * 0.05,
+                                              child: TextField(
+                                                controller: _lengthController,
+                                                focusNode: _lengthFocusNode,
+                                                decoration: InputDecoration(
+                                                  labelText: 'Length',
+                                                  floatingLabelBehavior:
+                                                      FloatingLabelBehavior
+                                                          .never,
+                                                  labelStyle: TextStyle(
+                                                    fontSize:
+                                                        screenWidth * 0.035,
+                                                    color: Color(0xFFCEC5C5),
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                  enabledBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                      color:
+                                                          const Color.fromARGB(
+                                                              255,
+                                                              206,
+                                                              197,
+                                                              197),
                                                     ),
-                                                    SizedBox(
-                                                        height: screenHeight *
-                                                            0.005),
-                                                    Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Align(
-                                                          alignment: Alignment
-                                                              .centerLeft,
-                                                          child: Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .only(
-                                                                    right:
-                                                                        20.0),
-                                                            child: Text(
-                                                              'Pieces: ${selection.numberOfPieces}',
-                                                              style: TextStyle(
-                                                                  fontSize: 11),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                            width: screenWidth *
-                                                                0.02),
-                                                        Align(
-                                                          alignment: Alignment
-                                                              .centerLeft,
-                                                          child: Text(
-                                                            'Cubic cm: ${selection.finalTotal.toStringAsFixed(4)} cm³',
-                                                            style: TextStyle(
-                                                              fontSize:
-                                                                  screenWidth *
-                                                                      0.025,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color: Color
-                                                                  .fromARGB(
-                                                                      255,
-                                                                      28,
-                                                                      31,
-                                                                      106),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    )
-                                                  ],
+                                                    borderRadius:
+                                                        BorderRadius.only(
+                                                      topLeft:
+                                                          Radius.circular(8),
+                                                      bottomLeft:
+                                                          Radius.circular(8),
+                                                    ),
+                                                  ),
+                                                  focusedBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                      color:
+                                                          const Color.fromARGB(
+                                                              255,
+                                                              206,
+                                                              197,
+                                                              197),
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.only(
+                                                      topLeft:
+                                                          Radius.circular(8),
+                                                      bottomLeft:
+                                                          Radius.circular(8),
+                                                    ),
+                                                  ),
+                                                  contentPadding:
+                                                      EdgeInsets.symmetric(
+                                                          vertical: 10.0,
+                                                          horizontal: 12.0),
+                                                ),
+                                                style: TextStyle(
+                                                  fontSize: screenWidth * 0.035,
+                                                  color: Color(0xFF878282),
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                                keyboardType: TextInputType
+                                                    .numberWithOptions(
+                                                        decimal: true),
+                                                onEditingComplete: () {
+                                                  FocusScope.of(context)
+                                                      .requestFocus(
+                                                          _widthFocusNode);
+                                                },
+                                              ),
+                                            ),
+                                          ),
+// Width Input
+                                          Expanded(
+                                            flex: 4,
+                                            child: Container(
+                                              height: screenHeight * 0.05,
+                                              child: TextField(
+                                                controller: _widthController,
+                                                focusNode: _widthFocusNode,
+                                                decoration: InputDecoration(
+                                                  labelText: 'Width',
+                                                  floatingLabelBehavior:
+                                                      FloatingLabelBehavior
+                                                          .never,
+                                                  labelStyle: TextStyle(
+                                                    fontSize:
+                                                        screenWidth * 0.035,
+                                                    color: Color(0xFFCEC5C5),
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                  enabledBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                      color:
+                                                          const Color.fromARGB(
+                                                              255,
+                                                              206,
+                                                              197,
+                                                              197),
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.only(
+                                                      topLeft:
+                                                          Radius.circular(0),
+                                                      bottomLeft:
+                                                          Radius.circular(0),
+                                                    ),
+                                                  ),
+                                                  focusedBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                      color:
+                                                          const Color.fromARGB(
+                                                              255,
+                                                              206,
+                                                              197,
+                                                              197),
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.only(
+                                                      topLeft:
+                                                          Radius.circular(0),
+                                                      bottomLeft:
+                                                          Radius.circular(0),
+                                                    ),
+                                                  ),
+                                                  contentPadding:
+                                                      EdgeInsets.symmetric(
+                                                          vertical: 10.0,
+                                                          horizontal: 12.0),
+                                                ),
+                                                style: TextStyle(
+                                                  fontSize: screenWidth * 0.035,
+                                                  color: Color(0xFF878282),
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                                keyboardType: TextInputType
+                                                    .numberWithOptions(
+                                                        decimal: true),
+                                                onEditingComplete: () {
+                                                  FocusScope.of(context)
+                                                      .requestFocus(
+                                                          _heightFocusNode);
+                                                },
+                                              ),
+                                            ),
+                                          ),
+
+                                          // Height Input
+                                          Expanded(
+                                            flex: 4,
+                                            child: Container(
+                                              height: screenHeight * 0.05,
+                                              child: TextField(
+                                                controller: _heightController,
+                                                focusNode: _heightFocusNode,
+                                                decoration: InputDecoration(
+                                                  labelText: 'Height',
+                                                  floatingLabelBehavior:
+                                                      FloatingLabelBehavior
+                                                          .never,
+                                                  labelStyle: TextStyle(
+                                                    fontSize:
+                                                        screenWidth * 0.035,
+                                                    color: Color(0xFFCEC5C5),
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                  enabledBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                      color:
+                                                          const Color.fromARGB(
+                                                              255,
+                                                              206,
+                                                              197,
+                                                              197),
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.only(
+                                                      topLeft:
+                                                          Radius.circular(0),
+                                                      bottomLeft:
+                                                          Radius.circular(0),
+                                                    ),
+                                                  ),
+                                                  focusedBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                      color:
+                                                          const Color.fromARGB(
+                                                              255,
+                                                              206,
+                                                              197,
+                                                              197),
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.only(
+                                                      topLeft:
+                                                          Radius.circular(0),
+                                                      bottomLeft:
+                                                          Radius.circular(0),
+                                                    ),
+                                                  ),
+                                                  contentPadding:
+                                                      EdgeInsets.symmetric(
+                                                          vertical: 10.0,
+                                                          horizontal: 12.0),
+                                                ),
+                                                style: TextStyle(
+                                                  fontSize: screenWidth * 0.035,
+                                                  color: Color(0xFF878282),
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                                keyboardType: TextInputType
+                                                    .numberWithOptions(
+                                                        decimal: true),
+                                                onEditingComplete: () {
+                                                  FocusScope.of(context)
+                                                      .requestFocus(
+                                                          _piecesFocusNode);
+                                                },
+                                              ),
+                                            ),
+                                          ),
+
+// Unit (cm)
+                                          Container(
+                                            height: screenHeight * 0.05,
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 12.0),
+                                            decoration: BoxDecoration(
+                                              color: Color.fromARGB(
+                                                  255, 206, 197, 197),
+                                              borderRadius: BorderRadius.only(
+                                                topRight: Radius.circular(8.0),
+                                                bottomRight:
+                                                    Radius.circular(8.0),
+                                              ),
+                                              border: Border.all(
+                                                color: const Color.fromARGB(
+                                                    255, 206, 197, 197),
+                                              ),
+                                            ),
+                                            child: Center(
+                                              child: Text(
+                                                'cm',
+                                                style: TextStyle(
+                                                  fontSize: screenWidth * 0.045,
+                                                  color: Color.fromARGB(
+                                                      255, 4, 20, 111),
+                                                  fontWeight: FontWeight.bold,
                                                 ),
                                               ),
-                                            ],
+                                            ),
                                           ),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                  Divider(),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      ElevatedButton(
-                                        onPressed: clearSelections,
-                                        style: ElevatedButton.styleFrom(
-                                          foregroundColor:
-                                              Color.fromARGB(255, 28, 31, 106),
-                                          backgroundColor: Colors.white,
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: buttonPadding,
-                                              vertical: 5),
-                                          side: BorderSide(
-                                              color: Color.fromARGB(
-                                                  255, 28, 31, 106),
-                                              width: 1),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                        ),
-                                        child: Text(
-                                          'Clear',
-                                          style: TextStyle(
-                                              fontSize: screenWidth * 0.04,
-                                              fontWeight: FontWeight.bold,
-                                              color: Color.fromARGB(
-                                                  255, 28, 31, 106)),
-                                        ),
+                                        ],
                                       ),
+                                      SizedBox(height: screenHeight * 0.01),
+// Number of Pieces and Calculate Button
+                                      Row(
+                                        children: [
+                                          // Number of Pieces Input
+                                          Expanded(
+                                            flex: 5,
+                                            child: Container(
+                                              height: screenHeight * 0.05,
+                                              child: TextField(
+                                                controller: _piecesController,
+                                                focusNode: _piecesFocusNode,
+                                                decoration: InputDecoration(
+                                                  labelText: 'Number of Pieces',
+                                                  floatingLabelBehavior:
+                                                      FloatingLabelBehavior
+                                                          .never,
+                                                  labelStyle: TextStyle(
+                                                    fontSize:
+                                                        screenWidth * 0.035,
+                                                    color: Color(0xFFCEC5C5),
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                  enabledBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                      color:
+                                                          const Color.fromARGB(
+                                                              255,
+                                                              206,
+                                                              197,
+                                                              197),
+// Set your desired border color here
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.0),
+                                                  ),
+                                                  focusedBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                      color:
+                                                          const Color.fromARGB(
+                                                              255,
+                                                              206,
+                                                              197,
+                                                              197),
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.0),
+                                                  ),
+                                                  contentPadding:
+                                                      EdgeInsets.symmetric(
+                                                    vertical: 10.0,
+                                                    horizontal: 12.0,
+                                                  ),
+                                                ),
+                                                style: TextStyle(
+                                                  fontSize: screenWidth * 0.035,
+                                                  color: Color(0xFF878282),
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                                keyboardType:
+                                                    TextInputType.number,
+                                              ),
+                                            ),
+                                          ),
+
+                                          SizedBox(width: screenWidth * 0.03),
+                                          Expanded(
+                                            flex: 5,
+                                            child: ElevatedButton(
+                                              onPressed: () {
+                                                calculateVolume();
+                                                FocusScope.of(context)
+                                                    .unfocus();
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 10),
+                                                backgroundColor: Color.fromARGB(
+                                                    255, 28, 31, 106),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.0),
+                                                ),
+                                              ),
+                                              child: Text(
+                                                'Calculate',
+                                                style: TextStyle(
+                                                  fontSize: screenWidth * 0.04,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: screenHeight * 0.01),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              Container(
+                                height: screenHeight * 0.43,
+                                padding: EdgeInsets.all(0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.white,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    if (userSelections != null &&
+                                        userSelections.isNotEmpty) ...[
                                       Text(
-                                        'Total: ${totalCBM.toStringAsFixed(4)} cm³',
+                                        'Details per Cargo',
                                         style: TextStyle(
-                                          fontSize: screenWidth * 0.045,
+                                          fontSize: screenWidth * 0.035,
                                           fontWeight: FontWeight.bold,
                                           color:
                                               Color.fromARGB(255, 28, 31, 106),
                                         ),
                                       ),
                                     ],
-                                  ),
-                                ],
+                                    Expanded(
+                                      child: ListView.builder(
+                                        padding: EdgeInsets.zero,
+                                        itemCount: userSelections.length,
+                                        itemBuilder: (context, index) {
+                                          final selection =
+                                              userSelections[index];
+                                          return Container(
+                                            margin: EdgeInsets.symmetric(
+                                              vertical: screenHeight * 0.005,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(3),
+                                              color: Colors.grey[200],
+                                            ),
+                                            child: ExpansionTile(
+                                              tilePadding: EdgeInsets.symmetric(
+                                                  horizontal:
+                                                      screenWidth * 0.01),
+                                              title: Text(
+                                                'Cargo ${index + 1}',
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        screenWidth * 0.035,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: Color.fromARGB(
+                                                        255, 51, 51, 51)),
+                                              ),
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(0.2),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Expanded(
+                                                            child: Align(
+                                                              alignment: Alignment
+                                                                  .centerLeft,
+                                                              child: Text(
+                                                                'Length: ${selection.length} cm',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        11),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Expanded(
+                                                            child: Align(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              child: Text(
+                                                                'Width: ${selection.width} cm',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        screenWidth *
+                                                                            0.025),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Expanded(
+                                                            child: Align(
+                                                              alignment: Alignment
+                                                                  .centerRight,
+                                                              child: Text(
+                                                                'Height: ${selection.height} cm',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        screenWidth *
+                                                                            0.025),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      SizedBox(
+                                                          height: screenHeight *
+                                                              0.005),
+                                                      Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Align(
+                                                            alignment: Alignment
+                                                                .centerLeft,
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .only(
+                                                                      right:
+                                                                          20.0),
+                                                              child: Text(
+                                                                'Pieces: ${selection.numberOfPieces}',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        11),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                              width:
+                                                                  screenWidth *
+                                                                      0.02),
+                                                          Align(
+                                                            alignment: Alignment
+                                                                .centerLeft,
+                                                            child: Text(
+                                                              'Cubic cm: ${selection.finalTotal.toStringAsFixed(4)} cm³',
+                                                              style: TextStyle(
+                                                                fontSize:
+                                                                    screenWidth *
+                                                                        0.025,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: Color
+                                                                    .fromARGB(
+                                                                        255,
+                                                                        28,
+                                                                        31,
+                                                                        106),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    Divider(),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        ElevatedButton(
+                                          onPressed: clearSelections,
+                                          style: ElevatedButton.styleFrom(
+                                            foregroundColor: Color.fromARGB(
+                                                255, 28, 31, 106),
+                                            backgroundColor: Colors.white,
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: buttonPadding,
+                                                vertical: 5),
+                                            side: BorderSide(
+                                                color: Color.fromARGB(
+                                                    255, 28, 31, 106),
+                                                width: 1),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                          ),
+                                          child: Text(
+                                            'Clear',
+                                            style: TextStyle(
+                                                fontSize: screenWidth * 0.04,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color.fromARGB(
+                                                    255, 28, 31, 106)),
+                                          ),
+                                        ),
+                                        Text(
+                                          'Total: ${totalCBM.toStringAsFixed(4)} cm³',
+                                          style: TextStyle(
+                                            fontSize: screenWidth * 0.045,
+                                            fontWeight: FontWeight.bold,
+                                            color: Color.fromARGB(
+                                                255, 28, 31, 106),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                      SizedBox(height: screenHeight * 0.2),
+                      SizedBox(height: screenHeight * 0.15),
                     ],
                   ),
                 ),
@@ -992,7 +1055,6 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
             ],
           ),
         ),
-        // Bottom Navigation Bar
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
             color: Colors.white,
@@ -1004,40 +1066,48 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
               ),
             ],
           ),
-          child: BottomNavigationBar(
-            backgroundColor: Colors.white,
-            elevation: 0,
-            items: [
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  'assets/images/home_icon.svg',
-                  height: screenHeight * .03,
-                  width: screenWidth * .03,
-                ),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  'assets/images/contact_us_icon.svg',
-                  height: screenHeight * .03,
-                  width: screenWidth * .03,
-                ),
-                label: 'Contact Us',
-              ),
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  'assets/images/about_us_icon.svg',
-                  height: screenHeight * .03,
-                  width: screenWidth * .03,
-                ),
-                label: 'About Us',
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                  height: screenHeight *
+                      0.006), // Change this height to increase space
+              BottomNavigationBar(
+                backgroundColor: Colors.white,
+                elevation: 0,
+                items: [
+                  BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      'assets/images/home_icon.svg',
+                      height: screenHeight * .03,
+                      width: screenWidth * .03,
+                    ),
+                    label: 'Home',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      'assets/images/contact_us_icon.svg',
+                      height: screenHeight * .03,
+                      width: screenWidth * .03,
+                    ),
+                    label: 'Contact Us',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      'assets/images/about_us_icon.svg',
+                      height: screenHeight * .03,
+                      width: screenWidth * .03,
+                    ),
+                    label: 'About Us',
+                  ),
+                ],
+                selectedItemColor: Color.fromARGB(255, 28, 31, 106),
+                unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
+                onTap: (index) {
+                  _handleNavigation(index, context);
+                },
               ),
             ],
-            selectedItemColor: Color.fromARGB(255, 28, 31, 106),
-            unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
-            onTap: (index) {
-              _handleNavigation(index, context);
-            },
           ),
         ),
       ),

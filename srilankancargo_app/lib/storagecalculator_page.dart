@@ -820,15 +820,15 @@ class _StorageCalPageState extends State<StorageCalPage> {
               child: Image.asset(
                 'assets/images/storage_calculator.png',
                 fit: BoxFit.cover,
-                height: 185,
+                height: screenHeight * 0.23,
               ),
             ),
             Positioned(
               top: screenHeight * 0.04,
               left: screenWidth * 0.001,
               child: SizedBox(
-                width: 58,
-                height: 48,
+                width: screenWidth * .12,
+                height: screenHeight * 0.04,
                 child: BackButton(
                   color: Color.fromARGB(255, 255, 255, 255),
                 ),
@@ -869,6 +869,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                     SizedBox(height: screenHeight * 0.01),
                     // Inner White Card with the Flight Form
                     Container(
+                      height: screenHeight * 0.65,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10),
@@ -881,451 +882,464 @@ class _StorageCalPageState extends State<StorageCalPage> {
                           ),
                         ],
                       ),
-                      padding: EdgeInsets.all(16),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Flight Actual Arrival Date',
-                            style: TextStyle(
-                                fontSize: screenWidth * 0.035,
-                                fontWeight: FontWeight.w600,
-                                color: Color.fromARGB(255, 28, 31, 106)),
-                          ),
-                          Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.0),
-                              color: const Color.fromARGB(255, 245, 245, 245),
-                              border: Border.all(
-                                color: Color.fromARGB(255, 204, 203, 203),
-                                width: 1.0,
-                              ),
+                      child: SingleChildScrollView(
+                        padding: EdgeInsets.all(16),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Flight Actual Arrival Date',
+                              style: TextStyle(
+                                  fontSize: screenWidth * 0.035,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color.fromARGB(255, 28, 31, 106)),
                             ),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 5.0),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: TextButton(
+                            Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.0),
+                                color: const Color.fromARGB(255, 245, 245, 245),
+                                border: Border.all(
+                                  color: Color.fromARGB(255, 204, 203, 203),
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 5.0),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: TextButton(
+                                        onPressed: () =>
+                                            _selectedDate(context, true),
+                                        child: Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            _arrivalDate == null
+                                                ? 'YYYY-MM-DD'
+                                                : 'Arrival: ${_arrivalDate.toString().split(' ')[0]}',
+                                            style: TextStyle(
+                                              color: _arrivalDate == null
+                                                  ? Color.fromARGB(
+                                                      255, 204, 203, 203)
+                                                  : const Color.fromARGB(
+                                                      255, 135, 130, 130),
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    IconButton(
                                       onPressed: () =>
                                           _selectedDate(context, true),
-                                      child: Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          _arrivalDate == null
-                                              ? 'YYYY-MM-DD'
-                                              : 'Arrival: ${_arrivalDate.toString().split(' ')[0]}',
-                                          style: TextStyle(
-                                            color: _arrivalDate == null
-                                                ? Color.fromARGB(
-                                                    255, 204, 203, 203)
-                                                : const Color.fromARGB(
-                                                    255, 135, 130, 130),
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 14,
+                                      icon: Icon(Icons.calendar_today,
+                                          color:
+                                              Color.fromARGB(255, 93, 93, 93)),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: screenHeight * 0.01),
+                            Text(
+                              'Flight Cargo Clearing Date',
+                              style: TextStyle(
+                                  fontSize: screenWidth * 0.035,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color.fromARGB(255, 28, 31, 106)),
+                            ),
+                            Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.0),
+                                color: Color.fromARGB(255, 245, 245, 245),
+                                border: Border.all(
+                                  color: Color.fromARGB(255, 204, 203, 203),
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 5.0),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: TextButton(
+                                        onPressed: () =>
+                                            _selectedDate(context, false),
+                                        child: Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            _clearingDate == null
+                                                ? 'YYYY-MM-DD'
+                                                : 'Clearing: ${_clearingDate.toString().split(' ')[0]}',
+                                            style: TextStyle(
+                                              color: _clearingDate == null
+                                                  ? Color.fromARGB(
+                                                      255, 204, 203, 203)
+                                                  : const Color.fromARGB(
+                                                      255, 135, 130, 130),
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: screenWidth * 0.035,
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  IconButton(
-                                    onPressed: () =>
-                                        _selectedDate(context, true),
-                                    icon: Icon(Icons.calendar_today,
-                                        color: Color.fromARGB(255, 93, 93, 93)),
-                                  ),
-                                ],
+                                    IconButton(
+                                      onPressed: () =>
+                                          _selectedDate(context, false),
+                                      icon: Icon(Icons.calendar_today,
+                                          color:
+                                              Color.fromARGB(255, 93, 93, 93)),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          SizedBox(height: screenHeight * 0.01),
-                          Text(
-                            'Flight Cargo Clearing Date',
-                            style: TextStyle(
+                            SizedBox(height: screenHeight * 0.01),
+                            Text(
+                              'Chargeable Weight',
+                              style: TextStyle(
                                 fontSize: screenWidth * 0.035,
                                 fontWeight: FontWeight.w600,
-                                color: Color.fromARGB(255, 28, 31, 106)),
-                          ),
-                          Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.0),
-                              color: Color.fromARGB(255, 245, 245, 245),
-                              border: Border.all(
-                                color: Color.fromARGB(255, 204, 203, 203),
-                                width: 1.0,
+                                color: Color.fromARGB(255, 28, 31, 106),
                               ),
                             ),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 5.0),
+                            Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.0),
+                                color: Color.fromARGB(255, 245, 245, 245),
+                                border: Border.all(
+                                  color: Color.fromARGB(255, 204, 203, 203),
+                                  width: 1.0,
+                                ),
+                              ),
                               child: Row(
                                 children: [
                                   Expanded(
-                                    child: TextButton(
-                                      onPressed: () =>
-                                          _selectedDate(context, false),
-                                      child: Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          _clearingDate == null
-                                              ? 'YYYY-MM-DD'
-                                              : 'Clearing: ${_clearingDate.toString().split(' ')[0]}',
-                                          style: TextStyle(
-                                            color: _clearingDate == null
-                                                ? Color.fromARGB(
-                                                    255, 204, 203, 203)
-                                                : const Color.fromARGB(
-                                                    255, 135, 130, 130),
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: screenWidth * 0.035,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0),
+                                      child: TextFormField(
+                                        controller: _weightController,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.symmetric(
+                                            vertical: screenHeight * 0.018,
+                                            horizontal: screenHeight * 0.008,
                                           ),
+                                          hintText: 'Chargeable Weight',
+                                          hintStyle: TextStyle(
+                                            color: const Color.fromARGB(
+                                                255, 204, 203, 203),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: customizationValues[
+                                                    'fontSize'] ??
+                                                14.0,
+                                          ),
+                                          border: InputBorder.none,
+                                          errorText: _weightErrorMessage,
                                         ),
-                                      ),
-                                    ),
-                                  ),
-                                  IconButton(
-                                    onPressed: () =>
-                                        _selectedDate(context, false),
-                                    icon: Icon(Icons.calendar_today,
-                                        color: Color.fromARGB(255, 93, 93, 93)),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: screenHeight * 0.01),
-                          Text(
-                            'Chargeable Weight',
-                            style: TextStyle(
-                              fontSize: screenWidth * 0.035,
-                              fontWeight: FontWeight.w600,
-                              color: Color.fromARGB(255, 28, 31, 106),
-                            ),
-                          ),
-                          Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.0),
-                              color: Color.fromARGB(255, 245, 245, 245),
-                              border: Border.all(
-                                color: Color.fromARGB(255, 204, 203, 203),
-                                width: 1.0,
-                              ),
-                            ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0),
-                                    child: TextFormField(
-                                      controller: _weightController,
-                                      decoration: InputDecoration(
-                                        contentPadding: EdgeInsets.symmetric(
-                                          vertical: 18.0,
-                                          horizontal: 8.0,
-                                        ),
-                                        hintText: 'Chargeable Weight',
-                                        hintStyle: TextStyle(
-                                          color: const Color.fromARGB(
-                                              255, 204, 203, 203),
-                                          fontWeight: FontWeight.bold,
+                                        style: TextStyle(
                                           fontSize:
                                               customizationValues['fontSize'] ??
                                                   14.0,
+                                          color: const Color.fromARGB(
+                                              255, 135, 130, 130),
+                                          fontWeight: FontWeight.bold,
                                         ),
-                                        border: InputBorder.none,
-                                        errorText: _weightErrorMessage,
+                                        keyboardType:
+                                            TextInputType.numberWithOptions(
+                                                decimal: true),
+                                        onChanged: (value) {
+                                          setState(() {
+                                            _weightErrorMessage = double
+                                                        .tryParse(value) ==
+                                                    null
+                                                ? 'Invalid number. Please try again.'
+                                                : null;
+                                          });
+                                        },
                                       ),
+                                    ),
+                                  ),
+                                  // Box with "kg" on the right
+                                  Container(
+                                    height: screenHeight * 0.06,
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 12.0),
+                                    decoration: BoxDecoration(
+                                      color: Color.fromARGB(255, 206, 197, 197),
+                                      borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(8.0),
+                                        bottomRight: Radius.circular(8.0),
+                                      ),
+                                      border: Border.all(
+                                        color: const Color.fromARGB(
+                                            255, 206, 197, 197),
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        'kg',
+                                        style: TextStyle(
+                                          fontSize: screenWidth * 0.045,
+                                          color:
+                                              Color.fromARGB(255, 4, 20, 111),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            Text(
+                              'Cargo Type',
+                              style: TextStyle(
+                                  fontSize: screenWidth * 0.035,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color.fromARGB(255, 28, 31, 106)),
+                            ),
+                            Container(
+                              width: double.infinity,
+                              padding: EdgeInsets.symmetric(horizontal: 15),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.0),
+                                color: Colors.grey[100],
+                                border: Border.all(
+                                    color: Color.fromARGB(255, 204, 203, 203),
+                                    width: 1.0),
+                              ),
+                              child: Transform.translate(
+                                offset: Offset(-1.0, 0.0),
+                                child: DropdownButton<String>(
+                                  icon: Icon(Icons.arrow_drop_down),
+                                  iconSize: 36.0,
+                                  underline: SizedBox(),
+                                  style: TextStyle(
+                                      fontSize:
+                                          customizationValues['fontSize'] ??
+                                              14.0,
+                                      color: const Color.fromARGB(
+                                          255, 135, 130, 130),
+                                      fontWeight: FontWeight.bold),
+                                  hint: Text('Select Cargo Type',
                                       style: TextStyle(
-                                        fontSize:
-                                            customizationValues['fontSize'] ??
-                                                14.0,
-                                        color: const Color.fromARGB(
-                                            255, 135, 130, 130),
-                                        fontWeight: FontWeight.bold,
+                                          color: const Color.fromARGB(
+                                              255, 204, 203, 203),
+                                          fontWeight: FontWeight.bold)),
+                                  value: _selectedCargoType,
+                                  isExpanded: true,
+                                  items: <String>[
+                                    'General Cargo',
+                                    'Special Cargo',
+                                    'Courier',
+                                    'Courier Detained',
+                                    'Courier House Airway Bill'
+                                  ].map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(value),
+                                          if (value == 'Special Cargo')
+                                            IconButton(
+                                              icon: Icon(Icons.info_outline,
+                                                  size: 20.0),
+                                              onPressed: _showInfoDialog,
+                                            ),
+                                        ],
                                       ),
-                                      keyboardType:
-                                          TextInputType.numberWithOptions(
-                                              decimal: true),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          _weightErrorMessage = double.tryParse(
-                                                      value) ==
-                                                  null
-                                              ? 'Invalid number. Please try again.'
-                                              : null;
-                                        });
-                                      },
-                                    ),
-                                  ),
+                                    );
+                                  }).toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _selectedCargoType = value;
+                                    });
+                                  },
                                 ),
-                                // Box with "kg" on the right
-                                Container(
-                                  height: screenHeight * 0.057,
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: screenWidth * 0.012),
-                                  decoration: BoxDecoration(
-                                    color: Color.fromARGB(255, 170, 170,
-                                        170), // Darker grey background
-                                    borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(8.0),
-                                      bottomRight: Radius.circular(8.0),
-                                    ),
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    'kg',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: screenWidth * 0.035,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            'Cargo Type',
-                            style: TextStyle(
-                                fontSize: screenWidth * 0.035,
-                                fontWeight: FontWeight.w600,
-                                color: Color.fromARGB(255, 28, 31, 106)),
-                          ),
-                          Container(
-                            width: double.infinity,
-                            padding: EdgeInsets.symmetric(horizontal: 15),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.0),
-                              color: Colors.grey[100],
-                              border: Border.all(
+                            SizedBox(height: screenHeight * 0.01),
+                            Text(
+                              'Room Type',
+                              style: TextStyle(
+                                  fontSize: screenWidth * 0.035,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color.fromARGB(255, 28, 31, 106)),
+                            ),
+                            Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.0),
+                                color: Color.fromARGB(255, 245, 245, 245),
+                                border: Border.all(
                                   color: Color.fromARGB(255, 204, 203, 203),
-                                  width: 1.0),
-                            ),
-                            child: Transform.translate(
-                              offset: Offset(-1.0, 0.0),
-                              child: DropdownButton<String>(
-                                icon: Icon(Icons.arrow_drop_down),
-                                iconSize: 36.0,
-                                underline: SizedBox(),
-                                style: TextStyle(
-                                    fontSize:
-                                        customizationValues['fontSize'] ?? 14.0,
-                                    color: const Color.fromARGB(
-                                        255, 135, 130, 130),
-                                    fontWeight: FontWeight.bold),
-                                hint: Text('Select Cargo Type',
-                                    style: TextStyle(
-                                        color: const Color.fromARGB(
-                                            255, 204, 203, 203),
-                                        fontWeight: FontWeight.bold)),
-                                value: _selectedCargoType,
-                                isExpanded: true,
-                                items: <String>[
-                                  'General Cargo',
-                                  'Special Cargo',
-                                  'Courier',
-                                  'Courier Detained',
-                                  'Courier House Airway Bill'
-                                ].map((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(value),
-                                        if (value == 'Special Cargo')
-                                          IconButton(
-                                            icon: Icon(Icons.info_outline,
-                                                size: 20.0),
-                                            onPressed: _showInfoDialog,
-                                          ),
-                                      ],
-                                    ),
-                                  );
-                                }).toList(),
-                                onChanged: (value) {
-                                  setState(() {
-                                    _selectedCargoType = value;
-                                  });
-                                },
+                                  width: 1.0,
+                                ),
                               ),
-                            ),
-                          ),
-                          SizedBox(height: screenHeight * 0.01),
-                          Text(
-                            'Room Type',
-                            style: TextStyle(
-                                fontSize: screenWidth * 0.035,
-                                fontWeight: FontWeight.w600,
-                                color: Color.fromARGB(255, 28, 31, 106)),
-                          ),
-                          Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.0),
-                              color: Color.fromARGB(255, 245, 245, 245),
-                              border: Border.all(
-                                color: Color.fromARGB(255, 204, 203, 203),
-                                width: 1.0,
-                              ),
-                            ),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16.0),
-                              child: DropdownButton<String>(
-                                icon: Icon(Icons.arrow_drop_down),
-                                iconSize: 36.0,
-                                underline: SizedBox(),
-                                style: TextStyle(
-                                    fontSize:
-                                        customizationValues['fontSize'] ?? 14.0,
-                                    color: const Color.fromARGB(
-                                        255, 135, 130, 130),
-                                    fontWeight: FontWeight.bold),
-                                hint: Text('Select Room Type',
-                                    style: TextStyle(
-                                        color: const Color.fromARGB(
-                                            255, 204, 203, 203),
-                                        fontWeight: FontWeight.bold)),
-                                value: _selectedLocation,
-                                isExpanded: true,
-                                items: <String>[
-                                  'Normal Room',
-                                  'Cool Room (20 to -20 degrees celcius)'
-                                ].map((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  );
-                                }).toList(),
-                                onChanged: (String? newValue) {
-                                  setState(() {
-                                    _selectedLocation = newValue;
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: screenHeight * 0.01),
-                          Text(
-                            'Tax Type',
-                            style: TextStyle(
-                                fontSize: screenWidth * 0.035,
-                                fontWeight: FontWeight.w600,
-                                color: Color.fromARGB(255, 28, 31, 106)),
-                          ),
-                          Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.0),
-                              color: const Color.fromARGB(255, 245, 245, 245),
-                              border: Border.all(
-                                color: Color.fromARGB(255, 204, 203, 203),
-                                width: 1.0,
-                              ),
-                            ),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16.0),
-                              child: DropdownButton<String>(
-                                icon: Icon(Icons.arrow_drop_down),
-                                iconSize: 36.0,
-                                underline: SizedBox(),
-                                style: TextStyle(
-                                    fontSize:
-                                        customizationValues['fontSize'] ?? 14.0,
-                                    color: Color.fromARGB(255, 135, 130, 130),
-                                    fontWeight: FontWeight.bold),
-                                hint: Text('Select Tax Type',
-                                    style: TextStyle(
-                                        color: const Color.fromARGB(
-                                            255, 204, 203, 203),
-                                        fontWeight: FontWeight.bold)),
-                                value: _selectedTaxType,
-                                isExpanded: true,
-                                items: <String>['VAT', 'SVAT', 'No VAT']
-                                    .map((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  );
-                                }).toList(),
-                                onChanged: (String? newValue) {
-                                  setState(() {
-                                    _selectedTaxType = newValue;
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: screenHeight * 0.01),
-                          Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ElevatedButton(
-                                  onPressed: () {
-                                    _clearForm();
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0),
+                                child: DropdownButton<String>(
+                                  icon: Icon(Icons.arrow_drop_down),
+                                  iconSize: 36.0,
+                                  underline: SizedBox(),
+                                  style: TextStyle(
+                                      fontSize:
+                                          customizationValues['fontSize'] ??
+                                              14.0,
+                                      color: const Color.fromARGB(
+                                          255, 135, 130, 130),
+                                      fontWeight: FontWeight.bold),
+                                  hint: Text('Select Room Type',
+                                      style: TextStyle(
+                                          color: const Color.fromARGB(
+                                              255, 204, 203, 203),
+                                          fontWeight: FontWeight.bold)),
+                                  value: _selectedLocation,
+                                  isExpanded: true,
+                                  items: <String>[
+                                    'Normal Room',
+                                    'Cool Room (20 to -20 degrees celcius)'
+                                  ].map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      _selectedLocation = newValue;
+                                    });
                                   },
-                                  style: ElevatedButton.styleFrom(
-                                    foregroundColor:
-                                        Color.fromARGB(255, 28, 31, 106),
-                                    backgroundColor: Colors.white,
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: buttonPadding,
-                                        vertical: screenHeight * .01),
-                                    side: BorderSide(
-                                        color: Color.fromARGB(255, 28, 31, 106),
-                                        width: 1),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: screenHeight * 0.01),
+                            Text(
+                              'Tax Type',
+                              style: TextStyle(
+                                  fontSize: screenWidth * 0.035,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color.fromARGB(255, 28, 31, 106)),
+                            ),
+                            Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.0),
+                                color: const Color.fromARGB(255, 245, 245, 245),
+                                border: Border.all(
+                                  color: Color.fromARGB(255, 204, 203, 203),
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0),
+                                child: DropdownButton<String>(
+                                  icon: Icon(Icons.arrow_drop_down),
+                                  iconSize: 36.0,
+                                  underline: SizedBox(),
+                                  style: TextStyle(
+                                      fontSize:
+                                          customizationValues['fontSize'] ??
+                                              14.0,
+                                      color: Color.fromARGB(255, 135, 130, 130),
+                                      fontWeight: FontWeight.bold),
+                                  hint: Text('Select Tax Type',
+                                      style: TextStyle(
+                                          color: const Color.fromARGB(
+                                              255, 204, 203, 203),
+                                          fontWeight: FontWeight.bold)),
+                                  value: _selectedTaxType,
+                                  isExpanded: true,
+                                  items: <String>['VAT', 'SVAT', 'No VAT']
+                                      .map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      _selectedTaxType = newValue;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: screenHeight * 0.01),
+                            Center(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      _clearForm();
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      foregroundColor:
+                                          Color.fromARGB(255, 28, 31, 106),
+                                      backgroundColor: Colors.white,
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: buttonPadding,
+                                          vertical: screenHeight * .01),
+                                      side: BorderSide(
+                                          color:
+                                              Color.fromARGB(255, 28, 31, 106),
+                                          width: 1),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      'Clear',
+                                      style: TextStyle(
+                                          fontSize: screenWidth * 0.04,
+                                          fontWeight: FontWeight.bold,
+                                          color:
+                                              Color.fromARGB(255, 28, 31, 106)),
                                     ),
                                   ),
-                                  child: Text(
-                                    'Clear',
-                                    style: TextStyle(
+                                  const SizedBox(width: 8),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      _handleFormSubmision();
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: buttonPadding,
+                                          vertical: 10),
+                                      backgroundColor: Color.fromARGB(
+                                          255, 28, 31, 106), // Blue fill
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      'Calculate',
+                                      style: TextStyle(
                                         fontSize: screenWidth * 0.04,
-                                        fontWeight: FontWeight.bold,
-                                        color:
-                                            Color.fromARGB(255, 28, 31, 106)),
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    _handleFormSubmision();
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: buttonPadding,
-                                        vertical: 10),
-                                    backgroundColor: Color.fromARGB(
-                                        255, 28, 31, 106), // Blue fill
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
+                                        color: Color.fromARGB(255, 255, 255,
+                                            255), // White text color
+                                      ),
                                     ),
                                   ),
-                                  child: Text(
-                                    'Calculate',
-                                    style: TextStyle(
-                                      fontSize: screenWidth * 0.04,
-                                      color: Color.fromARGB(255, 255, 255,
-                                          255), // White text color
-                                    ),
-                                  ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                     SizedBox(height: screenHeight),
@@ -1336,7 +1350,6 @@ class _StorageCalPageState extends State<StorageCalPage> {
           ],
         ),
       ),
-      // Bottom Navigation Bar
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -1348,40 +1361,48 @@ class _StorageCalPageState extends State<StorageCalPage> {
             ),
           ],
         ),
-        child: BottomNavigationBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          items: [
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                'assets/images/home_icon.svg',
-                height: screenHeight * .03,
-                width: screenWidth * .03,
-              ),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                'assets/images/contact_us_icon.svg',
-                height: screenHeight * .03,
-                width: screenWidth * .03,
-              ),
-              label: 'Contact Us',
-            ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                'assets/images/about_us_icon.svg',
-                height: screenHeight * .03,
-                width: screenWidth * .03,
-              ),
-              label: 'About Us',
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+                height: screenHeight *
+                    0.006), // Change this height to increase space
+            BottomNavigationBar(
+              backgroundColor: Colors.white,
+              elevation: 0,
+              items: [
+                BottomNavigationBarItem(
+                  icon: SvgPicture.asset(
+                    'assets/images/home_icon.svg',
+                    height: screenHeight * .03,
+                    width: screenWidth * .03,
+                  ),
+                  label: 'Home',
+                ),
+                BottomNavigationBarItem(
+                  icon: SvgPicture.asset(
+                    'assets/images/contact_us_icon.svg',
+                    height: screenHeight * .03,
+                    width: screenWidth * .03,
+                  ),
+                  label: 'Contact Us',
+                ),
+                BottomNavigationBarItem(
+                  icon: SvgPicture.asset(
+                    'assets/images/about_us_icon.svg',
+                    height: screenHeight * .03,
+                    width: screenWidth * .03,
+                  ),
+                  label: 'About Us',
+                ),
+              ],
+              selectedItemColor: Color.fromARGB(255, 28, 31, 106),
+              unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
+              onTap: (index) {
+                _handleNavigation(index, context);
+              },
             ),
           ],
-          selectedItemColor: Color.fromARGB(255, 28, 31, 106),
-          unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
-          onTap: (index) {
-            _handleNavigation(index, context);
-          },
         ),
       ),
     );

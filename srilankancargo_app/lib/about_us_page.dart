@@ -154,7 +154,7 @@ class AboutUsPage extends StatelessWidget {
                               color: Color.fromARGB(255, 51, 51, 51),
                             ),
                           ),
-                          SizedBox(height: screenHeight * 0.1),
+                          SizedBox(height: screenHeight * 0.02),
                         ],
                       ),
                     ),
@@ -179,8 +179,6 @@ class AboutUsPage extends StatelessWidget {
           ),
         ],
       ),
-
-      // Bottom Navigation Bar
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -192,60 +190,68 @@ class AboutUsPage extends StatelessWidget {
             ),
           ],
         ),
-        child: BottomNavigationBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          items: [
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                'assets/images/home_icon.svg',
-                height: screenHeight * .03,
-                width: screenWidth * .03,
-              ),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                'assets/images/contact_us_icon.svg',
-                height: screenHeight * .03,
-                width: screenWidth * .03,
-              ),
-              label: 'Contact Us',
-            ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                'assets/images/about_us_icon.svg',
-                height: screenHeight * .03,
-                width: screenWidth * .03,
-              ),
-              label: 'About Us',
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+                height: screenHeight *
+                    0.006), // Change this height to increase space
+            BottomNavigationBar(
+              backgroundColor: Colors.white,
+              elevation: 0,
+              items: [
+                BottomNavigationBarItem(
+                  icon: SvgPicture.asset(
+                    'assets/images/home_icon.svg',
+                    height: screenHeight * .03,
+                    width: screenWidth * .03,
+                  ),
+                  label: 'Home',
+                ),
+                BottomNavigationBarItem(
+                  icon: SvgPicture.asset(
+                    'assets/images/contact_us_icon.svg',
+                    height: screenHeight * .03,
+                    width: screenWidth * .03,
+                  ),
+                  label: 'Contact Us',
+                ),
+                BottomNavigationBarItem(
+                  icon: SvgPicture.asset(
+                    'assets/images/about_us_icon.svg',
+                    height: screenHeight * .03,
+                    width: screenWidth * .03,
+                  ),
+                  label: 'About Us',
+                ),
+              ],
+              selectedItemColor: Color.fromARGB(255, 28, 31, 106),
+              unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
+              currentIndex: 2,
+              onTap: (index) {
+                if (index == 1) {
+                  // Navigate to Contact Us page
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ContactUsPage()));
+                } else if (index == 0) {
+                  // Navigate to Home page
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            MyHomePage(title: 'Flutter Demo Home Page')),
+                  );
+                } else if (index == 2) {
+                  // Navigate to About Us page
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AboutUsPage()),
+                  );
+                }
+              },
+              selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
             ),
           ],
-          selectedItemColor: Color.fromARGB(255, 28, 31, 106),
-          unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
-          currentIndex: 2,
-          onTap: (index) {
-            if (index == 1) {
-              // Navigate to Contact Us page
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ContactUsPage()));
-            } else if (index == 0) {
-              // Navigate to Home page
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        MyHomePage(title: 'Flutter Demo Home Page')),
-              );
-            } else if (index == 2) {
-              // Navigate to About Us page
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AboutUsPage()),
-              );
-            }
-          },
-          selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
         ),
       ),
     );

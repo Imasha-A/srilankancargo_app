@@ -301,15 +301,15 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                 child: Image.asset(
                   'assets/images/flight_status.png',
                   fit: BoxFit.cover,
-                  height: 185,
+                  height: screenHeight*0.23,
                 ),
               ),
               Positioned(
                 top: screenHeight * 0.04,
                 left: screenWidth * 0.001,
                 child: SizedBox(
-                  width: 58,
-                  height: 48,
+                width: screenWidth * .12,
+                  height: screenHeight * 0.04,
                   child: IconButton(
                     icon: Icon(Icons.arrow_back),
                     color: Color.fromARGB(255, 255, 255, 255),
@@ -524,7 +524,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                       ),
 
                       if (_flightInfo != null) ...[
-                        SizedBox(height: screenHeight * 0.05),
+                        SizedBox(height: screenHeight * 0.03),
                         Text(
                           'ON-SCHEDULE',
                           style: TextStyle(
@@ -533,7 +533,6 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                             color: Color.fromARGB(255, 15, 20, 158),
                           ),
                         ),
-                        SizedBox(height: screenHeight * 0.01),
 
                         Text.rich(
                           TextSpan(
@@ -587,7 +586,6 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                             ),
                           ],
                         ),
-                        SizedBox(height: screenHeight * 0.01),
 
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -628,7 +626,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                             )
                           ],
                         ),
-                        SizedBox(height: screenHeight * 0.018),
+                        SizedBox(height: screenHeight * 0.01),
                         Padding(
                           padding: EdgeInsets.only(left: screenWidth * 0.6),
                           child: ElevatedButton(
@@ -667,8 +665,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
             ],
           ),
         ),
-        // Bottom Navigation Bar
-        bottomNavigationBar: Container(
+         bottomNavigationBar: Container(
           decoration: BoxDecoration(
             color: Colors.white,
             boxShadow: [
@@ -679,43 +676,50 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
               ),
             ],
           ),
-          child: BottomNavigationBar(
-            backgroundColor: Colors.white,
-            elevation: 0,
-            items: [
-
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                'assets/images/home_icon.svg',
-                height: screenHeight * .03,
-                width: screenWidth * .03,
-              ),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                'assets/images/contact_us_icon.svg',
-                height: screenHeight * .03,
-                width: screenWidth * .03,
-              ),
-              label: 'Contact Us',
-            ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                'assets/images/about_us_icon.svg',
-                height: screenHeight * .03,
-                width: screenWidth * .03,
-              ),
-              label: 'About Us',
-            ),
-          ],
-          selectedItemColor: Color.fromARGB(255, 28, 31, 106),
-          unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
-          onTap: (index) {
-            _handleNavigation(index, context);
-          },
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                  height: screenHeight *
+                      0.006), // Change this height to increase space
+              BottomNavigationBar(
+                backgroundColor: Colors.white,
+                elevation: 0,
+                items: [
+                  BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      'assets/images/home_icon.svg',
+                      height: screenHeight * .03,
+                      width: screenWidth * .03,
+                    ),
+                    label: 'Home',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      'assets/images/contact_us_icon.svg',
+                      height: screenHeight * .03,
+                      width: screenWidth * .03,
+                    ),
+                    label: 'Contact Us',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      'assets/images/about_us_icon.svg',
+                      height: screenHeight * .03,
+                      width: screenWidth * .03,
+                    ),
+                    label: 'About Us',
+                  ),
+                ],
+            selectedItemColor: Color.fromARGB(255, 28, 31, 106),
+            unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
+            onTap: (index) {
+              _handleNavigation(index, context);
+            },
+          ),],
         ),
-      ),),
+      ),
+      ),
     );
   }
 

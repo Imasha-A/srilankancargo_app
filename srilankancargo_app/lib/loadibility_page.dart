@@ -423,8 +423,8 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
               top: screenHeight * 0.04,
               left: screenWidth * 0.001,
               child: SizedBox(
-                width: screenWidth * 0.048,
-                height: screenHeight * 0.048,
+                width: screenWidth * .12,
+                height: screenHeight * 0.04,
                 child: BackButton(
                   color: Color.fromARGB(255, 255, 255, 255), // Icon color
                 ),
@@ -465,6 +465,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                     SizedBox(height: screenHeight * 0.01),
                     // Inner White Card with the Flight Form
                     Container(
+                      height: screenHeight * 0.65,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10),
@@ -477,511 +478,530 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                           ),
                         ],
                       ),
-                      padding: EdgeInsets.all(16),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Enter Details',
-                            style: TextStyle(
-                              fontSize: screenWidth * 0.035,
-                              fontWeight: FontWeight.w600,
-                              color: Color.fromARGB(255, 28, 31, 106),
-                            ),
-                          ),
-                          Container(
-                            constraints: BoxConstraints(
-                              maxHeight: screenHeight * 0.065,
-                            ),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Color.fromARGB(255, 206, 197, 197),
-                                width: 1.0,
+                      child: SingleChildScrollView(
+                        padding: EdgeInsets.all(16),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Enter Details',
+                              style: TextStyle(
+                                fontSize: screenWidth * 0.035,
+                                fontWeight: FontWeight.w600,
+                                color: Color.fromARGB(255, 28, 31, 106),
                               ),
-                              borderRadius: BorderRadius.circular(8.0),
                             ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: screenHeight * 0.017),
-                                    child: TextField(
-                                      controller: _lengthController,
-                                      focusNode: _lengthFocusNode,
-                                      decoration: InputDecoration(
-                                        labelText: 'Length',
-                                        floatingLabelBehavior:
-                                            FloatingLabelBehavior.never,
-                                        labelStyle: TextStyle(
+                            Container(
+                              constraints: BoxConstraints(
+                                maxHeight: screenHeight * 0.065,
+                              ),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Color.fromARGB(255, 206, 197, 197),
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: screenHeight * 0.017),
+                                      child: TextField(
+                                        controller: _lengthController,
+                                        focusNode: _lengthFocusNode,
+                                        decoration: InputDecoration(
+                                          labelText: 'Length',
+                                          floatingLabelBehavior:
+                                              FloatingLabelBehavior.never,
+                                          labelStyle: TextStyle(
+                                            fontSize: screenWidth * 0.035,
+                                            color: const Color.fromARGB(
+                                                255, 206, 197, 197),
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          border: InputBorder.none,
+                                          contentPadding: EdgeInsets.symmetric(
+                                              vertical: screenHeight * 0.02),
+                                        ),
+                                        style: TextStyle(
+                                          fontSize: screenWidth * 0.035,
+                                          color: Color.fromARGB(
+                                              255, 135, 130, 130),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        keyboardType:
+                                            TextInputType.numberWithOptions(
+                                                decimal: true),
+                                        onEditingComplete: () {
+                                          FocusScope.of(context)
+                                              .requestFocus(_widthFocusNode);
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  // Unit (cm)
+                                  Container(
+                                    height: screenHeight * 0.08,
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 12.0),
+                                    decoration: BoxDecoration(
+                                      color: Color.fromARGB(255, 206, 197, 197),
+                                      borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(8.0),
+                                        bottomRight: Radius.circular(8.0),
+                                      ),
+                                      border: Border.all(
+                                        color: const Color.fromARGB(
+                                            255, 206, 197, 197),
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        'cm',
+                                        style: TextStyle(
+                                          fontSize: screenWidth * 0.045,
+                                          color:
+                                              Color.fromARGB(255, 4, 20, 111),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: screenHeight * 0.01),
+                            Container(
+                              constraints: BoxConstraints(
+                                maxHeight: screenHeight * 0.065,
+                              ),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Color.fromARGB(255, 206, 197, 197),
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: screenWidth * 0.038),
+                                      child: TextField(
+                                        controller: _widthController,
+                                        focusNode: _widthFocusNode,
+                                        decoration: InputDecoration(
+                                          labelText: 'Width',
+                                          floatingLabelBehavior:
+                                              FloatingLabelBehavior.never,
+                                          labelStyle: TextStyle(
+                                            fontSize: customizationValues[
+                                                    'fontSize'] ??
+                                                14.0,
+                                            color: const Color.fromARGB(
+                                                255, 206, 197, 197),
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          border: InputBorder.none,
+                                          contentPadding: EdgeInsets.symmetric(
+                                              vertical: screenHeight * 0.015),
+                                        ),
+                                        style: TextStyle(
                                           fontSize: screenWidth * 0.035,
                                           color: const Color.fromARGB(
-                                              255, 206, 197, 197),
+                                              255, 135, 130, 130),
                                           fontWeight: FontWeight.bold,
                                         ),
-                                        border: InputBorder.none,
-                                        contentPadding: EdgeInsets.symmetric(
-                                            vertical: screenHeight * 0.02),
+                                        keyboardType:
+                                            TextInputType.numberWithOptions(
+                                                decimal: true),
+                                        onEditingComplete: () {
+                                          FocusScope.of(context)
+                                              .requestFocus(_heightFocusNode);
+                                        },
                                       ),
-                                      style: TextStyle(
-                                        fontSize: screenWidth * 0.035,
-                                        color:
-                                            Color.fromARGB(255, 135, 130, 130),
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      keyboardType:
-                                          TextInputType.numberWithOptions(
-                                              decimal: true),
-                                      onEditingComplete: () {
-                                        FocusScope.of(context)
-                                            .requestFocus(_widthFocusNode);
-                                      },
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: screenWidth * 0.035,
-                                      vertical: screenHeight * 0.015),
-                                  decoration: BoxDecoration(
-                                    color: const Color.fromARGB(
-                                        255, 206, 197, 197),
-                                    borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(7.0),
-                                      bottomRight: Radius.circular(7.0),
-                                    ),
-                                  ),
-                                  child: Text(
-                                    'cm',
-                                    style: TextStyle(
-                                      fontSize:
-                                          customizationValues['fontSize'] ??
-                                              16.0,
-                                      color:
-                                          const Color.fromARGB(255, 51, 51, 51),
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: screenHeight * 0.015),
-                          Container(
-                            constraints: BoxConstraints(
-                              maxHeight: screenHeight * 0.065,
-                            ),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Color.fromARGB(255, 206, 197, 197),
-                                width: 1.0,
-                              ),
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: screenWidth * 0.038),
-                                    child: TextField(
-                                      controller: _widthController,
-                                      focusNode: _widthFocusNode,
-                                      decoration: InputDecoration(
-                                        labelText: 'Width',
-                                        floatingLabelBehavior:
-                                            FloatingLabelBehavior.never,
-                                        labelStyle: TextStyle(
-                                          fontSize:
-                                              customizationValues['fontSize'] ??
-                                                  14.0,
-                                          color: const Color.fromARGB(
-                                              255, 206, 197, 197),
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        border: InputBorder.none,
-                                        contentPadding: EdgeInsets.symmetric(
-                                            vertical: 15.0),
+                                  // Unit (cm)
+                                  Container(
+                                    height: screenHeight * 0.08,
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 12.0),
+                                    decoration: BoxDecoration(
+                                      color: Color.fromARGB(255, 206, 197, 197),
+                                      borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(8.0),
+                                        bottomRight: Radius.circular(8.0),
                                       ),
-                                      style: TextStyle(
-                                        fontSize: screenWidth * 0.035,
+                                      border: Border.all(
                                         color: const Color.fromARGB(
-                                            255, 135, 130, 130),
-                                        fontWeight: FontWeight.bold,
+                                            255, 206, 197, 197),
                                       ),
-                                      keyboardType:
-                                          TextInputType.numberWithOptions(
-                                              decimal: true),
-                                      onEditingComplete: () {
-                                        FocusScope.of(context)
-                                            .requestFocus(_heightFocusNode);
-                                      },
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        'cm',
+                                        style: TextStyle(
+                                          fontSize: screenWidth * 0.045,
+                                          color:
+                                              Color.fromARGB(255, 4, 20, 111),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: screenWidth * 0.035,
-                                      vertical: screenHeight * 0.015),
-                                  decoration: BoxDecoration(
-                                    color: const Color.fromARGB(
-                                        255, 206, 197, 197),
-                                    borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(7.0),
-                                      bottomRight: Radius.circular(7.0),
-                                    ),
-                                  ),
-                                  child: Text(
-                                    'cm',
-                                    style: TextStyle(
-                                      fontSize:
-                                          customizationValues['fontSize'] ??
-                                              16.0,
-                                      color:
-                                          const Color.fromARGB(255, 51, 51, 51),
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: screenHeight * 0.015),
-                          Container(
-                            constraints: BoxConstraints(
-                              maxHeight: screenHeight * 0.065,
-                            ),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Color.fromARGB(255, 206, 197, 197),
-                                width: 1.0,
+                                ],
                               ),
-                              borderRadius: BorderRadius.circular(8.0),
                             ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: screenWidth * 0.038),
-                                    child: TextField(
-                                      controller: _heightController,
-                                      focusNode: _heightFocusNode,
-                                      decoration: InputDecoration(
-                                        labelText: 'Height',
-                                        floatingLabelBehavior:
-                                            FloatingLabelBehavior.never,
-                                        labelStyle: TextStyle(
+                            SizedBox(height: screenHeight * 0.01),
+                            Container(
+                              constraints: BoxConstraints(
+                                maxHeight: screenHeight * 0.065,
+                              ),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Color.fromARGB(255, 206, 197, 197),
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: screenWidth * 0.038),
+                                      child: TextField(
+                                        controller: _heightController,
+                                        focusNode: _heightFocusNode,
+                                        decoration: InputDecoration(
+                                          labelText: 'Height',
+                                          floatingLabelBehavior:
+                                              FloatingLabelBehavior.never,
+                                          labelStyle: TextStyle(
+                                            fontSize: screenWidth * 0.035,
+                                            color: const Color.fromARGB(
+                                                255, 206, 197, 197),
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          border: InputBorder.none,
+                                          contentPadding: EdgeInsets.symmetric(
+                                              vertical: screenHeight * .015),
+                                        ),
+                                        style: TextStyle(
                                           fontSize: screenWidth * 0.035,
                                           color: const Color.fromARGB(
-                                              255, 206, 197, 197),
+                                              255, 135, 130, 130),
                                           fontWeight: FontWeight.bold,
                                         ),
-                                        border: InputBorder.none,
-                                        contentPadding: EdgeInsets.symmetric(
-                                            vertical: screenHeight * .015),
+                                        keyboardType:
+                                            TextInputType.numberWithOptions(
+                                                decimal: true),
                                       ),
-                                      style: TextStyle(
-                                        fontSize: screenWidth * 0.035,
+                                    ),
+                                  ),
+                                  // Unit (cm)
+                                  Container(
+                                    height: screenHeight * 0.08,
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 12.0),
+                                    decoration: BoxDecoration(
+                                      color: Color.fromARGB(255, 206, 197, 197),
+                                      borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(8.0),
+                                        bottomRight: Radius.circular(8.0),
+                                      ),
+                                      border: Border.all(
                                         color: const Color.fromARGB(
-                                            255, 135, 130, 130),
-                                        fontWeight: FontWeight.bold,
+                                            255, 206, 197, 197),
                                       ),
-                                      keyboardType:
-                                          TextInputType.numberWithOptions(
-                                              decimal: true),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        'cm',
+                                        style: TextStyle(
+                                          fontSize: screenWidth * 0.045,
+                                          color:
+                                              Color.fromARGB(255, 4, 20, 111),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: screenWidth * 0.035,
-                                      vertical: screenHeight * 0.015),
-                                  decoration: BoxDecoration(
-                                    color: const Color.fromARGB(
-                                        255, 206, 197, 197),
-                                    borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(7.0),
-                                      bottomRight: Radius.circular(7.0),
-                                    ),
-                                  ),
-                                  child: Text(
-                                    'cm',
-                                    style: TextStyle(
-                                      fontSize:
-                                          customizationValues['fontSize'] ??
-                                              16.0,
-                                      color:
-                                          const Color.fromARGB(255, 51, 51, 51),
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                          SizedBox(height: screenHeight * 0.005),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 0),
-                            child: Row(
-                              children: [
-                                Checkbox(
-                                  value: _isTiltedPermitted,
-                                  onChanged: (bool? newValue) {
-                                    setState(() {
-                                      _isTiltedPermitted = newValue ?? false;
-                                    });
-                                  },
-                                  activeColor:
-                                      const Color.fromARGB(255, 28, 31, 106),
-                                  checkColor:
-                                      Color.fromARGB(255, 255, 255, 255),
-                                ),
-                                Text(
-                                  'Tilted Permitted',
-                                  style: TextStyle(
-                                    color:
+
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 0),
+                              child: Row(
+                                children: [
+                                  Checkbox(
+                                    value: _isTiltedPermitted,
+                                    onChanged: (bool? newValue) {
+                                      setState(() {
+                                        _isTiltedPermitted = newValue ?? false;
+                                      });
+                                    },
+                                    activeColor:
                                         const Color.fromARGB(255, 28, 31, 106),
-                                    fontWeight: FontWeight.bold,
+                                    checkColor:
+                                        Color.fromARGB(255, 255, 255, 255),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: screenHeight * 0.005),
-                          // Aircraft Type Dropdown
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: screenWidth * 0.003),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Aircraft Type',
-                                  style: TextStyle(
-                                      fontSize: screenWidth * 0.035,
-                                      fontWeight: FontWeight.w600,
-                                      color: Color.fromARGB(255, 28, 31, 106)),
-                                ),
-                                SizedBox(height: screenHeight * 0.003),
-                                Container(
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    color: const Color.fromARGB(
-                                        255, 255, 255, 255),
-                                    border: Border.all(
-                                        color: const Color.fromARGB(
-                                            255, 206, 197, 197),
-                                        width: 1.0),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: screenWidth * 0.03),
-                                    child: DropdownButton<String>(
-                                      value: _selectedAircraftType,
-                                      icon: Container(
-                                        width: 20.0,
-                                        height: 35.0,
-                                        child: Icon(
-                                          Icons.arrow_drop_down,
-                                          size: 32.0,
-                                          color: Color.fromARGB(
-                                              255, 145, 145, 145),
-                                        ),
-                                      ),
-                                      iconSize: 30.0,
-                                      underline: SizedBox(),
-                                      style: TextStyle(
-                                        fontSize: screenWidth * 0.0035,
-                                        fontWeight: FontWeight.bold,
-                                        color: const Color.fromARGB(
-                                            255, 135, 130, 130),
-                                      ),
-                                      hint: Text(
-                                        'Select Aircraft Type',
-                                        style: TextStyle(
-                                          color: const Color.fromARGB(
-                                              255, 206, 197, 197),
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: screenWidth * 0.035,
-                                        ),
-                                      ),
-                                      isExpanded: true,
-                                      items: ['A320', 'A321', 'A320neo']
-                                          .map((String value) {
-                                        return DropdownMenuItem<String>(
-                                          value: value,
-                                          child: Text(value),
-                                        );
-                                      }).toList(),
-                                      onChanged: (String? newValue) {
-                                        setState(() {
-                                          _selectedAircraftType = newValue;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: screenHeight * 0.015),
-
-                          // Cargo Hold Dropdown
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: screenHeight * 0.003),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Cargo Hold',
-                                  style: TextStyle(
-                                      fontSize: screenWidth * 0.035,
-                                      fontWeight: FontWeight.w600,
-                                      color: Color.fromARGB(255, 28, 31, 106)),
-                                ),
-                                SizedBox(height: screenHeight * 0.003),
-                                Container(
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    color: const Color.fromARGB(
-                                        255, 255, 255, 255),
-                                    border: Border.all(
-                                        color: const Color.fromARGB(
-                                            255, 206, 197, 197),
-                                        width: 1.0),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16.0),
-                                    child: DropdownButton<String>(
-                                      value: _selectedCargoHold,
-                                      icon: Container(
-                                        width: 20.0,
-                                        height: 35.0,
-                                        child: Icon(
-                                          Icons.arrow_drop_down,
-                                          size: 32.0,
-                                          color: Color.fromARGB(
-                                              255, 145, 145, 145),
-                                        ),
-                                      ),
-                                      iconSize: 30.0,
-                                      underline: SizedBox(),
-                                      style: TextStyle(
-                                        fontSize: screenWidth * 0.035,
-                                        fontWeight: FontWeight.bold,
-                                        color: const Color.fromARGB(
-                                            255, 135, 130, 130),
-                                      ),
-                                      hint: Text(
-                                        'Select Cargo Hold',
-                                        style: TextStyle(
-                                          color: const Color.fromARGB(
-                                              255, 206, 197, 197),
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: screenWidth * 0.035,
-                                        ),
-                                      ),
-                                      isExpanded: true,
-                                      items: [
-                                        'Forward Cargo Hold',
-                                        'After Cargo Hold',
-                                        'Rear (bulk) Cargo Hold',
-                                      ].map((String value) {
-                                        return DropdownMenuItem<String>(
-                                          value: value,
-                                          child: Text(value),
-                                        );
-                                      }).toList(),
-                                      onChanged: (String? newValue) {
-                                        setState(() {
-                                          _selectedCargoHold = newValue;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          SizedBox(
-                            height: screenHeight * .014,
-                          ),
-                          Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ElevatedButton(
-                                  onPressed: clearSelections,
-                                  style: ElevatedButton.styleFrom(
-                                    foregroundColor:
-                                        Color.fromARGB(255, 28, 31, 106),
-                                    backgroundColor: Colors.white,
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: buttonPadding,
-                                        vertical: screenHeight * .01),
-                                    side: BorderSide(
-                                        color: Color.fromARGB(255, 28, 31, 106),
-                                        width: 1),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                  ),
-                                  child: Text(
-                                    'Clear',
+                                  Text(
+                                    'Tilted Permitted',
                                     style: TextStyle(
-                                        fontSize: screenWidth * 0.04,
-                                        fontWeight: FontWeight.bold,
+                                      color: const Color.fromARGB(
+                                          255, 28, 31, 106),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            // Aircraft Type Dropdown
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: screenWidth * 0.003),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Aircraft Type',
+                                    style: TextStyle(
+                                        fontSize: screenWidth * 0.035,
+                                        fontWeight: FontWeight.w600,
                                         color:
                                             Color.fromARGB(255, 28, 31, 106)),
                                   ),
-                                ),
-                                SizedBox(width: screenWidth * 0.03),
-                                // Existing Submit Button
-                                ElevatedButton(
-                                  onPressed: _lodabilityCheck,
-                                  style: ElevatedButton.styleFrom(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: buttonPadding,
-                                        vertical: screenHeight * 0.01),
-                                    backgroundColor:
-                                        Color.fromARGB(255, 28, 31, 106),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
+                                  SizedBox(height: screenHeight * 0.003),
+                                  Container(
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      color: const Color.fromARGB(
+                                          255, 255, 255, 255),
+                                      border: Border.all(
+                                          color: const Color.fromARGB(
+                                              255, 206, 197, 197),
+                                          width: 1.0),
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: screenWidth * 0.03),
+                                      child: DropdownButton<String>(
+                                        value: _selectedAircraftType,
+                                        icon: Container(
+                                          width: 20.0,
+                                          height: 35.0,
+                                          child: Icon(
+                                            Icons.arrow_drop_down,
+                                            size: 32.0,
+                                            color: Color.fromARGB(
+                                                255, 145, 145, 145),
+                                          ),
+                                        ),
+                                        iconSize: 30.0,
+                                        underline: SizedBox(),
+                                        style: TextStyle(
+                                          fontSize: screenWidth * 0.0035,
+                                          fontWeight: FontWeight.bold,
+                                          color: const Color.fromARGB(
+                                              255, 135, 130, 130),
+                                        ),
+                                        hint: Text(
+                                          'Select Aircraft Type',
+                                          style: TextStyle(
+                                            color: const Color.fromARGB(
+                                                255, 206, 197, 197),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: screenWidth * 0.035,
+                                          ),
+                                        ),
+                                        isExpanded: true,
+                                        items: ['A320', 'A321', 'A320neo']
+                                            .map((String value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value,
+                                            child: Text(value),
+                                          );
+                                        }).toList(),
+                                        onChanged: (String? newValue) {
+                                          setState(() {
+                                            _selectedAircraftType = newValue;
+                                          });
+                                        },
+                                      ),
                                     ),
                                   ),
-                                  child: Text(
-                                    'Calculate',
-                                    style: TextStyle(
-                                      fontSize: screenWidth * 0.04,
-                                      color: Color.fromARGB(255, 255, 255, 255),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            width: double.infinity,
-                            padding: EdgeInsets.all(5.0),
-                            child: Transform.translate(
-                              offset: Offset(-1.0, 0.0),
-                              child: Text(
-                                'Maximum Weight per Package : 150Kg',
-                                style: TextStyle(
-                                    fontSize: screenWidth * 0.035,
-                                    color: Color.fromARGB(255, 28, 31, 106),
-                                    fontWeight: FontWeight.bold),
+                                ],
                               ),
                             ),
-                          ),
-                        ],
+                            SizedBox(height: screenHeight * 0.01),
+
+                            // Cargo Hold Dropdown
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: screenHeight * 0.003),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Cargo Hold',
+                                    style: TextStyle(
+                                        fontSize: screenWidth * 0.035,
+                                        fontWeight: FontWeight.w600,
+                                        color:
+                                            Color.fromARGB(255, 28, 31, 106)),
+                                  ),
+                                  SizedBox(height: screenHeight * 0.002),
+                                  Container(
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      color: const Color.fromARGB(
+                                          255, 255, 255, 255),
+                                      border: Border.all(
+                                          color: const Color.fromARGB(
+                                              255, 206, 197, 197),
+                                          width: 1.0),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16.0),
+                                      child: DropdownButton<String>(
+                                        value: _selectedCargoHold,
+                                        icon: Container(
+                                          width: 20.0,
+                                          height: 35.0,
+                                          child: Icon(
+                                            Icons.arrow_drop_down,
+                                            size: 32.0,
+                                            color: Color.fromARGB(
+                                                255, 145, 145, 145),
+                                          ),
+                                        ),
+                                        iconSize: 30.0,
+                                        underline: SizedBox(),
+                                        style: TextStyle(
+                                          fontSize: screenWidth * 0.035,
+                                          fontWeight: FontWeight.bold,
+                                          color: const Color.fromARGB(
+                                              255, 135, 130, 130),
+                                        ),
+                                        hint: Text(
+                                          'Select Cargo Hold',
+                                          style: TextStyle(
+                                            color: const Color.fromARGB(
+                                                255, 206, 197, 197),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: screenWidth * 0.035,
+                                          ),
+                                        ),
+                                        isExpanded: true,
+                                        items: [
+                                          'Forward Cargo Hold',
+                                          'After Cargo Hold',
+                                          'Rear (bulk) Cargo Hold',
+                                        ].map((String value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value,
+                                            child: Text(value),
+                                          );
+                                        }).toList(),
+                                        onChanged: (String? newValue) {
+                                          setState(() {
+                                            _selectedCargoHold = newValue;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            SizedBox(
+                              height: screenHeight * .01,
+                            ),
+                            Center(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: clearSelections,
+                                    style: ElevatedButton.styleFrom(
+                                      foregroundColor:
+                                          Color.fromARGB(255, 28, 31, 106),
+                                      backgroundColor: Colors.white,
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: buttonPadding,
+                                          vertical: screenHeight * .01),
+                                      side: BorderSide(
+                                          color:
+                                              Color.fromARGB(255, 28, 31, 106),
+                                          width: 1),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      'Clear',
+                                      style: TextStyle(
+                                          fontSize: screenWidth * 0.04,
+                                          fontWeight: FontWeight.bold,
+                                          color:
+                                              Color.fromARGB(255, 28, 31, 106)),
+                                    ),
+                                  ),
+                                  SizedBox(width: screenWidth * 0.03),
+                                  // Existing Submit Button
+                                  ElevatedButton(
+                                    onPressed: _lodabilityCheck,
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: buttonPadding,
+                                          vertical: screenHeight * 0.01),
+                                      backgroundColor:
+                                          Color.fromARGB(255, 28, 31, 106),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      'Calculate',
+                                      style: TextStyle(
+                                        fontSize: screenWidth * 0.04,
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              width: double.infinity,
+                              padding: EdgeInsets.all(5.0),
+                              child: Transform.translate(
+                                offset: Offset(-1.0, 0.0),
+                                child: Text(
+                                  'Maximum Weight per Package : 150Kg',
+                                  style: TextStyle(
+                                      fontSize: screenWidth * 0.035,
+                                      color: Color.fromARGB(255, 28, 31, 106),
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
 
@@ -993,7 +1013,6 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
           ],
         ),
       ),
-      // Bottom Navigation Bar
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -1005,40 +1024,48 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
             ),
           ],
         ),
-        child: BottomNavigationBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          items: [
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                'assets/images/home_icon.svg',
-                height: screenHeight * .03,
-                width: screenWidth * .03,
-              ),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                'assets/images/contact_us_icon.svg',
-                height: screenHeight * .03,
-                width: screenWidth * .03,
-              ),
-              label: 'Contact Us',
-            ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                'assets/images/about_us_icon.svg',
-                height: screenHeight * .03,
-                width: screenWidth * .03,
-              ),
-              label: 'About Us',
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+                height: screenHeight *
+                    0.006), // Change this height to increase space
+            BottomNavigationBar(
+              backgroundColor: Colors.white,
+              elevation: 0,
+              items: [
+                BottomNavigationBarItem(
+                  icon: SvgPicture.asset(
+                    'assets/images/home_icon.svg',
+                    height: screenHeight * .03,
+                    width: screenWidth * .03,
+                  ),
+                  label: 'Home',
+                ),
+                BottomNavigationBarItem(
+                  icon: SvgPicture.asset(
+                    'assets/images/contact_us_icon.svg',
+                    height: screenHeight * .03,
+                    width: screenWidth * .03,
+                  ),
+                  label: 'Contact Us',
+                ),
+                BottomNavigationBarItem(
+                  icon: SvgPicture.asset(
+                    'assets/images/about_us_icon.svg',
+                    height: screenHeight * .03,
+                    width: screenWidth * .03,
+                  ),
+                  label: 'About Us',
+                ),
+              ],
+              selectedItemColor: Color.fromARGB(255, 28, 31, 106),
+              unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
+              onTap: (index) {
+                _handleNavigation(index, context);
+              },
             ),
           ],
-          selectedItemColor: Color.fromARGB(255, 28, 31, 106),
-          unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
-          onTap: (index) {
-            _handleNavigation(index, context);
-          },
         ),
       ),
     );
