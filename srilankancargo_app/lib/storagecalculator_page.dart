@@ -4,6 +4,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:srilankancargo_app/about_us_page.dart';
 import 'package:srilankancargo_app/contact_us_page.dart';
 import 'package:srilankancargo_app/main.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class UserSelection {
   DateTime arrivalDate;
@@ -26,7 +28,7 @@ class UserSelection {
     return {
       'arrivalDate': _formatDate(arrivalDate),
       'clearanceDate': _formatDate(clearingDate),
-      'aircraftType': location,
+      'location': location,
       'taxType': taxType,
       'cargoType': cargoType,
       'chargeableWeight': chargeableWeight,
@@ -344,192 +346,51 @@ class _StorageCalPageState extends State<StorageCalPage> {
   void _handleFormSubmision() async {
     bool hasError = false;
 
+    // Validate inputs
     if (_arrivalDate == null) {
+      print('Arrival date is null');
       hasError = true;
     }
     if (_clearingDate == null) {
+      print('Clearing date is null');
       hasError = true;
     }
     if (_selectedLocation == null) {
+      print('Selected location is null');
       hasError = true;
     }
     if (_selectedTaxType == null) {
+      print('Selected tax type is null');
       hasError = true;
     }
     if (_selectedCargoType == null) {
+      print('Selected cargo type is null');
       hasError = true;
     }
-    if (_weightController == null) {
+    if (_weightController.text.isEmpty) {
+      print('Weight input is empty');
       hasError = true;
       setState(() {
         _weightErrorMessage = 'Invalid number. Please try again.';
       });
     } else {
+      final weight = _weightController.text;
+      print('Weight input: $weight');
       setState(() {
         _weightErrorMessage = null;
       });
     }
 
     if (hasError) {
-      _showIncompleteFormDialog(context);
-      return;
-    }
-
-    if (_arrivalDate == null ||
-        _clearingDate == null ||
-        _selectedLocation == null ||
-        _selectedTaxType == null ||
-        _selectedCargoType == null ||
-        _weightController.text.isEmpty) {
-      hasError = true;
-      setState(() {
-        _weightErrorMessage = 'All fields are required. Please fill them out.';
-      });
-    } else {
-      // Validate weight input
-      final chargeableWeight = double.tryParse(_weightController.text);
-      if (chargeableWeight == null) {
-        hasError = true;
-        setState(() {
-          _weightErrorMessage = 'Invalid number. Please enter a valid weight.';
-        });
-      } else {
-        setState(() {
-          _weightErrorMessage = null;
-        });
-      }
-    }
-    if (hasError) {
+      print('Form submission has errors');
       _showIncompleteFormDialog(context);
       return;
     }
 
     final chargeableWeight = double.parse(_weightController.text);
+    print('Chargeable weight: $chargeableWeight');
 
-    const documentationCharge = 2000.0;
-    double handlingCharge;
-    double storageCharge = 0.0;
-    double storageChargeafter5weeks = 0.0;
-    double weeksPassed = 0.0;
-    double chargePerKg = 0.0;
-    double oldCargoCharges = 0.0;
-    double socialSecurityContributionLevy = 0.0;
-    double VAT = 0.0;
-    double finalCharge = 0.0;
-
-    switch (_selectedCargoType) {
-      case 'General Cargo':
-        handlingCharge = 27.0 * chargeableWeight;
-        handlingCharge = handlingCharge < 2500.0 ? 2500.0 : handlingCharge;
-        break;
-      case 'Special Cargo':
-        handlingCharge = 60.0 * chargeableWeight;
-        handlingCharge = handlingCharge < 6000.0 ? 6000.0 : handlingCharge;
-        break;
-      case 'Courier':
-        handlingCharge = 40.0 * chargeableWeight;
-        handlingCharge = handlingCharge < 3700.0 ? 3700.0 : handlingCharge;
-        break;
-      case 'Courier Detained':
-        handlingCharge = 15.0 * chargeableWeight;
-        handlingCharge = handlingCharge < 25000.0 ? 25000.0 : handlingCharge;
-        break;
-      case 'Courier House Airway Bill':
-        handlingCharge = 1500.0;
-        break;
-      default:
-        handlingCharge = 0.0;
-    }
-
-    final arrivalDate = _arrivalDate!;
-    final clearingDate = _clearingDate!;
-    final differenceInDays = clearingDate.difference(arrivalDate).inDays +
-        1; //difference in days is duration days + clearing day as well
-    print('Difference in days: \$${differenceInDays}');
-
-    if (_selectedLocation == 'Cool Room (20 to -20 degrees celcius)')
-    //condition for temperature regulated cargo
-    {
-      if (differenceInDays > 28) {
-        storageCharge = 55.0 * chargeableWeight;
-        storageCharge *= differenceInDays;
-        storageCharge = storageCharge < 7700.0 ? 7700.0 : storageCharge;
-        oldCargoCharges = 25000.0;
-      } else {
-        storageCharge = 45.0 * chargeableWeight;
-        storageCharge *= differenceInDays;
-        storageCharge = storageCharge < 3200.0 ? 3200.0 : storageCharge;
-      }
-    } else //condition for normal cargo
-    {
-      bool isHoliday(DateTime date) {
-        return holidays.any((holiday) =>
-            holiday.year == date.year &&
-            holiday.month == date.month &&
-            holiday.day == date.day);
-      }
-
-      DateTime getFreeEndDate(DateTime arrivalDate) {
-        DateTime freeEndDate = arrivalDate.add(Duration(days: 2));
-        while (freeEndDate.weekday > 5) {
-          // to skip weekends (mon to tues is 1 to 5, 6 & 7 are weekends)
-          freeEndDate = freeEndDate.add(Duration(days: 1));
-        }
-        return freeEndDate;
-      }
-
-      DateTime freeEndDate = getFreeEndDate(arrivalDate);
-      for (DateTime date = arrivalDate;
-          date.isBefore(clearingDate
-              .add(Duration(days: 1))); // Include clearingDate in the loop
-          date = date.add(Duration(days: 1))) {
-        if (isHoliday(date)) {
-          freeEndDate = freeEndDate.add(Duration(days: 1));
-        }
-      }
-
-      int daysElapsed = clearingDate.difference(freeEndDate).inDays;
-
-      weeksPassed = differenceInDays / 7;
-
-      if (weeksPassed <= 1) {
-        chargePerKg = 35.0;
-      } else if (weeksPassed <= 2) {
-        chargePerKg = 70.0;
-      } else if (weeksPassed <= 3) {
-        chargePerKg = 135.0;
-      } else if (weeksPassed <= 4) {
-        chargePerKg = 225.0;
-      } else {
-        chargePerKg = 305.0;
-        oldCargoCharges = 25000.0;
-      }
-      storageCharge = chargeableWeight * chargePerKg;
-      storageCharge = storageCharge < 2500.0 ? 2500.0 : storageCharge;
-
-      if (daysElapsed < 0) {
-        storageCharge = 0.0;
-      }
-    }
-
-    finalCharge =
-        documentationCharge + handlingCharge + storageCharge + oldCargoCharges;
-
-    if (_selectedTaxType == 'VAT') {
-      socialSecurityContributionLevy = (finalCharge * (2.5 / 100));
-      VAT = ((finalCharge + socialSecurityContributionLevy) * (18 / 100));
-    } else if (_selectedTaxType == 'SVAT') {
-      socialSecurityContributionLevy = (finalCharge * (2.5 / 100));
-      VAT = 0.0;
-    } else //no tax
-    {
-      socialSecurityContributionLevy = 0.0;
-      VAT = 0.0;
-    }
-    _fetched = true;
-
-    finalCharge = finalCharge + socialSecurityContributionLevy + VAT;
-
+    // Create the user selection object
     final userSelection = UserSelection(
       arrivalDate: _arrivalDate!,
       clearingDate: _clearingDate!,
@@ -539,123 +400,199 @@ class _StorageCalPageState extends State<StorageCalPage> {
       chargeableWeight: chargeableWeight,
     );
 
-    void _showChargesDialog(BuildContext context) {
-      double screenWidth = MediaQuery.of(context).size.width;
-      double screenHeight = MediaQuery.of(context).size.height;
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Center(
-              child: Text(
-                'Storage Charge',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: screenWidth * 0.05,
+    print('User selection created: ${userSelection.toJson()}');
+
+    // Send API request
+    try {
+      print('Sending API request...');
+      final response = await http.post(
+        Uri.parse(
+            'https://ulmobservicesstg.srilankan.com/ULMOBTEAMSERVICES/api/CargoMobileAppCorp/CalculateCharges'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(userSelection.toJson()),
+      );
+
+      print('API response status code: ${response.statusCode}');
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        print('API response data: $data');
+
+        // Extract values from the API response
+        final double documentationCharge = data['documentationCharge'] ?? 0.0;
+        final double handlingCharge = data['HandlingCharge'] ?? 0.0;
+        final double storageCharge = data['StorageCharge'] ?? 0.0;
+        final double oldCargoCharges = data['oldCargoCharges'] ?? 0.0;
+        final double socialSecurityContributionLevy =
+            data['SocialSecurityContributionLevy'] ?? 0.0;
+        final double VAT = data['VAT'] ?? 0.0;
+        final double finalCharge = data['FinalCharge'] ?? 0.0;
+
+        // Log extracted charges
+        print(
+            'Charges extracted: Documentation: $documentationCharge, Handling: $handlingCharge, Storage: $storageCharge, Old Cargo: $oldCargoCharges, SSC Levy: $socialSecurityContributionLevy, VAT: $VAT, Final Charge: $finalCharge');
+
+        // Show the charges in the dialog
+        _showChargesDialog(
+            context,
+            documentationCharge,
+            handlingCharge,
+            storageCharge,
+            oldCargoCharges,
+            socialSecurityContributionLevy,
+            VAT,
+            finalCharge);
+      } else {
+        print(
+            'Error: Unable to fetch charges. Status code: ${response.statusCode}');
+        _showErrorDialog('Error: Unable to fetch charges. Please try again.');
+      }
+    } catch (e) {
+      print('Exception caught: $e');
+      _showErrorDialog(
+          'Error: Unable to fetch charges. Please check your internet connection.');
+    }
+  }
+
+  void _showChargesDialog(
+      BuildContext context,
+      double documentationCharge,
+      double handlingCharge,
+      double storageCharge,
+      double oldCargoCharges,
+      double socialSecurityContributionLevy,
+      double VAT,
+      double finalCharge) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Center(
+            child: Text(
+              'Storage Charge',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: screenWidth * 0.05,
+                color: Color.fromARGB(255, 28, 31, 106),
+              ),
+            ),
+          ),
+          content: SingleChildScrollView(
+            child: Column(
+              children: [
+                Table(
+                  columnWidths: {
+                    0: FlexColumnWidth(2),
+                    1: FlexColumnWidth(1),
+                  },
+                  children: [
+                    TableRow(
+                      children: [
+                        Text(
+                          'Description',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: screenWidth * 0.035,
+                            color: Color.fromARGB(255, 28, 31, 106),
+                          ),
+                        ),
+                        Text(
+                          'Price (LKR)',
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: screenWidth * 0.035,
+                            color: Color.fromARGB(255, 28, 31, 106),
+                          ),
+                        ),
+                      ],
+                    ),
+                    _buildTableRow('Documentation Charge', documentationCharge),
+                    _buildTableRow('Handling Charge', handlingCharge),
+                    _buildTableRow('Storage Charge', storageCharge),
+                    _buildTableRow('Old Cargo Charge', oldCargoCharges),
+                    _buildTableRow('SSC Levy', socialSecurityContributionLevy),
+                    _buildTableRow('VAT', VAT),
+                  ],
+                ),
+                SizedBox(height: screenHeight * 0.005),
+                Divider(
+                  thickness: 1,
                   color: Color.fromARGB(255, 28, 31, 106),
                 ),
-              ),
-            ),
-            content: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Table(
-                    columnWidths: {
-                      0: FlexColumnWidth(2),
-                      1: FlexColumnWidth(1),
-                    },
-                    children: [
-                      TableRow(
-                        children: [
-                          Text(
-                            'Description',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: screenWidth * 0.35,
-                              color: Color.fromARGB(255, 28, 31, 106),
-                            ),
-                          ),
-                          Text(
-                            'Price (LKR)',
-                            textAlign: TextAlign.right,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: screenWidth * 0.035,
-                              color: Color.fromARGB(255, 28, 31, 106),
-                            ),
-                          ),
-                        ],
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Final Charges',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: screenWidth * 0.045,
+                        color: Color.fromARGB(255, 28, 31, 106),
                       ),
-                      _buildTableRow(
-                          'Documentation Charge', documentationCharge),
-                      _buildTableRow('Handling Charge', handlingCharge),
-                      _buildTableRow('Storage Charge', storageCharge),
-                      _buildTableRow('Old Cargo Charge', oldCargoCharges),
-                      _buildTableRow(
-                          'SSC Levy', socialSecurityContributionLevy),
-                      _buildTableRow('VAT', VAT),
-                    ],
-                  ),
-                  SizedBox(height: screenHeight * 0.005),
-                  Divider(
-                    thickness: 1,
-                    color: Color.fromARGB(255, 28, 31, 106),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Final Charges',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: screenWidth * 0.45,
-                          color: Color.fromARGB(255, 28, 31, 106),
-                        ),
-                      ),
-                      Text(
-                        '${finalCharge.toStringAsFixed(2)}',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: screenWidth * 0.04,
-                          color: Color.fromARGB(255, 28, 31, 106),
-                        ),
-                        textAlign: TextAlign.right,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            actions: <Widget>[
-              Center(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(horizontal: 102),
-                    backgroundColor: Color.fromARGB(255, 28, 31, 106),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
                     ),
-                  ),
-                  child: Text(
-                    'Close',
-                    style: TextStyle(
-                      fontSize: screenWidth * 0.04,
-                      color: Colors.white,
+                    Text(
+                      '${finalCharge.toStringAsFixed(2)}',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: screenWidth * 0.04,
+                        color: Color.fromARGB(255, 28, 31, 106),
+                      ),
+                      textAlign: TextAlign.right,
                     ),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
+                  ],
                 ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            Center(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(horizontal: 102),
+                  backgroundColor: Color.fromARGB(255, 28, 31, 106),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: Text(
+                  'Close',
+                  style: TextStyle(
+                    fontSize: screenWidth * 0.04,
+                    color: Colors.white,
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
               ),
-            ],
-          );
-        },
-      );
-    }
+            ),
+          ],
+        );
+      },
+    );
+  }
 
-    print(userSelection.toJson());
-    _showChargesDialog(context);
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Error'),
+          content: Text(message),
+          actions: [
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _showIncompleteFormDialog(BuildContext context) {
@@ -1364,9 +1301,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(
-                height: screenHeight *
-                    0.006), // Change this height to increase space
+            SizedBox(height: screenHeight * 0.006),
             BottomNavigationBar(
               backgroundColor: Colors.white,
               elevation: 0,

@@ -508,7 +508,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                   Expanded(
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(
-                                          horizontal: screenHeight * 0.017),
+                                          horizontal: screenHeight * 0.019),
                                       child: TextField(
                                         controller: _lengthController,
                                         focusNode: _lengthFocusNode,
@@ -524,7 +524,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                           ),
                                           border: InputBorder.none,
                                           contentPadding: EdgeInsets.symmetric(
-                                              vertical: screenHeight * 0.02),
+                                              vertical: screenHeight * 0.025),
                                         ),
                                         style: TextStyle(
                                           fontSize: screenWidth * 0.035,
@@ -608,7 +608,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                           ),
                                           border: InputBorder.none,
                                           contentPadding: EdgeInsets.symmetric(
-                                              vertical: screenHeight * 0.015),
+                                              vertical: screenHeight * 0.025),
                                         ),
                                         style: TextStyle(
                                           fontSize: screenWidth * 0.035,
@@ -690,7 +690,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                           ),
                                           border: InputBorder.none,
                                           contentPadding: EdgeInsets.symmetric(
-                                              vertical: screenHeight * .015),
+                                              vertical: screenHeight * .025),
                                         ),
                                         style: TextStyle(
                                           fontSize: screenWidth * 0.035,
@@ -810,7 +810,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                         iconSize: 30.0,
                                         underline: SizedBox(),
                                         style: TextStyle(
-                                          fontSize: screenWidth * 0.0035,
+                                          fontSize: screenWidth * 0.035,
                                           fontWeight: FontWeight.bold,
                                           color: const Color.fromARGB(
                                               255, 135, 130, 130),

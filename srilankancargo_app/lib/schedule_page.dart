@@ -772,6 +772,9 @@ Arrival Time: ${flightInfo['Atime']}''';
                                           color: Color.fromARGB(
                                               255, 178, 172, 172),
                                         ),
+                                        filled:
+                                            true, // Add this to ensure the background is filled
+                                        fillColor: Colors.white,
                                         border: OutlineInputBorder(
                                           borderSide: BorderSide(
                                             color: const Color.fromARGB(
@@ -799,6 +802,16 @@ Arrival Time: ${flightInfo['Atime']}''';
                                               255, 204, 203, 203),
                                           fontWeight: FontWeight.bold,
                                           fontSize: screenWidth * 0.035),
+                                    ),
+                                    menuProps: MenuProps(
+                                      backgroundColor: Colors.white,
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(
+                                        side: BorderSide(
+                                            color: Colors.transparent),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      ),
                                     ),
                                     itemBuilder: (context, item, isSelected) {
                                       return Container(
@@ -942,6 +955,19 @@ Arrival Time: ${flightInfo['Atime']}''';
                                       style: TextStyle(
                                         color: Colors.grey,
                                         fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    menuProps: MenuProps(
+                                      backgroundColor: Colors
+                                          .white, // Ensure the dropdown background is white
+                                      elevation:
+                                          0, // Remove any shadow that might create a tint
+                                      shape: RoundedRectangleBorder(
+                                        side: BorderSide(
+                                            color: Colors
+                                                .transparent), // Optional: Set border to transparent
+                                        borderRadius: BorderRadius.circular(
+                                            8.0), // Adjust radius as needed
                                       ),
                                     ),
                                     itemBuilder: (context, item, isSelected) {
@@ -1172,7 +1198,7 @@ Arrival Time: ${flightInfo['Atime']}''';
                     if (_fetched) ...[
                       SizedBox(height: screenHeight * 0.018),
                       Container(
-                        height: screenHeight * 0.4,
+                        height: screenHeight * 0.44,
                         child: SingleChildScrollView(
                           physics: BouncingScrollPhysics(),
                           child: _buildFlightDetails(),
@@ -1186,7 +1212,7 @@ Arrival Time: ${flightInfo['Atime']}''';
             ),
           ],
         ),
-         bottomNavigationBar: Container(
+        bottomNavigationBar: Container(
           decoration: BoxDecoration(
             color: Colors.white,
             boxShadow: [
@@ -1232,14 +1258,16 @@ Arrival Time: ${flightInfo['Atime']}''';
                     label: 'About Us',
                   ),
                 ],
-            selectedItemColor: Color.fromARGB(255, 28, 31, 106),
-            unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
-            onTap: (index) {
-              _handleNavigation(index, context);
-            },
-          ),],
+                selectedItemColor: Color.fromARGB(255, 28, 31, 106),
+                unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
+                onTap: (index) {
+                  _handleNavigation(index, context);
+                },
+              ),
+            ],
+          ),
         ),
-      ),),
+      ),
     );
   }
 
