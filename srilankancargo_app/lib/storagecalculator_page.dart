@@ -8,12 +8,12 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class UserSelection {
-  DateTime arrivalDate;
-  DateTime clearingDate;
-  String location;
-  String taxType;
-  String cargoType;
-  double chargeableWeight;
+  final DateTime arrivalDate;
+  final DateTime clearingDate;
+  final String location;
+  final String taxType;
+  final String cargoType;
+  final double chargeableWeight;
 
   UserSelection({
     required this.arrivalDate,
@@ -26,12 +26,12 @@ class UserSelection {
 
   Map<String, dynamic> toJson() {
     return {
-      'arrivalDate': _formatDate(arrivalDate),
-      'clearanceDate': _formatDate(clearingDate),
-      'location': location,
-      'taxType': taxType,
-      'cargoType': cargoType,
-      'chargeableWeight': chargeableWeight,
+      'ArrivalDate': arrivalDate.toIso8601String(),
+      'ClearingDate': clearingDate.toIso8601String(),
+      'Location': location,
+      'TaxType': taxType,
+      'CargoType': cargoType,
+      'ChargeableWeight': chargeableWeight,
     };
   }
 
@@ -404,6 +404,10 @@ class _StorageCalPageState extends State<StorageCalPage> {
 
     // Send API request
     try {
+      // Log the request payload
+      print('Request payload: ${jsonEncode(userSelection.toJson())}');
+
+      // Send the API request
       print('Sending API request...');
       final response = await http.post(
         Uri.parse(
@@ -412,11 +416,17 @@ class _StorageCalPageState extends State<StorageCalPage> {
         body: jsonEncode(userSelection.toJson()),
       );
 
+      // Log the response status code
       print('API response status code: ${response.statusCode}');
+
+      // Log the raw API response body
+      print('Raw API response body: ${response.body}');
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        print('API response data: $data');
+
+        // Log the parsed response data
+        print('Parsed API response data: $data');
 
         // Extract values from the API response
         final double documentationCharge = data['documentationCharge'] ?? 0.0;
@@ -428,7 +438,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
         final double VAT = data['VAT'] ?? 0.0;
         final double finalCharge = data['FinalCharge'] ?? 0.0;
 
-        // Log extracted charges
+        // Log extracted charges for verification
         print(
             'Charges extracted: Documentation: $documentationCharge, Handling: $handlingCharge, Storage: $storageCharge, Old Cargo: $oldCargoCharges, SSC Levy: $socialSecurityContributionLevy, VAT: $VAT, Final Charge: $finalCharge');
 
@@ -443,11 +453,13 @@ class _StorageCalPageState extends State<StorageCalPage> {
             VAT,
             finalCharge);
       } else {
+        // Log error with the status code
         print(
             'Error: Unable to fetch charges. Status code: ${response.statusCode}');
         _showErrorDialog('Error: Unable to fetch charges. Please try again.');
       }
     } catch (e) {
+      // Log the caught exception
       print('Exception caught: $e');
       _showErrorDialog(
           'Error: Unable to fetch charges. Please check your internet connection.');
@@ -596,7 +608,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
   }
 
   void _showIncompleteFormDialog(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
+    double screenWidth = MediaQuery.of(context).size.width * 0.8;
     double screenHeight = MediaQuery.of(context).size.height;
     showDialog(
       context: context,
@@ -611,7 +623,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
             style: TextStyle(
               color: Color.fromARGB(255, 28, 31, 106),
               fontWeight: FontWeight.bold,
-              fontSize: screenHeight * 0.07,
+              fontSize: screenHeight * 0.025,
             ),
           ),
           content: Text(
@@ -621,8 +633,8 @@ class _StorageCalPageState extends State<StorageCalPage> {
           actions: <Widget>[
             Center(
               child: SizedBox(
-                width: screenWidth * 0.5,
-                height: screenHeight * 0.5,
+                width: screenWidth * 0.7,
+                height: screenHeight * 0.06,
                 child: TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -631,7 +643,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                     'OK',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: screenHeight * 0.04,
+                      fontSize: screenHeight * 0.02,
                     ),
                   ),
                   style: TextButton.styleFrom(

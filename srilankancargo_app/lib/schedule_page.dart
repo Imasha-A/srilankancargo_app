@@ -7,6 +7,7 @@ import 'package:srilankancargo_app/main.dart';
 import 'package:intl/intl.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:cached_network_image/cached_network_image.dart';
 
 import 'dart:io';
 import 'package:http/io_client.dart';
@@ -490,6 +491,14 @@ Arrival Time: ${flightInfo['Atime']}''';
                   );
                 }
 
+                final flightNom =
+                    flightInfo[0].split(': ')[1]; // Extract flight number
+                print(flightNom);
+                final airlineCode = flightNom.substring(0, 2);
+                print(airlineCode);
+                final logoUrl =
+                    'https://www.srilankan.com/images/airlinescodes/$airlineCode.png';
+
                 return Card(
                   color: Color.fromARGB(255, 255, 255, 255),
                   margin: EdgeInsets.symmetric(vertical: screenHeight * 0.006),
@@ -499,18 +508,22 @@ Arrival Time: ${flightInfo['Atime']}''';
                         horizontal: screenWidth * 0.03),
                     child: Row(
                       children: [
-                        // Placeholder for logo
+                        // Display the logo using the constructed URL
                         Container(
                           width: screenWidth * 0.12,
                           height: screenHeight * 0.06,
-                          color: const Color.fromARGB(255, 237, 236, 236),
-                          child: Center(
-                            child: Text(
-                              'Logo',
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 11, 5, 56),
-                              ),
-                            ),
+                          child: Image.network(
+                            logoUrl,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Center(
+                                child: Text(
+                                  'Logo',
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 11, 5, 56),
+                                  ),
+                                ),
+                              );
+                            },
                           ),
                         ),
                         SizedBox(width: screenWidth * 0.02),
@@ -1099,7 +1112,7 @@ Arrival Time: ${flightInfo['Atime']}''';
                               ),
                             ),
                           ],
-                          SizedBox(height: screenHeight * 0.02),
+                          SizedBox(height: screenHeight * 0.016),
                           Center(
                             child: Container(
                               height: screenHeight * 0.065,

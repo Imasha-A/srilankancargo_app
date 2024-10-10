@@ -23,6 +23,7 @@ dependencies:
   webview_flutter_platform_interface: ^2.10.0
   xml: ^6.5.0
   dropdown_search: ^5.0.6
+  cached_network_image: ^3.4.1
   
   
   

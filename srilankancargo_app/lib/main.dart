@@ -501,9 +501,9 @@ class _MyHomePageState extends State<MyHomePage> {
             color: Colors.white,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1), // Shadow color
-                offset: Offset(0, -2), // Shadow position
-                blurRadius: 4, // Shadow blur radius
+                color: Colors.black.withOpacity(0.1), 
+                offset: Offset(0, -2), 
+                blurRadius: 4, 
               ),
             ],
           ),
@@ -512,7 +512,7 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               SizedBox(
                   height: screenHeight *
-                      0.006), // Change this height to increase space
+                      0.006), 
               BottomNavigationBar(
                 backgroundColor: Colors.white,
                 elevation: 0,
@@ -624,7 +624,7 @@ class _MyHomePageState extends State<MyHomePage> {
           }
           if (label == 'Tracking') {
             launchUrlTracking((Uri.parse(
-                'http://www.srilankanskychain.aero/skychain/app?service=page/nwp:Trackshipmt')));
+                'https://srilankancargo.ibsplc.aero/icargoneoportal/app/main/#/app')));
           }
         },
         child: Column(
@@ -664,7 +664,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> launchUrlTracking(Uri parse) async {
     final Uri url = Uri.parse(
-        'http://www.srilankanskychain.aero/skychain/app?service=page/nwp:Trackshipmt');
+        'https://srilankancargo.ibsplc.aero/icargoneoportal/app/main/#/app');
 
     if (!await launchUrl(url)) {
       throw 'Could not launch $url';
