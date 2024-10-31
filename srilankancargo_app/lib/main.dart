@@ -501,18 +501,16 @@ class _MyHomePageState extends State<MyHomePage> {
             color: Colors.white,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1), 
-                offset: Offset(0, -2), 
-                blurRadius: 4, 
+                color: Colors.black.withOpacity(0.1),
+                offset: Offset(0, -2),
+                blurRadius: 4,
               ),
             ],
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(
-                  height: screenHeight *
-                      0.006), 
+              SizedBox(height: screenHeight * 0.006),
               BottomNavigationBar(
                 backgroundColor: Colors.white,
                 elevation: 0,
@@ -671,3 +669,4 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 }
+

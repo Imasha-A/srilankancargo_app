@@ -969,7 +969,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                             alignment: Alignment
                                                                 .centerLeft,
                                                             child: Text(
-                                                              'Cubic cm: ${selection.finalTotal.toStringAsFixed(4)} cm³',
+                                                              'Cubic cm: ${selection.finalTotal.toStringAsFixed(4)} m³',
                                                               style: TextStyle(
                                                                 fontSize:
                                                                     screenWidth *
@@ -1030,7 +1030,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                           ),
                                         ),
                                         Text(
-                                          'Total: ${totalCBM.toStringAsFixed(4)} cm³',
+                                          'Total: ${totalCBM.toStringAsFixed(4)} m³',
                                           style: TextStyle(
                                             fontSize: screenWidth * 0.045,
                                             fontWeight: FontWeight.bold,

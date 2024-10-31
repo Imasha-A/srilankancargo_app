@@ -56,18 +56,6 @@ class _StorageCalPageState extends State<StorageCalPage> {
   TextEditingController _weightController = TextEditingController();
 
   String? _weightErrorMessage;
-  //holidays of 2024
-  final List<DateTime> holidays = [
-    DateTime(2024, 8, 19), // Poya
-    DateTime(2024, 9, 16), // Holy Prophet's Birthday
-    DateTime(2024, 9, 17), // Poya
-    DateTime(2024, 10, 17), // Poya
-    DateTime(2024, 10, 31), // Deepavali
-    DateTime(2024, 11, 15), // Poya
-    DateTime(2024, 12, 14), // Poya
-    DateTime(2024, 12, 24), // Christmas Eve
-    DateTime(2024, 12, 25), // Christmas
-  ];
 
   Map<String, double> customizeFormCard(double screenWidth) {
     Map<String, double> customizationValues = {};
@@ -278,7 +266,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
           context: context,
           initialDate: DateTime.now(),
           firstDate: DateTime.now(),
-          lastDate: DateTime(DateTime.now().year + 1),
+          lastDate: DateTime(2099, 12, 31),
           builder: (BuildContext context, Widget? child) {
             return Theme(
               data: ThemeData.light().copyWith(
@@ -308,7 +296,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
           context: context,
           initialDate: _clearingDate ?? firstDate,
           firstDate: firstDate,
-          lastDate: DateTime(DateTime.now().year + 1),
+          lastDate: DateTime(2099, 12, 31),
           builder: (BuildContext context, Widget? child) {
             return Theme(
               data: ThemeData.light().copyWith(
@@ -433,6 +421,8 @@ class _StorageCalPageState extends State<StorageCalPage> {
         final double handlingCharge = data['HandlingCharge'] ?? 0.0;
         final double storageCharge = data['StorageCharge'] ?? 0.0;
         final double oldCargoCharges = data['oldCargoCharges'] ?? 0.0;
+        final double breakBulkCharge = data['breakBulkCharge'] ?? 0.0;
+
         final double socialSecurityContributionLevy =
             data['SocialSecurityContributionLevy'] ?? 0.0;
         final double VAT = data['VAT'] ?? 0.0;
@@ -449,6 +439,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
             handlingCharge,
             storageCharge,
             oldCargoCharges,
+            breakBulkCharge,
             socialSecurityContributionLevy,
             VAT,
             finalCharge);
@@ -472,6 +463,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
       double handlingCharge,
       double storageCharge,
       double oldCargoCharges,
+      double breakBulkCharge,
       double socialSecurityContributionLevy,
       double VAT,
       double finalCharge) {
@@ -525,6 +517,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                     _buildTableRow('Handling Charge', handlingCharge),
                     _buildTableRow('Storage Charge', storageCharge),
                     _buildTableRow('Old Cargo Charge', oldCargoCharges),
+                    _buildTableRow('Break Bulk Charge', breakBulkCharge),
                     _buildTableRow('SSC Levy', socialSecurityContributionLevy),
                     _buildTableRow('VAT', VAT),
                   ],

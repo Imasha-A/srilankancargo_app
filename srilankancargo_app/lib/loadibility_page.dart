@@ -191,7 +191,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                   'Flight Type: $flightType\nCargo Hold: $cargoHold',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontSize: screenWidth * 0.045,
+                      fontSize: screenWidth * 0.042,
                       color: Color.fromARGB(255, 11, 5, 108),
                       fontWeight: FontWeight.w500),
                 ),
@@ -259,71 +259,101 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
 
     final isTilted = _isTiltedPermitted;
 
-    if (isTilted && _selectedCargoHold == 'Forward Cargo Hold') {
-      if (height <= 25.0 && width <= 25.0 && length <= 500.0) {
-        _showAlert(_selectedAircraftType!, 'Forward Cargo hold',
-            isLoadable: true);
-      } else if (height <= 50.0 && width <= 50.0 && length <= 493.0) {
-        _showAlert(_selectedAircraftType!, 'Forward Cargo hold',
-            isLoadable: true);
-      } else if (height <= 75.0 && width <= 75.0 && length <= 489.5) {
-        _showAlert(_selectedAircraftType!, 'Forward Cargo hold',
-            isLoadable: true);
-      } else {
-        _showAlert(_selectedAircraftType!, 'Forward Cargo hold',
-            isLoadable: false);
+    if (_selectedAircraftType == "A330") {
+      double volume = (length * width * height) / 1000000;
+
+      if (_selectedCargoHold == 'Forward Cargo Hold') {
+        if (height <= 170.0 && width <= 270.0 && volume <= 77.4) {
+          _showAlert(_selectedAircraftType!, 'Forward Cargo hold',
+              isLoadable: true);
+        } else {
+          _showAlert(_selectedAircraftType!, 'Forward Cargo hold',
+              isLoadable: false);
+        }
+      } else if (_selectedCargoHold == 'After Cargo Hold') {
+        if (height <= 168.0 && width <= 273.0 && volume <= 60.2) {
+          _showAlert(_selectedAircraftType!, 'After Cargo hold',
+              isLoadable: true);
+        } else {
+          _showAlert(_selectedAircraftType!, 'After Cargo hold',
+              isLoadable: false);
+        }
+      } else if (_selectedCargoHold == 'Rear (bulk) Cargo Hold') {
+        if (height <= 95.0 && width <= 107.0 && volume <= 19.5) {
+          _showAlert(_selectedAircraftType!, 'Rear (bulk) Cargo hold',
+              isLoadable: true);
+        } else {
+          _showAlert(_selectedAircraftType!, 'Rear (bulk) Cargo hold',
+              isLoadable: false);
+        }
       }
-    } else if (isTilted && _selectedCargoHold == 'After Cargo Hold') {
-      if (height <= 25.0 && width <= 25.0 && length <= 530.9) {
-        _showAlert(_selectedAircraftType!, 'After Cargo hold',
-            isLoadable: true);
-      } else if (height <= 50.0 && width <= 50.0 && length <= 514.4) {
-        _showAlert(_selectedAircraftType!, 'After Cargo hold',
-            isLoadable: true);
-      } else if (height <= 75.0 && width <= 75.0 && length <= 491.5) {
-        _showAlert(_selectedAircraftType!, 'After Cargo hold',
-            isLoadable: true);
-      } else {
-        _showAlert(_selectedAircraftType!, 'After Cargo hold',
-            isLoadable: false);
-      }
-    } else if (isTilted && _selectedCargoHold == 'Rear (bulk) Cargo Hold') {
-      if (height <= 25.0 && width <= 25.0 && length <= 324.0) {
-        _showAlert(_selectedAircraftType!, 'Rear (bulk) Cargo hold',
-            isLoadable: true);
-      } else if (height <= 50.0 && width <= 50.0 && length <= 324.0) {
-        _showAlert(_selectedAircraftType!, 'Rear (bulk) Cargo hold',
-            isLoadable: true);
-      } else if (height <= 75.0 && width <= 75.0 && length <= 324.0) {
-        _showAlert(_selectedAircraftType!, 'Rear (bulk) Cargo hold',
-            isLoadable: true);
-      } else {
-        _showAlert(_selectedAircraftType!, 'Rear (bulk) Cargo hold',
-            isLoadable: false);
-      }
-    } else if (!isTilted) {
-      if (_selectedCargoHold == 'Forward Cargo Hold' &&
-          height <= 119.4 &&
-          width <= 149.9 &&
-          length <= 164.3) {
-        _showAlert(_selectedAircraftType!, 'Forward Cargo hold',
-            isLoadable: true);
-      } else if (_selectedCargoHold == 'After Cargo Hold' &&
-          height <= 119.4 &&
-          width <= 149.9 &&
-          length <= 171.5) {
-        _showAlert(_selectedAircraftType!, 'After Cargo hold',
-            isLoadable: true);
-      } else if (_selectedCargoHold == 'Rear (bulk) Cargo Hold' &&
-          height <= 149.9 &&
-          width <= 149.9 &&
-          length <= 174.8) {
-        _showAlert(_selectedAircraftType!, 'Rear (bulk) Cargo hold',
-            isLoadable: true);
-      } else {
-        _showAlert(_selectedAircraftType!,
-            'You will not be able to load your Item into Cargo holds',
-            isLoadable: false);
+    } else {
+      if (isTilted && _selectedCargoHold == 'Forward Cargo Hold') {
+        if (height <= 25.0 && width <= 25.0 && length <= 500.0) {
+          _showAlert(_selectedAircraftType!, 'Forward Cargo hold',
+              isLoadable: true);
+        } else if (height <= 50.0 && width <= 50.0 && length <= 493.0) {
+          _showAlert(_selectedAircraftType!, 'Forward Cargo hold',
+              isLoadable: true);
+        } else if (height <= 75.0 && width <= 75.0 && length <= 489.5) {
+          _showAlert(_selectedAircraftType!, 'Forward Cargo hold',
+              isLoadable: true);
+        } else {
+          _showAlert(_selectedAircraftType!, 'Forward Cargo hold',
+              isLoadable: false);
+        }
+      } else if (isTilted && _selectedCargoHold == 'After Cargo Hold') {
+        if (height <= 25.0 && width <= 25.0 && length <= 530.9) {
+          _showAlert(_selectedAircraftType!, 'After Cargo hold',
+              isLoadable: true);
+        } else if (height <= 50.0 && width <= 50.0 && length <= 514.4) {
+          _showAlert(_selectedAircraftType!, 'After Cargo hold',
+              isLoadable: true);
+        } else if (height <= 75.0 && width <= 75.0 && length <= 491.5) {
+          _showAlert(_selectedAircraftType!, 'After Cargo hold',
+              isLoadable: true);
+        } else {
+          _showAlert(_selectedAircraftType!, 'After Cargo hold',
+              isLoadable: false);
+        }
+      } else if (isTilted && _selectedCargoHold == 'Rear (bulk) Cargo Hold') {
+        if (height <= 25.0 && width <= 25.0 && length <= 324.0) {
+          _showAlert(_selectedAircraftType!, 'Rear (bulk) Cargo hold',
+              isLoadable: true);
+        } else if (height <= 50.0 && width <= 50.0 && length <= 324.0) {
+          _showAlert(_selectedAircraftType!, 'Rear (bulk) Cargo hold',
+              isLoadable: true);
+        } else if (height <= 75.0 && width <= 75.0 && length <= 324.0) {
+          _showAlert(_selectedAircraftType!, 'Rear (bulk) Cargo hold',
+              isLoadable: true);
+        } else {
+          _showAlert(_selectedAircraftType!, 'Rear (bulk) Cargo hold',
+              isLoadable: false);
+        }
+      } else if (!isTilted) {
+        if (_selectedCargoHold == 'Forward Cargo Hold' &&
+            height <= 119.4 &&
+            width <= 149.9 &&
+            length <= 164.3) {
+          _showAlert(_selectedAircraftType!, 'Forward Cargo hold',
+              isLoadable: true);
+        } else if (_selectedCargoHold == 'After Cargo Hold' &&
+            height <= 119.4 &&
+            width <= 149.9 &&
+            length <= 171.5) {
+          _showAlert(_selectedAircraftType!, 'After Cargo hold',
+              isLoadable: true);
+        } else if (_selectedCargoHold == 'Rear (bulk) Cargo Hold' &&
+            height <= 149.9 &&
+            width <= 149.9 &&
+            length <= 174.8) {
+          _showAlert(_selectedAircraftType!, 'Rear (bulk) Cargo hold',
+              isLoadable: true);
+        } else {
+          _showAlert(_selectedAircraftType!,
+              'You will not be able to load your Item into Cargo holds',
+              isLoadable: false);
+        }
       }
     }
   }
@@ -825,8 +855,12 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                           ),
                                         ),
                                         isExpanded: true,
-                                        items: ['A320', 'A321', 'A320neo']
-                                            .map((String value) {
+                                        items: [
+                                          'A320',
+                                          'A321',
+                                          'A320neo',
+                                          'A330'
+                                        ].map((String value) {
                                           return DropdownMenuItem<String>(
                                             value: value,
                                             child: Text(value),

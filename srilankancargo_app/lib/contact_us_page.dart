@@ -95,29 +95,30 @@ class ContactUsPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(height: screenHeight * 0.01),
+                          SizedBox(height: screenHeight * 0.03),
 
                           ContactInfoCard(
                             svgPath: 'assets/images/call_us_icon.svg',
                             title: 'Call us',
-                            subtitle: '0197 333 259',
+                            subtitle: '0197 333 344',
                             subtitleColor: Color.fromARGB(255, 51, 51, 51),
-                            onTap: () => _launchPhone('0197333259'),
+                            onTap: () => _launchPhone('0197333344'),
                           ),
                           ContactInfoCard(
                             svgPath: 'assets/images/email_us_icon.svg',
                             title: 'Email us',
-                            subtitle: 'cargo@srilankan.com',
+                            subtitle: 'customersupportunit@srilankan.com',
                             subtitleColor: Color.fromARGB(255, 51, 51, 51),
-                            onTap: () => _launchEmail('cargo@srilankan.com'),
+                            onTap: () => _launchEmail(
+                                'customersupportunit@srilankan.com'),
                             onLongPress: () => _copyToClipboard(
-                                context, 'cargo@srilankan.com'),
+                                context, 'customersupportunit@srilankan.com'),
                           ),
                           ContactInfoCard(
                               svgPath: 'assets/images/address_icon.svg',
                               title: 'Address',
                               subtitle:
-                                  'SriLankan Airlines Cargo,\nKatunayake, Sri Lanka',
+                                  'SriLankan Airlines Cargo, Katunayake, \nSri Lanka',
                               subtitleColor: Color.fromARGB(255, 51, 51, 51),
                               onTap: () => _launchURLAddress(Uri.parse(
                                   'https://www.google.com/maps/place/SriLankan+Cargo/@7.1702799,79.5546651,10z/data=!4m10!1m2!2m1!1ssrilankan+cargo!3m6!1s0x3ae2efc8eeea9517:0x5b390f6a09d7fe3f!8m2!3d7.1704115!4d79.8836481!15sCg9zcmlsYW5rYW4gY2FyZ2-SAQl3YXJlaG91c2XgAQA!16s%2Fg%2F11c518c5b5?entry=ttu&g_ep=EgoyMDI0MDkwOS4wIKXMDSoASAFQAw%3D%3D'))),
@@ -149,7 +150,7 @@ class ContactUsPage extends StatelessWidget {
                                       'https://www.youtube.com/channel/UCU_e10UGVQS8JikgDpwvdag'));
                                 },
                               ),
-                              SizedBox(width: screenWidth * 0.01),
+                              SizedBox(width: screenWidth * 0.02),
                               IconButton(
                                 icon: SvgPicture.asset(
                                   'assets/images/instagram_icon.svg',
@@ -196,7 +197,7 @@ class ContactUsPage extends StatelessWidget {
                               ),
                             ],
                           ),
-                          SizedBox(height: screenHeight * 0.025),
+                          SizedBox(height: screenHeight * 0.05),
                         ],
                       ),
                     ),
@@ -364,7 +365,7 @@ class ContactInfoCard extends StatelessWidget {
                 Text(
                   subtitle,
                   style: TextStyle(
-                    fontSize: screenWidth * 0.045,
+                    fontSize: screenWidth * 0.036,
                     color: subtitleColor,
                   ),
                 ),

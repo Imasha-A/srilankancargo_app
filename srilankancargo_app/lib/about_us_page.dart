@@ -75,7 +75,7 @@ class AboutUsPage extends StatelessWidget {
                           Text(
                             'SriLankan Cargo is the Cargo Arm of SriLankan Airlines - The National Carrier of Sri Lanka.',
                             style: TextStyle(
-                              fontSize: screenWidth * 0.0425,
+                              fontSize: screenWidth * 0.05,
                               color: Color.fromARGB(255, 28, 31, 106),
                             ),
                           ),
@@ -83,7 +83,7 @@ class AboutUsPage extends StatelessWidget {
                           Text(
                             'SriLankan Cargo provides connectivity to its global network of 37 destinations in 21 countries across Europe, the Middle East, South Asia, Southeast Asia, the Far East and Australia.',
                             style: TextStyle(
-                              fontSize: screenWidth * 0.0425,
+                              fontSize: screenWidth * 0.05,
                               color: Color.fromARGB(255, 28, 31, 106),
                             ),
                           ),
@@ -130,11 +130,11 @@ class AboutUsPage extends StatelessWidget {
                               ],
                             ),
                           ),
-                          SizedBox(height: screenHeight * 0.03),
+                          SizedBox(height: screenHeight * 0.04),
                           Text(
                             'SriLankan IT Systems. All rights reserved',
                             style: TextStyle(
-                              fontSize: screenWidth * 0.038,
+                              fontSize: screenWidth * 0.042,
                               color: Color.fromARGB(255, 51, 51, 51),
                             ),
                           ),
@@ -142,7 +142,7 @@ class AboutUsPage extends StatelessWidget {
                           Text(
                             'Last Updated on 11/11/2024',
                             style: TextStyle(
-                              fontSize: screenWidth * 0.038,
+                              fontSize: screenWidth * 0.042,
                               color: Color.fromARGB(255, 51, 51, 51),
                             ),
                           ),
@@ -150,11 +150,11 @@ class AboutUsPage extends StatelessWidget {
                           Text(
                             'Created on 10/10/2024',
                             style: TextStyle(
-                              fontSize: screenWidth * 0.038,
+                              fontSize: screenWidth * 0.042,
                               color: Color.fromARGB(255, 51, 51, 51),
                             ),
                           ),
-                          SizedBox(height: screenHeight * 0.02),
+                          SizedBox(height: screenHeight * 0.05),
                         ],
                       ),
                     ),
