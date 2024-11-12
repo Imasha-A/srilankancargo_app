@@ -259,11 +259,10 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
 
     final isTilted = _isTiltedPermitted;
 
-    if (_selectedAircraftType == "A330") {
-      double volume = (length * width * height) / 1000000;
-
+    if (!isTilted && _selectedAircraftType == "A330") {
       if (_selectedCargoHold == 'Forward Cargo Hold') {
-        if (height <= 170.0 && width <= 270.0 && volume <= 77.4) {
+        if ((height <= 170.0 && width <= 270.0 && length <= 416.0) ||
+            (height <= 170.0 && width <= 416.0 && length <= 270.0)) {
           _showAlert(_selectedAircraftType!, 'Forward Cargo hold',
               isLoadable: true);
         } else {
@@ -271,7 +270,8 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
               isLoadable: false);
         }
       } else if (_selectedCargoHold == 'After Cargo Hold') {
-        if (height <= 168.0 && width <= 273.0 && volume <= 60.2) {
+        if ((height <= 168.0 && width <= 273.0 && length <= 416.0) ||
+            (height <= 168.0 && width <= 416.0 && length <= 273.0)) {
           _showAlert(_selectedAircraftType!, 'After Cargo hold',
               isLoadable: true);
         } else {
@@ -279,7 +279,49 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
               isLoadable: false);
         }
       } else if (_selectedCargoHold == 'Rear (bulk) Cargo Hold') {
-        if (height <= 95.0 && width <= 107.0 && volume <= 19.5) {
+        if ((height <= 107.0 && width <= 95.0 && length <= 381.0) ||
+            (height <= 107.0 && width <= 318.0 && length <= 95.0)) {
+          _showAlert(_selectedAircraftType!, 'Rear (bulk) Cargo hold',
+              isLoadable: true);
+        } else {
+          _showAlert(_selectedAircraftType!, 'Rear (bulk) Cargo hold',
+              isLoadable: false);
+        }
+      }
+    } else if (isTilted && _selectedAircraftType == "A330") {
+      if (_selectedCargoHold == 'Forward Cargo Hold') {
+        if ((height <= 170.0 && width <= 270.0 && length <= 416.0) ||
+            (width <= 170.0 && height <= 270.0 && length <= 416.0) ||
+            (length <= 170.0 && height <= 270.0 && width <= 416.0) ||
+            (height <= 170.0 && length <= 270.0 && width <= 416.0) ||
+            (width <= 170.0 && length <= 270.0 && height <= 416.0) ||
+            (length <= 170.0 && width <= 270.0 && height <= 416.0)) {
+          _showAlert(_selectedAircraftType!, 'Forward Cargo hold',
+              isLoadable: true);
+        } else {
+          _showAlert(_selectedAircraftType!, 'Forward Cargo hold',
+              isLoadable: false);
+        }
+      } else if (_selectedCargoHold == 'After Cargo Hold') {
+        if ((height <= 168.0 && width <= 273.0 && length <= 416.0) ||
+            (width <= 168.0 && height <= 273.0 && length <= 416.0) ||
+            (length <= 168.0 && height <= 273.0 && width <= 416.0) ||
+            (height <= 168.0 && length <= 273.0 && width <= 416.0) ||
+            (width <= 168.0 && length <= 273.0 && height <= 416.0) ||
+            (length <= 168.0 && width <= 273.0 && height <= 416.0)) {
+          _showAlert(_selectedAircraftType!, 'After Cargo hold',
+              isLoadable: true);
+        } else {
+          _showAlert(_selectedAircraftType!, 'After Cargo hold',
+              isLoadable: false);
+        }
+      } else if (_selectedCargoHold == 'Rear (bulk) Cargo Hold') {
+        if ((height <= 107.0 && width <= 95.0 && length <= 381.0) ||
+            (width <= 107.0 && height <= 95.0 && length <= 381.0) ||
+            (length <= 107.0 && height <= 95.0 && width <= 381.0) ||
+            (height <= 107.0 && length <= 95.0 && width <= 381.0) ||
+            (width <= 107.0 && length <= 95.0 && height <= 381.0) ||
+            (length <= 107.0 && width <= 95.0 && height <= 381.0)) {
           _showAlert(_selectedAircraftType!, 'Rear (bulk) Cargo hold',
               isLoadable: true);
         } else {

@@ -338,7 +338,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                       'assets/images/flight_status_icon.svg')),
                                               Expanded(
                                                   child: buildOutlinedButton(
-                                                      'Loadibility',
+                                                      'Loadability',
                                                       'assets/images/loadability_icon.svg')),
                                             ],
                                           ),
@@ -547,22 +547,35 @@ class _MyHomePageState extends State<MyHomePage> {
                   if (index == 1) {
                     // Navigate to Contact Us page
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ContactUsPage()));
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            ContactUsPage(),
+                        transitionDuration:
+                            Duration(seconds: 0), // No animation
+                      ),
+                    );
                   } else if (index == 0) {
                     // Navigate to Home page
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              MyHomePage(title: 'Flutter Demo Home Page')),
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            MyHomePage(title: 'Flutter Demo Home Page'),
+                        transitionDuration:
+                            Duration(seconds: 0), // No animation
+                      ),
                     );
                   } else if (index == 2) {
                     // Navigate to About Us page
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => AboutUsPage()),
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            AboutUsPage(),
+                        transitionDuration:
+                            Duration(seconds: 0), // No animation
+                      ),
                     );
                   }
                 },
@@ -602,7 +615,7 @@ class _MyHomePageState extends State<MyHomePage> {
               MaterialPageRoute(builder: (context) => FlightStatusPage()),
             );
           }
-          if (label == 'Loadibility') {
+          if (label == 'Loadability') {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => LoadibilityPage()),
@@ -669,4 +682,3 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 }
-

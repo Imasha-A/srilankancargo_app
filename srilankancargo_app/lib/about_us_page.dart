@@ -231,21 +231,33 @@ class AboutUsPage extends StatelessWidget {
               onTap: (index) {
                 if (index == 1) {
                   // Navigate to Contact Us page
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ContactUsPage()));
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          ContactUsPage(),
+                      transitionDuration: Duration(seconds: 0), // No animation
+                    ),
+                  );
                 } else if (index == 0) {
                   // Navigate to Home page
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            MyHomePage(title: 'Flutter Demo Home Page')),
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          MyHomePage(title: 'Flutter Demo Home Page'),
+                      transitionDuration: Duration(seconds: 0), // No animation
+                    ),
                   );
                 } else if (index == 2) {
                   // Navigate to About Us page
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => AboutUsPage()),
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          AboutUsPage(),
+                      transitionDuration: Duration(seconds: 0), // No animation
+                    ),
                   );
                 }
               },

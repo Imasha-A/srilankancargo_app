@@ -768,7 +768,7 @@ Arrival Time: ${flightInfo['Atime']}''';
                                           country['code'] !=
                                           _destinationCountryController.text)
                                       .map<String>((country) =>
-                                          country['name'] as String)
+                                          '${country['name']} (${country['code']})')
                                       .toList(),
                                   popupProps: PopupProps.menu(
                                     showSearchBox: true,
@@ -786,7 +786,7 @@ Arrival Time: ${flightInfo['Atime']}''';
                                               255, 178, 172, 172),
                                         ),
                                         filled:
-                                            true, // Add this to ensure the background is filled
+                                            true, // Ensures background is filled
                                         fillColor: Colors.white,
                                         border: OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -811,10 +811,11 @@ Arrival Time: ${flightInfo['Atime']}''';
                                         ),
                                       ),
                                       style: TextStyle(
-                                          color: Color.fromARGB(
-                                              255, 204, 203, 203),
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: screenWidth * 0.035),
+                                        color:
+                                            Color.fromARGB(255, 204, 203, 203),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: screenWidth * 0.035,
+                                      ),
                                     ),
                                     menuProps: MenuProps(
                                       backgroundColor: Colors.white,
@@ -841,8 +842,8 @@ Arrival Time: ${flightInfo['Atime']}''';
                                           item,
                                           style: TextStyle(
                                             color: isSelected
-                                                ? Color.fromARGB(
-                                                    255, 135, 130, 130)
+                                                ? Colors
+                                                    .white // Highlight color change for selection
                                                 : Color.fromARGB(
                                                     255, 135, 130, 130),
                                             fontWeight: isSelected
@@ -871,19 +872,16 @@ Arrival Time: ${flightInfo['Atime']}''';
                                     setState(() {
                                       var selectedCountry = _filteredCountries
                                           .firstWhere((country) =>
-                                              country['name'] == newValue);
+                                              '${country['name']} (${country['code']})' ==
+                                              newValue);
                                       _originCountryController.text =
                                           selectedCountry['code'];
                                     });
                                   },
-                                  selectedItem:
-                                      _originCountryController.text.isEmpty
-                                          ? null
-                                          : _filteredCountries.firstWhere(
-                                              (country) =>
-                                                  country['code'] ==
-                                                  _originCountryController
-                                                      .text)['name'],
+                                  selectedItem: _originCountryController
+                                          .text.isEmpty
+                                      ? null
+                                      : '${_filteredCountries.firstWhere((country) => country['code'] == _originCountryController.text)['name']} (${_originCountryController.text})',
                                   dropdownBuilder: (context, selectedItem) {
                                     return Text(
                                       selectedItem ?? "Select Origin Country",
@@ -929,7 +927,7 @@ Arrival Time: ${flightInfo['Atime']}''';
                                           country['code'] !=
                                           _originCountryController.text)
                                       .map<String>((country) =>
-                                          country['name'] as String)
+                                          '${country['name']} (${country['code']})')
                                       .toList(),
                                   popupProps: PopupProps.menu(
                                     showSearchBox: true,
@@ -946,6 +944,9 @@ Arrival Time: ${flightInfo['Atime']}''';
                                           color: const Color.fromARGB(
                                               255, 204, 203, 203),
                                         ),
+                                        filled:
+                                            true, // Ensures the search box background is filled
+                                        fillColor: Colors.white,
                                         border: OutlineInputBorder(
                                           borderSide: BorderSide(
                                             color: Colors.grey,
@@ -971,16 +972,13 @@ Arrival Time: ${flightInfo['Atime']}''';
                                       ),
                                     ),
                                     menuProps: MenuProps(
-                                      backgroundColor: Colors
-                                          .white, // Ensure the dropdown background is white
-                                      elevation:
-                                          0, // Remove any shadow that might create a tint
+                                      backgroundColor: Colors.white,
+                                      elevation: 0,
                                       shape: RoundedRectangleBorder(
                                         side: BorderSide(
-                                            color: Colors
-                                                .transparent), // Optional: Set border to transparent
-                                        borderRadius: BorderRadius.circular(
-                                            8.0), // Adjust radius as needed
+                                            color: Colors.transparent),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
                                       ),
                                     ),
                                     itemBuilder: (context, item, isSelected) {
@@ -997,8 +995,8 @@ Arrival Time: ${flightInfo['Atime']}''';
                                           item,
                                           style: TextStyle(
                                             color: isSelected
-                                                ? const Color.fromARGB(
-                                                    255, 135, 130, 130)
+                                                ? Colors
+                                                    .white // Highlight color change for selection
                                                 : const Color.fromARGB(
                                                     255, 135, 130, 130),
                                             fontWeight: isSelected
@@ -1027,19 +1025,16 @@ Arrival Time: ${flightInfo['Atime']}''';
                                     setState(() {
                                       var selectedCountry = _filteredCountries
                                           .firstWhere((country) =>
-                                              country['name'] == newValue);
+                                              '${country['name']} (${country['code']})' ==
+                                              newValue);
                                       _destinationCountryController.text =
                                           selectedCountry['code'];
                                     });
                                   },
-                                  selectedItem:
-                                      _destinationCountryController.text.isEmpty
-                                          ? null
-                                          : _filteredCountries.firstWhere(
-                                              (country) =>
-                                                  country['code'] ==
-                                                  _destinationCountryController
-                                                      .text)['name'],
+                                  selectedItem: _destinationCountryController
+                                          .text.isEmpty
+                                      ? null
+                                      : '${_filteredCountries.firstWhere((country) => country['code'] == _destinationCountryController.text)['name']} (${_destinationCountryController.text})',
                                   dropdownBuilder: (context, selectedItem) {
                                     return Text(
                                       selectedItem ??
