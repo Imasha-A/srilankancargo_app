@@ -337,7 +337,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
         } else if (height <= 50.0 && width <= 50.0 && length <= 493.0) {
           _showAlert(_selectedAircraftType!, 'Forward Cargo hold',
               isLoadable: true);
-        } else if (height <= 75.0 && width <= 75.0 && length <= 489.5) {
+        } else if (height <= 75.0 && width <= 75.0 && length <= 489.0) {
           _showAlert(_selectedAircraftType!, 'Forward Cargo hold',
               isLoadable: true);
         } else {
@@ -386,7 +386,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
           _showAlert(_selectedAircraftType!, 'After Cargo hold',
               isLoadable: true);
         } else if (_selectedCargoHold == 'Rear (bulk) Cargo Hold' &&
-            height <= 149.9 &&
+            height <= 122.8 &&
             width <= 149.9 &&
             length <= 174.8) {
           _showAlert(_selectedAircraftType!, 'Rear (bulk) Cargo hold',

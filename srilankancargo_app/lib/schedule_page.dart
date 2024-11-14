@@ -51,11 +51,26 @@ class _FlightSchedulePageState extends State<FlightSchedulePage> {
     return IOClient(ioc);
   }
 
-  Future<void> fetchCountries() async {
-    final client = await createHttpClient();
+  // Future<void> fetchCountries() async {
+  //   final client = await createHttpClient();
 
-    final response = await client.get(Uri.parse(
-        'https://ulmobservicestest.srilankan.com/ulrest/data/localdataC.js'));
+  //   final response = await client.get(Uri.parse(
+  //       'https://ulmobservicestest.srilankan.com/ulrest/data/localdataC.js'));
+
+  //   if (response.statusCode == 200) {
+  //     setState(() {
+  //       _allCountries = json.decode(response.body);
+  //       _filteredCountries = _allCountries;
+  //       sortCountries();
+  //     });
+  //   } else {
+  //     throw Exception('Failed to load countries');
+  //   }
+  // }
+
+  Future<void> fetchCountries() async {
+    final response = await http.get(Uri.parse(
+        'https://ulmobservices.srilankan.com/ULMOBTEAMSERVICES/api/CargoMobileAppCorp/GetOriginsAndDestinations'));
 
     if (response.statusCode == 200) {
       setState(() {
