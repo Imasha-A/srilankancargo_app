@@ -186,9 +186,8 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                 ),
                 SizedBox(height: screenHeight * 0.01),
 
-                // Flight Type and Cargo Hold Info
                 Text(
-                  'Flight Type: $flightType\nCargo Hold: $cargoHold',
+                  'Aircraft Type: $flightType\nCargo Hold: $cargoHold',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: screenWidth * 0.042,
@@ -276,16 +275,6 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
           _showAlert(_selectedAircraftType!, 'After Cargo hold',
               isLoadable: false);
         }
-      } else if (_selectedCargoHold == 'Rear (bulk) Cargo Hold') {
-        // get values for this
-        if ((height <= 107.0 && width <= 95.0 && length <= 381.0) ||
-            (height <= 107.0 && width <= 318.0 && length <= 95.0)) {
-          _showAlert(_selectedAircraftType!, 'Rear (bulk) Cargo hold',
-              isLoadable: true);
-        } else {
-          _showAlert(_selectedAircraftType!, 'Rear (bulk) Cargo hold',
-              isLoadable: false);
-        }
       }
     } else if (isTilted && _selectedAircraftType == "A330") {
       if (_selectedCargoHold == 'Forward Cargo Hold') {
@@ -314,21 +303,6 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
               isLoadable: true);
         } else {
           _showAlert(_selectedAircraftType!, 'After Cargo hold',
-              isLoadable: false);
-        }
-      } else if (_selectedCargoHold == 'Rear (bulk) Cargo Hold') {
-        // change these
-        if (height <= 25.0 && width <= 25.0 && length <= 324.0) {
-          _showAlert(_selectedAircraftType!, 'Rear (bulk) Cargo hold',
-              isLoadable: true);
-        } else if (height <= 50.0 && width <= 50.0 && length <= 324.0) {
-          _showAlert(_selectedAircraftType!, 'Rear (bulk) Cargo hold',
-              isLoadable: true);
-        } else if (height <= 75.0 && width <= 75.0 && length <= 324.0) {
-          _showAlert(_selectedAircraftType!, 'Rear (bulk) Cargo hold',
-              isLoadable: true);
-        } else {
-          _showAlert(_selectedAircraftType!, 'Rear (bulk) Cargo hold',
               isLoadable: false);
         }
       }
@@ -362,13 +336,13 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
               isLoadable: false);
         }
       } else if (isTilted && _selectedCargoHold == 'Rear (bulk) Cargo Hold') {
-        if (height <= 25.0 && width <= 25.0 && length <= 324.0) {
+        if (height <= 25.0 && width <= 25.0 && length <= 323.0) {
           _showAlert(_selectedAircraftType!, 'Rear (bulk) Cargo hold',
               isLoadable: true);
-        } else if (height <= 50.0 && width <= 50.0 && length <= 324.0) {
+        } else if (height <= 50.0 && width <= 50.0 && length <= 323.0) {
           _showAlert(_selectedAircraftType!, 'Rear (bulk) Cargo hold',
               isLoadable: true);
-        } else if (height <= 75.0 && width <= 75.0 && length <= 324.0) {
+        } else if (height <= 75.0 && width <= 75.0 && length <= 323.0) {
           _showAlert(_selectedAircraftType!, 'Rear (bulk) Cargo hold',
               isLoadable: true);
         } else {
@@ -394,9 +368,14 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
             length <= 174.8) {
           _showAlert(_selectedAircraftType!, 'Rear (bulk) Cargo hold',
               isLoadable: true);
-        } else {
-          _showAlert(_selectedAircraftType!,
-              'You will not be able to load your Item into Cargo holds',
+        } else if (_selectedCargoHold == 'Forward Cargo Hold') {
+          _showAlert(_selectedAircraftType!, 'Forward Cargo hold',
+              isLoadable: false);
+        } else if (_selectedCargoHold == 'After Cargo Hold') {
+          _showAlert(_selectedAircraftType!, 'After Cargo Hold',
+              isLoadable: false);
+        } else if (_selectedCargoHold == 'Rear (bulk) Cargo Hold') {
+          _showAlert(_selectedAircraftType!, 'Rear (bulk) Cargo hold',
               isLoadable: false);
         }
       }
@@ -914,6 +893,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                         onChanged: (String? newValue) {
                                           setState(() {
                                             _selectedAircraftType = newValue;
+                                            _selectedCargoHold = null;
                                           });
                                         },
                                       ),
@@ -984,11 +964,17 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                           ),
                                         ),
                                         isExpanded: true,
-                                        items: [
-                                          'Forward Cargo Hold',
-                                          'After Cargo Hold',
-                                          'Rear (bulk) Cargo Hold',
-                                        ].map((String value) {
+                                        items: (_selectedAircraftType == 'A330'
+                                                ? [
+                                                    'Forward Cargo Hold',
+                                                    'After Cargo Hold'
+                                                  ]
+                                                : [
+                                                    'Forward Cargo Hold',
+                                                    'After Cargo Hold',
+                                                    'Rear (bulk) Cargo Hold',
+                                                  ])
+                                            .map((String value) {
                                           return DropdownMenuItem<String>(
                                             value: value,
                                             child: Text(value),

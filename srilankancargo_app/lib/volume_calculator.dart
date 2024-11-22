@@ -969,7 +969,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                             alignment: Alignment
                                                                 .centerLeft,
                                                             child: Text(
-                                                              'Cubic cm: ${selection.finalTotal.toStringAsFixed(4)} m³',
+                                                              'Cubic m: ${selection.finalTotal.toStringAsFixed(4)} m³',
                                                               style: TextStyle(
                                                                 fontSize:
                                                                     screenWidth *
