@@ -303,7 +303,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                 fontWeight: FontWeight.bold,
                 fontSize: screenWidth * 0.06),
             content: Text(
-                'Are you sure you want to leave? Flight information will be lost.'),
+                'Are you sure you want to leave? Your calculations will be lost.'),
             contentTextStyle: TextStyle(
                 color: Color.fromARGB(255, 21, 7, 110),
                 fontSize: screenWidth * 0.045),
