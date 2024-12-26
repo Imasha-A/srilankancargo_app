@@ -76,16 +76,16 @@ class ContactUsPage extends StatelessWidget {
             right: 0,
             child: LayoutBuilder(
               builder: (context, constraints) {
-                double cardWidth = constraints.maxWidth * 0.9;
+                double cardWidth = constraints.maxWidth * 0.8;
                 double maxHeight = screenHeight * 0.71;
                 return Container(
-                  width: cardWidth,
+                  width: cardWidth * 1.2,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   padding: EdgeInsets.symmetric(
-                      horizontal: cardWidth * 0.05,
+                      horizontal: cardWidth * 0.02,
                       vertical: screenHeight * 0.01),
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
