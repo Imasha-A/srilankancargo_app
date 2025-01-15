@@ -39,9 +39,8 @@ class _FlightSchedulePageState extends State<FlightSchedulePage> {
     super.initState();
 
     fetchCountries();
-    _searchController.addListener(() {
-      filterCountries();
-    });
+
+    filterCountries();
   }
 
   Future<http.Client> createHttpClient() async {
@@ -50,23 +49,6 @@ class _FlightSchedulePageState extends State<FlightSchedulePage> {
         (X509Certificate cert, String host, int port) => true;
     return IOClient(ioc);
   }
-
-  // Future<void> fetchCountries() async {
-  //   final client = await createHttpClient();
-
-  //   final response = await client.get(Uri.parse(
-  //       'https://ulmobservicestest.srilankan.com/ulrest/data/localdataC.js'));
-
-  //   if (response.statusCode == 200) {
-  //     setState(() {
-  //       _allCountries = json.decode(response.body);
-  //       _filteredCountries = _allCountries;
-  //       sortCountries();
-  //     });
-  //   } else {
-  //     throw Exception('Failed to load countries');
-  //   }
-  // }
 
   Future<void> fetchCountries() async {
     final response = await http.get(Uri.parse(
@@ -122,11 +104,12 @@ class _FlightSchedulePageState extends State<FlightSchedulePage> {
   }
 
   Future<void> _selectDate(BuildContext context) async {
+    DateTime now = DateTime.now();
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
-        firstDate: DateTime.now(),
-        lastDate: DateTime(2101),
+        firstDate: now.subtract(Duration(days: 366)),
+        lastDate: now.add(Duration(days: 365 * 100)),
         builder: (BuildContext context, Widget? child) {
           return Theme(
             data: ThemeData.light().copyWith(
@@ -1303,19 +1286,29 @@ Arrival Time: ${flightInfo['Atime']}''';
       if (index == 0) {
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (context) => MyHomePage(title: 'Flutter Demo Home Page'),
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                MyHomePage(title: 'Flutter Demo Home Page'),
+            transitionDuration: Duration(seconds: 0), // No animation
           ),
         );
       } else if (index == 1) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ContactUsPage()),
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                ContactUsPage(),
+            transitionDuration: Duration(seconds: 0), // No animation
+          ),
         );
       } else if (index == 2) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => AboutUsPage()),
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                AboutUsPage(),
+            transitionDuration: Duration(seconds: 0), // No animation
+          ),
         );
       }
     }

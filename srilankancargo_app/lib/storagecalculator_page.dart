@@ -262,11 +262,12 @@ class _StorageCalPageState extends State<StorageCalPage> {
   Future<void> _selectedDate(BuildContext context, bool isArrivalDate) async {
     if (isArrivalDate) {
       // For Arrival Date
+      DateTime now = DateTime.now();
       final DateTime? picked = await showDatePicker(
           context: context,
           initialDate: DateTime.now(),
-          firstDate: DateTime.now(),
-          lastDate: DateTime(2099, 12, 31),
+          firstDate: now.subtract(Duration(days: 366)),
+          lastDate: now.add(Duration(days: 365 * 100)),
           builder: (BuildContext context, Widget? child) {
             return Theme(
               data: ThemeData.light().copyWith(
@@ -684,7 +685,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
       },
     );
   }
-  
+
   Future<void> _handleBackButton(BuildContext context) async {
     double screenWidth = MediaQuery.of(context).size.width;
 
@@ -1357,19 +1358,29 @@ class _StorageCalPageState extends State<StorageCalPage> {
       if (index == 0) {
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (context) => MyHomePage(title: 'Flutter Demo Home Page'),
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                MyHomePage(title: 'Flutter Demo Home Page'),
+            transitionDuration: Duration(seconds: 0), // No animation
           ),
         );
       } else if (index == 1) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ContactUsPage()),
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                ContactUsPage(),
+            transitionDuration: Duration(seconds: 0), // No animation
+          ),
         );
       } else if (index == 2) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => AboutUsPage()),
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                AboutUsPage(),
+            transitionDuration: Duration(seconds: 0), // No animation
+          ),
         );
       }
     }

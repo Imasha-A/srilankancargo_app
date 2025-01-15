@@ -65,11 +65,12 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
   }
 
   Future<void> _selectDate(BuildContext context) async {
+    DateTime now = DateTime.now();
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
-        firstDate: DateTime.now(),
-        lastDate: DateTime(2101),
+        firstDate: now.subtract(Duration(days: 366)),
+        lastDate: now.add(Duration(days: 365 * 100)),
         builder: (BuildContext context, Widget? child) {
           return Theme(
             data: ThemeData.light().copyWith(
@@ -92,6 +93,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
   Future<void> fetchFlightStatus() async {
     FocusScope.of(context).unfocus();
     final RegExp flightNumberReg = RegExp(r'^[a-zA-Z]{2}\d{1,4}$');
+    final RegExp cargoFlightNumberReg = RegExp(r'^[a-zA-Z0-9]{2}\d{1,4}$');
 
     if (_flightNumberController.text.isEmpty && _selectedDate == null) {
       _clearFlightInfo();
@@ -103,7 +105,8 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
       _clearFlightInfo();
       _showAlert('Incomplete Form', 'Please enter valid flight number.');
       return;
-    } else if (!flightNumberReg.hasMatch(_flightNumberController.text)) {
+    } else if (!flightNumberReg.hasMatch(_flightNumberController.text) &&
+        (!cargoFlightNumberReg.hasMatch(_flightNumberController.text))) {
       _clearFlightInfo();
       _showAlert('Invalid Flight Number', 'Please enter valid flight number.');
       return;
@@ -301,14 +304,14 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                 child: Image.asset(
                   'assets/images/flight_status.png',
                   fit: BoxFit.cover,
-                  height: screenHeight*0.23,
+                  height: screenHeight * 0.23,
                 ),
               ),
               Positioned(
                 top: screenHeight * 0.04,
                 left: screenWidth * 0.001,
                 child: SizedBox(
-                width: screenWidth * .12,
+                  width: screenWidth * .12,
                   height: screenHeight * 0.04,
                   child: IconButton(
                     icon: Icon(Icons.arrow_back),
@@ -665,7 +668,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
             ],
           ),
         ),
-         bottomNavigationBar: Container(
+        bottomNavigationBar: Container(
           decoration: BoxDecoration(
             color: Colors.white,
             boxShadow: [
@@ -711,14 +714,15 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                     label: 'About Us',
                   ),
                 ],
-            selectedItemColor: Color.fromARGB(255, 28, 31, 106),
-            unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
-            onTap: (index) {
-              _handleNavigation(index, context);
-            },
-          ),],
+                selectedItemColor: Color.fromARGB(255, 28, 31, 106),
+                unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
+                onTap: (index) {
+                  _handleNavigation(index, context);
+                },
+              ),
+            ],
+          ),
         ),
-      ),
       ),
     );
   }
@@ -732,19 +736,29 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
       if (index == 0) {
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (context) => MyHomePage(title: 'Flutter Demo Home Page'),
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                MyHomePage(title: 'Flutter Demo Home Page'),
+            transitionDuration: Duration(seconds: 0), // No animation
           ),
         );
       } else if (index == 1) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ContactUsPage()),
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                ContactUsPage(),
+            transitionDuration: Duration(seconds: 0), // No animation
+          ),
         );
       } else if (index == 2) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => AboutUsPage()),
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                AboutUsPage(),
+            transitionDuration: Duration(seconds: 0), // No animation
+          ),
         );
       }
     }

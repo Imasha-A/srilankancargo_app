@@ -1166,19 +1166,29 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
       if (index == 0) {
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (context) => MyHomePage(title: 'Flutter Demo Home Page'),
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                MyHomePage(title: 'Flutter Demo Home Page'),
+            transitionDuration: Duration(seconds: 0), // No animation
           ),
         );
       } else if (index == 1) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ContactUsPage()),
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                ContactUsPage(),
+            transitionDuration: Duration(seconds: 0), // No animation
+          ),
         );
       } else if (index == 2) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => AboutUsPage()),
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                AboutUsPage(),
+            transitionDuration: Duration(seconds: 0), // No animation
+          ),
         );
       }
     }

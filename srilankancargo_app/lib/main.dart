@@ -606,31 +606,51 @@ class _MyHomePageState extends State<MyHomePage> {
           if (label == 'Schedule') {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => FlightSchedulePage()),
+              PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    FlightSchedulePage(),
+                transitionDuration: Duration(seconds: 0), // No animation
+              ),
             );
           }
           if (label == 'Flight Status') {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => FlightStatusPage()),
+              PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    FlightStatusPage(),
+                transitionDuration: Duration(seconds: 0), // No animation
+              ),
             );
           }
           if (label == 'Loadability') {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => LoadibilityPage()),
+              PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    LoadibilityPage(),
+                transitionDuration: Duration(seconds: 0), // No animation
+              ),
             );
           }
           if (label == 'Storage Calculator') {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => StorageCalPage()),
+              PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    StorageCalPage(),
+                transitionDuration: Duration(seconds: 0), // No animation
+              ),
             );
           }
           if (label == 'Volume Calculator') {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => VolumeCalPage()),
+              PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    VolumeCalPage(),
+                transitionDuration: Duration(seconds: 0), // No animation
+              ),
             );
           }
           if (label == 'Tracking') {
