@@ -39,8 +39,8 @@ class _FlightSchedulePageState extends State<FlightSchedulePage> {
     super.initState();
 
     fetchCountries();
-
     filterCountries();
+    sortCountries();
   }
 
   Future<http.Client> createHttpClient() async {

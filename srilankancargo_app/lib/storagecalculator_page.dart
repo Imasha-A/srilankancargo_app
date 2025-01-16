@@ -1151,13 +1151,22 @@ class _StorageCalPageState extends State<StorageCalPage> {
                                           fontWeight: FontWeight.bold)),
                                   value: _selectedLocation,
                                   isExpanded: true,
-                                  items: <String>[
-                                    'Normal Room',
-                                    'Cool Room (20 to -20 degrees celcius)'
-                                  ].map((String value) {
+                                  items: [
+                                    {
+                                      'display': 'Normal Room',
+                                      'value': 'Normal Room'
+                                    },
+                                    {
+                                      'display': 'Cool Room',
+                                      'value':
+                                          'Cool Room (20 to -20 degrees celcius)'
+                                    },
+                                  ].map((item) {
                                     return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
+                                      value: item[
+                                          'value'], 
+                                      child: Text(item[
+                                          'display']!), 
                                     );
                                   }).toList(),
                                   onChanged: (String? newValue) {
