@@ -352,12 +352,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   child: buildOutlinedButton(
                                                       'Storage Calculator',
                                                       'assets/images/storage_calculator_icon.svg')),
-                                              SizedBox(width: 5),
+                                              SizedBox(
+                                                  width: screenWidth * 0.01),
                                               Expanded(
                                                   child: buildOutlinedButton(
                                                       'Volume Calculator',
                                                       'assets/images/volume_calculator_icon.svg')),
-                                              SizedBox(width: 5),
+                                              SizedBox(
+                                                  width: screenWidth * 0.01),
                                               Expanded(
                                                   child: buildOutlinedButton(
                                                       'Tracking',
@@ -416,7 +418,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       ),
                                     ),
 
-                                    SizedBox(height: screenHeight * 0.02),
+                                    SizedBox(height: screenHeight * 0.023),
                                   ],
                                 ),
                               ),
