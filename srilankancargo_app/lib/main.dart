@@ -418,7 +418,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       ),
                                     ),
 
-                                    SizedBox(height: screenHeight * 0.023),
+                                    SizedBox(height: screenHeight * 0.045),
                                   ],
                                 ),
                               ),

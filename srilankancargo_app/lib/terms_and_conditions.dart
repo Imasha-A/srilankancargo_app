@@ -67,7 +67,7 @@ class _TermsAndConditionsPageState extends State<TermsAndConditionsPage> {
           ),
           // Title and close icon
           Positioned(
-            top: screenHeight * 0.01,
+            top: screenHeight * 0.035,
             left: 0.0,
             right: 0.0,
             child: Container(
@@ -103,7 +103,7 @@ class _TermsAndConditionsPageState extends State<TermsAndConditionsPage> {
           ),
 
           Padding(
-            padding: EdgeInsets.only(top: screenHeight * 0.07),
+            padding: EdgeInsets.only(top: screenHeight * 0.105),
             child: FutureBuilder<Map<String, dynamic>>(
               future: _data,
               builder: (context, snapshot) {
