@@ -529,11 +529,11 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                       if (_flightInfo != null) ...[
                         SizedBox(height: screenHeight * 0.03),
                         Text(
-                          'ON-SCHEDULE',
+                          _flightInfo!['Stauts'],
                           style: TextStyle(
-                            fontSize: screenWidth * 0.06,
-                            fontWeight: FontWeight.w600,
-                            color: Color.fromARGB(255, 15, 20, 158),
+                            fontSize: screenWidth * 0.065,
+                            fontWeight: FontWeight.bold,
+                            color: const Color.fromARGB(255, 15, 20, 158),
                           ),
                         ),
 

@@ -150,6 +150,16 @@ class _TermsAndConditionsPageState extends State<TermsAndConditionsPage> {
                                 SizedBox(height: 16.0),
                               ],
                             ),
+                          SizedBox(height: 1.0),
+                          Text(
+                            'IA',
+                            style: TextStyle(
+                              fontSize: screenWidth * 0.006,
+                              fontWeight: FontWeight.bold,
+                              color: const Color.fromARGB(255, 28, 31, 106),
+                            ),
+                          ),
+                          SizedBox(height: 1.0),
                         ],
                       ),
                     ),
