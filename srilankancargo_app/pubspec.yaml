@@ -77,6 +77,8 @@ flutter:
      - assets/images/volume_calculator.png
      - assets/images/storage_calculator.png
      - assets/images/airplane_line.svg
+     - assets/images/airplane_line.png
+     - assets/images/airplane.png
      - assets/images/homescreen_banner_new.jpg
      - assets/images/home_background_banner_try.png
      - assets/images/cross.svg

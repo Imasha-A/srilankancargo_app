@@ -192,7 +192,7 @@ class ContactUsPage extends StatelessWidget {
                                 ),
                                 onPressed: () {
                                   launchUrl(Uri.parse(
-                                      'https://www.linkedin.com/company/flysrilankan/posts/?feedView=all'));
+                                      'https://www.linkedin.com/company/srilankan-cargo/'));
                                 },
                               ),
                             ],

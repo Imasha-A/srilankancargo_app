@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:srilankancargo_app/about_us_page.dart';
 import 'package:srilankancargo_app/contact_us_page.dart';
@@ -110,8 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   late Timer _timer;
   late double paddingBottom;
-  late double buttonWidth;
-  late double buttonHeight;
+
   late double buttonTextSize;
   double appBarOffsetPercentage = 0.27;
 
@@ -149,50 +146,42 @@ class _MyHomePageState extends State<MyHomePage> {
     if (screenWidth == 1024) {
       // iPad Pro (12.9-inch)
       paddingBottom = 65.0;
-      buttonWidth = (screenWidth - 100) / 3;
-      buttonHeight = 45;
+
       buttonTextSize = 12;
     } else if (screenWidth >= 768) {
       // iPad or larger screens
       paddingBottom = 85.0;
-      buttonWidth = (screenWidth - 80) / 3;
-      buttonHeight = 50;
+
       buttonTextSize = 12;
     } else if (screenWidth == 375) {
       // iPhone SE
       paddingBottom = 15.0;
-      buttonWidth = (screenWidth - 60) / 2;
-      buttonHeight = 28;
+
       buttonTextSize = 10.5;
     } else if (screenWidth == 393) {
       // iPhone 15
       paddingBottom = 70.0;
-      buttonWidth = (screenWidth - 60) / 2;
-      buttonHeight = 43;
+
       buttonTextSize = 10;
     } else if (screenWidth == 430) {
       // iPhone 15 Plus
       paddingBottom = 92.0;
-      buttonWidth = (screenWidth - 60) / 2;
-      buttonHeight = 43;
+
       buttonTextSize = 12;
     } else if (screenWidth <= 768 && screenWidth > 600) {
       // Customization for larger Android screens
       paddingBottom = 90.0;
-      buttonWidth = (screenWidth - 100) / 3;
-      buttonHeight = 55;
+
       buttonTextSize = 14.0;
     } else if (screenWidth <= 600 && screenWidth > 400) {
       // Customization for medium-sized Android screens (Pixel 7 Pro API 29)
       paddingBottom = 60.0;
-      buttonWidth = (screenWidth - 60) / 2;
-      buttonHeight = 50;
+
       buttonTextSize = 11.0;
     } else {
       // Default values for other screen sizes
       paddingBottom = 85.0;
-      buttonWidth = (screenWidth - 30) / 2;
-      buttonHeight = 45;
+
       buttonTextSize = 12.0;
     }
   }
@@ -592,8 +581,8 @@ class _MyHomePageState extends State<MyHomePage> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return SizedBox(
-      width: buttonWidth,
-      height: buttonHeight * 1.5,
+      width: screenWidth * 0.05,
+      height: screenHeight * 0.07,
       child: TextButton(
         style: TextButton.styleFrom(
           backgroundColor: Color.fromARGB(255, 255, 255, 255),
@@ -665,15 +654,16 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             SvgPicture.asset(
               svgPath,
-              height: 24,
-              width: 24,
+              height: screenHeight * 0.032,
+              width: screenWidth * 0.032,
             ),
             SizedBox(height: screenHeight * 0.005),
             Text(
               label,
               textAlign: TextAlign.center,
               style: TextStyle(
-                  fontSize: screenWidth * 0.03,
+                  fontSize: screenWidth * 0.0315,
+                  fontWeight: FontWeight.w600,
                   color: Color.fromARGB(255, 28, 31, 106)),
             ),
           ],

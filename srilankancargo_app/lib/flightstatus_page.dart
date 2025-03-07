@@ -19,6 +19,18 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
   bool _isLoading = false; // Loading indicator
   bool _canNavigate = true;
   Map<String, dynamic>? _flightInfo;
+  bool _animate = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        _animate = true;
+        print("Animation triggered: $_animate");
+      });
+    });
+  }
 
   Map<String, double> customizeFormCard(double screenWidth) {
     Map<String, double> customizationValues = {};
@@ -94,6 +106,8 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
     FocusScope.of(context).unfocus();
     final RegExp flightNumberReg = RegExp(r'^[a-zA-Z]{2}\d{1,4}$');
     final RegExp cargoFlightNumberReg = RegExp(r'^[a-zA-Z0-9]{2}\d{1,4}$');
+    _flightNumberController.text =
+        _flightNumberController.text.replaceAll(' ', '');
 
     if (_flightNumberController.text.isEmpty && _selectedDate == null) {
       _clearFlightInfo();
@@ -487,7 +501,29 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                             SizedBox(height: screenHeight * 0.02),
 
                             ElevatedButton(
-                              onPressed: fetchFlightStatus,
+                              onPressed: () {
+                                fetchFlightStatus();
+                                
+                                Future.delayed(Duration(milliseconds: 1000),
+                                    () {
+                                  setState(() {
+                                    _animate = true;
+                                  });
+                                });
+                                if (_animate == false)
+                                  setState(() {
+                                    _isLoading = true;
+                                    _animate = false; 
+                                  });
+
+                                
+                                Future.delayed(Duration(milliseconds: 1000),
+                                    () {
+                                  setState(() {
+                                    _animate = true; 
+                                  });
+                                });
+                              },
                               style: ElevatedButton.styleFrom(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: buttonPadding,
@@ -568,14 +604,38 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                               ),
                             ),
                             SizedBox(width: screenWidth * 0.05),
-                            // Airplane SVG in the middle
-                            Padding(
-                              padding:
-                                  EdgeInsets.only(bottom: screenHeight * 0.015),
-                              child: SvgPicture.asset(
-                                'assets/images/airplane_line.svg',
-                                height: screenHeight * 0.085,
-                                color: Color.fromARGB(255, 27, 31, 127),
+                            SizedBox(
+                              height: screenHeight * 0.08,
+                              width: screenWidth * 0.5,
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  SizedBox(
+                                    height: screenHeight * 0.012,
+                                    width: screenWidth * 0.8,
+                                    child: Image.asset(
+                                      'assets/images/airplane_line.png',
+                                      fit: BoxFit.fill,
+                                      color: Color.fromARGB(255, 28, 31, 106),
+                                    ),
+                                  ),
+                                  AnimatedAlign(
+                                    alignment: _animate
+                                        ? Alignment.center
+                                        : Alignment.centerLeft,
+                                    duration: const Duration(seconds: 3),
+                                    curve: Curves.easeInOut,
+                                    child: SizedBox(
+                                      height: screenHeight * 0.07,
+                                      width: screenWidth * 0.14,
+                                      child: Image.asset(
+                                        'assets/images/airplane.png',
+                                        fit: BoxFit.contain,
+                                        color: Color.fromARGB(255, 28, 31, 106),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                             SizedBox(width: screenWidth * 0.05),
@@ -635,6 +695,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                           child: ElevatedButton(
                             onPressed: () {
                               _clearFlightInfo();
+                              _animate = false;
                             },
                             style: ElevatedButton.styleFrom(
                               foregroundColor: Color.fromARGB(255, 28, 31, 106),

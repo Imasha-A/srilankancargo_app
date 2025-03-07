@@ -31,13 +31,19 @@ class _FlightSchedulePageState extends State<FlightSchedulePage> {
   bool _fetched = false;
   bool _showFlightDetails = false;
   bool _canNavigate = true;
+  bool _animate = false;
 
   List<String> _flightDetails = [];
 
   @override
   void initState() {
     super.initState();
-
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        _animate = true;
+        print("Animation triggered: $_animate");
+      });
+    });
     fetchCountries();
     filterCountries();
     sortCountries();
@@ -381,12 +387,37 @@ Arrival Time: ${flightInfo['Atime']}''';
           // Airplane SVG in the middle
           Column(
             children: [
-              Padding(
-                padding: EdgeInsets.only(bottom: screenHeight * 0.001),
-                child: SvgPicture.asset(
-                  'assets/images/airplane_line.svg',
-                  height: screenHeight * 0.085,
-                  color: Color.fromARGB(255, 27, 31, 127),
+              SizedBox(
+                height: screenHeight * 0.08,
+                width: screenWidth * 0.5,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    SizedBox(
+                      height: screenHeight * 0.012,
+                      width: screenWidth * 0.8,
+                      child: Image.asset(
+                        'assets/images/airplane_line.png',
+                        fit: BoxFit.fill,
+                        color: Color.fromARGB(255, 28, 31, 106),
+                      ),
+                    ),
+                    AnimatedAlign(
+                      alignment:
+                          _animate ? Alignment.center : Alignment.centerLeft,
+                      duration: const Duration(seconds: 3),
+                      curve: Curves.easeInOut,
+                      child: SizedBox(
+                        height: screenHeight * 0.07,
+                        width: screenWidth * 0.14,
+                        child: Image.asset(
+                          'assets/images/airplane.png',
+                          fit: BoxFit.contain,
+                          color: Color.fromARGB(255, 28, 31, 106),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               // Date below the airplane
@@ -1105,10 +1136,10 @@ Arrival Time: ${flightInfo['Atime']}''';
                               ),
                             ),
                           ],
-                          SizedBox(height: screenHeight * 0.016),
+                          SizedBox(height: screenHeight * 0.018),
                           Center(
                             child: Container(
-                              height: screenHeight * 0.065,
+                              height: screenHeight * 0.062,
                               width: screenWidth * 0.86,
                               child: ElevatedButton(
                                 onPressed: () {
@@ -1117,6 +1148,8 @@ Arrival Time: ${flightInfo['Atime']}''';
                                       _isCollapsed = !_isCollapsed;
                                       _fetched = false;
                                       _flightDetails = [];
+                                      _animate =
+                                          false; // Reset to left position
                                     });
                                   } else {
                                     if (_originCountryController.text.isEmpty &&
@@ -1146,6 +1179,15 @@ Arrival Time: ${flightInfo['Atime']}''';
                                     _fetched = true;
                                     setState(() {
                                       _isCollapsed = !_isCollapsed;
+                                      _animate = false; // Reset position
+                                    });
+
+                                    // Trigger animation after a short delay
+                                    Future.delayed(Duration(milliseconds: 100),
+                                        () {
+                                      setState(() {
+                                        _animate = true; // Move to the center
+                                      });
                                     });
                                   }
                                 },
@@ -1176,13 +1218,13 @@ Arrival Time: ${flightInfo['Atime']}''';
                                         Icons.arrow_drop_down,
                                         color:
                                             Color.fromARGB(255, 255, 255, 255),
-                                        size: screenWidth * 0.05,
+                                        size: screenWidth * 0.042,
                                       ),
                                     ] else ...[
                                       Text(
                                         'Submit',
                                         style: TextStyle(
-                                          fontSize: screenWidth * 0.04,
+                                          fontSize: screenWidth * 0.038,
                                           color: Color.fromARGB(
                                               255, 255, 255, 255),
                                         ),
@@ -1196,7 +1238,7 @@ Arrival Time: ${flightInfo['Atime']}''';
                         ],
                       ),
                     ),
-                    SizedBox(height: screenHeight * 0.001),
+                    SizedBox(height: screenHeight * 0.0008),
                     Row(),
                     if (_fetched) ...[
                       _buildOriginDestinationRow(),
