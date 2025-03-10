@@ -4,9 +4,49 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:srilankancargo_app/contact_us_page.dart';
 import 'package:srilankancargo_app/main.dart';
 import 'package:srilankancargo_app/terms_and_conditions.dart';
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
-class AboutUsPage extends StatelessWidget {
+class AboutUsPage extends StatefulWidget {
   const AboutUsPage({Key? key}) : super(key: key);
+
+  @override
+  _AboutUsPageState createState() => _AboutUsPageState();
+}
+
+class _AboutUsPageState extends State<AboutUsPage> {
+  String aboutUsText = "Loading...";
+
+  @override
+  void initState() {
+    super.initState();
+    fetchAboutUs();
+  }
+
+  Future<void> fetchAboutUs() async {
+    final url = Uri.parse(
+        'https://ulmobservices.srilankan.com/ULMOBTEAMSERVICES/api/CargoMobileAppCorp/GetCargoAboutUs');
+
+    try {
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        setState(() {
+          aboutUsText = data['aboutUs'] ?? "No information available.";
+        });
+      } else {
+        setState(() {
+          aboutUsText = "Failed to load data.";
+        });
+      }
+    } catch (e) {
+      setState(() {
+        aboutUsText = "Error: $e";
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +68,6 @@ class AboutUsPage extends StatelessWidget {
             ),
           ),
 
-          // White Card with Content (middle layer)
           Positioned(
             top: screenHeight * 0.205,
             left: 0,
@@ -36,6 +75,7 @@ class AboutUsPage extends StatelessWidget {
             child: LayoutBuilder(
               builder: (context, constraints) {
                 double cardWidth = constraints.maxWidth * 0.9;
+
                 double maxHeight = screenHeight * 0.71;
 
                 return Container(
@@ -48,7 +88,7 @@ class AboutUsPage extends StatelessWidget {
                         color: Colors.grey.withOpacity(0.5),
                         spreadRadius: 2,
                         blurRadius: 5,
-                        offset: Offset(0, 3),
+                        offset: const Offset(0, 3),
                       ),
                     ],
                   ),
@@ -72,9 +112,8 @@ class AboutUsPage extends StatelessWidget {
                             ),
                           ),
                           SizedBox(height: screenHeight * 0.001),
-                          
                           Text(
-                            'SriLankan Cargo is the Cargo Arm of SriLankan Airlines - The National Carrier of Sri Lanka. SriLankan Cargo provides connectivity to its global network of 37 destinations in 21 countries across Europe, the Middle East, South Asia, Southeast Asia, the Far East and Australia.',
+                            aboutUsText,
                             style: TextStyle(
                               fontSize: screenWidth * 0.042,
                               color: Color.fromARGB(255, 28, 31, 106),
@@ -82,7 +121,6 @@ class AboutUsPage extends StatelessWidget {
                             textAlign: TextAlign.justify,
                           ),
                           SizedBox(height: screenHeight * 0.03),
-
                           GestureDetector(
                             onTap: () {
                               Navigator.push(
@@ -99,98 +137,49 @@ class AboutUsPage extends StatelessWidget {
                                 Text(
                                   'Terms and Conditions',
                                   style: TextStyle(
-                                    fontSize: screenWidth * 0.038,
+                                    fontSize: screenWidth * 0.045,
                                     fontWeight: FontWeight.w500,
-                                    color: Color.fromARGB(255, 28, 31, 106),
+                                    color:
+                                        const Color.fromARGB(255, 28, 31, 106),
                                   ),
                                 ),
-                                SizedBox(width: screenWidth * 0.02),
+                                SizedBox(width: screenWidth * 0.03),
                                 SvgPicture.asset(
                                   'assets/images/terms_icon.svg',
-                                  height: screenHeight * 0.02,
-                                  width: screenHeight * 0.02,
+                                  height: screenHeight * 0.025,
+                                  width: screenWidth * 0.025,
                                 ),
                               ],
                             ),
                           ),
                           SizedBox(height: screenHeight * 0.015),
-
                           Center(
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(8.0),
                               child: Image.asset(
                                 'assets/images/about_us_picture.jpg',
                                 height: screenHeight * 0.22,
-                                width: cardWidth * 1.2,
+                                width: cardWidth,
                                 fit: BoxFit.fill,
                               ),
                             ),
                           ),
-
-                          SizedBox(height: screenHeight * 0.03),
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment
-                                .spaceBetween, // Space between the two columns
+                          Column(
                             children: [
-                              // First column: Left aligned
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment
-                                    .start, // Align text in the first column to the left
-                                children: [
-                                  Text(
-                                    'Last Updated on',
-                                    style: TextStyle(
-                                      fontSize: screenWidth * 0.03,
-                                      color: Color.fromARGB(255, 51, 51, 51),
-                                    ),
-                                  ),
-                                  SizedBox(height: screenHeight * 0.003),
-                                  Text(
-                                    '05/03/2025',
-                                    style: TextStyle(
-                                      fontSize: screenWidth * 0.036,
-                                      color: Color.fromARGB(255, 51, 51, 51),
-                                    ),
-                                  ),
-                                ],
+                              SizedBox(height: screenHeight * 0.04),
+                              Divider(),
+                              SizedBox(height: screenHeight * 0.01),
+                              Text(
+                                'SriLankan IT Systems. All rights reserved',
+                                style: TextStyle(
+                                  fontSize: screenWidth * 0.035,
+                                  color:
+                                      const Color.fromARGB(255, 154, 154, 156),
+                                ),
                               ),
-                              // Second column: Right aligned
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment
-                                    .end, // Align text in the second column to the right
-                                children: [
-                                  Text(
-                                    'Created on',
-                                    style: TextStyle(
-                                      fontSize: screenWidth * 0.03,
-                                      color: Color.fromARGB(255, 51, 51, 51),
-                                    ),
-                                  ),
-                                  SizedBox(height: screenHeight * 0.003),
-                                  Text(
-                                    '10/10/2024',
-                                    style: TextStyle(
-                                      fontSize: screenWidth * 0.036,
-                                      color: Color.fromARGB(255, 51, 51, 51),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                              SizedBox(height: screenHeight * 0.06),
                             ],
                           ),
-                          Divider(),
-                          Center(
-                            child: Text(
-                              'SriLankan IT Systems. All rights reserved',
-                              style: TextStyle(
-                                fontSize: screenWidth * 0.036,
-                                color: Color.fromARGB(255, 51, 51, 51),
-                              ),
-                            ),
-                          ),
-
-                          SizedBox(height: screenHeight * 0.02),
                         ],
                       ),
                     ),
