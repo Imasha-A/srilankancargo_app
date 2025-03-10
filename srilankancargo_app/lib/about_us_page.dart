@@ -16,7 +16,7 @@ class AboutUsPage extends StatefulWidget {
 }
 
 class _AboutUsPageState extends State<AboutUsPage> {
-  String aboutUsText = "Loading...";
+  String aboutUsText = "Loading...\n\n\n\n\n\n";
 
   @override
   void initState() {
