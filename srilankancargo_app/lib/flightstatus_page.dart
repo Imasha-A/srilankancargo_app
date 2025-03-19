@@ -139,7 +139,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
         "${_selectedDate!.month}/${_selectedDate!.day}/${_selectedDate!.year}";
 
     String url =
-        "https://ulmobservicesstg.srilankan.com/ULMOBTEAMSERVICES/api/CARGOUL/FLTSTA?FlightNo=$flightNo&FlightDate=$flightDate";
+        "https://ulmobservices.srilankan.com/ULMOBTEAMSERVICES/api/CARGOUL/FLTSTA?FlightNo=$flightNo&FlightDate=$flightDate";
 
     _flightNumberController.clear();
     _selectedDate = null;

@@ -235,7 +235,7 @@ class _FlightSchedulePageState extends State<FlightSchedulePage> {
 
     // API URL to fetch flight schedule
     String url =
-        "https://ulmobservicesstg.srilankan.com/ULMOBTEAMSERVICES/api/CARGOUL/FLTSHL?FromCity=$origin&ToCity=$destination&FlightDate=$formattedDate";
+        "https://ulmobservices.srilankan.com/ULMOBTEAMSERVICES/api/CARGOUL/FLTSHL?FromCity=$origin&ToCity=$destination&FlightDate=$formattedDate";
 
     try {
       final response = await http.get(Uri.parse(url));

@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:srilankancargo_app/about_us_page.dart';
 import 'package:srilankancargo_app/contact_us_page.dart';
 import 'package:srilankancargo_app/storagecalculator_page.dart';
@@ -10,6 +13,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'schedule_page.dart';
 import 'flightstatus_page.dart';
 import 'loadibility_page.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -111,11 +115,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   late double buttonTextSize;
   double appBarOffsetPercentage = 0.27;
+  String aboutUsText = '';
 
   @override
   void initState() {
     super.initState();
     _startTimer();
+    fetchAboutUs();
   }
 
   @override
@@ -123,6 +129,42 @@ class _MyHomePageState extends State<MyHomePage> {
     super.didChangeDependencies();
     _updateButtonDimensions();
     _updateAppBarOffset();
+  }
+
+  // Fetch data and save to SharedPreferences
+  Future<void> fetchAboutUs() async {
+    final url = Uri.parse(
+        'https://ulmobservices.srilankan.com/ULMOBTEAMSERVICES/api/CargoMobileAppCorp/GetCargoAboutUs');
+
+    try {
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        String fetchedText = data['aboutUs'] ?? "No information available.";
+
+        // Save to SharedPreferences
+        await saveAboutUsToPrefs(fetchedText);
+
+        setState(() {
+          aboutUsText = fetchedText;
+        });
+      } else {
+        setState(() {
+          aboutUsText = "Failed to load data.";
+        });
+      }
+    } catch (e) {
+      setState(() {
+        aboutUsText = "Error: $e";
+      });
+    }
+  }
+
+  // Save About Us text to SharedPreferences
+  Future<void> saveAboutUsToPrefs(String text) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('aboutUs', text);
   }
 
   void _startTimer() {

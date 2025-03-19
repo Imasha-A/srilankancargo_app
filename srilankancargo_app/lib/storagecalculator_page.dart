@@ -400,7 +400,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
       print('Sending API request...');
       final response = await http.post(
         Uri.parse(
-            'https://ulmobservicesstg.srilankan.com/ULMOBTEAMSERVICES/api/CargoMobileAppCorp/CalculateCharges'),
+            'https://ulmobservices.srilankan.com/ULMOBTEAMSERVICES/api/CargoMobileAppCorp/CalculateCharges'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(userSelection.toJson()),
       );

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:srilankancargo_app/contact_us_page.dart';
 import 'package:srilankancargo_app/main.dart';
 import 'package:srilankancargo_app/terms_and_conditions.dart';
@@ -21,31 +22,15 @@ class _AboutUsPageState extends State<AboutUsPage> {
   @override
   void initState() {
     super.initState();
-    fetchAboutUs();
+    getAboutUsFromPrefs();
   }
 
-  Future<void> fetchAboutUs() async {
-    final url = Uri.parse(
-        'https://ulmobservices.srilankan.com/ULMOBTEAMSERVICES/api/CargoMobileAppCorp/GetCargoAboutUs');
-
-    try {
-      final response = await http.get(url);
-
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        setState(() {
-          aboutUsText = data['aboutUs'] ?? "No information available.";
-        });
-      } else {
-        setState(() {
-          aboutUsText = "Failed to load data.";
-        });
-      }
-    } catch (e) {
-      setState(() {
-        aboutUsText = "Error: $e";
-      });
-    }
+  // Retrieve About Us text from SharedPreferences
+  Future<void> getAboutUsFromPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      aboutUsText = prefs.getString('aboutUs') ?? "No saved data.";
+    });
   }
 
   @override
