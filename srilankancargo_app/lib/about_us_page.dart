@@ -19,6 +19,8 @@ class AboutUsPage extends StatefulWidget {
 class _AboutUsPageState extends State<AboutUsPage> {
   String aboutUsText = "Loading...\n\n\n\n\n\n";
 
+  int _currentIndex = 2;
+
   @override
   void initState() {
     super.initState();
@@ -41,27 +43,32 @@ class _AboutUsPageState extends State<AboutUsPage> {
     return Scaffold(
       body: Stack(
         children: [
-          // Top Banner Image (bottom layer)
+          // Top Banner Gradient (bottom layer)
           Positioned(
             top: 0,
             left: 0,
             right: 0,
-            child: Image.asset(
-              'assets/images/homescreen_banner.jpg',
-              fit: BoxFit.cover,
-              height: screenHeight * 0.28,
+            child: Container(
+              height: screenHeight * 0.17,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Color(0xFF0060C8), Color(0xFF193E7F)],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ),
+              ),
             ),
           ),
 
           Positioned(
-            top: screenHeight * 0.205,
+            top: screenHeight * 0.16,
             left: 0,
             right: 0,
             child: LayoutBuilder(
               builder: (context, constraints) {
                 double cardWidth = constraints.maxWidth * 0.9;
 
-                double maxHeight = screenHeight * 0.71;
+                double maxHeight = screenHeight * 0.9;
 
                 return Container(
                   width: cardWidth,
@@ -101,49 +108,16 @@ class _AboutUsPageState extends State<AboutUsPage> {
                             aboutUsText,
                             style: TextStyle(
                               fontSize: screenWidth * 0.042,
-                              color: Color.fromARGB(255, 28, 31, 106),
-                            ),
-                            textAlign: TextAlign.justify,
-                          ),
-                          SizedBox(height: screenHeight * 0.03),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      TermsAndConditionsPage(),
-                                ),
-                              );
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Terms and Conditions',
-                                  style: TextStyle(
-                                    fontSize: screenWidth * 0.045,
-                                    fontWeight: FontWeight.w500,
-                                    color:
-                                        const Color.fromARGB(255, 28, 31, 106),
-                                  ),
-                                ),
-                                SizedBox(width: screenWidth * 0.03),
-                                SvgPicture.asset(
-                                  'assets/images/terms_icon.svg',
-                                  height: screenHeight * 0.025,
-                                  width: screenWidth * 0.025,
-                                ),
-                              ],
+                              color: const Color(0xFF193E7F),
                             ),
                           ),
-                          SizedBox(height: screenHeight * 0.015),
+                          SizedBox(height: screenHeight * 0.05),
                           Center(
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(8.0),
                               child: Image.asset(
                                 'assets/images/about_us_picture.jpg',
-                                height: screenHeight * 0.22,
+                                height: screenHeight * 0.26,
                                 width: cardWidth,
                                 fit: BoxFit.fill,
                               ),
@@ -162,7 +136,7 @@ class _AboutUsPageState extends State<AboutUsPage> {
                                       const Color.fromARGB(255, 154, 154, 156),
                                 ),
                               ),
-                              SizedBox(height: screenHeight * 0.06),
+                              SizedBox(height: screenHeight * 0.28),
                             ],
                           ),
                         ],
@@ -175,7 +149,7 @@ class _AboutUsPageState extends State<AboutUsPage> {
           ),
 
           Positioned(
-            top: screenHeight * 0.145,
+            top: screenHeight * 0.1,
             left: screenWidth * 0.05,
             child: Text(
               'About Us',
@@ -194,84 +168,129 @@ class _AboutUsPageState extends State<AboutUsPage> {
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1), // Shadow color
-              offset: Offset(0, -2), // Shadow position
-              blurRadius: 4, // Shadow blur radius
+              color: Colors.black.withOpacity(0.1),
+              offset: Offset(0, -2),
+              blurRadius: 4,
             ),
           ],
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(
-                height: screenHeight *
-                    0.006), // Change this height to increase space
-            BottomNavigationBar(
-              backgroundColor: Colors.white,
-              elevation: 0,
-              items: [
-                BottomNavigationBarItem(
-                  icon: SvgPicture.asset(
-                    'assets/images/home_icon.svg',
-                    height: screenHeight * .03,
-                    width: screenWidth * .03,
-                  ),
-                  label: 'Home',
-                ),
-                BottomNavigationBarItem(
-                  icon: SvgPicture.asset(
-                    'assets/images/contact_us_icon.svg',
-                    height: screenHeight * .03,
-                    width: screenWidth * .03,
-                  ),
-                  label: 'Contact Us',
-                ),
-                BottomNavigationBarItem(
-                  icon: SvgPicture.asset(
-                    'assets/images/about_us_icon.svg',
-                    height: screenHeight * .03,
-                    width: screenWidth * .03,
-                  ),
-                  label: 'About Us',
-                ),
-              ],
-              selectedItemColor: Color.fromARGB(255, 28, 31, 106),
-              unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
-              currentIndex: 2,
-              onTap: (index) {
-                if (index == 1) {
-                  // Navigate to Contact Us page
-                  Navigator.push(
-                    context,
-                    PageRouteBuilder(
-                      pageBuilder: (context, animation, secondaryAnimation) =>
-                          ContactUsPage(),
-                      transitionDuration: Duration(seconds: 0), // No animation
+            SizedBox(height: screenHeight * 0.006),
+            Theme(
+              data: Theme.of(context).copyWith(
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+              ),
+              child: BottomNavigationBar(
+                type: BottomNavigationBarType.fixed,
+                showSelectedLabels: true,
+                showUnselectedLabels: true,
+                backgroundColor: Colors.white,
+                elevation: 0,
+                items: [
+                  BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      'assets/images/home_icon.svg',
+                      height: screenHeight * .03,
+                      width: screenWidth * .03,
                     ),
-                  );
-                } else if (index == 0) {
-                  // Navigate to Home page
-                  Navigator.push(
-                    context,
-                    PageRouteBuilder(
-                      pageBuilder: (context, animation, secondaryAnimation) =>
-                          MyHomePage(title: 'Flutter Demo Home Page'),
-                      transitionDuration: Duration(seconds: 0), // No animation
+                    activeIcon: SvgPicture.asset(
+                      'assets/images/filled_home.svg',
+                      height: screenHeight * .03,
+                      width: screenWidth * .03,
                     ),
-                  );
-                } else if (index == 2) {
-                  // Navigate to About Us page
-                  Navigator.push(
-                    context,
-                    PageRouteBuilder(
-                      pageBuilder: (context, animation, secondaryAnimation) =>
-                          AboutUsPage(),
-                      transitionDuration: Duration(seconds: 0), // No animation
+                    label: 'Home',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      'assets/images/contact_us_icon.svg',
+                      height: screenHeight * .03,
+                      width: screenWidth * .03,
                     ),
-                  );
-                }
-              },
-              selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
+                    activeIcon: SvgPicture.asset(
+                      'assets/images/filled_contact.svg',
+                      height: screenHeight * .03,
+                      width: screenWidth * .03,
+                    ),
+                    label: 'Contact Us',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      'assets/images/about_us_icon.svg',
+                      height: screenHeight * .03,
+                      width: screenWidth * .03,
+                    ),
+                    activeIcon: SvgPicture.asset(
+                      'assets/images/filled_about.svg',
+                      height: screenHeight * .03,
+                      width: screenWidth * .03,
+                    ),
+                    label: 'About Us',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      'assets/images/terms.svg',
+                      height: screenHeight * .03,
+                      width: screenWidth * .03,
+                    ),
+                    activeIcon: SvgPicture.asset(
+                      'assets/images/filled_terms.svg',
+                      height: screenHeight * .03,
+                      width: screenWidth * .03,
+                    ),
+                    label: 'T&C',
+                  ),
+                ],
+                selectedItemColor: Color.fromARGB(255, 28, 31, 106),
+                unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
+                currentIndex:
+                    _currentIndex, // Ensure _currentIndex is declared in your state
+                onTap: (index) {
+                  setState(() {
+                    _currentIndex = index;
+                  });
+                  if (index == 0) {
+                    Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            MyHomePage(title: 'Flutter Demo Home Page'),
+                        transitionDuration: Duration(seconds: 0),
+                      ),
+                    );
+                  } else if (index == 1) {
+                    Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            ContactUsPage(),
+                        transitionDuration: Duration(seconds: 0),
+                      ),
+                    );
+                  } else if (index == 2) {
+                    Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            AboutUsPage(),
+                        transitionDuration: Duration(seconds: 0),
+                      ),
+                    );
+                  } else if (index == 3) {
+                    Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            TermsAndConditionsPage(), // Replace with your T&C page widget
+                        transitionDuration: Duration(seconds: 0),
+                      ),
+                    );
+                  }
+                },
+                selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
+              ),
             ),
           ],
         ),

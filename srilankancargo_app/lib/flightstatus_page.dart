@@ -7,6 +7,8 @@ import 'package:srilankancargo_app/main.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:srilankancargo_app/terms_and_conditions.dart';
+
 class FlightStatusPage extends StatefulWidget {
   @override
   _FlightStatusPageState createState() => _FlightStatusPageState();
@@ -86,12 +88,11 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
         builder: (BuildContext context, Widget? child) {
           return Theme(
             data: ThemeData.light().copyWith(
-              primaryColor: Color.fromARGB(255, 28, 31, 106),
-              hintColor: Color.fromARGB(255, 28, 31, 106),
+              primaryColor: const Color(0xFF193E7F),
+              hintColor: const Color(0xFF193E7F),
               buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
               dialogBackgroundColor: Colors.lightBlue[50],
-              colorScheme:
-                  ColorScheme.light(primary: Color.fromARGB(255, 28, 31, 106)),
+              colorScheme: ColorScheme.light(primary: const Color(0xFF193E7F)),
             ),
             child: child!,
           );
@@ -193,7 +194,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                   style: TextStyle(
                     fontSize: screenWidth * 0.055,
                     fontWeight: FontWeight.bold,
-                    color: const Color.fromARGB(255, 28, 31, 106),
+                    color: const Color(0xFF193E7F),
                   ),
                 ),
                 SizedBox(height: screenHeight * 0.01),
@@ -202,7 +203,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: screenWidth * 0.045,
-                    color: const Color.fromARGB(255, 28, 31, 106),
+                    color: const Color(0xFF193E7F),
                   ),
                 ),
                 SizedBox(height: screenHeight * 0.012),
@@ -210,7 +211,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                   width: double.infinity,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 28, 31, 106),
+                      backgroundColor: const Color(0xFF193E7F),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
@@ -361,7 +362,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                         style: TextStyle(
                           fontSize: screenWidth * 0.05,
                           fontWeight: FontWeight.w600,
-                          color: Color.fromARGB(255, 28, 31, 106),
+                          color: const Color(0xFF193E7F),
                         ),
                       ),
 
@@ -390,7 +391,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                               style: TextStyle(
                                   fontSize: screenWidth * 0.035,
                                   fontWeight: FontWeight.w600,
-                                  color: Color.fromARGB(255, 28, 31, 106)),
+                                  color: const Color(0xFF193E7F)),
                             ),
                             SizedBox(
                               height: screenHeight * 0.06,
@@ -443,7 +444,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                               style: TextStyle(
                                   fontSize: screenWidth * 0.035,
                                   fontWeight: FontWeight.w600,
-                                  color: Color.fromARGB(255, 28, 31, 106)),
+                                  color: const Color(0xFF193E7F)),
                             ),
                             SizedBox(height: screenHeight * 0.001),
                             GestureDetector(
@@ -503,7 +504,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                             ElevatedButton(
                               onPressed: () {
                                 fetchFlightStatus();
-                                
+
                                 Future.delayed(Duration(milliseconds: 1000),
                                     () {
                                   setState(() {
@@ -513,14 +514,13 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                                 if (_animate == false)
                                   setState(() {
                                     _isLoading = true;
-                                    _animate = false; 
+                                    _animate = false;
                                   });
 
-                                
                                 Future.delayed(Duration(milliseconds: 1000),
                                     () {
                                   setState(() {
-                                    _animate = true; 
+                                    _animate = true;
                                   });
                                 });
                               },
@@ -528,8 +528,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                                 padding: EdgeInsets.symmetric(
                                     horizontal: buttonPadding,
                                     vertical: screenHeight * 0.013),
-                                backgroundColor:
-                                    Color.fromARGB(255, 28, 31, 106),
+                                backgroundColor: const Color(0xFF193E7F),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),
@@ -616,7 +615,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                                     child: Image.asset(
                                       'assets/images/airplane_line.png',
                                       fit: BoxFit.fill,
-                                      color: Color.fromARGB(255, 28, 31, 106),
+                                      color: const Color(0xFF193E7F),
                                     ),
                                   ),
                                   AnimatedAlign(
@@ -631,7 +630,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                                       child: Image.asset(
                                         'assets/images/airplane.png',
                                         fit: BoxFit.contain,
-                                        color: Color.fromARGB(255, 28, 31, 106),
+                                        color: const Color(0xFF193E7F),
                                       ),
                                     ),
                                   ),
@@ -698,25 +697,22 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                               _animate = false;
                             },
                             style: ElevatedButton.styleFrom(
-                              foregroundColor: Color.fromARGB(255, 28, 31, 106),
+                              foregroundColor: const Color(0xFF193E7F),
                               backgroundColor: Colors.white,
                               padding: EdgeInsets.symmetric(
                                   horizontal: screenWidth * 0.1,
                                   vertical: screenHeight * 0.01),
                               side: BorderSide(
-                                  color: Color.fromARGB(255, 28, 31, 106),
-                                  width: 1),
+                                  color: const Color(0xFF193E7F), width: 1),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
-                            child: Text(
-                              'Clear',
-                              style: TextStyle(
-                                  fontSize: screenWidth * 0.04,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromARGB(255, 28, 31, 106)),
-                            ),
+                            child: Text('Clear',
+                                style: TextStyle(
+                                    fontSize: screenWidth * 0.04,
+                                    fontWeight: FontWeight.bold,
+                                    color: const Color(0xFF193E7F))),
                           ),
                         ),
                       ],
@@ -734,53 +730,72 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
             color: Colors.white,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1), // Shadow color
-                offset: Offset(0, -2), // Shadow position
-                blurRadius: 4, // Shadow blur radius
+                color: Colors.black.withOpacity(0.1),
+                offset: Offset(0, -2),
+                blurRadius: 4,
               ),
             ],
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(
-                  height: screenHeight *
-                      0.006), // Change this height to increase space
-              BottomNavigationBar(
-                backgroundColor: Colors.white,
-                elevation: 0,
-                items: [
-                  BottomNavigationBarItem(
-                    icon: SvgPicture.asset(
-                      'assets/images/home_icon.svg',
-                      height: screenHeight * .03,
-                      width: screenWidth * .03,
+              SizedBox(height: screenHeight * 0.006),
+              Theme(
+                data: Theme.of(context).copyWith(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                ),
+                child: BottomNavigationBar(
+                  type: BottomNavigationBarType.fixed,
+                  showSelectedLabels: true,
+                  showUnselectedLabels: true,
+                  backgroundColor: Colors.white,
+                  elevation: 0,
+                  items: [
+                    BottomNavigationBarItem(
+                      icon: SvgPicture.asset(
+                        'assets/images/home_icon.svg',
+                        height: screenHeight * .03,
+                        width: screenWidth * .03,
+                        color: const Color(0xFF193E7F),
+                      ),
+                      label: 'Home',
                     ),
-                    label: 'Home',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: SvgPicture.asset(
-                      'assets/images/contact_us_icon.svg',
-                      height: screenHeight * .03,
-                      width: screenWidth * .03,
+                    BottomNavigationBarItem(
+                      icon: SvgPicture.asset(
+                        'assets/images/contact_us_icon.svg',
+                        height: screenHeight * .03,
+                        width: screenWidth * .03,
+                        color: const Color(0xFF193E7F),
+                      ),
+                      label: 'Contact Us',
                     ),
-                    label: 'Contact Us',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: SvgPicture.asset(
-                      'assets/images/about_us_icon.svg',
-                      height: screenHeight * .03,
-                      width: screenWidth * .03,
+                    BottomNavigationBarItem(
+                      icon: SvgPicture.asset(
+                        'assets/images/about_us_icon.svg',
+                        height: screenHeight * .03,
+                        width: screenWidth * .03,
+                        color: const Color(0xFF193E7F),
+                      ),
+                      label: 'About Us',
                     ),
-                    label: 'About Us',
-                  ),
-                ],
-                selectedItemColor: Color.fromARGB(255, 28, 31, 106),
-                unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
-                onTap: (index) {
-                  _handleNavigation(index, context);
-                },
-              ),
+                    BottomNavigationBarItem(
+                      icon: SvgPicture.asset(
+                        'assets/images/terms.svg',
+                        height: screenHeight * .03,
+                        width: screenWidth * .03,
+                        color: const Color(0xFF193E7F),
+                      ),
+                      label: 'T&C',
+                    ),
+                  ],
+                  selectedItemColor: const Color(0xFF193E7F),
+                  unselectedItemColor: const Color(0xFF193E7F),
+                  onTap: (index) {
+                    _handleNavigation(index, context);
+                  },
+                ),
+              )
             ],
           ),
         ),
@@ -800,7 +815,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
                 MyHomePage(title: 'Flutter Demo Home Page'),
-            transitionDuration: Duration(seconds: 0), // No animation
+            transitionDuration: Duration(seconds: 0),
           ),
         );
       } else if (index == 1) {
@@ -809,7 +824,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
                 ContactUsPage(),
-            transitionDuration: Duration(seconds: 0), // No animation
+            transitionDuration: Duration(seconds: 0),
           ),
         );
       } else if (index == 2) {
@@ -818,7 +833,16 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
                 AboutUsPage(),
-            transitionDuration: Duration(seconds: 0), // No animation
+            transitionDuration: Duration(seconds: 0),
+          ),
+        );
+      } else if (index == 3) {
+        Navigator.push(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                TermsAndConditionsPage(),
+            transitionDuration: Duration(seconds: 0),
           ),
         );
       }

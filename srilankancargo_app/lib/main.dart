@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:srilankancargo_app/about_us_page.dart';
 import 'package:srilankancargo_app/contact_us_page.dart';
 import 'package:srilankancargo_app/storagecalculator_page.dart';
+import 'package:srilankancargo_app/terms_and_conditions.dart';
 import 'package:srilankancargo_app/volume_calculator.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'schedule_page.dart';
@@ -116,6 +117,8 @@ class _MyHomePageState extends State<MyHomePage> {
   late double buttonTextSize;
   double appBarOffsetPercentage = 0.27;
   String aboutUsText = '';
+
+  int _currentIndex = 0;
 
   @override
   void initState() {
@@ -271,10 +274,15 @@ class _MyHomePageState extends State<MyHomePage> {
               top: 0,
               left: 0,
               right: 0,
-              child: Image.asset(
-                'assets/images/home_background_banner_try.png',
-                fit: BoxFit.cover,
+              child: Container(
                 height: screenHeight * 0.28,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color(0xFF0060C8), Color(0xFF193E7F)],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                  ),
+                ),
               ),
             ),
 
@@ -316,8 +324,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             size: Size.square(screenWidth * 0.025),
                             activeSize:
                                 Size(screenWidth * 0.04, screenHeight * 0.0095),
-                            color: const Color.fromARGB(255, 85, 88, 181),
-                            activeColor: Color.fromARGB(255, 28, 31, 106),
+                            color: const Color(0xFF0060C8),
+                            activeColor: const Color(0xFF193E7F),
                             activeShape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5.0),
                             ),
@@ -336,14 +344,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                   children: <Widget>[
                                     Padding(
                                       padding: EdgeInsets.only(
-                                        right: cardWidth * 0.6,
+                                        right: cardWidth * 0.7,
                                       ),
                                       child: Text(
                                         'Categories',
                                         style: TextStyle(
                                           fontSize: screenWidth * 0.05,
-                                          color:
-                                              Color.fromARGB(255, 28, 31, 106),
+                                          color: const Color(0xFF193E7F),
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -400,56 +407,150 @@ class _MyHomePageState extends State<MyHomePage> {
                                         ],
                                       ),
                                     ),
-
-                                    // Website Banner
-                                    Center(
-                                      child: SizedBox(
-                                        width: screenWidth * 0.93,
-                                        height: screenHeight * 0.19,
-                                        child: Stack(
-                                          children: [
-                                            Image.asset(
-                                              'assets/images/visit_website_banner.png',
-                                              fit: BoxFit.cover,
-                                              width: double.infinity,
-                                              height: double.infinity,
-                                            ),
-                                            Positioned(
-                                              bottom:
-                                                  screenHeight * 0.185 * 0.03,
-                                              left: screenWidth * 0.1,
-                                              child: ElevatedButton(
-                                                onPressed: () {
-                                                  launchUrl(Uri.parse(
-                                                      'https://www.srilankancargo.com'));
-                                                },
-                                                child: Text(
-                                                  "Click here",
-                                                  style: TextStyle(
-                                                    fontSize:
-                                                        screenWidth * 0.028,
+                                    SizedBox(height: screenHeight * 0.01),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          left: screenWidth * 0.035),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Product Categories",
+                                            style: TextStyle(
+                                                fontSize: screenWidth * .045,
+                                                fontWeight: FontWeight.bold,
+                                                color: const Color(0xFF193E7F)),
+                                          ),
+                                          SizedBox(height: screenHeight * 0.01),
+                                          Divider(
+                                            endIndent: screenWidth * 0.018,
+                                          ),
+                                          SizedBox(height: screenHeight * 0.02),
+                                          SingleChildScrollView(
+                                            scrollDirection: Axis.horizontal,
+                                            child: Row(
+                                              children: [
+                                                Container(
+                                                  height: screenHeight * 0.12,
+                                                  width: screenWidth * 0.4,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 8.0),
+                                                    child: ElevatedButton(
+                                                      onPressed: () {},
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                        backgroundColor:
+                                                            Colors.green,
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        20)),
+                                                        elevation: 5,
+                                                      ),
+                                                      child: Text(
+                                                          "Freshness Class",
+                                                          style: TextStyle(
+                                                              color: Colors
+                                                                  .white)),
+                                                    ),
                                                   ),
                                                 ),
-                                                style: ElevatedButton.styleFrom(
-                                                  foregroundColor: Colors.white,
-                                                  backgroundColor:
-                                                      Color.fromARGB(
-                                                          255, 26, 26, 54),
-                                                  padding: EdgeInsets.symmetric(
-                                                    horizontal:
-                                                        screenWidth * 0.05,
-                                                    vertical:
-                                                        screenHeight * 0.001,
+                                                Container(
+                                                  height: screenHeight * 0.12,
+                                                  width: screenWidth * 0.4,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 8.0),
+                                                    child: ElevatedButton(
+                                                      onPressed: () {},
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                        backgroundColor:
+                                                            Colors.red,
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        20)),
+                                                        elevation: 5,
+                                                      ),
+                                                      child: Text(
+                                                          "Wellness Class",
+                                                          style: TextStyle(
+                                                              color: Colors
+                                                                  .white)),
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
+                                                Container(
+                                                  height: screenHeight * 0.12,
+                                                  width: screenWidth * 0.4,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 8.0),
+                                                    child: ElevatedButton(
+                                                      onPressed: () {},
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                        backgroundColor:
+                                                            Colors.orange,
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        20)),
+                                                        elevation: 5,
+                                                      ),
+                                                      child: Text(
+                                                          "Guardian Class",
+                                                          style: TextStyle(
+                                                              color: Colors
+                                                                  .white)),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  height: screenHeight * 0.12,
+                                                  width: screenWidth * 0.4,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 8.0),
+                                                    child: ElevatedButton(
+                                                      onPressed: () {},
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                        backgroundColor:
+                                                            Colors.blue,
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        20)),
+                                                        elevation: 5,
+                                                      ),
+                                                      child: Text(
+                                                          "Precious Class",
+                                                          style: TextStyle(
+                                                              color: Colors
+                                                                  .white)),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
                                     ),
 
-                                    SizedBox(height: screenHeight * 0.045),
+                                    SizedBox(height: screenHeight * 0.05),
                                   ],
                                 ),
                               ),
@@ -464,12 +565,13 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
 
             Positioned(
-              top: screenHeight * 0.1425,
-              left: screenWidth * 0.05,
+              top: screenHeight * 0.11,
+              left: screenWidth * 0.065,
               child: Text(
                 'Welcome to',
                 style: TextStyle(
-                  fontSize: screenWidth * 0.045,
+                  fontWeight: FontWeight.w100,
+                  fontSize: screenWidth * 0.048,
                   color: Color.fromARGB(255, 255, 255, 255),
                 ),
                 textAlign: TextAlign.left,
@@ -477,16 +579,13 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
 
             Positioned(
-              top: screenHeight * 0.163,
-              left: screenWidth * 0.05,
-              child: Text(
-                'SriLankan Airlines Cargo',
-                style: TextStyle(
-                  fontSize: screenWidth * 0.06,
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 255, 255, 255),
-                ),
-                textAlign: TextAlign.left,
+              top: screenHeight * 0.125,
+              left: screenWidth * 0.1,
+              child: Image.asset(
+                'assets/images/logo_white.png',
+                height: screenHeight * 0.1,
+                width: screenWidth * 0.55,
+                fit: BoxFit.contain,
               ),
             ),
             // Image Slider
@@ -544,75 +643,123 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               SizedBox(height: screenHeight * 0.006),
-              BottomNavigationBar(
-                backgroundColor: Colors.white,
-                elevation: 0,
-                items: [
-                  BottomNavigationBarItem(
-                    icon: SvgPicture.asset(
-                      'assets/images/home_icon.svg',
-                      height: screenHeight * .03,
-                      width: screenWidth * .03,
-                    ),
-                    label: 'Home',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: SvgPicture.asset(
-                      'assets/images/contact_us_icon.svg',
-                      height: screenHeight * .03,
-                      width: screenWidth * .03,
-                    ),
-                    label: 'Contact Us',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: SvgPicture.asset(
-                      'assets/images/about_us_icon.svg',
-                      height: screenHeight * .03,
-                      width: screenWidth * .03,
-                    ),
-                    label: 'About Us',
-                  ),
-                ],
-                selectedItemColor: Color.fromARGB(255, 28, 31, 106),
-                unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
-                currentIndex: 0,
-                onTap: (index) {
-                  if (index == 1) {
-                    // Navigate to Contact Us page
-                    Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (context, animation, secondaryAnimation) =>
-                            ContactUsPage(),
-                        transitionDuration:
-                            Duration(seconds: 0), // No animation
+              Theme(
+                data: Theme.of(context).copyWith(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                ),
+                child: BottomNavigationBar(
+                  type: BottomNavigationBarType.fixed,
+                  showSelectedLabels: true,
+                  showUnselectedLabels: true,
+                  backgroundColor: Colors.white,
+                  elevation: 0,
+                  items: [
+                    BottomNavigationBarItem(
+                      icon: SvgPicture.asset(
+                        'assets/images/home_icon.svg',
+                        height: screenHeight * .03,
+                        width: screenWidth * .03,
                       ),
-                    );
-                  } else if (index == 0) {
-                    // Navigate to Home page
-                    Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (context, animation, secondaryAnimation) =>
-                            MyHomePage(title: 'Flutter Demo Home Page'),
-                        transitionDuration:
-                            Duration(seconds: 0), // No animation
+                      activeIcon: SvgPicture.asset(
+                        'assets/images/filled_home.svg',
+                        height: screenHeight * .03,
+                        width: screenWidth * .03,
                       ),
-                    );
-                  } else if (index == 2) {
-                    // Navigate to About Us page
-                    Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (context, animation, secondaryAnimation) =>
-                            AboutUsPage(),
-                        transitionDuration:
-                            Duration(seconds: 0), // No animation
+                      label: 'Home',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: SvgPicture.asset(
+                        'assets/images/contact_us_icon.svg',
+                        height: screenHeight * .03,
+                        width: screenWidth * .03,
                       ),
-                    );
-                  }
-                },
-                selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
+                      activeIcon: SvgPicture.asset(
+                        'assets/images/filled_contact.svg',
+                        height: screenHeight * .03,
+                        width: screenWidth * .03,
+                      ),
+                      label: 'Contact Us',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: SvgPicture.asset(
+                        'assets/images/about_us_icon.svg',
+                        height: screenHeight * .03,
+                        width: screenWidth * .03,
+                      ),
+                      activeIcon: SvgPicture.asset(
+                        'assets/images/filled_about.svg',
+                        height: screenHeight * .03,
+                        width: screenWidth * .03,
+                      ),
+                      label: 'About Us',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: SvgPicture.asset(
+                        'assets/images/terms.svg',
+                        height: screenHeight * .03,
+                        width: screenWidth * .03,
+                      ),
+                      activeIcon: SvgPicture.asset(
+                        'assets/images/filled_terms.svg',
+                        height: screenHeight * .03,
+                        width: screenWidth * .03,
+                      ),
+                      label: 'T&C',
+                    ),
+                  ],
+                  selectedItemColor: Color.fromARGB(255, 28, 31, 106),
+                  unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
+                  currentIndex:
+                      _currentIndex, // Ensure _currentIndex is declared in your state
+                  onTap: (index) {
+                    setState(() {
+                      _currentIndex = index;
+                    });
+                    if (index == 0) {
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  MyHomePage(title: 'Flutter Demo Home Page'),
+                          transitionDuration: Duration(seconds: 0),
+                        ),
+                      );
+                    } else if (index == 1) {
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  ContactUsPage(),
+                          transitionDuration: Duration(seconds: 0),
+                        ),
+                      );
+                    } else if (index == 2) {
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  AboutUsPage(),
+                          transitionDuration: Duration(seconds: 0),
+                        ),
+                      );
+                    } else if (index == 3) {
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (context, animation,
+                                  secondaryAnimation) =>
+                              TermsAndConditionsPage(), // Replace with your T&C page widget
+                          transitionDuration: Duration(seconds: 0),
+                        ),
+                      );
+                    }
+                  },
+                  selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
+                ),
               ),
             ],
           ),
@@ -696,6 +843,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             SvgPicture.asset(
               svgPath,
+              color: const Color(0xFF193E7F),
               height: screenHeight * 0.032,
               width: screenWidth * 0.032,
             ),
@@ -706,7 +854,7 @@ class _MyHomePageState extends State<MyHomePage> {
               style: TextStyle(
                   fontSize: screenWidth * 0.0315,
                   fontWeight: FontWeight.w600,
-                  color: Color.fromARGB(255, 28, 31, 106)),
+                  color: const Color(0xFF193E7F)),
             ),
           ],
         ),

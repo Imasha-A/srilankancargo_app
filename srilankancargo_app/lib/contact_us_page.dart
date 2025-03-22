@@ -7,10 +7,18 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:srilankancargo_app/about_us_page.dart';
 import 'package:srilankancargo_app/main.dart';
+import 'package:srilankancargo_app/terms_and_conditions.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ContactUsPage extends StatelessWidget {
+class ContactUsPage extends StatefulWidget {
   const ContactUsPage({Key? key}) : super(key: key);
+
+  @override
+  _ContactUsPageState createState() => _ContactUsPageState();
+}
+
+class _ContactUsPageState extends State<ContactUsPage> {
+  int _currentIndex = 1;
 
   Future<void> _launchURLYoutube(Uri parse) async {
     final Uri url =
@@ -57,27 +65,32 @@ class ContactUsPage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          // Top Banner Image (bottom layer)
+          // Top Banner Gradient (bottom layer)
           Positioned(
             top: 0,
             left: 0,
             right: 0,
-            child: Image.asset(
-              'assets/images/homescreen_banner.jpg',
-              fit: BoxFit.cover,
-              height: screenHeight * 0.28,
+            child: Container(
+              height: screenHeight * 0.17,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Color(0xFF0060C8), Color(0xFF193E7F)],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ),
+              ),
             ),
           ),
 
           // White Card with Content (middle layer)
           Positioned(
-            top: screenHeight * 0.205,
+            top: screenHeight * 0.16,
             left: 0,
             right: 0,
             child: LayoutBuilder(
               builder: (context, constraints) {
                 double cardWidth = constraints.maxWidth * 0.8;
-                double maxHeight = screenHeight * 0.71;
+                double maxHeight = screenHeight * 0.9;
                 return Container(
                   width: cardWidth * 1.2,
                   decoration: BoxDecoration(
@@ -95,7 +108,13 @@ class ContactUsPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(height: screenHeight * 0.03),
+                          Center(
+                            child: Image.asset(
+                              'assets/images/2022451025672_Big-removebg-preview (1).png',
+                              height: screenHeight * 0.08,
+                              fit: BoxFit.contain,
+                            ),
+                          ),
 
                           ContactInfoCard(
                             svgPath: 'assets/images/call_us_icon.svg',
@@ -132,7 +151,7 @@ class ContactUsPage extends StatelessWidget {
                               'Follow on',
                               style: TextStyle(
                                 fontSize: screenWidth * 0.05,
-                                color: const Color.fromARGB(255, 28, 31, 106),
+                                color: const Color(0xFF193E7F),
                               ),
                             ),
                           ),
@@ -197,7 +216,7 @@ class ContactUsPage extends StatelessWidget {
                               ),
                             ],
                           ),
-                          SizedBox(height: screenHeight * 0.05),
+                          SizedBox(height: screenHeight * 0.2),
                         ],
                       ),
                     ),
@@ -208,7 +227,7 @@ class ContactUsPage extends StatelessWidget {
           ),
 
           Positioned(
-            top: screenHeight * 0.145,
+            top: screenHeight * 0.1,
             left: screenWidth * 0.05,
             child: Text(
               'Contact Us',
@@ -227,82 +246,127 @@ class ContactUsPage extends StatelessWidget {
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1), // Shadow color
-              offset: Offset(0, -2), // Shadow position
-              blurRadius: 4, // Shadow blur radius
+              color: Colors.black.withOpacity(0.1),
+              offset: Offset(0, -2),
+              blurRadius: 4,
             ),
           ],
         ),
         child: Column(mainAxisSize: MainAxisSize.min, children: [
-          SizedBox(
-              height:
-                  screenHeight * 0.006), // Change this height to increase space
-          BottomNavigationBar(
-            backgroundColor: Colors.white,
-            elevation: 0,
-            items: [
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  'assets/images/home_icon.svg',
-                  height: screenHeight * .03,
-                  width: screenWidth * .03,
-                ),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  'assets/images/contact_us_icon.svg',
-                  height: screenHeight * .03,
-                  width: screenWidth * .03,
-                ),
-                label: 'Contact Us',
-              ),
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  'assets/images/about_us_icon.svg',
-                  height: screenHeight * .03,
-                  width: screenWidth * .03,
-                ),
-                label: 'About Us',
-              ),
-            ],
-            selectedItemColor: Color.fromARGB(255, 28, 31, 106),
-            unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
-            currentIndex: 1,
-            onTap: (index) {
-              if (index == 1) {
-                // Navigate to Contact Us page
-                Navigator.push(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation, secondaryAnimation) =>
-                        ContactUsPage(),
-                    transitionDuration: Duration(seconds: 0), // No animation
+          SizedBox(height: screenHeight * 0.006),
+          Theme(
+            data: Theme.of(context).copyWith(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+            ),
+            child: BottomNavigationBar(
+              type: BottomNavigationBarType.fixed,
+              showSelectedLabels: true,
+              showUnselectedLabels: true,
+              backgroundColor: Colors.white,
+              elevation: 0,
+              items: [
+                BottomNavigationBarItem(
+                  icon: SvgPicture.asset(
+                    'assets/images/home_icon.svg',
+                    height: screenHeight * .03,
+                    width: screenWidth * .03,
                   ),
-                );
-              } else if (index == 0) {
-                // Navigate to Home page
-                Navigator.push(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation, secondaryAnimation) =>
-                        MyHomePage(title: 'Flutter Demo Home Page'),
-                    transitionDuration: Duration(seconds: 0), // No animation
+                  activeIcon: SvgPicture.asset(
+                    'assets/images/filled_home.svg',
+                    height: screenHeight * .03,
+                    width: screenWidth * .03,
                   ),
-                );
-              } else if (index == 2) {
-                // Navigate to About Us page
-                Navigator.push(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation, secondaryAnimation) =>
-                        AboutUsPage(),
-                    transitionDuration: Duration(seconds: 0), // No animation
+                  label: 'Home',
+                ),
+                BottomNavigationBarItem(
+                  icon: SvgPicture.asset(
+                    'assets/images/contact_us_icon.svg',
+                    height: screenHeight * .03,
+                    width: screenWidth * .03,
                   ),
-                );
-              }
-            },
-            selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
+                  activeIcon: SvgPicture.asset(
+                    'assets/images/filled_contact.svg',
+                    height: screenHeight * .03,
+                    width: screenWidth * .03,
+                  ),
+                  label: 'Contact Us',
+                ),
+                BottomNavigationBarItem(
+                  icon: SvgPicture.asset(
+                    'assets/images/about_us_icon.svg',
+                    height: screenHeight * .03,
+                    width: screenWidth * .03,
+                  ),
+                  activeIcon: SvgPicture.asset(
+                    'assets/images/filled_about.svg',
+                    height: screenHeight * .03,
+                    width: screenWidth * .03,
+                  ),
+                  label: 'About Us',
+                ),
+                BottomNavigationBarItem(
+                  icon: SvgPicture.asset(
+                    'assets/images/terms.svg',
+                    height: screenHeight * .03,
+                    width: screenWidth * .03,
+                  ),
+                  activeIcon: SvgPicture.asset(
+                    'assets/images/filled_terms.svg',
+                    height: screenHeight * .03,
+                    width: screenWidth * .03,
+                  ),
+                  label: 'T&C',
+                ),
+              ],
+              selectedItemColor: Color.fromARGB(255, 28, 31, 106),
+              unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
+              currentIndex:
+                  _currentIndex, // Ensure _currentIndex is declared in your state
+              onTap: (index) {
+                setState(() {
+                  _currentIndex = index;
+                });
+                if (index == 0) {
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          MyHomePage(title: 'Flutter Demo Home Page'),
+                      transitionDuration: Duration(seconds: 0),
+                    ),
+                  );
+                } else if (index == 1) {
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          ContactUsPage(),
+                      transitionDuration: Duration(seconds: 0),
+                    ),
+                  );
+                } else if (index == 2) {
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          AboutUsPage(),
+                      transitionDuration: Duration(seconds: 0),
+                    ),
+                  );
+                } else if (index == 3) {
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          TermsAndConditionsPage(), // Replace with your T&C page widget
+                      transitionDuration: Duration(seconds: 0),
+                    ),
+                  );
+                }
+              },
+              selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
+            ),
           ),
         ]),
       ),
@@ -323,7 +387,7 @@ class ContactInfoCard extends StatelessWidget {
       {required this.svgPath,
       required this.title,
       required this.subtitle,
-      this.titleColor = const Color.fromARGB(255, 28, 31, 106),
+      this.titleColor = const Color(0xFF193E7F),
       this.subtitleColor = const Color.fromARGB(255, 51, 51, 51),
       this.onTap,
       this.onLongPress});
@@ -344,7 +408,7 @@ class ContactInfoCard extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
-            color: const Color.fromARGB(255, 85, 18, 181),
+            color: const Color(0xFF193E7F),
             width: 1.5,
           ),
           boxShadow: [
@@ -360,8 +424,9 @@ class ContactInfoCard extends StatelessWidget {
           children: [
             SvgPicture.asset(
               svgPath,
-              height: 30,
-              width: 40,
+              color: Color(0xFF193E7F),
+              height: screenHeight * 0.035,
+              width: screenWidth * 0.025,
             ),
             SizedBox(width: screenWidth * 0.05),
             Column(

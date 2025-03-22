@@ -6,6 +6,7 @@ import 'package:srilankancargo_app/contact_us_page.dart';
 import 'package:srilankancargo_app/main.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:srilankancargo_app/terms_and_conditions.dart';
 
 class UserSelection {
   final DateTime arrivalDate;
@@ -244,7 +245,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
           padding: const EdgeInsets.symmetric(vertical: 4.0),
           child: Text(
             description,
-            style: TextStyle(color: Color.fromARGB(255, 28, 31, 106)),
+            style: TextStyle(color: const Color(0xFF193E7F)),
           ),
         ),
         Padding(
@@ -252,7 +253,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
           child: Text(
             value.toStringAsFixed(2),
             textAlign: TextAlign.right,
-            style: TextStyle(color: Color.fromARGB(255, 28, 31, 106)),
+            style: TextStyle(color: const Color(0xFF193E7F)),
           ),
         ),
       ],
@@ -271,13 +272,13 @@ class _StorageCalPageState extends State<StorageCalPage> {
           builder: (BuildContext context, Widget? child) {
             return Theme(
               data: ThemeData.light().copyWith(
-                primaryColor: Color.fromARGB(255, 28, 31, 106),
-                hintColor: Color.fromARGB(255, 28, 31, 106),
+                primaryColor: const Color(0xFF193E7F),
+                hintColor: const Color(0xFF193E7F),
                 buttonTheme:
                     ButtonThemeData(textTheme: ButtonTextTheme.primary),
                 dialogBackgroundColor: Colors.lightBlue[50],
-                colorScheme: ColorScheme.light(
-                    primary: Color.fromARGB(255, 28, 31, 106)),
+                colorScheme:
+                    ColorScheme.light(primary: const Color(0xFF193E7F)),
               ),
               child: child!,
             );
@@ -301,13 +302,13 @@ class _StorageCalPageState extends State<StorageCalPage> {
           builder: (BuildContext context, Widget? child) {
             return Theme(
               data: ThemeData.light().copyWith(
-                primaryColor: Color.fromARGB(255, 28, 31, 106),
-                hintColor: Color.fromARGB(255, 28, 31, 106),
+                primaryColor: const Color(0xFF193E7F),
+                hintColor: const Color(0xFF193E7F),
                 buttonTheme:
                     ButtonThemeData(textTheme: ButtonTextTheme.primary),
                 dialogBackgroundColor: Colors.lightBlue[50],
-                colorScheme: ColorScheme.light(
-                    primary: Color.fromARGB(255, 28, 31, 106)),
+                colorScheme:
+                    ColorScheme.light(primary: const Color(0xFF193E7F)),
               ),
               child: child!,
             );
@@ -480,7 +481,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: screenWidth * 0.05,
-                color: Color.fromARGB(255, 28, 31, 106),
+                color: const Color(0xFF193E7F),
               ),
             ),
           ),
@@ -500,7 +501,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: screenWidth * 0.035,
-                            color: Color.fromARGB(255, 28, 31, 106),
+                            color: const Color(0xFF193E7F),
                           ),
                         ),
                         Text(
@@ -509,7 +510,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: screenWidth * 0.035,
-                            color: Color.fromARGB(255, 28, 31, 106),
+                            color: const Color(0xFF193E7F),
                           ),
                         ),
                       ],
@@ -526,7 +527,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                 SizedBox(height: screenHeight * 0.005),
                 Divider(
                   thickness: 1,
-                  color: Color.fromARGB(255, 28, 31, 106),
+                  color: const Color(0xFF193E7F),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -536,7 +537,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: screenWidth * 0.045,
-                        color: Color.fromARGB(255, 28, 31, 106),
+                        color: const Color(0xFF193E7F),
                       ),
                     ),
                     Text(
@@ -544,7 +545,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: screenWidth * 0.04,
-                        color: Color.fromARGB(255, 28, 31, 106),
+                        color: const Color(0xFF193E7F),
                       ),
                       textAlign: TextAlign.right,
                     ),
@@ -558,7 +559,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.symmetric(horizontal: 102),
-                  backgroundColor: Color.fromARGB(255, 28, 31, 106),
+                  backgroundColor: const Color(0xFF193E7F),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -615,7 +616,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
             'Incomplete Form',
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: Color.fromARGB(255, 28, 31, 106),
+              color: const Color(0xFF193E7F),
               fontWeight: FontWeight.bold,
               fontSize: screenHeight * 0.025,
             ),
@@ -641,7 +642,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                     ),
                   ),
                   style: TextButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 28, 31, 106),
+                    backgroundColor: const Color(0xFF193E7F),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
@@ -696,14 +697,13 @@ class _StorageCalPageState extends State<StorageCalPage> {
           return AlertDialog(
             title: Text('Confirm Exit'),
             titleTextStyle: TextStyle(
-                color: Color.fromARGB(255, 21, 5, 126),
+                color: const Color(0xFF193E7F),
                 fontWeight: FontWeight.bold,
                 fontSize: screenWidth * 0.06),
             content: Text(
                 'Are you sure you want to leave? Flight information will be lost.'),
             contentTextStyle: TextStyle(
-                color: Color.fromARGB(255, 21, 7, 110),
-                fontSize: screenWidth * 0.045),
+                color: const Color(0xFF193E7F), fontSize: screenWidth * 0.045),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
@@ -712,7 +712,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                 },
                 child: Text('Cancel',
                     style: TextStyle(
-                        color: Color.fromARGB(255, 25, 7, 138),
+                        color: const Color(0xFF193E7F),
                         fontSize: screenWidth * 0.043)),
               ),
               TextButton(
@@ -722,7 +722,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                 },
                 child: Text('Yes',
                     style: TextStyle(
-                        color: Color.fromARGB(255, 25, 7, 138),
+                        color: const Color(0xFF193E7F),
                         fontSize: screenWidth * 0.043)),
               ),
             ],
@@ -805,7 +805,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                       style: TextStyle(
                         fontSize: screenWidth * 0.05,
                         fontWeight: FontWeight.w600,
-                        color: Color.fromARGB(255, 28, 31, 106),
+                        color: const Color(0xFF193E7F),
                       ),
                     ),
 
@@ -836,7 +836,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                               style: TextStyle(
                                   fontSize: screenWidth * 0.035,
                                   fontWeight: FontWeight.w600,
-                                  color: Color.fromARGB(255, 28, 31, 106)),
+                                  color: const Color(0xFF193E7F)),
                             ),
                             Container(
                               width: double.infinity,
@@ -893,7 +893,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                               style: TextStyle(
                                   fontSize: screenWidth * 0.035,
                                   fontWeight: FontWeight.w600,
-                                  color: Color.fromARGB(255, 28, 31, 106)),
+                                  color: const Color(0xFF193E7F)),
                             ),
                             Container(
                               width: double.infinity,
@@ -950,7 +950,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                               style: TextStyle(
                                 fontSize: screenWidth * 0.035,
                                 fontWeight: FontWeight.w600,
-                                color: Color.fromARGB(255, 28, 31, 106),
+                                color: const Color(0xFF193E7F),
                               ),
                             ),
                             Container(
@@ -1048,7 +1048,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                               style: TextStyle(
                                   fontSize: screenWidth * 0.035,
                                   fontWeight: FontWeight.w600,
-                                  color: Color.fromARGB(255, 28, 31, 106)),
+                                  color: const Color(0xFF193E7F)),
                             ),
                             Container(
                               width: double.infinity,
@@ -1118,7 +1118,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                               style: TextStyle(
                                   fontSize: screenWidth * 0.035,
                                   fontWeight: FontWeight.w600,
-                                  color: Color.fromARGB(255, 28, 31, 106)),
+                                  color: const Color(0xFF193E7F)),
                             ),
                             Container(
                               width: double.infinity,
@@ -1163,10 +1163,8 @@ class _StorageCalPageState extends State<StorageCalPage> {
                                     },
                                   ].map((item) {
                                     return DropdownMenuItem<String>(
-                                      value: item[
-                                          'value'], 
-                                      child: Text(item[
-                                          'display']!), 
+                                      value: item['value'],
+                                      child: Text(item['display']!),
                                     );
                                   }).toList(),
                                   onChanged: (String? newValue) {
@@ -1183,7 +1181,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                               style: TextStyle(
                                   fontSize: screenWidth * 0.035,
                                   fontWeight: FontWeight.w600,
-                                  color: Color.fromARGB(255, 28, 31, 106)),
+                                  color: const Color(0xFF193E7F)),
                             ),
                             Container(
                               width: double.infinity,
@@ -1240,15 +1238,13 @@ class _StorageCalPageState extends State<StorageCalPage> {
                                       _clearForm();
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      foregroundColor:
-                                          Color.fromARGB(255, 28, 31, 106),
+                                      foregroundColor: const Color(0xFF193E7F),
                                       backgroundColor: Colors.white,
                                       padding: EdgeInsets.symmetric(
                                           horizontal: buttonPadding,
                                           vertical: screenHeight * .01),
                                       side: BorderSide(
-                                          color:
-                                              Color.fromARGB(255, 28, 31, 106),
+                                          color: const Color(0xFF193E7F),
                                           width: 1),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(10),
@@ -1259,8 +1255,7 @@ class _StorageCalPageState extends State<StorageCalPage> {
                                       style: TextStyle(
                                           fontSize: screenWidth * 0.04,
                                           fontWeight: FontWeight.bold,
-                                          color:
-                                              Color.fromARGB(255, 28, 31, 106)),
+                                          color: const Color(0xFF193E7F)),
                                     ),
                                   ),
                                   const SizedBox(width: 8),
@@ -1272,8 +1267,8 @@ class _StorageCalPageState extends State<StorageCalPage> {
                                       padding: EdgeInsets.symmetric(
                                           horizontal: buttonPadding,
                                           vertical: 10),
-                                      backgroundColor: Color.fromARGB(
-                                          255, 28, 31, 106), // Blue fill
+                                      backgroundColor:
+                                          const Color(0xFF193E7F), // Blue fill
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(10),
                                       ),
@@ -1307,9 +1302,9 @@ class _StorageCalPageState extends State<StorageCalPage> {
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1), // Shadow color
-              offset: Offset(0, -2), // Shadow position
-              blurRadius: 4, // Shadow blur radius
+              color: Colors.black.withOpacity(0.1),
+              offset: Offset(0, -2),
+              blurRadius: 4,
             ),
           ],
         ),
@@ -1317,41 +1312,62 @@ class _StorageCalPageState extends State<StorageCalPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(height: screenHeight * 0.006),
-            BottomNavigationBar(
-              backgroundColor: Colors.white,
-              elevation: 0,
-              items: [
-                BottomNavigationBarItem(
-                  icon: SvgPicture.asset(
-                    'assets/images/home_icon.svg',
-                    height: screenHeight * .03,
-                    width: screenWidth * .03,
+            Theme(
+              data: Theme.of(context).copyWith(
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+              ),
+              child: BottomNavigationBar(
+                type: BottomNavigationBarType.fixed,
+                showSelectedLabels: true,
+                showUnselectedLabels: true,
+                backgroundColor: Colors.white,
+                elevation: 0,
+                items: [
+                  BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      'assets/images/home_icon.svg',
+                      height: screenHeight * .03,
+                      width: screenWidth * .03,
+                      color: const Color(0xFF193E7F),
+                    ),
+                    label: 'Home',
                   ),
-                  label: 'Home',
-                ),
-                BottomNavigationBarItem(
-                  icon: SvgPicture.asset(
-                    'assets/images/contact_us_icon.svg',
-                    height: screenHeight * .03,
-                    width: screenWidth * .03,
+                  BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      'assets/images/contact_us_icon.svg',
+                      height: screenHeight * .03,
+                      width: screenWidth * .03,
+                      color: const Color(0xFF193E7F),
+                    ),
+                    label: 'Contact Us',
                   ),
-                  label: 'Contact Us',
-                ),
-                BottomNavigationBarItem(
-                  icon: SvgPicture.asset(
-                    'assets/images/about_us_icon.svg',
-                    height: screenHeight * .03,
-                    width: screenWidth * .03,
+                  BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      'assets/images/about_us_icon.svg',
+                      height: screenHeight * .03,
+                      width: screenWidth * .03,
+                      color: const Color(0xFF193E7F),
+                    ),
+                    label: 'About Us',
                   ),
-                  label: 'About Us',
-                ),
-              ],
-              selectedItemColor: Color.fromARGB(255, 28, 31, 106),
-              unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
-              onTap: (index) {
-                _handleNavigation(index, context);
-              },
-            ),
+                  BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      'assets/images/terms.svg',
+                      height: screenHeight * .03,
+                      width: screenWidth * .03,
+                      color: const Color(0xFF193E7F),
+                    ),
+                    label: 'T&C',
+                  ),
+                ],
+                selectedItemColor: const Color(0xFF193E7F),
+                unselectedItemColor: const Color(0xFF193E7F),
+                onTap: (index) {
+                  _handleNavigation(index, context);
+                },
+              ),
+            )
           ],
         ),
       ),
@@ -1389,6 +1405,15 @@ class _StorageCalPageState extends State<StorageCalPage> {
             pageBuilder: (context, animation, secondaryAnimation) =>
                 AboutUsPage(),
             transitionDuration: Duration(seconds: 0), // No animation
+          ),
+        );
+      } else if (index == 3) {
+        Navigator.push(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                TermsAndConditionsPage(),
+            transitionDuration: Duration(seconds: 0),
           ),
         );
       }

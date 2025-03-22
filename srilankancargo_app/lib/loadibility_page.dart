@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:srilankancargo_app/about_us_page.dart';
 import 'package:srilankancargo_app/contact_us_page.dart';
 import 'package:srilankancargo_app/main.dart';
+import 'package:srilankancargo_app/terms_and_conditions.dart';
 
 class LoadibilityPage extends StatefulWidget {
   @override
@@ -98,7 +99,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                 Icon(
                   Icons.error,
                   size: 65.0,
-                  color: Color.fromARGB(255, 24, 12, 114),
+                  color: const Color(0xFF193E7F),
                 ),
                 SizedBox(height: screenHeight * 0.01),
                 Text(
@@ -106,7 +107,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                   style: TextStyle(
                     fontSize: screenWidth * 0.06,
                     fontWeight: FontWeight.bold,
-                    color: const Color.fromARGB(255, 28, 31, 106),
+                    color: const Color(0xFF193E7F),
                   ),
                 ),
                 SizedBox(height: screenHeight * 0.01),
@@ -115,7 +116,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: screenWidth * 0.04,
-                    color: const Color.fromARGB(255, 28, 31, 106),
+                    color: const Color(0xFF193E7F),
                   ),
                 ),
                 SizedBox(height: screenHeight * 0.02),
@@ -123,7 +124,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                   width: double.infinity,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 28, 31, 106),
+                      backgroundColor: const Color(0xFF193E7F),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
@@ -517,7 +518,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                         style: TextStyle(
                           fontSize: screenWidth * 0.05,
                           fontWeight: FontWeight.w600,
-                          color: Color.fromARGB(255, 28, 31, 106),
+                          color: const Color(0xFF193E7F),
                         ),
                       ),
 
@@ -548,7 +549,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                 style: TextStyle(
                                   fontSize: screenWidth * 0.035,
                                   fontWeight: FontWeight.w600,
-                                  color: Color.fromARGB(255, 28, 31, 106),
+                                  color: const Color(0xFF193E7F),
                                 ),
                               ),
                               Container(
@@ -817,16 +818,14 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                               newValue ?? false;
                                         });
                                       },
-                                      activeColor: const Color.fromARGB(
-                                          255, 28, 31, 106),
+                                      activeColor: const Color(0xFF193E7F),
                                       checkColor:
                                           Color.fromARGB(255, 255, 255, 255),
                                     ),
                                     Text(
                                       'Tilted Permitted',
                                       style: TextStyle(
-                                        color: const Color.fromARGB(
-                                            255, 28, 31, 106),
+                                        color: const Color(0xFF193E7F),
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -846,8 +845,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                       style: TextStyle(
                                           fontSize: screenWidth * 0.035,
                                           fontWeight: FontWeight.w600,
-                                          color:
-                                              Color.fromARGB(255, 28, 31, 106)),
+                                          color: const Color(0xFF193E7F)),
                                     ),
                                     SizedBox(height: screenHeight * 0.003),
                                     Container(
@@ -932,8 +930,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                       style: TextStyle(
                                           fontSize: screenWidth * 0.035,
                                           fontWeight: FontWeight.w600,
-                                          color:
-                                              Color.fromARGB(255, 28, 31, 106)),
+                                          color: const Color(0xFF193E7F)),
                                     ),
                                     SizedBox(height: screenHeight * 0.002),
                                     Container(
@@ -1021,14 +1018,13 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                       onPressed: clearSelections,
                                       style: ElevatedButton.styleFrom(
                                         foregroundColor:
-                                            Color.fromARGB(255, 28, 31, 106),
+                                            const Color(0xFF193E7F),
                                         backgroundColor: Colors.white,
                                         padding: EdgeInsets.symmetric(
                                             horizontal: buttonPadding,
                                             vertical: screenHeight * .01),
                                         side: BorderSide(
-                                            color: Color.fromARGB(
-                                                255, 28, 31, 106),
+                                            color: const Color(0xFF193E7F),
                                             width: 1),
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
@@ -1040,8 +1036,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                         style: TextStyle(
                                             fontSize: screenWidth * 0.04,
                                             fontWeight: FontWeight.bold,
-                                            color: Color.fromARGB(
-                                                255, 28, 31, 106)),
+                                            color: const Color(0xFF193E7F)),
                                       ),
                                     ),
                                     SizedBox(width: screenWidth * 0.03),
@@ -1053,7 +1048,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                             horizontal: buttonPadding,
                                             vertical: screenHeight * 0.01),
                                         backgroundColor:
-                                            Color.fromARGB(255, 28, 31, 106),
+                                            const Color(0xFF193E7F),
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(10),
@@ -1080,7 +1075,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                     'Maximum Weight per Package : 150Kg',
                                     style: TextStyle(
                                         fontSize: screenWidth * 0.035,
-                                        color: Color.fromARGB(255, 28, 31, 106),
+                                        color: const Color(0xFF193E7F),
                                         fontWeight: FontWeight.bold),
                                   ),
                                 ),
@@ -1103,53 +1098,72 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
             color: Colors.white,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1), // Shadow color
-                offset: Offset(0, -2), // Shadow position
-                blurRadius: 4, // Shadow blur radius
+                color: Colors.black.withOpacity(0.1),
+                offset: Offset(0, -2),
+                blurRadius: 4,
               ),
             ],
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(
-                  height: screenHeight *
-                      0.006), // Change this height to increase space
-              BottomNavigationBar(
-                backgroundColor: Colors.white,
-                elevation: 0,
-                items: [
-                  BottomNavigationBarItem(
-                    icon: SvgPicture.asset(
-                      'assets/images/home_icon.svg',
-                      height: screenHeight * .03,
-                      width: screenWidth * .03,
+              SizedBox(height: screenHeight * 0.006),
+              Theme(
+                data: Theme.of(context).copyWith(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                ),
+                child: BottomNavigationBar(
+                  type: BottomNavigationBarType.fixed,
+                  showSelectedLabels: true,
+                  showUnselectedLabels: true,
+                  backgroundColor: Colors.white,
+                  elevation: 0,
+                  items: [
+                    BottomNavigationBarItem(
+                      icon: SvgPicture.asset(
+                        'assets/images/home_icon.svg',
+                        height: screenHeight * .03,
+                        width: screenWidth * .03,
+                        color: const Color(0xFF193E7F),
+                      ),
+                      label: 'Home',
                     ),
-                    label: 'Home',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: SvgPicture.asset(
-                      'assets/images/contact_us_icon.svg',
-                      height: screenHeight * .03,
-                      width: screenWidth * .03,
+                    BottomNavigationBarItem(
+                      icon: SvgPicture.asset(
+                        'assets/images/contact_us_icon.svg',
+                        height: screenHeight * .03,
+                        width: screenWidth * .03,
+                        color: const Color(0xFF193E7F),
+                      ),
+                      label: 'Contact Us',
                     ),
-                    label: 'Contact Us',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: SvgPicture.asset(
-                      'assets/images/about_us_icon.svg',
-                      height: screenHeight * .03,
-                      width: screenWidth * .03,
+                    BottomNavigationBarItem(
+                      icon: SvgPicture.asset(
+                        'assets/images/about_us_icon.svg',
+                        height: screenHeight * .03,
+                        width: screenWidth * .03,
+                        color: const Color(0xFF193E7F),
+                      ),
+                      label: 'About Us',
                     ),
-                    label: 'About Us',
-                  ),
-                ],
-                selectedItemColor: Color.fromARGB(255, 28, 31, 106),
-                unselectedItemColor: Color.fromARGB(255, 28, 31, 106),
-                onTap: (index) {
-                  _handleNavigation(index, context);
-                },
-              ),
+                    BottomNavigationBarItem(
+                      icon: SvgPicture.asset(
+                        'assets/images/terms.svg',
+                        height: screenHeight * .03,
+                        width: screenWidth * .03,
+                        color: const Color(0xFF193E7F),
+                      ),
+                      label: 'T&C',
+                    ),
+                  ],
+                  selectedItemColor: const Color(0xFF193E7F),
+                  unselectedItemColor: const Color(0xFF193E7F),
+                  onTap: (index) {
+                    _handleNavigation(index, context);
+                  },
+                ),
+              )
             ],
           ),
         ),
@@ -1169,7 +1183,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
                 MyHomePage(title: 'Flutter Demo Home Page'),
-            transitionDuration: Duration(seconds: 0), // No animation
+            transitionDuration: Duration(seconds: 0),
           ),
         );
       } else if (index == 1) {
@@ -1178,7 +1192,7 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
                 ContactUsPage(),
-            transitionDuration: Duration(seconds: 0), // No animation
+            transitionDuration: Duration(seconds: 0),
           ),
         );
       } else if (index == 2) {
@@ -1187,7 +1201,16 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
                 AboutUsPage(),
-            transitionDuration: Duration(seconds: 0), // No animation
+            transitionDuration: Duration(seconds: 0),
+          ),
+        );
+      } else if (index == 3) {
+        Navigator.push(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                TermsAndConditionsPage(),
+            transitionDuration: Duration(seconds: 0),
           ),
         );
       }
