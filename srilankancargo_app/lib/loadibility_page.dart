@@ -468,17 +468,33 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
           },
           child: Stack(
             children: [
-              // Top Banner Image (bottom layer)
+              // // Top Banner Image (bottom layer)
+              // Positioned(
+              //   top: 0,
+              //   left: 0,
+              //   right: 0,
+              //   child: Image.asset(
+              //     'assets/images/loadability.png',
+              //     fit: BoxFit.cover,
+              //     height: screenHeight * 0.23,
+              //   ),
+              // ),
               Positioned(
                 top: 0,
                 left: 0,
                 right: 0,
-                child: Image.asset(
-                  'assets/images/loadability.png',
-                  fit: BoxFit.cover,
+                child: Container(
                   height: screenHeight * 0.23,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Color(0xFF0060C8), Color(0xFF193E7F)],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+                  ),
                 ),
               ),
+
               Positioned(
                 top: screenHeight * 0.04,
                 left: screenWidth * 0.001,

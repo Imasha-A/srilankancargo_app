@@ -116,7 +116,7 @@ class _AboutUsPageState extends State<AboutUsPage> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(8.0),
                               child: Image.asset(
-                                'assets/images/about_us_picture.jpg',
+                                'assets/images/about_us_picture.png',
                                 height: screenHeight * 0.26,
                                 width: cardWidth,
                                 fit: BoxFit.fill,

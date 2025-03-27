@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:srilankancargo_app/about_us_page.dart';
@@ -15,6 +16,9 @@ import 'schedule_page.dart';
 import 'flightstatus_page.dart';
 import 'loadibility_page.dart';
 import 'package:http/http.dart' as http;
+import 'package:webview_flutter/webview_flutter.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -78,23 +82,70 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
             ),
           ),
-
-          Positioned(
-            bottom: 10,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Image.asset(
-                'assets/images/logo_white.png',
-                height: 130,
-                width: 250,
-                fit: BoxFit.contain,
-              ),
-            ),
-          ),
         ],
       ),
     );
+  }
+}
+
+// Define the Banner model
+class BannerItem {
+  final String id;
+  final String bannerType;
+  final String bannerDescription;
+  final bool isUrlRedirect;
+  final bool isPopup;
+  final bool isNoActionBanner;
+  final String bannerImageUrl;
+  final String bannerContentType;
+  final String bannerContent;
+  final String bannerRedirectUrl;
+  final String bannerOrder;
+  final bool isActive;
+
+  BannerItem({
+    required this.id,
+    required this.bannerType,
+    required this.bannerDescription,
+    required this.isUrlRedirect,
+    required this.isPopup,
+    required this.isNoActionBanner,
+    required this.bannerImageUrl,
+    required this.bannerContentType,
+    required this.bannerContent,
+    required this.bannerRedirectUrl,
+    required this.bannerOrder,
+    required this.isActive,
+  });
+
+  factory BannerItem.fromJson(Map<String, dynamic> json) {
+    return BannerItem(
+      id: json['Id'],
+      bannerType: json['BannerType'],
+      bannerDescription: json['BannerDescription'],
+      isUrlRedirect: json['IsUrlRedirect']?.toUpperCase() == 'TRUE',
+      isPopup: json['IsPopup']?.toUpperCase() == 'TRUE',
+      isNoActionBanner: json['IsNoActionBanner']?.toUpperCase() == 'TRUE',
+      bannerImageUrl: json['BannerImageUrl'],
+      bannerContentType: json['BannerContentType'],
+      bannerContent: json['BannerContent'],
+      bannerRedirectUrl: json['BannerRedirectUrl'],
+      bannerOrder: json['BannerOrder'],
+      isActive: json['IsActive']?.toUpperCase() == 'TRUE',
+    );
+  }
+}
+
+// Method to fetch banners from the API
+Future<List<BannerItem>> fetchBanners() async {
+  final response = await http.get(Uri.parse(
+      'https://ulmobservices.srilankan.com/ULMOBTEAMSERVICES/api/CargoMobileAppCorp/GetCargoAppBanners'));
+
+  if (response.statusCode == 200) {
+    final List<dynamic> data = json.decode(response.body);
+    return data.map((item) => BannerItem.fromJson(item)).toList();
+  } else {
+    throw Exception('Failed to load banners');
   }
 }
 
@@ -119,12 +170,15 @@ class _MyHomePageState extends State<MyHomePage> {
   String aboutUsText = '';
 
   int _currentIndex = 0;
-
+  late Future<List<BannerItem>> futureBanners;
+  int _sliderCount = 3; // default fallback count
+  bool _isLoading = true;
   @override
   void initState() {
     super.initState();
     _startTimer();
     fetchAboutUs();
+    _loadData();
   }
 
   @override
@@ -132,6 +186,116 @@ class _MyHomePageState extends State<MyHomePage> {
     super.didChangeDependencies();
     _updateButtonDimensions();
     _updateAppBarOffset();
+  }
+
+  void _loadData() async {
+    try {
+      futureBanners = fetchBanners(); // Replace with your API call function
+      await Future.delayed(Duration(seconds: 3)); // Wait for 3 seconds
+    } catch (e) {
+      print("Error fetching banners: $e");
+    }
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  void handleBannerAction(BannerItem banner) async {
+    if (banner.isUrlRedirect && banner.bannerRedirectUrl.isNotEmpty) {
+      final url = Uri.parse(banner.bannerRedirectUrl);
+      try {
+        if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+          print('Could not launch $url');
+        }
+      } catch (e) {
+        print('Error launching $url: $e');
+      }
+    } else if (banner.isPopup) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            child: Stack(
+              children: [
+                SizedBox(
+                  width: double.maxFinite,
+                  height: 400,
+                  child: WebViewWidget(
+                    controller: WebViewController()
+                      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+                      ..setNavigationDelegate(
+                        NavigationDelegate(
+                          onNavigationRequest: (NavigationRequest request) {
+                            // Open external links in a browser
+                            if (request.url.startsWith('http')) {
+                              launchUrl(Uri.parse(request.url),
+                                  mode: LaunchMode.externalApplication);
+                              return NavigationDecision.prevent;
+                            }
+                            return NavigationDecision.navigate;
+                          },
+                        ),
+                      )
+                      ..loadHtmlString(banner.bannerContent),
+                  ),
+                ),
+                Positioned(
+                  right: 10,
+                  top: 10,
+                  child: GestureDetector(
+                    onTap: () => Navigator.pop(context),
+                    child: Container(
+                      width: 30,
+                      height: 30,
+                      child: Icon(
+                        Icons.close,
+                        size: 20,
+                        color: const Color(0xFF193E7F),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    }
+  }
+
+// Helper method to remove :hover selectors from the HTML content
+  String _removeHoverFromHtml(String htmlContent) {
+    // Remove any :hover selectors from the HTML content
+    return htmlContent.replaceAll(RegExp(r':hover\s*{[^}]*}'), '');
+  }
+
+// Build a button widget for each banner
+  Widget buildBannerButton(
+      BannerItem banner, double screenHeight, double screenWidth) {
+    return Container(
+      height: screenHeight * 0.12,
+      width: screenWidth * 0.4,
+      margin: EdgeInsets.only(right: 8.0),
+      child: ElevatedButton(
+        onPressed:
+            banner.isNoActionBanner ? null : () => handleBannerAction(banner),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          elevation: 5,
+        ),
+        // Displaying the image as the button child
+        child: Image.network(
+          banner.bannerImageUrl,
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
+        ),
+      ),
+    );
   }
 
   // Fetch data and save to SharedPreferences
@@ -164,6 +328,34 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  void checkInternetConnection(BuildContext context) async {
+    var connectivityResult = await Connectivity().checkConnectivity();
+
+    if (connectivityResult == ConnectivityResult.none) {
+      // Show a dialog if there is no internet connection
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("No Internet Connection"),
+            content: Text("Please connect to the internet, no WiFi."),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the dialog
+                },
+                child: Text("OK"),
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      // Handle normal button click actions (if any) here
+      print("Button clicked, connected to the internet.");
+    }
+  }
+
   // Save About Us text to SharedPreferences
   Future<void> saveAboutUsToPrefs(String text) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -172,7 +364,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _startTimer() {
     _timer = Timer.periodic(Duration(seconds: 10), (Timer timer) {
-      if (_currentPage < 2) {
+      if (_currentPage < _sliderCount - 1) {
         _currentPage++;
       } else {
         _currentPage = 0;
@@ -318,7 +510,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: [
                         SizedBox(height: screenHeight * 0.175),
                         DotsIndicator(
-                          dotsCount: 3,
+                          dotsCount: _sliderCount,
                           position: _currentPage.toInt(),
                           decorator: DotsDecorator(
                             size: Size.square(screenWidth * 0.025),
@@ -411,143 +603,157 @@ class _MyHomePageState extends State<MyHomePage> {
                                     Padding(
                                       padding: EdgeInsets.only(
                                           left: screenWidth * 0.035),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Product Categories",
-                                            style: TextStyle(
-                                                fontSize: screenWidth * .045,
-                                                fontWeight: FontWeight.bold,
-                                                color: const Color(0xFF193E7F)),
-                                          ),
-                                          SizedBox(height: screenHeight * 0.01),
-                                          Divider(
-                                            endIndent: screenWidth * 0.018,
-                                          ),
-                                          SizedBox(height: screenHeight * 0.02),
-                                          SingleChildScrollView(
-                                            scrollDirection: Axis.horizontal,
-                                            child: Row(
-                                              children: [
-                                                Container(
-                                                  height: screenHeight * 0.12,
-                                                  width: screenWidth * 0.4,
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            right: 8.0),
-                                                    child: ElevatedButton(
-                                                      onPressed: () {},
-                                                      style: ElevatedButton
-                                                          .styleFrom(
-                                                        backgroundColor:
-                                                            Colors.green,
-                                                        shape: RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        20)),
-                                                        elevation: 5,
-                                                      ),
-                                                      child: Text(
-                                                          "Freshness Class",
+                                      child: _isLoading
+                                          ? Center(
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  SizedBox(
+                                                      height:
+                                                          screenHeight * 0.1),
+                                                  CircularProgressIndicator(),
+                                                  SizedBox(
+                                                      height:
+                                                          screenHeight * 0.1),
+                                                ],
+                                              ),
+                                            )
+                                          : FutureBuilder<List<BannerItem>>(
+                                              future: futureBanners,
+                                              builder: (context, snapshot) {
+                                                if (snapshot.hasData) {
+                                                  final bottomBanners = snapshot
+                                                      .data!
+                                                      .where((banner) =>
+                                                          banner.bannerType
+                                                              .toUpperCase() ==
+                                                          'BOTTOM')
+                                                      .toList();
+
+                                                  if (bottomBanners
+                                                      .isNotEmpty) {
+                                                    return Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          "Product Categories",
                                                           style: TextStyle(
-                                                              color: Colors
-                                                                  .white)),
+                                                            fontSize:
+                                                                screenWidth *
+                                                                    .045,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: const Color(
+                                                                0xFF193E7F),
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                            height:
+                                                                screenHeight *
+                                                                    0.01),
+                                                        Divider(
+                                                            endIndent:
+                                                                screenWidth *
+                                                                    0.018),
+                                                        SizedBox(
+                                                            height:
+                                                                screenHeight *
+                                                                    0.02),
+                                                        // Row to display 6 Elevated Buttons
+                                                        SingleChildScrollView(
+                                                          scrollDirection:
+                                                              Axis.horizontal,
+                                                          child: Row(
+                                                            children:
+                                                                bottomBanners
+                                                                    .take(6)
+                                                                    .map(
+                                                                        (banner) {
+                                                              return Container(
+                                                                height:
+                                                                    screenHeight *
+                                                                        0.13,
+                                                                width:
+                                                                    screenWidth *
+                                                                        0.4,
+                                                                child: Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .only(
+                                                                          right:
+                                                                              8.0,
+                                                                          left:
+                                                                              5,
+                                                                          bottom:
+                                                                              5),
+                                                                  child:
+                                                                      ElevatedButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      // Check if the device is connected to the internet
+                                                                      checkInternetConnection(
+                                                                          context);
+                                                                    },
+                                                                    style: ElevatedButton
+                                                                        .styleFrom(
+                                                                      backgroundColor:
+                                                                          Colors
+                                                                              .white,
+                                                                      shape:
+                                                                          RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(20),
+                                                                      ),
+                                                                      elevation:
+                                                                          2,
+                                                                    ),
+                                                                    child: Image
+                                                                        .network(
+                                                                      banner
+                                                                          .bannerImageUrl,
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                      errorBuilder: (context,
+                                                                              error,
+                                                                              stackTrace) =>
+                                                                          Icon(Icons
+                                                                              .error),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            }).toList(),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  }
+                                                }
+
+                                                // Show a default fallback message if there are no banners or data
+                                                return Center(
+                                                  child: SizedBox(
+                                                    width: screenWidth * 0.93,
+                                                    height: screenHeight * 0.19,
+                                                    child: Stack(
+                                                      children: [
+                                                        // Display fallback banners or content
+                                                        Image.asset(
+                                                          'assets/images/fallback_image.png',
+                                                          fit: BoxFit.cover,
+                                                          width:
+                                                              double.infinity,
+                                                          height:
+                                                              double.infinity,
+                                                        ),
+                                                      ],
                                                     ),
                                                   ),
-                                                ),
-                                                Container(
-                                                  height: screenHeight * 0.12,
-                                                  width: screenWidth * 0.4,
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            right: 8.0),
-                                                    child: ElevatedButton(
-                                                      onPressed: () {},
-                                                      style: ElevatedButton
-                                                          .styleFrom(
-                                                        backgroundColor:
-                                                            Colors.red,
-                                                        shape: RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        20)),
-                                                        elevation: 5,
-                                                      ),
-                                                      child: Text(
-                                                          "Wellness Class",
-                                                          style: TextStyle(
-                                                              color: Colors
-                                                                  .white)),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  height: screenHeight * 0.12,
-                                                  width: screenWidth * 0.4,
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            right: 8.0),
-                                                    child: ElevatedButton(
-                                                      onPressed: () {},
-                                                      style: ElevatedButton
-                                                          .styleFrom(
-                                                        backgroundColor:
-                                                            Colors.orange,
-                                                        shape: RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        20)),
-                                                        elevation: 5,
-                                                      ),
-                                                      child: Text(
-                                                          "Guardian Class",
-                                                          style: TextStyle(
-                                                              color: Colors
-                                                                  .white)),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  height: screenHeight * 0.12,
-                                                  width: screenWidth * 0.4,
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            right: 8.0),
-                                                    child: ElevatedButton(
-                                                      onPressed: () {},
-                                                      style: ElevatedButton
-                                                          .styleFrom(
-                                                        backgroundColor:
-                                                            Colors.blue,
-                                                        shape: RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        20)),
-                                                        elevation: 5,
-                                                      ),
-                                                      child: Text(
-                                                          "Precious Class",
-                                                          style: TextStyle(
-                                                              color: Colors
-                                                                  .white)),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
+                                                );
+                                              },
                                             ),
-                                          ),
-                                        ],
-                                      ),
                                     ),
 
                                     SizedBox(height: screenHeight * 0.05),
@@ -584,11 +790,11 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Image.asset(
                 'assets/images/logo_white.png',
                 height: screenHeight * 0.1,
-                width: screenWidth * 0.55,
+                width: screenWidth * 0.6,
                 fit: BoxFit.contain,
               ),
             ),
-            // Image Slider
+
             Positioned(
               top: screenHeight * 0.21,
               left: screenWidth * 0.05,
@@ -608,24 +814,69 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(15),
-                  child: PageView.builder(
-                    controller: _pageController,
-                    onPageChanged: (int page) {
-                      setState(() {
-                        _currentPage = page;
-                      });
-                    },
-                    itemBuilder: (context, index) {
-                      return Image.asset(
-                        getImagePath(index),
-                        fit: BoxFit.cover,
+                  child: FutureBuilder<List<BannerItem>>(
+                    future: futureBanners,
+                    builder: (context, snapshot) {
+                      List<Widget> sliderItems = [];
+                      if (snapshot.hasData) {
+                        // Filter banners with BannerType "TOP"
+                        final topBanners = snapshot.data!
+                            .where((banner) =>
+                                banner.bannerType.toUpperCase() == 'TOP')
+                            .toList();
+                        if (topBanners.isNotEmpty) {
+                          sliderItems = topBanners.map((banner) {
+                            return GestureDetector(
+                              onTap: () => handleBannerAction(banner),
+                              child: CachedNetworkImage(
+                                imageUrl: banner.bannerImageUrl,
+                                fit: BoxFit.cover,
+                                placeholder: (context, url) =>
+                                    Center(child: CircularProgressIndicator()),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
+                              ),
+                            );
+                          }).toList();
+                        }
+                      }
+                      // If no API data, fallback to hardcoded images.
+                      if (sliderItems.isEmpty) {
+                        sliderItems = List.generate(3, (index) {
+                          return Image.asset(
+                            getImagePath(index),
+                            fit: BoxFit.cover,
+                          );
+                        });
+                      }
+
+                      // Update slider count for dots and timer
+                      final int sliderCount = sliderItems.length;
+                      if (_sliderCount != sliderCount) {
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          setState(() {
+                            _sliderCount = sliderCount;
+                          });
+                        });
+                      }
+
+                      return PageView.builder(
+                        controller: _pageController,
+                        onPageChanged: (int page) {
+                          setState(() {
+                            _currentPage = page;
+                          });
+                        },
+                        itemCount: sliderItems.length,
+                        itemBuilder: (context, index) {
+                          return sliderItems[index];
+                        },
                       );
                     },
-                    itemCount: 3,
                   ),
                 ),
               ),
-            ),
+            )
           ],
         ),
         bottomNavigationBar: Container(

@@ -692,16 +692,26 @@ Arrival Time: ${flightInfo['Atime']}''';
         body: Stack(
           children: [
             // Top Banner Image (bottom layer)
+            // Positioned(
+            //   top: 0,
+            //   left: 0,
+            //   right: 0,
+            //   child: Image.asset(
+            //     'assets/images/flight_schedule.png',
+            //     fit: BoxFit.cover,
+            //     height: screenHeight * .23,
+            //   ),
+            // ),
             Positioned(
               top: 0,
               left: 0,
               right: 0,
-              child: Image.asset(
-                'assets/images/flight_schedule.png',
-                fit: BoxFit.cover,
-                height: screenHeight * .23,
+              child: Container(
+                height: screenHeight * 0.23,
+                color: Color(0xFF0086BE), // Hex color 0086BE
               ),
             ),
+
             Positioned(
               top: screenHeight * 0.04,
               left: screenWidth * 0.001,
