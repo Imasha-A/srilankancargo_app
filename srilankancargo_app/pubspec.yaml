@@ -99,6 +99,7 @@ flutter:
      - assets/images/filled_contact.svg
      - assets/images/filled_about.svg
      - assets/images/filled_home.svg
+     - assets/images/offline.png
  
  
 

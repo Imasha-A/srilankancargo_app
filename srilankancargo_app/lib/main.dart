@@ -735,14 +735,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 // Show a default fallback message if there are no banners or data
                                                 return Center(
                                                   child: SizedBox(
-                                                    width: screenWidth * 0.93,
-                                                    height: screenHeight * 0.19,
+                                                    width: screenWidth * 0.5,
+                                                    height: screenHeight * 0.2,
                                                     child: Stack(
                                                       children: [
                                                         // Display fallback banners or content
                                                         Image.asset(
-                                                          'assets/images/fallback_image.png',
-                                                          fit: BoxFit.cover,
+                                                          'assets/images/offline.png',
+                                                          fit: BoxFit.contain,
                                                           width:
                                                               double.infinity,
                                                           height:
