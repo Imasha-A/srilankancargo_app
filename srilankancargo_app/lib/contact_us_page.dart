@@ -119,9 +119,9 @@ class _ContactUsPageState extends State<ContactUsPage> {
                           ContactInfoCard(
                             svgPath: 'assets/images/call_us_icon.svg',
                             title: 'Call us',
-                            subtitle: '0197 333 344',
+                            subtitle: '+94 197 333 344',
                             subtitleColor: Color.fromARGB(255, 51, 51, 51),
-                            onTap: () => _launchPhone('0197333344'),
+                            onTap: () => _launchPhone('+94 197 333 344'),
                           ),
                           ContactInfoCard(
                             svgPath: 'assets/images/email_us_icon.svg',
