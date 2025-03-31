@@ -312,25 +312,17 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
           child: Stack(
             children: [
               // Top Banner Image (bottom layer)
-              // Positioned(
-              //   top: 0,
-              //   left: 0,
-              //   right: 0,
-              //   child: Image.asset(
-              //     'assets/images/flight_status.png',
-              //     fit: BoxFit.cover,
-              //     height: screenHeight * 0.23,
-              //   ),
-              // ),
               Positioned(
                 top: 0,
                 left: 0,
                 right: 0,
-                child: Container(
+                child: Image.asset(
+                  'assets/images/flight_status.png',
+                  fit: BoxFit.cover,
                   height: screenHeight * 0.23,
-                  color: Color(0xFF034693), // Hex color 0086BE
                 ),
               ),
+
               Positioned(
                 top: screenHeight * 0.04,
                 left: screenWidth * 0.001,

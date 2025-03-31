@@ -785,12 +785,12 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
 
             Positioned(
-              top: screenHeight * 0.125,
-              left: screenWidth * 0.1,
+              top: screenHeight * 0.135,
+              left: screenWidth * 0.14,
               child: Image.asset(
                 'assets/images/logo_white.png',
-                height: screenHeight * 0.1,
-                width: screenWidth * 0.6,
+                height: screenHeight * 0.08,
+                width: screenWidth * 0.55,
                 fit: BoxFit.contain,
               ),
             ),
