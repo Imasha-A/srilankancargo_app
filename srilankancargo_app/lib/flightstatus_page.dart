@@ -41,23 +41,19 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
       customizationValues['cardMargin'] = 70.0;
       customizationValues['cardOffset'] = 400.0;
       customizationValues['iconOffset'] = 660.5;
-      customizationValues['buttonPadding'] = 40.0;
       customizationValues['cardHeight'] = 333;
     } else if (screenWidth == 834) {
       customizationValues['cardMargin'] = 50.0;
       customizationValues['cardOffset'] = 280.0;
       customizationValues['iconOffset'] = 515.5;
-      customizationValues['buttonPadding'] = 38.0;
     } else if (screenWidth >= 768) {
       customizationValues['cardMargin'] = 86.0;
       customizationValues['cardOffset'] = 278.0;
       customizationValues['iconOffset'] = 425.5;
-      customizationValues['buttonPadding'] = 54.0;
     } else {
       customizationValues['cardMargin'] = 16.0;
       customizationValues['cardOffset'] = -110.0;
       customizationValues['iconOffset'] = 190.5;
-      customizationValues['buttonPadding'] = 36.0;
     }
 
     return customizationValues;
@@ -296,7 +292,6 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    double buttonPadding = screenWidth * 0.34;
     Map<String, double> customizationValues = customizeFormCard(screenWidth);
 
     return WillPopScope(
@@ -527,7 +522,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                               },
                               style: ElevatedButton.styleFrom(
                                 padding: EdgeInsets.symmetric(
-                                    horizontal: buttonPadding,
+                                    horizontal: screenWidth * 0.34,
                                     vertical: screenHeight * 0.013),
                                 backgroundColor: const Color(0xFF193E7F),
                                 shape: RoundedRectangleBorder(
@@ -542,7 +537,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                                   : Text(
                                       'Submit',
                                       style: TextStyle(
-                                        fontSize: screenWidth * 0.04,
+                                        fontSize: screenWidth * 0.037,
                                         color: Colors.white,
                                       ),
                                     ),
@@ -569,7 +564,11 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                           style: TextStyle(
                             fontSize: screenWidth * 0.065,
                             fontWeight: FontWeight.bold,
-                            color: const Color.fromARGB(255, 15, 20, 158),
+                            color: _flightInfo!['Stauts'] == 'ON-SCHEDULE'
+                                ? Colors.green
+                                : _flightInfo!['Stauts'] == 'DEPARTED'
+                                    ? Colors.grey
+                                    : const Color.fromARGB(255, 15, 20, 158),
                           ),
                         ),
 
@@ -711,7 +710,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                             ),
                             child: Text('Clear',
                                 style: TextStyle(
-                                    fontSize: screenWidth * 0.04,
+                                    fontSize: screenWidth * 0.038,
                                     fontWeight: FontWeight.bold,
                                     color: const Color(0xFF193E7F))),
                           ),

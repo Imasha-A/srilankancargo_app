@@ -2,7 +2,8 @@ name: srilankancargo_app
 description: "A new Flutter project."
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0+1
+#version: 1.0.0+27 #for android
+version: 3.0.0+15 #for iOS
 
 environment:
   sdk: '>=3.2.4 <4.0.0'
@@ -12,35 +13,29 @@ dependencies:
   flutter:
     sdk: flutter
   dots_indicator: ^3.0.0
-  shared_preferences: ^2.0.8
-  url_launcher: ^6.3.0
-  device_info: ^2.0.0
-  device_info_plus: ^9.1.1
+
+
   flutter_svg: ^2.0.10+1
   intl: ^0.19.0
   cupertino_icons: ^1.0.2
   http: ^1.2.2
- 
-  webview_flutter_platform_interface: ^2.10.0
   xml: ^6.5.0
   dropdown_search: ^5.0.6
+  url_launcher: ^6.0.9  # Use the latest version
+  provider: ^6.1.2
   cached_network_image: ^3.4.1
-  package_info_plus: ^4.0.0
+  package_info_plus: ^8.3.0
   flutter_html: 3.0.0-beta.2
   webview_flutter: ^4.0.0
-  connectivity_plus: ^2.3.0
-  
-  
+  connectivity_plus: ^6.1.1
+  shared_preferences: ^2.0.8
 
- 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: ^0.13.1
   flutter_lints: ^3.0.1
-
-  
 
 
 flutter:
@@ -53,8 +48,7 @@ flutter:
      - assets/images/EmQ9_FuVcAIrkfw.jpg
      - assets/images/unnamed.png
      - assets/images/Image-DE_SLA.png
-     - assets/images/appicon.png
-     - assets/images/appiconCargo.png
+     #- assets/images/appicon.png
      - assets/images/visit_website_banner.png 
      - assets/images/homescreen_image_1.jpg
      - assets/images/homescreen_image_2.jpg
@@ -69,7 +63,7 @@ flutter:
      - assets/images/volume_calculator_icon.svg
      - assets/images/tracking_icon.svg
      - assets/images/homescreen_banner.jpg
-     - assets/images/about_us_picture.png
+     - assets/images/about_us_picture.jpg
      - assets/images/call_us_icon.svg
      - assets/images/email_us_icon.svg
      - assets/images/address_icon.svg
@@ -86,9 +80,15 @@ flutter:
      - assets/images/volume_calculator.png
      - assets/images/storage_calculator.png
      - assets/images/airplane_line.svg
+     - assets/images/homescreen_banner_new.jpg
+     - assets/images/home_background_banner_try.png
+     - assets/images/cross.svg
+     - assets/images/tick.svg
+     - assets/images/android12splash.jpg
+     - assets/images/logo_white.png
      - assets/images/airplane_line.png
      - assets/images/airplane.png
-     - assets/images/homescreen_banner_new.jpg
+#     - assets/images/homescreen_banner_new.jpg
      - assets/images/home_background_banner_try.png
      - assets/images/cross.svg
      - assets/images/tick.svg
@@ -100,8 +100,10 @@ flutter:
      - assets/images/filled_about.svg
      - assets/images/filled_home.svg
      - assets/images/offline.png
- 
- 
+     - assets/images/about_us_picture.png
+     - assets/images/home_banner_latest.png
+     
+
 
     
   fonts:
@@ -113,4 +115,3 @@ flutter_icons:
   android: true
   ios: true
   image_path: "assets/images/appiconCargo.png"
-  

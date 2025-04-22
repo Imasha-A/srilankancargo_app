@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:srilankancargo_app/about_us_page.dart';
 import 'package:srilankancargo_app/contact_us_page.dart';
 import 'package:srilankancargo_app/main.dart';
-import 'package:srilankancargo_app/terms_and_conditions.dart';
 
 class UserSelection {
   double length;
@@ -41,6 +39,8 @@ class UserSelection {
 }
 
 class VolumeCalPage extends StatefulWidget {
+  const VolumeCalPage({super.key});
+
   @override
   _VolumeCalPageState createState() => _VolumeCalPageState();
 }
@@ -203,12 +203,12 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
               'Incomplete Form ',
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: const Color(0xFF193E7F),
+                color: const Color.fromARGB(255, 28, 31, 106),
                 fontWeight: FontWeight.bold,
                 fontSize: screenWidth * 0.055,
               ),
             ),
-            content: Text(
+            content: const Text(
               "Please fill all the fields.",
               textAlign: TextAlign.center,
             ),
@@ -221,17 +221,17 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
+                    style: TextButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 28, 31, 106),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                    ),
                     child: Text(
                       'OK',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: screenWidth * 0.04,
-                      ),
-                    ),
-                    style: TextButton.styleFrom(
-                      backgroundColor: const Color(0xFF193E7F),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
                       ),
                     ),
                   ),
@@ -298,15 +298,15 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Confirm Exit'),
+            title: const Text('Confirm Exit'),
             titleTextStyle: TextStyle(
-                color: Color.fromARGB(255, 21, 5, 126),
+                color: const Color.fromARGB(255, 21, 5, 126),
                 fontWeight: FontWeight.bold,
                 fontSize: screenWidth * 0.06),
-            content: Text(
+            content: const Text(
                 'Are you sure you want to leave? Your calculations will be lost.'),
             contentTextStyle: TextStyle(
-                color: Color.fromARGB(255, 21, 7, 110),
+                color: const Color.fromARGB(255, 21, 7, 110),
                 fontSize: screenWidth * 0.045),
             actions: <Widget>[
               TextButton(
@@ -316,7 +316,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                 },
                 child: Text('Cancel',
                     style: TextStyle(
-                        color: Color.fromARGB(255, 25, 7, 138),
+                        color: const Color.fromARGB(255, 25, 7, 138),
                         fontSize: screenWidth * 0.043)),
               ),
               TextButton(
@@ -326,7 +326,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                 },
                 child: Text('Yes',
                     style: TextStyle(
-                        color: Color.fromARGB(255, 25, 7, 138),
+                        color: const Color.fromARGB(255, 25, 7, 138),
                         fontSize: screenWidth * 0.043)),
               ),
             ],
@@ -383,7 +383,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                 child: SizedBox(
                   width: screenWidth * .12,
                   height: screenHeight * 0.04,
-                  child: BackButton(
+                  child: const BackButton(
                     color: Color.fromARGB(255, 255, 255, 255),
                   ),
                 ),
@@ -395,7 +395,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                 left: 0,
                 right: 0,
                 child: Container(
-                  padding: EdgeInsets.all(18),
+                  padding: const EdgeInsets.all(18),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(15),
@@ -404,7 +404,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                         color: Colors.grey.withOpacity(0.5),
                         spreadRadius: 2,
                         blurRadius: 5,
-                        offset: Offset(0, 3),
+                        offset: const Offset(0, 3),
                       ),
                     ],
                   ),
@@ -416,7 +416,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                         style: TextStyle(
                           fontSize: screenWidth * 0.05,
                           fontWeight: FontWeight.w600,
-                          color: const Color(0xFF193E7F),
+                          color: const Color.fromARGB(255, 28, 31, 106),
                         ),
                       ),
 
@@ -432,12 +432,12 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                               color: Colors.grey.withOpacity(0.5),
                               spreadRadius: 1,
                               blurRadius: 3,
-                              offset: Offset(0, 3),
+                              offset: const Offset(0, 3),
                             ),
                           ],
                         ),
                         child: SingleChildScrollView(
-                          padding: EdgeInsets.all(16),
+                          padding: const EdgeInsets.all(16),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -454,7 +454,8 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                         style: TextStyle(
                                           fontSize: screenWidth * 0.035,
                                           fontWeight: FontWeight.w600,
-                                          color: const Color(0xFF193E7F),
+                                          color:
+                                              const Color.fromARGB(255, 28, 31, 106),
                                         ),
                                       ),
                                       SizedBox(height: screenHeight * 0.001),
@@ -463,7 +464,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                           // Length Input
                                           Expanded(
                                             flex: 4,
-                                            child: Container(
+                                            child: SizedBox(
                                               height: screenHeight * 0.05,
                                               child: TextField(
                                                 controller: _lengthController,
@@ -476,14 +477,14 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                   labelStyle: TextStyle(
                                                     fontSize:
                                                         screenWidth * 0.035,
-                                                    color: Color(0xFFCEC5C5),
+                                                    color: const Color(0xFFCEC5C5),
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                   enabledBorder:
-                                                      OutlineInputBorder(
+                                                      const OutlineInputBorder(
                                                     borderSide: BorderSide(
                                                       color:
-                                                          const Color.fromARGB(
+                                                          Color.fromARGB(
                                                               255,
                                                               206,
                                                               197,
@@ -498,10 +499,10 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                     ),
                                                   ),
                                                   focusedBorder:
-                                                      OutlineInputBorder(
+                                                      const OutlineInputBorder(
                                                     borderSide: BorderSide(
                                                       color:
-                                                          const Color.fromARGB(
+                                                          Color.fromARGB(
                                                               255,
                                                               206,
                                                               197,
@@ -516,16 +517,16 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                     ),
                                                   ),
                                                   contentPadding:
-                                                      EdgeInsets.symmetric(
+                                                      const EdgeInsets.symmetric(
                                                           vertical: 10.0,
                                                           horizontal: 12.0),
                                                 ),
                                                 style: TextStyle(
                                                   fontSize: screenWidth * 0.035,
-                                                  color: Color(0xFF878282),
+                                                  color: const Color(0xFF878282),
                                                   fontWeight: FontWeight.bold,
                                                 ),
-                                                keyboardType: TextInputType
+                                                keyboardType: const TextInputType
                                                     .numberWithOptions(
                                                         decimal: true),
                                                 onEditingComplete: () {
@@ -539,7 +540,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
 // Width Input
                                           Expanded(
                                             flex: 4,
-                                            child: Container(
+                                            child: SizedBox(
                                               height: screenHeight * 0.05,
                                               child: TextField(
                                                 controller: _widthController,
@@ -552,14 +553,14 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                   labelStyle: TextStyle(
                                                     fontSize:
                                                         screenWidth * 0.035,
-                                                    color: Color(0xFFCEC5C5),
+                                                    color: const Color(0xFFCEC5C5),
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                   enabledBorder:
-                                                      OutlineInputBorder(
+                                                      const OutlineInputBorder(
                                                     borderSide: BorderSide(
                                                       color:
-                                                          const Color.fromARGB(
+                                                          Color.fromARGB(
                                                               255,
                                                               206,
                                                               197,
@@ -574,10 +575,10 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                     ),
                                                   ),
                                                   focusedBorder:
-                                                      OutlineInputBorder(
+                                                      const OutlineInputBorder(
                                                     borderSide: BorderSide(
                                                       color:
-                                                          const Color.fromARGB(
+                                                          Color.fromARGB(
                                                               255,
                                                               206,
                                                               197,
@@ -592,16 +593,16 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                     ),
                                                   ),
                                                   contentPadding:
-                                                      EdgeInsets.symmetric(
+                                                      const EdgeInsets.symmetric(
                                                           vertical: 10.0,
                                                           horizontal: 12.0),
                                                 ),
                                                 style: TextStyle(
                                                   fontSize: screenWidth * 0.035,
-                                                  color: Color(0xFF878282),
+                                                  color: const Color(0xFF878282),
                                                   fontWeight: FontWeight.bold,
                                                 ),
-                                                keyboardType: TextInputType
+                                                keyboardType: const TextInputType
                                                     .numberWithOptions(
                                                         decimal: true),
                                                 onEditingComplete: () {
@@ -616,7 +617,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                           // Height Input
                                           Expanded(
                                             flex: 4,
-                                            child: Container(
+                                            child: SizedBox(
                                               height: screenHeight * 0.05,
                                               child: TextField(
                                                 controller: _heightController,
@@ -629,14 +630,14 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                   labelStyle: TextStyle(
                                                     fontSize:
                                                         screenWidth * 0.035,
-                                                    color: Color(0xFFCEC5C5),
+                                                    color: const Color(0xFFCEC5C5),
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                   enabledBorder:
-                                                      OutlineInputBorder(
+                                                      const OutlineInputBorder(
                                                     borderSide: BorderSide(
                                                       color:
-                                                          const Color.fromARGB(
+                                                          Color.fromARGB(
                                                               255,
                                                               206,
                                                               197,
@@ -651,10 +652,10 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                     ),
                                                   ),
                                                   focusedBorder:
-                                                      OutlineInputBorder(
+                                                      const OutlineInputBorder(
                                                     borderSide: BorderSide(
                                                       color:
-                                                          const Color.fromARGB(
+                                                          Color.fromARGB(
                                                               255,
                                                               206,
                                                               197,
@@ -669,16 +670,16 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                     ),
                                                   ),
                                                   contentPadding:
-                                                      EdgeInsets.symmetric(
+                                                      const EdgeInsets.symmetric(
                                                           vertical: 10.0,
                                                           horizontal: 12.0),
                                                 ),
                                                 style: TextStyle(
                                                   fontSize: screenWidth * 0.035,
-                                                  color: Color(0xFF878282),
+                                                  color: const Color(0xFF878282),
                                                   fontWeight: FontWeight.bold,
                                                 ),
-                                                keyboardType: TextInputType
+                                                keyboardType: const TextInputType
                                                     .numberWithOptions(
                                                         decimal: true),
                                                 onEditingComplete: () {
@@ -693,12 +694,12 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
 // Unit (cm)
                                           Container(
                                             height: screenHeight * 0.05,
-                                            padding: EdgeInsets.symmetric(
+                                            padding: const EdgeInsets.symmetric(
                                                 horizontal: 12.0),
                                             decoration: BoxDecoration(
-                                              color: Color.fromARGB(
+                                              color: const Color.fromARGB(
                                                   255, 206, 197, 197),
-                                              borderRadius: BorderRadius.only(
+                                              borderRadius: const BorderRadius.only(
                                                 topRight: Radius.circular(8.0),
                                                 bottomRight:
                                                     Radius.circular(8.0),
@@ -713,8 +714,8 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                 'cm',
                                                 style: TextStyle(
                                                   fontSize: screenWidth * 0.045,
-                                                  color:
-                                                      const Color(0xFF193E7F),
+                                                  color: const Color.fromARGB(
+                                                      255, 4, 20, 111),
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -729,7 +730,7 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                           // Number of Pieces Input
                                           Expanded(
                                             flex: 5,
-                                            child: Container(
+                                            child: SizedBox(
                                               height: screenHeight * 0.05,
                                               child: TextField(
                                                 controller: _piecesController,
@@ -742,14 +743,14 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                   labelStyle: TextStyle(
                                                     fontSize:
                                                         screenWidth * 0.035,
-                                                    color: Color(0xFFCEC5C5),
+                                                    color: const Color(0xFFCEC5C5),
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                   enabledBorder:
                                                       OutlineInputBorder(
-                                                    borderSide: BorderSide(
+                                                    borderSide: const BorderSide(
                                                       color:
-                                                          const Color.fromARGB(
+                                                          Color.fromARGB(
                                                               255,
                                                               206,
                                                               197,
@@ -762,9 +763,9 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                   ),
                                                   focusedBorder:
                                                       OutlineInputBorder(
-                                                    borderSide: BorderSide(
+                                                    borderSide: const BorderSide(
                                                       color:
-                                                          const Color.fromARGB(
+                                                          Color.fromARGB(
                                                               255,
                                                               206,
                                                               197,
@@ -775,14 +776,14 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                             8.0),
                                                   ),
                                                   contentPadding:
-                                                      EdgeInsets.symmetric(
+                                                      const EdgeInsets.symmetric(
                                                     vertical: 10.0,
                                                     horizontal: 12.0,
                                                   ),
                                                 ),
                                                 style: TextStyle(
                                                   fontSize: screenWidth * 0.035,
-                                                  color: Color(0xFF878282),
+                                                  color: const Color(0xFF878282),
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                                 keyboardType:
@@ -801,10 +802,10 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                                     .unfocus();
                                               },
                                               style: ElevatedButton.styleFrom(
-                                                padding: EdgeInsets.symmetric(
+                                                padding: const EdgeInsets.symmetric(
                                                     vertical: 10),
-                                                backgroundColor:
-                                                    const Color(0xFF193E7F),
+                                                backgroundColor: const Color.fromARGB(
+                                                    255, 28, 31, 106),
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(
@@ -828,175 +829,199 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                 ],
                               ),
                               Container(
-                                height: screenHeight * 0.43,
-                                padding: EdgeInsets.all(0),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.white,
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    if (userSelections != null &&
-                                        userSelections.isNotEmpty) ...[
+  height: screenHeight * 0.43,
+  padding: EdgeInsets.all(0),
+  decoration: BoxDecoration(
+    borderRadius: BorderRadius.circular(10),
+    color: Colors.white,
+  ),
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      if (userSelections != null && userSelections.isNotEmpty) ...[
+        Text(
+          'Details per Cargo',
+          style: TextStyle(
+            fontSize: screenWidth * 0.035,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFF193E7F),
+          ),
+        ),
+      ],
+      Expanded(
+  child: ListView.builder(
+    padding: EdgeInsets.zero,
+    itemCount: userSelections.length,
+    itemBuilder: (context, index) {
+      final selection = userSelections[index];
+      return GestureDetector(
+        onTap: () {
+          // Dismiss the keyboard if it's active
+          FocusScope.of(context).unfocus();
+          
+          // Show the dialog
+showDialog(
+  context: context,
+  builder: (BuildContext context) {
+    return AlertDialog(
+      title: Text(
+        'Cargo ${index + 1}',
+        style: TextStyle(
+          color: Color.fromARGB(255, 21, 5, 126),
+          fontWeight: FontWeight.bold,
+          fontSize: screenWidth * 0.06,
+        ),
+      ),
+      content: RichText(
+        text: TextSpan(
+          style: TextStyle(
+            color: Color.fromARGB(255, 21, 7, 110),
+            fontSize: screenWidth * 0.045,
+          ),
+          children: [
+            TextSpan(text: 'Length: ', style: TextStyle(fontWeight: FontWeight.bold)),
+            TextSpan(text: '${selection.length} cm\n'),
+            TextSpan(text: 'Width: ', style: TextStyle(fontWeight: FontWeight.bold)),
+            TextSpan(text: '${selection.width} cm\n'),
+            TextSpan(text: 'Height: ', style: TextStyle(fontWeight: FontWeight.bold)),
+            TextSpan(text: '${selection.height} cm\n'),
+            TextSpan(text: 'Pieces: ', style: TextStyle(fontWeight: FontWeight.bold)),
+            TextSpan(text: '${selection.numberOfPieces}\n'),
+            TextSpan(text: 'Cubic m: ', style: TextStyle(fontWeight: FontWeight.bold)),
+            TextSpan(text: '${selection.finalTotal.toStringAsFixed(4)} m³'),
+          ],
+        ),
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop(); // Close the dialog
+            FocusScope.of(context).unfocus(); // Dismiss any keyboard focus
+          },
+          child: Text(
+            'Close',
+            style: TextStyle(
+              color: Color.fromARGB(255, 25, 7, 138),
+              fontSize: screenWidth * 0.043,
+            ),
+          ),
+        ),
+      ],
+    );
+  },
+);
+
+        },
+        child: Container(
+          margin: EdgeInsets.symmetric(vertical: screenHeight * 0.005),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(3),
+            color: Colors.grey[200],
+          ),
+          child: ExpansionTile(
+            tilePadding: EdgeInsets.symmetric(horizontal: screenWidth * 0.01),
+            title: Text(
+              'Cargo ${index + 1}',
+              style: TextStyle(fontSize: screenWidth * 0.035, fontWeight: FontWeight.w700, color: Color.fromARGB(255, 51, 51, 51)),
+            ),
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(0.2),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'Length: ${selection.length} cm',
+                              style: TextStyle(fontSize: 11),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Width: ${selection.width} cm',
+                              style: TextStyle(fontSize: screenWidth * 0.025),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              'Height: ${selection.height} cm',
+                              style: TextStyle(fontSize: screenWidth * 0.025),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: screenHeight * 0.005),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 20.0),
+                            child: Text(
+                              'Pieces: ${selection.numberOfPieces}',
+                              style: TextStyle(fontSize: 11),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: screenWidth * 0.02),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Cubic m: ${selection.finalTotal.toStringAsFixed(4)} m³',
+                            style: TextStyle(
+                              fontSize: screenWidth * 0.025,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromARGB(255, 28, 31, 106),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  ),
+),
+
+                                  Row(children: [
                                       Text(
-                                        'Details per Cargo',
+                                        'Note: ',
                                         style: TextStyle(
-                                          fontSize: screenWidth * 0.035,
-                                          fontWeight: FontWeight.bold,
-                                          color: const Color(0xFF193E7F),
-                                        ),
+                                            fontSize: screenWidth * 0.03,
+                                            fontWeight: FontWeight.w700,
+                                            color: const Color.fromARGB(
+                                                255, 28, 31, 106)),
                                       ),
-                                    ],
-                                    Expanded(
-                                      child: ListView.builder(
-                                        padding: EdgeInsets.zero,
-                                        itemCount: userSelections.length,
-                                        itemBuilder: (context, index) {
-                                          final selection =
-                                              userSelections[index];
-                                          return Container(
-                                            margin: EdgeInsets.symmetric(
-                                              vertical: screenHeight * 0.005,
-                                            ),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(3),
-                                              color: Colors.grey[200],
-                                            ),
-                                            child: ExpansionTile(
-                                              tilePadding: EdgeInsets.symmetric(
-                                                  horizontal:
-                                                      screenWidth * 0.01),
-                                              title: Text(
-                                                'Cargo ${index + 1}',
-                                                style: TextStyle(
-                                                    fontSize:
-                                                        screenWidth * 0.035,
-                                                    fontWeight: FontWeight.w700,
-                                                    color: Color.fromARGB(
-                                                        255, 51, 51, 51)),
-                                              ),
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(0.2),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          Expanded(
-                                                            child: Align(
-                                                              alignment: Alignment
-                                                                  .centerLeft,
-                                                              child: Text(
-                                                                'Length: ${selection.length} cm',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        11),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Expanded(
-                                                            child: Align(
-                                                              alignment:
-                                                                  Alignment
-                                                                      .center,
-                                                              child: Text(
-                                                                'Width: ${selection.width} cm',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        screenWidth *
-                                                                            0.025),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Expanded(
-                                                            child: Align(
-                                                              alignment: Alignment
-                                                                  .centerRight,
-                                                              child: Text(
-                                                                'Height: ${selection.height} cm',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        screenWidth *
-                                                                            0.025),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      SizedBox(
-                                                          height: screenHeight *
-                                                              0.005),
-                                                      Row(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Align(
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            child: Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .only(
-                                                                      right:
-                                                                          20.0),
-                                                              child: Text(
-                                                                'Pieces: ${selection.numberOfPieces}',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        11),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                              width:
-                                                                  screenWidth *
-                                                                      0.02),
-                                                          Align(
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            child: Text(
-                                                              'Cubic m: ${selection.finalTotal.toStringAsFixed(4)} m³',
-                                                              style: TextStyle(
-                                                                fontSize:
-                                                                    screenWidth *
-                                                                        0.025,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                color: Color
-                                                                    .fromARGB(
-                                                                        255,
-                                                                        28,
-                                                                        31,
-                                                                        106),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        },
+                                      Text(
+                                        'This calculation is applicable except for Cut Foliage',
+                                        style: TextStyle(
+                                            fontSize: screenWidth * 0.026,
+                                            fontWeight: FontWeight.w400,
+                                            color: const Color.fromARGB(
+                                                255, 28, 31, 106)),
                                       ),
-                                    ),
-                                    Divider(),
+                                    ]),
+
+                                    const Divider(),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -1004,14 +1029,15 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                         ElevatedButton(
                                           onPressed: clearSelections,
                                           style: ElevatedButton.styleFrom(
-                                            foregroundColor:
-                                                const Color(0xFF193E7F),
+                                            foregroundColor: const Color.fromARGB(
+                                                255, 28, 31, 106),
                                             backgroundColor: Colors.white,
                                             padding: EdgeInsets.symmetric(
                                                 horizontal: buttonPadding,
                                                 vertical: 5),
-                                            side: BorderSide(
-                                                color: const Color(0xFF193E7F),
+                                            side: const BorderSide(
+                                                color: Color.fromARGB(
+                                                    255, 28, 31, 106),
                                                 width: 1),
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
@@ -1023,7 +1049,8 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                             style: TextStyle(
                                                 fontSize: screenWidth * 0.04,
                                                 fontWeight: FontWeight.bold,
-                                                color: const Color(0xFF193E7F)),
+                                                color: const Color.fromARGB(
+                                                    255, 28, 31, 106)),
                                           ),
                                         ),
                                         Text(
@@ -1031,7 +1058,8 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
                                           style: TextStyle(
                                             fontSize: screenWidth * 0.045,
                                             fontWeight: FontWeight.bold,
-                                            color: const Color(0xFF193E7F),
+                                            color: const Color.fromARGB(
+                                                255, 28, 31, 106),
                                           ),
                                         ),
                                       ],
@@ -1056,72 +1084,53 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
             color: Colors.white,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                offset: Offset(0, -2),
-                blurRadius: 4,
+                color: Colors.black.withOpacity(0.1), // Shadow color
+                offset: const Offset(0, -2), // Shadow position
+                blurRadius: 4, // Shadow blur radius
               ),
             ],
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(height: screenHeight * 0.006),
-              Theme(
-                data: Theme.of(context).copyWith(
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                ),
-                child: BottomNavigationBar(
-                  type: BottomNavigationBarType.fixed,
-                  showSelectedLabels: true,
-                  showUnselectedLabels: true,
-                  backgroundColor: Colors.white,
-                  elevation: 0,
-                  items: [
-                    BottomNavigationBarItem(
-                      icon: SvgPicture.asset(
-                        'assets/images/home_icon.svg',
-                        height: screenHeight * .03,
-                        width: screenWidth * .03,
-                        color: const Color(0xFF193E7F),
-                      ),
-                      label: 'Home',
+              SizedBox(
+                  height: screenHeight *
+                      0.006), // Change this height to increase space
+              BottomNavigationBar(
+                backgroundColor: Colors.white,
+                elevation: 0,
+                items: [
+                  BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      'assets/images/home_icon.svg',
+                      height: screenHeight * .03,
+                      width: screenWidth * .03,
                     ),
-                    BottomNavigationBarItem(
-                      icon: SvgPicture.asset(
-                        'assets/images/contact_us_icon.svg',
-                        height: screenHeight * .03,
-                        width: screenWidth * .03,
-                        color: const Color(0xFF193E7F),
-                      ),
-                      label: 'Contact Us',
+                    label: 'Home',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      'assets/images/contact_us_icon.svg',
+                      height: screenHeight * .03,
+                      width: screenWidth * .03,
                     ),
-                    BottomNavigationBarItem(
-                      icon: SvgPicture.asset(
-                        'assets/images/about_us_icon.svg',
-                        height: screenHeight * .03,
-                        width: screenWidth * .03,
-                        color: const Color(0xFF193E7F),
-                      ),
-                      label: 'About Us',
+                    label: 'Contact Us',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      'assets/images/about_us_icon.svg',
+                      height: screenHeight * .03,
+                      width: screenWidth * .03,
                     ),
-                    BottomNavigationBarItem(
-                      icon: SvgPicture.asset(
-                        'assets/images/terms.svg',
-                        height: screenHeight * .03,
-                        width: screenWidth * .03,
-                        color: const Color(0xFF193E7F),
-                      ),
-                      label: 'T&C',
-                    ),
-                  ],
-                  selectedItemColor: const Color(0xFF193E7F),
-                  unselectedItemColor: const Color(0xFF193E7F),
-                  onTap: (index) {
-                    _handleNavigation(index, context);
-                  },
-                ),
-              )
+                    label: 'About Us',
+                  ),
+                ],
+                selectedItemColor: const Color.fromARGB(255, 28, 31, 106),
+                unselectedItemColor: const Color.fromARGB(255, 28, 31, 106),
+                onTap: (index) {
+                  _handleNavigation(index, context);
+                },
+              ),
             ],
           ),
         ),
@@ -1140,8 +1149,8 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
           context,
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
-                MyHomePage(title: 'Flutter Demo Home Page'),
-            transitionDuration: Duration(seconds: 0),
+                const MyHomePage(title: 'Flutter Demo Home Page'),
+            transitionDuration: const Duration(seconds: 0), // No animation
           ),
         );
       } else if (index == 1) {
@@ -1149,8 +1158,8 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
           context,
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
-                ContactUsPage(),
-            transitionDuration: Duration(seconds: 0),
+                const ContactUsPage(),
+            transitionDuration: const Duration(seconds: 0), // No animation
           ),
         );
       } else if (index == 2) {
@@ -1158,17 +1167,8 @@ class _VolumeCalPageState extends State<VolumeCalPage> {
           context,
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
-                AboutUsPage(),
-            transitionDuration: Duration(seconds: 0),
-          ),
-        );
-      } else if (index == 3) {
-        Navigator.push(
-          context,
-          PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) =>
-                TermsAndConditionsPage(),
-            transitionDuration: Duration(seconds: 0),
+                const AboutUsPage(),
+            transitionDuration: const Duration(seconds: 0), // No animation
           ),
         );
       }

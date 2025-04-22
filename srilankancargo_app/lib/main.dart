@@ -201,6 +201,9 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void handleBannerAction(BannerItem banner) async {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     if (banner.isUrlRedirect && banner.bannerRedirectUrl.isNotEmpty) {
       final url = Uri.parse(banner.bannerRedirectUrl);
       try {
@@ -466,15 +469,10 @@ class _MyHomePageState extends State<MyHomePage> {
               top: 0,
               left: 0,
               right: 0,
-              child: Container(
+              child: Image.asset(
+                'assets/images/home_banner_latest.png',
                 height: screenHeight * 0.28,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Color(0xFF0060C8), Color(0xFF193E7F)],
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                  ),
-                ),
+                fit: BoxFit.cover,
               ),
             ),
 
@@ -508,7 +506,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     child: Column(
                       children: [
-                        SizedBox(height: screenHeight * 0.175),
+                        SizedBox(height: screenHeight * 0.195),
                         DotsIndicator(
                           dotsCount: _sliderCount,
                           position: _currentPage.toInt(),
@@ -599,7 +597,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                         ],
                                       ),
                                     ),
-                                    SizedBox(height: screenHeight * 0.01),
                                     Padding(
                                       padding: EdgeInsets.only(
                                           left: screenWidth * 0.035),
@@ -629,6 +626,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                                               .toUpperCase() ==
                                                           'BOTTOM')
                                                       .toList();
+                                                  bottomBanners.sort((a, b) =>
+                                                      a.bannerOrder.compareTo(
+                                                          b.bannerOrder));
 
                                                   if (bottomBanners
                                                       .isNotEmpty) {
@@ -637,22 +637,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
-                                                        Text(
-                                                          "Product Categories",
-                                                          style: TextStyle(
-                                                            fontSize:
-                                                                screenWidth *
-                                                                    .045,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color: const Color(
-                                                                0xFF193E7F),
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                            height:
-                                                                screenHeight *
-                                                                    0.01),
                                                         Divider(
                                                             endIndent:
                                                                 screenWidth *
@@ -661,23 +645,22 @@ class _MyHomePageState extends State<MyHomePage> {
                                                             height:
                                                                 screenHeight *
                                                                     0.02),
-                                                        // Row to display 6 Elevated Buttons
                                                         SingleChildScrollView(
                                                           scrollDirection:
                                                               Axis.horizontal,
                                                           child: Row(
-                                                            children:
-                                                                bottomBanners
-                                                                    .take(6)
-                                                                    .map(
-                                                                        (banner) {
+                                                            children: bottomBanners
+                                                                .take(
+                                                                    bottomBanners
+                                                                        .length)
+                                                                .map((banner) {
                                                               return Container(
                                                                 height:
                                                                     screenHeight *
-                                                                        0.13,
+                                                                        0.14,
                                                                 width:
                                                                     screenWidth *
-                                                                        0.4,
+                                                                        0.45,
                                                                 child: Padding(
                                                                   padding:
                                                                       const EdgeInsets
@@ -695,6 +678,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                                       // Check if the device is connected to the internet
                                                                       checkInternetConnection(
                                                                           context);
+                                                                      handleBannerAction(
+                                                                          banner);
                                                                     },
                                                                     style: ElevatedButton
                                                                         .styleFrom(
@@ -776,8 +761,8 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text(
                 'Welcome to',
                 style: TextStyle(
-                  fontWeight: FontWeight.w100,
-                  fontSize: screenWidth * 0.048,
+                  fontWeight: FontWeight.w300,
+                  fontSize: screenWidth * 0.05,
                   color: Color.fromARGB(255, 255, 255, 255),
                 ),
                 textAlign: TextAlign.left,
@@ -786,11 +771,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
             Positioned(
               top: screenHeight * 0.135,
-              left: screenWidth * 0.14,
+              left: screenWidth * 0.037,
               child: Image.asset(
                 'assets/images/logo_white.png',
-                height: screenHeight * 0.08,
-                width: screenWidth * 0.55,
+                height: screenHeight * 0.077,
+                width: screenWidth * 0.63,
                 fit: BoxFit.contain,
               ),
             ),
@@ -800,7 +785,7 @@ class _MyHomePageState extends State<MyHomePage> {
               left: screenWidth * 0.05,
               right: screenWidth * 0.05,
               child: Container(
-                height: screenHeight * 0.23,
+                height: screenHeight * 0.25,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                   boxShadow: [
