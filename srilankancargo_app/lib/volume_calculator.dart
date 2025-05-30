@@ -1022,48 +1022,45 @@ showDialog(
                                     ]),
 
                                     const Divider(),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        ElevatedButton(
-                                          onPressed: clearSelections,
-                                          style: ElevatedButton.styleFrom(
-                                            foregroundColor: const Color.fromARGB(
-                                                255, 28, 31, 106),
-                                            backgroundColor: Colors.white,
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: buttonPadding,
-                                                vertical: 5),
-                                            side: const BorderSide(
-                                                color: Color.fromARGB(
-                                                    255, 28, 31, 106),
-                                                width: 1),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                          ),
-                                          child: Text(
-                                            'Clear',
-                                            style: TextStyle(
-                                                fontSize: screenWidth * 0.04,
-                                                fontWeight: FontWeight.bold,
-                                                color: const Color.fromARGB(
-                                                    255, 28, 31, 106)),
-                                          ),
-                                        ),
-                                        Text(
-                                          'Total: ${totalCBM.toStringAsFixed(4)} m³',
-                                          style: TextStyle(
-                                            fontSize: screenWidth * 0.045,
-                                            fontWeight: FontWeight.bold,
-                                            color: const Color.fromARGB(
-                                                255, 28, 31, 106),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                   SingleChildScrollView(
+  scrollDirection: Axis.horizontal,
+  child: Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      ElevatedButton(
+        onPressed: clearSelections,
+        style: ElevatedButton.styleFrom(
+          foregroundColor: const Color.fromARGB(255, 28, 31, 106),
+          backgroundColor: Colors.white,
+          padding: EdgeInsets.symmetric(
+              horizontal: buttonPadding, vertical: 5),
+          side: const BorderSide(
+              color: Color.fromARGB(255, 28, 31, 106), width: 1),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+        child: Text(
+          'Clear',
+          style: TextStyle(
+              fontSize: screenWidth * 0.04,
+              fontWeight: FontWeight.bold,
+              color: const Color.fromARGB(255, 28, 31, 106)),
+        ),
+      ),
+      SizedBox(width: 16), // Add spacing manually if needed
+      Text(
+        'Total: ${totalCBM.toStringAsFixed(4)} m³',
+        style: TextStyle(
+          fontSize: screenWidth * 0.045,
+          fontWeight: FontWeight.bold,
+          color: const Color.fromARGB(255, 28, 31, 106),
+        ),
+      ),
+    ],
+  ),
+)
+
                                   ],
                                 ),
                               ),
@@ -1084,53 +1081,72 @@ showDialog(
             color: Colors.white,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1), // Shadow color
-                offset: const Offset(0, -2), // Shadow position
-                blurRadius: 4, // Shadow blur radius
+                color: Colors.black.withOpacity(0.1),
+                offset: Offset(0, -2),
+                blurRadius: 4,
               ),
             ],
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(
-                  height: screenHeight *
-                      0.006), // Change this height to increase space
-              BottomNavigationBar(
-                backgroundColor: Colors.white,
-                elevation: 0,
-                items: [
-                  BottomNavigationBarItem(
-                    icon: SvgPicture.asset(
-                      'assets/images/home_icon.svg',
-                      height: screenHeight * .03,
-                      width: screenWidth * .03,
+              SizedBox(height: screenHeight * 0.006),
+              Theme(
+                data: Theme.of(context).copyWith(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                ),
+                child: BottomNavigationBar(
+                  type: BottomNavigationBarType.fixed,
+                  showSelectedLabels: true,
+                  showUnselectedLabels: true,
+                  backgroundColor: Colors.white,
+                  elevation: 0,
+                  items: [
+                    BottomNavigationBarItem(
+                      icon: SvgPicture.asset(
+                        'assets/images/home_icon.svg',
+                        height: screenHeight * .03,
+                        width: screenWidth * .03,
+                        color: const Color(0xFF193E7F),
+                      ),
+                      label: 'Home',
                     ),
-                    label: 'Home',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: SvgPicture.asset(
-                      'assets/images/contact_us_icon.svg',
-                      height: screenHeight * .03,
-                      width: screenWidth * .03,
+                    BottomNavigationBarItem(
+                      icon: SvgPicture.asset(
+                        'assets/images/contact_us_icon.svg',
+                        height: screenHeight * .03,
+                        width: screenWidth * .03,
+                        color: const Color(0xFF193E7F),
+                      ),
+                      label: 'Contact Us',
                     ),
-                    label: 'Contact Us',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: SvgPicture.asset(
-                      'assets/images/about_us_icon.svg',
-                      height: screenHeight * .03,
-                      width: screenWidth * .03,
+                    BottomNavigationBarItem(
+                      icon: SvgPicture.asset(
+                        'assets/images/about_us_icon.svg',
+                        height: screenHeight * .03,
+                        width: screenWidth * .03,
+                        color: const Color(0xFF193E7F),
+                      ),
+                      label: 'About Us',
                     ),
-                    label: 'About Us',
-                  ),
-                ],
-                selectedItemColor: const Color.fromARGB(255, 28, 31, 106),
-                unselectedItemColor: const Color.fromARGB(255, 28, 31, 106),
-                onTap: (index) {
-                  _handleNavigation(index, context);
-                },
-              ),
+                    BottomNavigationBarItem(
+                      icon: SvgPicture.asset(
+                        'assets/images/terms.svg',
+                        height: screenHeight * .03,
+                        width: screenWidth * .03,
+                        color: const Color(0xFF193E7F),
+                      ),
+                      label: 'T&C',
+                    ),
+                  ],
+                  selectedItemColor: const Color(0xFF193E7F),
+                  unselectedItemColor: const Color(0xFF193E7F),
+                  onTap: (index) {
+                    _handleNavigation(index, context);
+                  },
+                ),
+              )
             ],
           ),
         ),

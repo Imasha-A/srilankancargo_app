@@ -1012,61 +1012,63 @@ class _LoadibilityPageState extends State<LoadibilityPage> {
                                 height: screenHeight * .01,
                               ),
                               Center(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    ElevatedButton(
-                                      onPressed: clearSelections,
-                                      style: ElevatedButton.styleFrom(
-                                        foregroundColor:
-                                            const Color(0xFF193E7F),
-                                        backgroundColor: Colors.white,
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: buttonPadding,
-                                            vertical: screenHeight * .01),
-                                        side: BorderSide(
-                                            color: const Color(0xFF193E7F),
-                                            width: 1),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                      ),
-                                      child: Text(
-                                        'Clear',
-                                        style: TextStyle(
-                                            fontSize: screenWidth * 0.04,
-                                            fontWeight: FontWeight.bold,
-                                            color: const Color(0xFF193E7F)),
-                                      ),
-                                    ),
-                                    SizedBox(width: screenWidth * 0.03),
-                                    // Existing Submit Button
-                                    ElevatedButton(
-                                      onPressed: _lodabilityCheck,
-                                      style: ElevatedButton.styleFrom(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: buttonPadding,
-                                            vertical: screenHeight * 0.01),
-                                        backgroundColor:
-                                            const Color(0xFF193E7F),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                      ),
-                                      child: Text(
-                                        'Calculate',
-                                        style: TextStyle(
-                                          fontSize: screenWidth * 0.04,
-                                          color: Color.fromARGB(
-                                              255, 255, 255, 255),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+  child: SingleChildScrollView(
+    scrollDirection: Axis.horizontal,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        ElevatedButton(
+          onPressed: clearSelections,
+          style: ElevatedButton.styleFrom(
+            foregroundColor: const Color(0xFF193E7F),
+            backgroundColor: Colors.white,
+            padding: EdgeInsets.symmetric(
+              horizontal: screenWidth * 0.125,
+              vertical: screenHeight * .01,
+            ),
+            side: BorderSide(
+              color: const Color(0xFF193E7F),
+              width: 1,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          child: Text(
+            'Clear',
+            style: TextStyle(
+              fontSize: screenWidth * 0.037,
+              fontWeight: FontWeight.bold,
+              color: const Color(0xFF193E7F),
+            ),
+          ),
+        ),
+        SizedBox(width: screenWidth * 0.03),
+        ElevatedButton(
+          onPressed: _lodabilityCheck,
+          style: ElevatedButton.styleFrom(
+            padding: EdgeInsets.symmetric(
+              horizontal: buttonPadding,
+              vertical: screenHeight * 0.01,
+            ),
+            backgroundColor: const Color(0xFF193E7F),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          child: Text(
+            'Calculate',
+            style: TextStyle(
+              fontSize: screenWidth * 0.037,
+              color: Color.fromARGB(255, 255, 255, 255),
+            ),
+          ),
+        ),
+      ],
+    ),
+  ),
+),
+
                               Container(
                                 width: double.infinity,
                                 padding: EdgeInsets.all(5.0),

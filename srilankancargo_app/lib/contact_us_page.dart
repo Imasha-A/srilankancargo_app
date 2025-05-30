@@ -402,8 +402,8 @@ class ContactInfoCard extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.symmetric(
             vertical: screenHeight * 0.014, horizontal: screenWidth * 0.01),
-        padding: EdgeInsets.fromLTRB(screenWidth * 0.06, screenHeight * 0.035,
-            screenWidth * 0.06, screenHeight * 0.035),
+        padding: EdgeInsets.fromLTRB(screenWidth * 0.045, screenHeight * 0.035,
+            screenWidth * 0.045, screenHeight * 0.035),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
@@ -430,24 +430,32 @@ class ContactInfoCard extends StatelessWidget {
             ),
             SizedBox(width: screenWidth * 0.05),
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                      fontSize: screenWidth * 0.055,
-                      color: titleColor,
-                      fontWeight: FontWeight.w500),
-                ),
-                Text(
-                  subtitle,
-                  style: TextStyle(
-                    fontSize: screenWidth * 0.036,
-                    color: subtitleColor,
-                  ),
-                ),
-              ],
-            ),
+  crossAxisAlignment: CrossAxisAlignment.start,
+  children: [
+    Text(
+      title,
+      style: TextStyle(
+        fontSize: screenWidth * 0.055,
+        color: titleColor,
+        fontWeight: FontWeight.w500,
+      ),
+    ),
+    SizedBox(
+      width: screenWidth * 0.7, 
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Text(
+          subtitle,
+          style: TextStyle(
+            fontSize: screenWidth * 0.035,
+            color: subtitleColor,
+          ),
+        ),
+      ),
+    ),
+  ],
+),
+
           ],
         ),
       ),

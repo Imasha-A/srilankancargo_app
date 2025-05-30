@@ -497,50 +497,53 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                             ),
                             SizedBox(height: screenHeight * 0.02),
 
-                            ElevatedButton(
-                              onPressed: () {
-                                fetchFlightStatus();
-
-                                Future.delayed(Duration(milliseconds: 1000),
-                                    () {
-                                  setState(() {
-                                    _animate = true;
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  fetchFlightStatus();
+                              
+                                  Future.delayed(Duration(milliseconds: 1000),
+                                      () {
+                                    setState(() {
+                                      _animate = true;
+                                    });
                                   });
-                                });
-                                if (_animate == false)
-                                  setState(() {
-                                    _isLoading = true;
-                                    _animate = false;
+                                  if (_animate == false)
+                                    setState(() {
+                                      _isLoading = true;
+                                      _animate = false;
+                                    });
+                              
+                                  Future.delayed(Duration(milliseconds: 1000),
+                                      () {
+                                    setState(() {
+                                      _animate = true;
+                                    });
                                   });
-
-                                Future.delayed(Duration(milliseconds: 1000),
-                                    () {
-                                  setState(() {
-                                    _animate = true;
-                                  });
-                                });
-                              },
-                              style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: screenWidth * 0.34,
-                                    vertical: screenHeight * 0.013),
-                                backgroundColor: const Color(0xFF193E7F),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: screenWidth * 0.35,
+                                      vertical: screenHeight * 0.013),
+                                  backgroundColor: const Color(0xFF193E7F),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
                                 ),
-                              ),
-                              child: _isLoading
-                                  ? CircularProgressIndicator(
-                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                          Colors.white),
-                                    )
-                                  : Text(
-                                      'Submit',
-                                      style: TextStyle(
-                                        fontSize: screenWidth * 0.037,
-                                        color: Colors.white,
+                                child: _isLoading
+                                    ? CircularProgressIndicator(
+                                        valueColor: AlwaysStoppedAnimation<Color>(
+                                            Colors.white),
+                                      )
+                                    : Text(
+                                        'Submit',
+                                        style: TextStyle(
+                                          fontSize: screenWidth * 0.035,
+                                          color: Colors.white,
+                                        ),
                                       ),
-                                    ),
+                              ),
                             ),
                             SizedBox(height: screenHeight * 0.01),
                             // Display flight status
@@ -700,7 +703,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                               foregroundColor: const Color(0xFF193E7F),
                               backgroundColor: Colors.white,
                               padding: EdgeInsets.symmetric(
-                                  horizontal: screenWidth * 0.1,
+                                  horizontal: screenWidth * 0.07,
                                   vertical: screenHeight * 0.01),
                               side: BorderSide(
                                   color: const Color(0xFF193E7F), width: 1),
@@ -710,7 +713,7 @@ class _FlightStatusPageState extends State<FlightStatusPage> {
                             ),
                             child: Text('Clear',
                                 style: TextStyle(
-                                    fontSize: screenWidth * 0.038,
+                                    fontSize: screenWidth * 0.036,
                                     fontWeight: FontWeight.bold,
                                     color: const Color(0xFF193E7F))),
                           ),

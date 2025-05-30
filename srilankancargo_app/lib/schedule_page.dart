@@ -1140,98 +1140,101 @@ Arrival Time: ${flightInfo['Atime']}''';
                           ],
                           SizedBox(height: screenHeight * 0.018),
                           Center(
-                            child: Container(
-                              height: screenHeight * 0.062,
-                              width: screenWidth * 0.86,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  if (_isCollapsed) {
-                                    setState(() {
-                                      _isCollapsed = !_isCollapsed;
-                                      _fetched = false;
-                                      _flightDetails = [];
-                                      _animate =
-                                          false; // Reset to left position
-                                    });
-                                  } else {
-                                    if (_originCountryController.text.isEmpty &&
-                                        _destinationCountryController
-                                            .text.isEmpty &&
-                                        _selectedDate == null) {
-                                      _showAlert('Incomplete Form',
-                                          'Please enter origin country, destination country, and select date.');
-                                      return;
-                                    } else if (_originCountryController
-                                        .text.isEmpty) {
-                                      _showAlert('Incomplete Form',
-                                          'Please enter origin country.');
-                                      return;
-                                    } else if (_destinationCountryController
-                                        .text.isEmpty) {
-                                      _showAlert('Incomplete Form',
-                                          'Please enter destination country.');
-                                      return;
-                                    } else if (_selectedDate == null) {
-                                      _showAlert('Incomplete Form',
-                                          'Please select a date.');
-                                      return;
-                                    }
-
-                                    fetchFlightSchedule();
-                                    _fetched = true;
-                                    setState(() {
-                                      _isCollapsed = !_isCollapsed;
-                                      _animate = false; // Reset position
-                                    });
-
-                                    // Trigger animation after a short delay
-                                    Future.delayed(Duration(milliseconds: 100),
-                                        () {
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Container(
+                                height: screenHeight * 0.062,
+                                width: screenWidth * 0.86,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    if (_isCollapsed) {
                                       setState(() {
-                                        _animate = true; // Move to the center
+                                        _isCollapsed = !_isCollapsed;
+                                        _fetched = false;
+                                        _flightDetails = [];
+                                        _animate =
+                                            false; // Reset to left position
                                       });
-                                    });
-                                  }
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: screenWidth * 0.2,
-                                      vertical: screenHeight * 0.02),
-                                  backgroundColor: const Color(0xFF193E7F),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
+                                    } else {
+                                      if (_originCountryController.text.isEmpty &&
+                                          _destinationCountryController
+                                              .text.isEmpty &&
+                                          _selectedDate == null) {
+                                        _showAlert('Incomplete Form',
+                                            'Please enter origin country, destination country, and select date.');
+                                        return;
+                                      } else if (_originCountryController
+                                          .text.isEmpty) {
+                                        _showAlert('Incomplete Form',
+                                            'Please enter origin country.');
+                                        return;
+                                      } else if (_destinationCountryController
+                                          .text.isEmpty) {
+                                        _showAlert('Incomplete Form',
+                                            'Please enter destination country.');
+                                        return;
+                                      } else if (_selectedDate == null) {
+                                        _showAlert('Incomplete Form',
+                                            'Please select a date.');
+                                        return;
+                                      }
+                              
+                                      fetchFlightSchedule();
+                                      _fetched = true;
+                                      setState(() {
+                                        _isCollapsed = !_isCollapsed;
+                                        _animate = false; // Reset position
+                                      });
+                              
+                                      // Trigger animation after a short delay
+                                      Future.delayed(Duration(milliseconds: 100),
+                                          () {
+                                        setState(() {
+                                          _animate = true; // Move to the center
+                                        });
+                                      });
+                                    }
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: screenWidth * 0.2,
+                                        vertical: screenHeight * 0.02),
+                                    backgroundColor: const Color(0xFF193E7F),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
                                   ),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    if (_isCollapsed) ...[
-                                      Text(
-                                        'Search More',
-                                        style: TextStyle(
-                                          fontSize: screenWidth * 0.035,
-                                          color: Color.fromARGB(
-                                              255, 255, 255, 255),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      if (_isCollapsed) ...[
+                                        Text(
+                                          'Search More',
+                                          style: TextStyle(
+                                            fontSize: screenWidth * 0.035,
+                                            color: Color.fromARGB(
+                                                255, 255, 255, 255),
+                                          ),
                                         ),
-                                      ),
-                                      Icon(
-                                        Icons.arrow_drop_down,
-                                        color:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                        size: screenWidth * 0.042,
-                                      ),
-                                    ] else ...[
-                                      Text(
-                                        'Submit',
-                                        style: TextStyle(
-                                          fontSize: screenWidth * 0.038,
-                                          color: Color.fromARGB(
-                                              255, 255, 255, 255),
+                                        Icon(
+                                          Icons.arrow_drop_down,
+                                          color:
+                                              Color.fromARGB(255, 255, 255, 255),
+                                          size: screenWidth * 0.042,
                                         ),
-                                      ),
+                                      ] else ...[
+                                        Text(
+                                          'Submit',
+                                          style: TextStyle(
+                                            fontSize: screenWidth * 0.038,
+                                            color: Color.fromARGB(
+                                                255, 255, 255, 255),
+                                          ),
+                                        ),
+                                      ],
                                     ],
-                                  ],
+                                  ),
                                 ),
                               ),
                             ),

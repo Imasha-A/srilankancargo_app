@@ -1,9 +1,8 @@
 name: srilankancargo_app
 description: "A new Flutter project."
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: 'none' 
 
-#version: 1.0.0+27 #for android
-version: 3.0.0+15 #for iOS
+version: 1.0.0+29 
 
 environment:
   sdk: '>=3.2.4 <4.0.0'
@@ -21,7 +20,7 @@ dependencies:
   http: ^1.2.2
   xml: ^6.5.0
   dropdown_search: ^5.0.6
-  url_launcher: ^6.0.9  # Use the latest version
+  url_launcher: ^6.0.9  
   provider: ^6.1.2
   cached_network_image: ^3.4.1
   package_info_plus: ^8.3.0
@@ -48,7 +47,7 @@ flutter:
      - assets/images/EmQ9_FuVcAIrkfw.jpg
      - assets/images/unnamed.png
      - assets/images/Image-DE_SLA.png
-     #- assets/images/appicon.png
+     
      - assets/images/visit_website_banner.png 
      - assets/images/homescreen_image_1.jpg
      - assets/images/homescreen_image_2.jpg
@@ -88,7 +87,6 @@ flutter:
      - assets/images/logo_white.png
      - assets/images/airplane_line.png
      - assets/images/airplane.png
-#     - assets/images/homescreen_banner_new.jpg
      - assets/images/home_background_banner_try.png
      - assets/images/cross.svg
      - assets/images/tick.svg

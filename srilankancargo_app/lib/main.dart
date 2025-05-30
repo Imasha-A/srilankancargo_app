@@ -571,7 +571,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                             ],
                                           ),
                                           SizedBox(
-                                              height: screenHeight * 0.016),
+                                              height: screenHeight * 0.0135),
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
@@ -607,11 +607,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 children: [
                                                   SizedBox(
                                                       height:
-                                                          screenHeight * 0.1),
+                                                          screenHeight * 0.05),
                                                   CircularProgressIndicator(),
                                                   SizedBox(
                                                       height:
-                                                          screenHeight * 0.1),
+                                                          screenHeight * 0.05),
                                                 ],
                                               ),
                                             )
@@ -644,7 +644,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                         SizedBox(
                                                             height:
                                                                 screenHeight *
-                                                                    0.02),
+                                                                    0.01),
                                                         SingleChildScrollView(
                                                           scrollDirection:
                                                               Axis.horizontal,
@@ -657,10 +657,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                                               return Container(
                                                                 height:
                                                                     screenHeight *
-                                                                        0.14,
+                                                                        0.135,
                                                                 width:
                                                                     screenWidth *
-                                                                        0.45,
+                                                                        0.4,
                                                                 child: Padding(
                                                                   padding:
                                                                       const EdgeInsets

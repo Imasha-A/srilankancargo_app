@@ -1230,61 +1230,60 @@ class _StorageCalPageState extends State<StorageCalPage> {
                             ),
                             SizedBox(height: screenHeight * 0.01),
                             Center(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      _clearForm();
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      foregroundColor: const Color(0xFF193E7F),
-                                      backgroundColor: Colors.white,
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: buttonPadding,
-                                          vertical: screenHeight * .01),
-                                      side: BorderSide(
-                                          color: const Color(0xFF193E7F),
-                                          width: 1),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                    child: Text(
-                                      'Clear',
-                                      style: TextStyle(
-                                          fontSize: screenWidth * 0.04,
-                                          fontWeight: FontWeight.bold,
-                                          color: const Color(0xFF193E7F)),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      _handleFormSubmision();
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: buttonPadding,
-                                          vertical: 10),
-                                      backgroundColor:
-                                          const Color(0xFF193E7F), // Blue fill
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                    child: Text(
-                                      'Calculate',
-                                      style: TextStyle(
-                                        fontSize: screenWidth * 0.04,
-                                        color: Color.fromARGB(255, 255, 255,
-                                            255), // White text color
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+  child: SingleChildScrollView(
+    scrollDirection: Axis.horizontal,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        ElevatedButton(
+          onPressed: () {
+            _clearForm();
+          },
+          style: ElevatedButton.styleFrom(
+            foregroundColor: const Color(0xFF193E7F),
+            backgroundColor: Colors.white,
+            padding: EdgeInsets.symmetric(
+                horizontal: buttonPadding, vertical: screenHeight * .01),
+            side: BorderSide(color: const Color(0xFF193E7F), width: 1),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          child: Text(
+            'Clear',
+            style: TextStyle(
+              fontSize: screenWidth * 0.04,
+              fontWeight: FontWeight.bold,
+              color: const Color(0xFF193E7F),
+            ),
+          ),
+        ),
+        const SizedBox(width: 8),
+        ElevatedButton(
+          onPressed: () {
+            _handleFormSubmision();
+          },
+          style: ElevatedButton.styleFrom(
+            padding:
+                EdgeInsets.symmetric(horizontal: buttonPadding, vertical: 10),
+            backgroundColor: const Color(0xFF193E7F), // Blue fill
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          child: Text(
+            'Calculate',
+            style: TextStyle(
+              fontSize: screenWidth * 0.04,
+              color: Color.fromARGB(255, 255, 255, 255), // White text color
+            ),
+          ),
+        ),
+      ],
+    ),
+  ),
+),
+
                           ],
                         ),
                       ),
